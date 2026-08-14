@@ -443,6 +443,52 @@
                     </div>
                 </div>
             </section>
+
+            <!-- 7.1. Simulación Viva: Spaghetti vs Focalización -->
+            <section data-transition="convex">
+                <h2 class="text-left"><i class="fa-solid fa-chart-line icon"></i> El Síndrome del "Espagueti"</h2>
+                <p class="small-text text-left">Problema: El cerebro no puede procesar 5 tendencias simultáneas con la misma jerarquía visual.</p>
+                <div class="split-screen">
+                    <div class="split-left clickable-concept" onclick="openModal('Gráfico de Espagueti', 'fa-ban', 'Todas las líneas compiten por atención. Los colores brillantes confunden y las cuadrículas gruesas de fondo generan ruido visual innecesario.', 'Intenta descubrir qué pasó con la Región Este en 2024. ¡Es agotador!')">
+                        <h4 style="color: #dc3545; text-align: left; text-shadow: 0 2px 5px rgba(220,53,69,0.3);">Sobrecarga Cognitiva</h4>
+                        <div class="chart-container" style="border-top: 5px solid #dc3545;">
+                            <canvas id="badLineChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="split-right clickable-concept" onclick="openModal('Uso Estratégico del Color', 'fa-eye', 'Usamos el color gris para dar contexto sin saturar. Usamos el color Naranja corporativo SOLAMENTE para guiar el ojo hacia la historia que queremos contar.', 'Ahora es obvio que la historia trata sobre el crecimiento constante de la Región Norte.')">
+                        <h4 style="color: #28a745; text-align: left; text-shadow: 0 2px 5px rgba(40,167,69,0.3);">Focalización (Gestalt)</h4>
+                        <div class="chart-container" style="border-top: 5px solid #28a745;">
+                            <canvas id="goodLineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="fragment fade-up pro-tip" style="margin-top: 15px; background: #333; cursor: pointer;" onclick="openModal('Respuesta a la Audiencia', 'fa-person-chalkboard', 'El contraste es la herramienta más poderosa del analista. El ojo humano pre-atentivamente busca la diferencia.', 'El color no debe usarse para decorar, debe usarse para dirigir la mirada de tu jefe.')">
+                    <i class="fa-solid fa-circle-question" style="color: #fff;"></i> <strong style="color: white;">Interacción con el público:</strong> ¿Hacia dónde viaja su mirada en la gráfica izquierda vs derecha? (Da clic aquí para la respuesta)
+                </div>
+            </section>
+
+            <!-- 7.2. Simulación Viva: La Trampa Circular -->
+            <section data-transition="zoom">
+                <h2 class="text-left"><i class="fa-solid fa-chart-pie icon"></i> La Trampa del Gráfico Circular</h2>
+                <p class="small-text text-left">El ojo humano es pésimo calculando áreas y ángulos. Las porciones similares son indescifrables.</p>
+                <div class="split-screen">
+                    <div class="split-left clickable-concept" onclick="openModal('El Pastel Mortal', 'fa-chart-pie', 'Múltiples categorías, colores idénticos, leyenda separada. El cerebro tiene que rebotar entre el gráfico y la leyenda repetidas veces, agotando la memoria a corto plazo.', '¿Qué producto vendió más, Producto B o Producto D?')">
+                        <h4 style="color: #dc3545; text-align: left; text-shadow: 0 2px 5px rgba(220,53,69,0.3);">Ángulos Indescifrables</h4>
+                        <div class="chart-container" style="border-top: 5px solid #dc3545;">
+                            <canvas id="badPieChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="split-right clickable-concept" onclick="openModal('La Alternativa Directa', 'fa-chart-bar', 'Si quieres comparar cantidades precisas, el ser humano procesa mucho mejor la longitud (barras) que el área (círculos). O si la historia es un solo dato, ¡Usa un KPI Gigante!', 'Las barras ordenadas de mayor a menor resuelven la comparación en 1 segundo.')">
+                        <h4 style="color: #28a745; text-align: left; text-shadow: 0 2px 5px rgba(40,167,69,0.3);">Longitud y Orden</h4>
+                        <div class="chart-container" style="border-top: 5px solid #28a745;">
+                            <canvas id="goodDonutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="fragment fade-up pro-tip" style="margin-top: 15px; background: #333; cursor: pointer;" onclick="openModal('Respuesta a la Audiencia', 'fa-person-chalkboard', 'Casi nunca. Salvo que solo compares dos o máximo tres categorías con una diferencia abismal (ej. 80% vs 20%). De lo contrario, las barras son tus amigas.', 'Regla de oro: No obligues a tu gerente a calcular ángulos.')">
+                    <i class="fa-solid fa-circle-question" style="color: #fff;"></i> <strong style="color: white;">Interacción con el público:</strong> En 3 segundos, ¿quién me dice cuál es mayor entre B y D en la izquierda? ¿Cuándo SÍ deberíamos usar un circular? (Clic aquí)
+                </div>
+            </section>
             
             <!-- 8. Mockup / High fidelity example -->
             <section data-transition="slide">
@@ -602,6 +648,66 @@
                         },
                         animation: { duration: 2000, easing: 'easeOutBounce' }
                     }
+                });
+            }
+
+            // 7.1 Line Charts
+            const ctxBadLine = document.getElementById('badLineChart');
+            if (ctxBadLine) {
+                new Chart(ctxBadLine.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May'],
+                        datasets: [
+                            { label: 'Norte', data: [10, 25, 40, 50, 70], borderColor: 'blue', borderWidth: 3 },
+                            { label: 'Sur', data: [15, 20, 30, 45, 60], borderColor: 'red', borderWidth: 3 },
+                            { label: 'Este', data: [12, 18, 25, 30, 35], borderColor: 'green', borderWidth: 3 },
+                            { label: 'Oeste', data: [5, 10, 15, 25, 40], borderColor: 'purple', borderWidth: 3 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { color: 'rgba(0,0,0,1)' } }, y: { grid: { color: 'rgba(0,0,0,1)' } } } }
+                });
+            }
+
+            const ctxGoodLine = document.getElementById('goodLineChart');
+            if (ctxGoodLine) {
+                new Chart(ctxGoodLine.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May'],
+                        datasets: [
+                            { label: 'Norte', data: [10, 25, 40, 50, 70], borderColor: '#E85C0B', borderWidth: 6, tension: 0.3 },
+                            { label: 'Sur', data: [15, 20, 30, 45, 60], borderColor: '#ccc', borderWidth: 2, pointRadius: 0 },
+                            { label: 'Este', data: [12, 18, 25, 30, 35], borderColor: '#ccc', borderWidth: 2, pointRadius: 0 },
+                            { label: 'Oeste', data: [5, 10, 15, 25, 40], borderColor: '#ccc', borderWidth: 2, pointRadius: 0 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { display: false }, border: { display: false }, display: false } } }
+                });
+            }
+
+            // 7.2 Pie/Donut Charts
+            const ctxBadPie = document.getElementById('badPieChart');
+            if (ctxBadPie) {
+                new Chart(ctxBadPie.getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: ['Prod A', 'Prod B', 'Prod C', 'Prod D', 'Prod E'],
+                        datasets: [{ data: [18, 21, 19, 22, 20], backgroundColor: ['#3b5998', '#4b69a8', '#2b4988', '#5b79b8', '#1b3978'] }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                });
+            }
+
+            const ctxGoodDonut = document.getElementById('goodDonutChart');
+            if (ctxGoodDonut) {
+                new Chart(ctxGoodDonut.getContext('2d'), {
+                    type: 'bar', // La mejor alternativa a un mal pie chart
+                    data: {
+                        labels: ['Prod D', 'Prod B', 'Prod E', 'Prod C', 'Prod A'],
+                        datasets: [{ data: [22, 21, 20, 19, 18], backgroundColor: ['#E85C0B', '#003865', '#003865', '#003865', '#003865'], borderRadius: 5 }]
+                    },
+                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { display: false } } } }
                 });
             }
         }
