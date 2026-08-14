@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Chart.js & Typed.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
     <style>
@@ -202,19 +204,19 @@
             position: relative;
         }
         .ai-icon {
-            font-size: 3.5em;
+            font-size: 2.5em;
             color: #00ffcc; /* Cyber cyan */
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             animation: pulse-glow 2s infinite alternate;
             z-index: 2;
         }
         .ai-title {
             color: white;
             font-weight: 900;
-            font-size: 2em !important;
+            font-size: 1.6em !important;
             letter-spacing: 3px;
             text-transform: uppercase;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             background: linear-gradient(90deg, #E85C0B, #00ffcc, #E85C0B);
             background-size: 200% auto;
             color: transparent;
@@ -224,7 +226,7 @@
         }
         .ai-glass-box {
             position: relative;
-            padding: 3px; /* Space for the animated border */
+            padding: 2px; /* Space for the animated border */
             border-radius: 12px;
             background: linear-gradient(45deg, #E85C0B, #00ffcc, #003865, #E85C0B);
             background-size: 300% 300%;
@@ -234,7 +236,7 @@
         }
         .ai-content {
             background: rgba(10, 10, 22, 0.95);
-            padding: 25px 35px;
+            padding: 20px 25px;
             border-radius: 9px;
             text-align: left;
             position: relative;
@@ -242,7 +244,7 @@
         }
         .ai-text {
             font-family: 'Courier New', Courier, monospace;
-            font-size: 0.75em !important;
+            font-size: 0.65em !important;
             color: #00ffcc;
             line-height: 1.6;
             margin: 0;
@@ -253,15 +255,13 @@
             font-weight: bold;
             text-shadow: 0 0 10px rgba(232,92,11,0.7);
         }
-        .blinking-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2em;
-            background-color: #00ffcc;
-            vertical-align: middle;
-            animation: blink 1s step-end infinite;
-            margin-left: 5px;
-            box-shadow: 0 0 8px #00ffcc;
+        .blinking-cursor { display: none; } /* Disabled as Typed.js provides its own cursor */
+        
+        /* Typed.js custom cursor color */
+        .typed-cursor {
+            color: #00ffcc;
+            text-shadow: 0 0 8px #00ffcc;
+            font-size: 1.2em;
         }
 
         @keyframes pulse-glow {
@@ -656,19 +656,16 @@
             <!-- 13. Cierre y Disclaimer IA (Alta Impacto / Cyber) -->
             <section data-transition="zoom" class="ai-slide" data-background-color="#050510">
                 <div class="ai-container">
-                    <i class="fa-solid fa-microchip ai-icon"></i>
-                    <h2 class="ai-title">¡Gracias por su atención!</h2>
+                    <i class="fa-solid fa-microchip ai-icon" style="font-size: 2.5em; margin-bottom: 5px;"></i>
+                    <h2 class="ai-title" style="font-size: 1.6em !important; margin-bottom: 20px;">¡Gracias por su atención!</h2>
                     
-                    <div class="ai-glass-box">
-                        <div class="ai-content">
-                            <h4 style="color: #E85C0B; font-family: 'Courier New', Courier, monospace; margin-bottom: 15px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">
+                    <div class="ai-glass-box" style="padding: 2px;">
+                        <div class="ai-content" style="padding: 20px 25px;">
+                            <h4 style="color: #E85C0B; font-family: 'Courier New', Courier, monospace; margin-bottom: 10px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">
                                 <i class="fa-solid fa-terminal" style="margin-right: 10px;"></i> [ SYSTEM_LOG: AI_DISCLAIMER.exe ]
                             </h4>
-                            <p class="ai-text">
-                                > INICIANDO PROTOCOLO DE TRANSPARENCIA...<br><br>
-                                > El diseño visual, la arquitectura interactiva y la síntesis cognitiva de esta presentación fueron <span class="highlight-ai">co-creados utilizando Inteligencia Artificial Avanzada (LLMs)</span>.<br><br>
-                                > <span style="color: white;">Misión:</span> Aplicar heurísticas de neuroeducación y <em>Storytelling con Datos</em> para maximizar la retención y el impacto en el aula.<br><br>
-                                > FIN DE TRANSMISIÓN.<div class="blinking-cursor"></div>
+                            <p class="ai-text" style="font-size: 0.65em !important; min-height: 120px;">
+                                <span id="typed-ai-text"></span>
                             </p>
                         </div>
                     </div>
@@ -814,6 +811,8 @@
             Reveal.initialize({
                 hash: true,
                 transition: 'slide',
+                backgroundTransition: 'zoom',
+                slideNumber: 'c/t',
                 controls: true,
                 progress: true,
                 center: true,
@@ -822,8 +821,23 @@
                 margin: 0.05,
                 minScale: 0.5,
                 maxScale: 2.0
+            }).then(() => {
+                initCharts();
             });
-            initCharts();
+            
+            // Add listener to trigger Typed.js ONLY when the AI Slide is visited
+            Reveal.on('slidechanged', event => {
+                if (event.currentSlide.classList.contains('ai-slide')) {
+                    if (!window.typedAI) {
+                        window.typedAI = new Typed('#typed-ai-text', {
+                            strings: ['> INICIANDO PROTOCOLO DE TRANSPARENCIA...<br><br>> El diseño visual, la arquitectura interactiva y la síntesis cognitiva de esta presentación fueron <span class="highlight-ai">co-creados utilizando Inteligencia Artificial Avanzada (LLMs)</span>.<br><br>> <span style="color: white;">Misión:</span> Aplicar heurísticas de neuroeducación y <em>Storytelling con Datos</em> para maximizar la retención y el impacto en el aula.<br><br>> FIN DE TRANSMISIÓN.'],
+                            typeSpeed: 25,
+                            showCursor: true,
+                            cursorChar: '█'
+                        });
+                    }
+                }
+            });
         });
     </script>
 </body>
