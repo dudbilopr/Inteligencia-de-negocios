@@ -11,9 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Chart.js for interactive charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Mermaid for mind maps and diagrams -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
     <style>
@@ -27,7 +25,6 @@
             --unab-orange: #E85C0B;
         }
         
-        /* Responsive adjustments to prevent overflow */
         .reveal .slides {
             width: 90% !important;
             height: 90% !important;
@@ -36,7 +33,6 @@
         }
         .reveal .slide-background { background-color: #f4f6f9; }
         
-        /* Varied Layouts */
         .split-screen {
             display: flex;
             justify-content: space-between;
@@ -61,30 +57,7 @@
             text-align: left;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .grid-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.2), 0 5px 15px rgba(0,0,0,0.1);
-        }
         
-        /* Floating / Glassmorphism effect for Diagrams */
-        .mermaid {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            margin: 15px 0;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .mermaid:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.2), 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* Text & Typography */
         .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
         .reveal h1 { font-size: 2.8em; }
         .reveal h2 { font-size: 1.8em; margin-bottom: 20px; }
@@ -92,7 +65,6 @@
         .text-left { text-align: left; }
         .small-text { font-size: 0.7em !important; line-height: 1.2; }
         
-        /* UI Elements */
         .pro-tip {
             background: linear-gradient(135deg, #003865 0%, #005091 100%);
             color: white;
@@ -104,9 +76,6 @@
             margin: 20px 0;
             box-shadow: 0 15px 30px rgba(0,56,101,0.3);
             transition: transform 0.3s ease;
-        }
-        .pro-tip:hover {
-            transform: scale(1.02);
         }
         .pro-tip i { color: var(--unab-orange); margin-right: 10px; font-size: 1.2em; }
         
@@ -123,31 +92,127 @@
             box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15);
             transition: transform 0.3s ease;
         }
-        .chart-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.2);
-        }
         
-        /* Dark Mode Slide */
         .dark-slide {
             background-color: var(--unab-blue) !important;
             color: white !important;
         }
         .dark-slide h1, .dark-slide h2, .dark-slide h3 { color: white !important; }
         
-        /* Scrollable content to prevent vertical overflow */
         .scrollable {
             max-height: 60vh;
             overflow-y: auto;
             padding-right: 10px;
         }
+
+        /* Sistema de Mini Ventanas Explicativas (Modales) */
+        .clickable-concept {
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+        }
+        .clickable-concept:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.3) !important;
+            z-index: 10;
+        }
+        .clickable-concept::after {
+            content: '\f0a6'; /* Hand pointer icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--unab-orange);
+            color: white;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .clickable-concept:hover::after {
+            opacity: 1;
+        }
+
+        #concept-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 56, 101, 0.6);
+            border-left: 10px solid var(--unab-orange);
+            z-index: 2000; /* Asegurar que sobrepasa a Reveal.js */
+            text-align: left;
+            font-family: sans-serif;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        #concept-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 56, 101, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1999;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #888;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--unab-orange); }
+        .modal-title { color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; font-weight: bold; display: flex; align-items: center; gap: 15px;}
+        .modal-body { font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px; }
+        .modal-example {
+            background: #f4f6f9;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid var(--unab-blue);
+            font-size: 1em;
+            color: #222;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+        }
     </style>
 </head>
 <body>
+    
+    <!-- Modal Interactivo Global -->
+    <div id="concept-modal-overlay" onclick="closeModal()"></div>
+    <div id="concept-modal">
+        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
+        <div class="modal-title"><i id="modal-icon" class="fa-solid fa-lightbulb"></i> <span id="modal-title">Título</span></div>
+        <div class="modal-body" id="modal-text">Texto explicativo</div>
+        <div class="modal-example">
+            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Ejemplo Práctico:</h4>
+            <span id="modal-example-text">Ejemplo</span>
+        </div>
+    </div>
+
     <div class="reveal">
         <div class="slides">
 
-            <!-- 1. Portada (High Impact Full View) -->
+            <!-- 1. Portada -->
             <section data-transition="zoom" class="dark-slide">
                 <i class="fa-solid fa-bolt" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(232,92,11,0.5));"></i>
                 <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
@@ -157,7 +222,7 @@
                 <p><small style="color: #ccc;">Universidad Autónoma de Bucaramanga</small></p>
             </section>
             
-            <!-- 2. Agenda (Grid Layout) -->
+            <!-- 2. Agenda -->
             <section data-transition="slide">
                 <h2 class="text-left"><i class="fa-solid fa-route icon"></i> Hoja de Ruta</h2>
                 <div class="grid-layout" style="grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 10px;">
@@ -192,111 +257,103 @@
             <section data-transition="convex">
                 <h2 class="text-left"><i class="fa-solid fa-brain icon"></i> Ecosistema Analítico</h2>
                 <div class="pro-tip">
-                    <i class="fa-solid fa-lightbulb"></i> <strong>Pro-Tip:</strong> El BI no es una herramienta aislada. Es un ecosistema vivo orientado a conectar el dato con la acción corporativa.
+                    <i class="fa-solid fa-hand-pointer"></i> <strong>Pro-Tip:</strong> Da clic en cada módulo del diagrama para explorar su concepto y un ejemplo práctico.
                 </div>
-                <!-- High Impact CSS Mindmap Alternative -->
                 <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 40px;">
-                    <!-- Core Node -->
-                    <div style="background: linear-gradient(135deg, #003865 0%, #001f3f 100%); color: white; padding: 40px; border-radius: 50%; box-shadow: 0 20px 40px rgba(0,56,101,0.4); border: 5px solid #E85C0B; z-index: 2; transform: scale(1.1);">
+                    
+                    <div class="clickable-concept" onclick="openModal('Business Intelligence', 'fa-chart-line', 'Es la disciplina que combina arquitectura, bases de datos y análisis visual para ayudar a una empresa a tomar mejores decisiones basadas en datos.', 'El gerente de un supermercado analizando en vivo por qué las ventas de carne bajaron los martes, para luego lanzar una promoción específica.')" style="background: linear-gradient(135deg, #003865 0%, #001f3f 100%); color: white; padding: 40px; border-radius: 50%; border: 5px solid #E85C0B; z-index: 2;">
                         <i class="fa-solid fa-chart-line" style="font-size: 3em; margin-bottom: 10px;"></i><br>
                         <strong style="font-size: 1.2em;">Business<br>Intelligence</strong>
                     </div>
                     
                     <div style="display: flex; flex-direction: column; gap: 20px;">
-                        <!-- Node 1 -->
-                        <div class="grid-card" style="display: flex; align-items: center; gap: 15px; padding: 15px 25px; border-left: 8px solid #E85C0B;">
+                        <div class="grid-card clickable-concept" onclick="openModal('Tecnología (Infraestructura)', 'fa-database', 'Es la columna vertebral. Involucra extraer datos dispersos, limpiarlos y almacenarlos en un repositorio central.', 'Un script que descarga ventas diarias desde un Excel y reportes desde un sistema SAP, los unifica y los guarda en un Data Warehouse.')" style="display: flex; align-items: center; gap: 15px; padding: 15px 25px; border-left: 8px solid #E85C0B;">
                             <i class="fa-solid fa-database" style="color: #003865; font-size: 2em;"></i>
                             <div>
                                 <h4 style="margin: 0; color: #003865;">Tecnología</h4>
                                 <span class="small-text">ETL, Data Warehouse, OLAP</span>
                             </div>
                         </div>
-                        <!-- Node 2 -->
-                        <div class="grid-card" style="display: flex; align-items: center; gap: 15px; padding: 15px 25px; border-left: 8px solid #E85C0B;">
+                        <div class="grid-card clickable-concept" onclick="openModal('Analítica de Datos', 'fa-magnifying-glass-chart', 'El proceso de aplicar matemáticas y estadística a los datos para encontrar patrones.', 'Usar Machine Learning (Analítica Predictiva) para adivinar qué clientes tienen más probabilidad de cancelar su suscripción a Netflix el próximo mes.')" style="display: flex; align-items: center; gap: 15px; padding: 15px 25px; border-left: 8px solid #E85C0B;">
                             <i class="fa-solid fa-magnifying-glass-chart" style="color: #003865; font-size: 2em;"></i>
                             <div>
                                 <h4 style="margin: 0; color: #003865;">Analítica</h4>
                                 <span class="small-text">Descriptiva, Predictiva, Prescriptiva</span>
                             </div>
                         </div>
-                        <!-- Node 3 -->
-                        <div class="grid-card" style="display: flex; align-items: center; gap: 15px; padding: 15px 25px; border-left: 8px solid #E85C0B;">
+                        <div class="grid-card clickable-concept" onclick="openModal('Toma de Decisiones', 'fa-briefcase', 'La parte humana. Es utilizar los hallazgos tecnológicos para cambiar el rumbo de la empresa y generar dinero o ahorrar costos.', 'En lugar de intuir qué producto vender, el equipo de marketing decide invertir todo su presupuesto en publicidad de zapatos al descubrir en un Dashboard que es el producto con mayor margen de ganancia (ROI).')" style="display: flex; align-items: center; gap: 15px; padding: 15px 25px; border-left: 8px solid #E85C0B;">
                             <i class="fa-solid fa-briefcase" style="color: #003865; font-size: 2em;"></i>
                             <div>
                                 <h4 style="margin: 0; color: #003865;">Negocio</h4>
-                                <span class="small-text">Toma de Decisiones, KPIs, ROI</span>
+                                <span class="small-text">Decisiones, KPIs, ROI</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 4. Timeline CSS - Evolución del BI -->
+            <!-- 4. Timeline CSS - Evolución -->
             <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-timeline icon"></i> Evolución de los Datos</h2>
-                <!-- High Impact CSS Timeline -->
+                <h2 class="text-left"><i class="fa-solid fa-timeline icon"></i> Evolución de los Datos (Clic en la época)</h2>
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 50px; position: relative;">
-                    <!-- Línea conectora base -->
                     <div style="position: absolute; top: 25px; left: 5%; right: 5%; height: 5px; background: #003865; z-index: 0;"></div>
                     
-                    <div style="z-index: 1; text-align: center; width: 18%;">
+                    <div class="clickable-concept" onclick="openModal('1980s: DSS', 'fa-print', 'Decision Support Systems. Eran los primeros reportes operacionales construidos en terminales primitivas.', 'El gerente pedía un estado financiero el lunes. IT corría un comando, y el jueves le entregaban 500 hojas impresas con una tabla gigante de números.')" style="z-index: 1; text-align: center; width: 18%; background: transparent;">
                         <div style="width: 50px; height: 50px; background: #E85C0B; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin: 0 auto;"></div>
                         <h4 style="margin-top: 15px; color: #003865;">1980s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">Sistemas DSS. Reportes estáticos.</p>
+                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">Sistemas DSS.</p>
                     </div>
                     
-                    <div style="z-index: 1; text-align: center; width: 18%;">
+                    <div class="clickable-concept" onclick="openModal('1990s: Data Warehousing', 'fa-database', 'Se concibe la idea de que los datos históricos de una empresa deben vivir en un repositorio consolidado, independiente del sistema de ventas.', 'Bases de datos gigantes de Oracle donde empezaron a guardar el historial de compras de todos los clientes de WalMart de los últimos 5 años.')" style="z-index: 1; text-align: center; width: 18%;">
                         <div style="width: 50px; height: 50px; background: #003865; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin: 0 auto;"></div>
                         <h4 style="margin-top: 15px; color: #003865;">1990s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">Data Warehousing, OLAP.</p>
+                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">OLAP y Data Warehouse.</p>
                     </div>
                     
-                    <div style="z-index: 1; text-align: center; width: 18%;">
+                    <div class="clickable-concept" onclick="openModal('2000s: BI Tradicional', 'fa-chart-bar', 'Nacen los primeros tableros visuales, pero eran pesados, costosos y requerían que el departamento de IT (Ingenieros) los creara paso a paso.', 'Un gerente comercial pedía un gráfico de barras, y tenía que abrir un ticket a Soporte Técnico, quienes tardaban 2 semanas en construirlo.')" style="z-index: 1; text-align: center; width: 18%;">
                         <div style="width: 50px; height: 50px; background: #E85C0B; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin: 0 auto;"></div>
                         <h4 style="margin-top: 15px; color: #003865;">2000s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">Dashboards Corporativos pesados.</p>
+                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">BI Tradicional.</p>
                     </div>
 
-                    <div style="z-index: 1; text-align: center; width: 18%;">
+                    <div class="clickable-concept" onclick="openModal('2010s: Self-Service BI', 'fa-user-check', 'Herramientas drag-and-drop democratizan el uso de los datos. Cualquiera puede crear un tablero interactivo.', 'Un analista financiero instala Power BI o Tableau en su PC y conecta un Excel. En 20 minutos diseña un dashboard dinámico para la junta directiva sin saber programar código.')" style="z-index: 1; text-align: center; width: 18%;">
                         <div style="width: 50px; height: 50px; background: #003865; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin: 0 auto;"></div>
                         <h4 style="margin-top: 15px; color: #003865;">2010s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">Self-Service BI. Democratización.</p>
+                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">Self-Service BI.</p>
                     </div>
 
-                    <div style="z-index: 1; text-align: center; width: 18%;">
+                    <div class="clickable-concept" onclick="openModal('2020s: Augmented BI', 'fa-robot', 'La Inteligencia Artificial se incrusta en el análisis visual. Chatbots que responden sobre los datos y machine learning integrado.', 'Preguntar en lenguaje natural: ¿Por qué cayeron las ventas? y que la herramienta genere automáticamente un análisis de correlación explicando que se debió al clima lluvioso de esa semana.')" style="z-index: 1; text-align: center; width: 18%;">
                         <div style="width: 50px; height: 50px; background: #E85C0B; border-radius: 50%; border: 4px solid white; box-shadow: 0 0 20px rgba(232,92,11,0.6); margin: 0 auto; transform: scale(1.2);"></div>
                         <h4 style="margin-top: 15px; color: #E85C0B; font-weight: bold;">2020s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">Augmented BI e IA Predictiva.</p>
+                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">Augmented BI (IA).</p>
                     </div>
                 </div>
             </section>
 
             <!-- 5. Split Screen - Flujo Arquitectura -->
             <section data-transition="fade">
-                <h2 class="text-left"><i class="fa-solid fa-sitemap icon"></i> Arquitectura Base (ETL y OLAP)</h2>
+                <h2 class="text-left"><i class="fa-solid fa-sitemap icon"></i> Arquitectura (Da clic para entender)</h2>
                 <div class="split-screen">
                     <div class="split-left text-left">
                         <ul class="styled-list">
-                            <li class="fragment"><strong>Fuentes (OLTP):</strong> Datos crudos y transaccionales (Ej. Cajas registradoras, Excel). Optimizados para escritura.</li>
-                            <li class="fragment"><strong>ETL:</strong> Extraer, Transformar y Cargar. El filtro crítico de limpieza de datos.</li>
-                            <li class="fragment"><strong>Data Warehouse:</strong> Repositorio consolidado y confiable para lectura rápida (OLAP).</li>
-                            <li class="fragment"><strong>Visualización:</strong> Consumo de insights mediante métricas accionables.</li>
+                            <li class="fragment">El 80% del tiempo en Ciencia de Datos se invierte en limpiar información (ETL).</li>
+                            <li class="fragment">No se puede hacer analítica seria directamente sobre la base de datos de producción (OLTP).</li>
+                            <li class="fragment">El Data Warehouse (OLAP) sirve para agrupar y leer hiper-rápido.</li>
                         </ul>
                     </div>
                     <div class="split-right">
-                        <!-- High Impact CSS Flowchart -->
                         <div style="display: flex; flex-direction: column; gap: 5px; align-items: center; width: 100%;">
-                            <div class="grid-card" style="width: 80%; text-align: center; background: #f4f6f9; border: 2px dashed #003865; padding: 10px;">
+                            <div class="grid-card clickable-concept" onclick="openModal('Sistemas OLTP', 'fa-server', 'Online Transaction Processing. Son bases de datos relacionales diseñadas para Insertar, Actualizar y Borrar datos individuales a la velocidad de la luz. Si un analista de BI corre una mega consulta aquí, tumbaría el sistema y paralizaría las ventas.', 'La caja de pago de un supermercado (registra 1 venta). O un cajero de un Banco (registra 1 retiro).')" style="width: 80%; text-align: center; background: #f4f6f9; border: 2px dashed #003865; padding: 10px;">
                                 <i class="fa-solid fa-server" style="font-size: 1.5em; color: #003865;"></i><br>
-                                <strong style="font-size: 0.9em;">1. Fuentes OLTP</strong>
+                                <strong style="font-size: 0.9em;">1. Fuentes (OLTP)</strong>
                             </div>
                             <i class="fa-solid fa-arrow-down" style="font-size: 1.2em; color: #E85C0B;"></i>
-                            <div class="grid-card" style="width: 80%; text-align: center; background: linear-gradient(135deg, #E85C0B 0%, #c94b07 100%); color: white; padding: 10px;">
+                            <div class="grid-card clickable-concept" onclick="openModal('El Proceso ETL', 'fa-filter', 'Extract, Transform, Load. El filtro mágico donde extraes basura de las fuentes, limpias nulos, estandarizas monedas o fechas, y cargas el resultado puro y perfecto al almacén.', 'En un sistema los clientes están como M y F. En otro como Hombre y Mujer. El ETL se encarga de convertir todo uniformemente a Masculino y Femenino antes de guardarlo.')" style="width: 80%; text-align: center; background: linear-gradient(135deg, #E85C0B 0%, #c94b07 100%); color: white; padding: 10px;">
                                 <i class="fa-solid fa-filter" style="font-size: 1.5em; color: white;"></i><br>
                                 <strong style="font-size: 0.9em;">2. Proceso ETL</strong>
                             </div>
                             <i class="fa-solid fa-arrow-down" style="font-size: 1.2em; color: #003865;"></i>
-                            <div class="grid-card" style="width: 80%; text-align: center; background: linear-gradient(135deg, #003865 0%, #001f3f 100%); color: white; padding: 10px;">
+                            <div class="grid-card clickable-concept" onclick="openModal('Data Warehouse (OLAP)', 'fa-cubes', 'Online Analytical Processing. El almacén central con datos limpios históricos. Está diseñado matemáticamente para Lecturas Masivas rápidas de miles de millones de filas.', 'Una consulta que suma todas las ventas globales de Coca-Cola en la última década agrupadas por continente y mes. En OLTP tardaría horas; en OLAP tarda milisegundos.')" style="width: 80%; text-align: center; background: linear-gradient(135deg, #003865 0%, #001f3f 100%); color: white; padding: 10px;">
                                 <i class="fa-solid fa-cubes" style="font-size: 1.5em; color: white;"></i><br>
                                 <strong style="font-size: 0.9em;">3. Data Warehouse (OLAP)</strong>
                             </div>
@@ -305,7 +362,7 @@
                 </div>
             </section>
 
-            <!-- 6. Dark Slide Impact: Storytelling -->
+            <!-- 6. Dark Slide Impact -->
             <section data-transition="zoom" class="dark-slide">
                 <h1 style="font-size: 4em; text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Storytelling</h1>
                 <h2 style="color: #E85C0B; text-shadow: 0 5px 15px rgba(232,92,11,0.3);">with Data</h2>
@@ -316,17 +373,16 @@
             <section data-transition="slide">
                 <h2 class="text-left"><i class="fa-solid fa-chart-pie icon"></i> El Problema del "Clutter" Visual</h2>
                 <p class="small-text text-left">Observa cómo la reducción de ruido y la Gestalt mejoran la comprensión.</p>
-                
                 <div class="split-screen">
-                    <div class="split-left">
-                        <h4 style="color: #dc3545; text-align: left; text-shadow: 0 2px 5px rgba(220,53,69,0.3);">Saturado y Confuso</h4>
+                    <div class="split-left clickable-concept" onclick="openModal('Carga Cognitiva (Clutter)', 'fa-triangle-exclamation', 'Todo lo que se añade a un gráfico que no aporta valor informativo se llama ruido o clutter. Borde 3D, líneas de cuadrícula innecesarias, colores excesivos. Obligan al cerebro a trabajar el doble.', 'Un gráfico circular 3D desglosado con 15 tajadas de colores aleatorios y etiquetas flotando, donde es imposible distinguir qué tajada es más grande.')">
+                        <h4 style="color: #dc3545; text-align: left; text-shadow: 0 2px 5px rgba(220,53,69,0.3);">Saturado y Confuso (Carga Cognitiva)</h4>
                         <div class="chart-container" style="border-top: 5px solid #dc3545;">
                             <canvas id="badChart"></canvas>
                         </div>
                     </div>
-                    <div class="split-right">
-                        <h4 style="color: #28a745; text-align: left; text-shadow: 0 2px 5px rgba(40,167,69,0.3);" class="fragment" data-fragment-index="1">Limpio y Jerarquizado</h4>
-                        <div class="chart-container fragment" data-fragment-index="1" style="border-top: 5px solid #28a745;">
+                    <div class="split-right clickable-concept" onclick="openModal('Principios Gestalt & Decluttering', 'fa-eye', 'Usar la psicología visual humana. El cerebro agrupa objetos por cercanía. Si eliminamos todos los bordes, unificamos en tonos grises o azules, y solo resaltamos el dato crucial en naranja, la historia se cuenta sola en un segundo.', 'Un gráfico de barras limpio, donde todas las barras son grises excepto la de nuestro competidor que es roja brillante. El ojo viaja instantáneamente a la barra roja sin esfuerzo.')">
+                        <h4 style="color: #28a745; text-align: left; text-shadow: 0 2px 5px rgba(40,167,69,0.3);">Limpio y Jerarquizado (Gestalt)</h4>
+                        <div class="chart-container" style="border-top: 5px solid #28a745;">
                             <canvas id="goodChart"></canvas>
                         </div>
                     </div>
@@ -337,7 +393,7 @@
             <section data-transition="slide">
                 <h2>El Objetivo: Interfaz Minimalista</h2>
                 <p class="small-text">Visualización libre de ruido visual, priorizando el dato y la toma de decisiones.</p>
-                <img src="dashboard_mockup.png" alt="Clean Dashboard" style="max-height: 400px; width: auto; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,56,101,0.3); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <img src="dashboard_mockup.png" class="clickable-concept" onclick="openModal('El Tablero Ideal', 'fa-desktop', 'Un Dashboard no debe verse como el cuadro de mandos de una nave espacial lleno de relojes. Debe verse como una página web elegante, con espacios en blanco, tipografía clara y focalizada.', 'Fíjense en la imagen: El título indica el resumen, los KPIs clave (KPI cards) están arriba inmensos, y el uso del color se reserva solo para indicar métricas alarmantes o victoriosas.')" style="max-height: 400px; width: auto; border-radius: 16px;">
             </section>
 
             <!-- 9. Taller (Pro-Tip) -->
@@ -356,25 +412,25 @@
                 </div>
             </section>
 
-            <!-- 10. Glosario (Grid Layout para términos) -->
+            <!-- 10. Glosario -->
             <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-book icon"></i> Glosario de Términos</h2>
+                <h2 class="text-left"><i class="fa-solid fa-book icon"></i> Glosario de Términos (Da Clic)</h2>
                 <div class="grid-layout scrollable" style="max-height: 55vh;">
-                    <div class="grid-card">
+                    <div class="grid-card clickable-concept" onclick="openModal('Glosario: ETL', 'fa-filter', 'Proceso fundamental de ingeniería de datos para asegurar calidad y pureza en la información.', 'Tomar 3 excels mal llenados, quitarles los espacios en blanco, volver las fechas al formato Año-Mes-Día y guardar el resultado.')">
                         <h4 style="color: var(--unab-blue);">ETL</h4>
-                        <p class="small-text">Extract, Transform, Load. El proceso de extraer datos de los sistemas fuente, limpiarlos y cargarlos al Data Warehouse.</p>
+                        <p class="small-text">Extract, Transform, Load.</p>
                     </div>
-                    <div class="grid-card">
+                    <div class="grid-card clickable-concept" onclick="openModal('Glosario: Data Warehouse', 'fa-cubes', 'Base de datos analítica orientada a columnas, diseñada exclusivamente para consultar información de forma súper eficiente.', 'En lugar de guardar filas de compras (cliente 1 compró A, cliente 2 compró B), se estructura por hechos históricos para fácil suma matemática.')">
                         <h4 style="color: var(--unab-blue);">Data Warehouse</h4>
-                        <p class="small-text">Almacén de datos estructurado y optimizado para análisis rápido (Lectura OLAP).</p>
+                        <p class="small-text">Almacén histórico OLAP.</p>
                     </div>
-                    <div class="grid-card">
+                    <div class="grid-card clickable-concept" onclick="openModal('Glosario: Storytelling', 'fa-comments', 'El arte de traducir puros números fríos en una narrativa verbal y visual que los humanos empáticos puedan procesar y reaccionar.', 'Decir: Nuestra retención cayó un 15% por culpa del cambio de interfaz en el botón de pago (respaldado por un gráfico lineal que cae estrepitosamente).')">
                         <h4 style="color: var(--unab-blue);">Storytelling</h4>
-                        <p class="small-text">El arte de estructurar una narrativa persuasiva alrededor de los datos para inspirar acción.</p>
+                        <p class="small-text">Narrativa con datos.</p>
                     </div>
-                    <div class="grid-card">
+                    <div class="grid-card clickable-concept" onclick="openModal('Glosario: Gestalt', 'fa-eye', 'Leyes biológicas de cómo percibimos la información. Gestalt significa forma unificada en alemán.', 'Ley de la Proximidad: Si pones dos gráficos cerca y los rodeas con un borde muy sutil, el cerebro asume que están directamente relacionados sin necesidad de un título gigantesco.')">
                         <h4 style="color: var(--unab-blue);">Gestalt</h4>
-                        <p class="small-text">Principios psicológicos sobre cómo el cerebro humano agrupa e interpreta elementos visuales por defecto.</p>
+                        <p class="small-text">Psicología de la percepción.</p>
                     </div>
                 </div>
             </section>
@@ -413,6 +469,20 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
     <script>
+        // Modal functions
+        function openModal(title, iconClass, text, example) {
+            document.getElementById('modal-icon').className = `fa-solid ${iconClass}`;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-text').innerHTML = text;
+            document.getElementById('modal-example-text').innerHTML = example;
+            document.getElementById('concept-modal-overlay').style.display = 'block';
+            document.getElementById('concept-modal').style.display = 'block';
+        }
+        function closeModal() {
+            document.getElementById('concept-modal-overlay').style.display = 'none';
+            document.getElementById('concept-modal').style.display = 'none';
+        }
+
         // Configurar Simulaciones Interactivas con Chart.js
         function initCharts() {
             const ctxBad = document.getElementById('badChart');
@@ -469,29 +539,7 @@
             }
         }
 
-        // Inicializar Mermaid SIN startOnLoad
-        mermaid.initialize({ 
-            startOnLoad: false, 
-            theme: 'base',
-            themeVariables: {
-                primaryColor: '#ffffff',
-                primaryTextColor: '#333333',
-                primaryBorderColor: '#003865',
-                lineColor: '#003865',
-                secondaryColor: '#E85C0B',
-                tertiaryColor: '#f4f6f9'
-            }
-        });
-
-        // Asegurarnos que Mermaid renderice TODO antes de que Reveal.js oculte las diapositivas
-        document.addEventListener("DOMContentLoaded", async function() {
-            try {
-                await mermaid.run({ querySelector: '.mermaid' });
-            } catch(e) {
-                console.error("Mermaid render error:", e);
-            }
-            
-            // Inicializar Reveal.js DESPUÉS de Mermaid
+        document.addEventListener("DOMContentLoaded", function() {
             Reveal.initialize({
                 hash: true,
                 transition: 'slide',
@@ -504,8 +552,6 @@
                 minScale: 0.5,
                 maxScale: 2.0
             });
-
-            // Inicializar gráficos
             initCharts();
         });
     </script>
