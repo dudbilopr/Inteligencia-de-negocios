@@ -37,7 +37,6 @@ def add_bullet(tf, text, level=0, bold=False, rgb=WHITE, size=24):
 
 def main():
     prs = Presentation()
-    # Cambiar a formato 16:9 (13.33 x 7.5 pulgadas)
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
     
@@ -46,29 +45,20 @@ def main():
     # --- SLIDE 1: Title (High Impact) ---
     slide = prs.slides.add_slide(blank_layout)
     apply_theme(slide, UNAB_BLUE)
-    
-    # Title Box
     tb1 = slide.shapes.add_textbox(Inches(1), Inches(2.5), Inches(11.33), Inches(2))
     format_text(tb1, "Inteligencia de Negocios", size_pt=60, bold=True, rgb=UNAB_ORANGE, align=PP_ALIGN.CENTER)
-    
-    # Subtitle Box
     tb2 = slide.shapes.add_textbox(Inches(1), Inches(4.5), Inches(11.33), Inches(1))
     format_text(tb2, "Clase 1: Introducción, Evolución y Conceptos Básicos\nDocente: Dudbil Olvasada Pabon Riaño", size_pt=30, bold=False, rgb=WHITE, align=PP_ALIGN.CENTER)
 
-    # --- Helper to create standard content slide ---
     def add_content_slide(title_text):
         sl = prs.slides.add_slide(blank_layout)
         apply_theme(sl, LIGHT_GRAY)
-        # Title
         tb = sl.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(12.33), Inches(1))
         format_text(tb, title_text, size_pt=45, bold=True, rgb=UNAB_BLUE)
-        # Accent Line
         shape = sl.shapes.add_shape(1, Inches(0.5), Inches(1.5), Inches(12.33), Inches(0.05))
         shape.fill.solid()
         shape.fill.fore_color.rgb = UNAB_ORANGE
         shape.line.color.rgb = UNAB_ORANGE
-        
-        # Body frame
         body = sl.shapes.add_textbox(Inches(0.5), Inches(1.8), Inches(12.33), Inches(5))
         tf = body.text_frame
         tf.word_wrap = True
@@ -76,11 +66,10 @@ def main():
 
     # --- SLIDE 2: Acuerdos ---
     sl, tf = add_content_slide("Acuerdos de Clase")
-    add_bullet(tf, "Para un ambiente de aprendizaje seguro y productivo:", bold=True, rgb=UNAB_BLUE, size=28)
-    add_bullet(tf, "Puntualidad: Iniciamos a las 7:00 AM en punto.", level=1, rgb=UNAB_BLUE)
-    add_bullet(tf, "Descansos Cognitivos: Haremos una pausa para evitar fatiga.", level=1, rgb=UNAB_BLUE)
-    add_bullet(tf, "Estrategia EMI: Inmersiones cortas en inglés para fortalecer vocabulario.", level=1, rgb=UNAB_BLUE)
-    add_bullet(tf, "Uso de IA: Usaremos LLMNotebook como copiloto ético.", level=1, rgb=UNAB_BLUE)
+    add_bullet(tf, "Horario Oficial: Viernes de 10:00 AM a 1:00 PM.", bold=True, rgb=UNAB_BLUE, size=28)
+    add_bullet(tf, "Puntualidad: Llegar a tiempo garantiza no perder conceptos clave.", level=1, rgb=UNAB_BLUE)
+    add_bullet(tf, "Descansos Cognitivos: Haremos una pausa a las 11:30 AM.", level=1, rgb=UNAB_BLUE)
+    add_bullet(tf, "Estrategia EMI: 10 minutos de inmersión en inglés por sesión.", level=1, rgb=UNAB_BLUE)
 
     # --- SLIDE 3: EMI Warm up ---
     sl, tf = add_content_slide("🇬🇧 EMI Strategy: Warm-Up")
@@ -91,40 +80,50 @@ def main():
 
     # --- SLIDE 4: Que es BI ---
     sl, tf = add_content_slide("¿Qué es la Inteligencia de Negocios?")
-    add_bullet(tf, "Definición:", bold=True, rgb=UNAB_BLUE, size=32)
-    add_bullet(tf, "Es un conjunto de estrategias, procesos, aplicaciones, datos y tecnologías enfocadas en la administración y creación de conocimiento.", level=1, rgb=UNAB_BLUE, size=28)
-    add_bullet(tf, "\nObjetivo Principal:", bold=True, rgb=UNAB_ORANGE, size=32)
-    add_bullet(tf, "Convertir datos crudos en información accionable para la toma de decisiones.", level=1, rgb=UNAB_BLUE, size=28)
+    add_bullet(tf, "Definición (Sharda et al., 2020):", bold=True, rgb=UNAB_BLUE, size=32)
+    add_bullet(tf, "Conjunto de estrategias, procesos y tecnologías enfocadas en la creación de conocimiento mediante análisis de datos.", level=1, rgb=UNAB_BLUE, size=28)
+    add_bullet(tf, "El rol de la Analítica:", bold=True, rgb=UNAB_ORANGE, size=32)
+    add_bullet(tf, "- Descriptiva: ¿Qué sucedió? (Reportes históricos)", level=1, rgb=UNAB_BLUE, size=28)
+    add_bullet(tf, "- Predictiva: ¿Qué pasará? (Pronósticos, ML)", level=1, rgb=UNAB_BLUE, size=28)
+    add_bullet(tf, "- Prescriptiva: ¿Qué debemos hacer? (Optimización)", level=1, rgb=UNAB_BLUE, size=28)
 
-    # --- SLIDE 5: Evolucion BI ---
-    sl, tf = add_content_slide("Evolución del BI")
-    add_bullet(tf, "BI Tradicional (1.0):", bold=True, rgb=UNAB_BLUE, size=28)
-    add_bullet(tf, "Generación de reportes estáticos por el departamento de TI.", level=1, rgb=UNAB_BLUE, size=24)
-    add_bullet(tf, "\nSelf-Service BI (2.0):", bold=True, rgb=UNAB_BLUE, size=28)
-    add_bullet(tf, "Analistas explorando datos con herramientas como Power BI / Tableau.", level=1, rgb=UNAB_BLUE, size=24)
-    add_bullet(tf, "\nAugmented BI (3.0):", bold=True, rgb=UNAB_BLUE, size=28)
-    add_bullet(tf, "Integración de Machine Learning y NLP para descubrir insights automáticamente.", level=1, rgb=UNAB_BLUE, size=24)
+    # --- SLIDE 5: Glosario Técnico ---
+    sl, tf = add_content_slide("Glosario Técnico de BI")
+    add_bullet(tf, "ETL (Extract, Transform, Load):", bold=True, rgb=UNAB_BLUE, size=26)
+    add_bullet(tf, "Extraer datos, transformarlos al formato analítico y cargarlos.", level=1, rgb=UNAB_BLUE, size=22)
+    add_bullet(tf, "OLTP vs OLAP:", bold=True, rgb=UNAB_BLUE, size=26)
+    add_bullet(tf, "OLTP: Transacciones rápidas diarias (Ej. Caja Registradora).", level=1, rgb=UNAB_BLUE, size=22)
+    add_bullet(tf, "OLAP: Consultas analíticas multidimensionales (Cubo de Datos).", level=1, rgb=UNAB_BLUE, size=22)
+    add_bullet(tf, "Data Warehouse & Data Mart:", bold=True, rgb=UNAB_BLUE, size=26)
+    add_bullet(tf, "Repositorio centralizado de datos (Warehouse) y sus subdivisiones por área (Marts).", level=1, rgb=UNAB_BLUE, size=22)
 
     # --- SLIDE 6: Storytelling ---
     sl, tf = add_content_slide("Storytelling con Datos")
-    add_bullet(tf, "El poder de una buena historia (Knaflic, 2015):", bold=True, rgb=UNAB_BLUE, size=32)
-    add_bullet(tf, "No basta con tener datos; hay que saber comunicarlos.", level=1, rgb=UNAB_BLUE, size=28)
-    add_bullet(tf, "1. Entiende a tu audiencia y el contexto.", level=1, rgb=UNAB_BLUE, size=24)
-    add_bullet(tf, "2. Elige la presentación visual más adecuada.", level=1, rgb=UNAB_BLUE, size=24)
-    add_bullet(tf, "3. Elimina el desorden visual (Declutter).", level=1, rgb=UNAB_BLUE, size=24)
-    add_bullet(tf, "4. Dirige la atención donde realmente importa.", level=1, rgb=UNAB_BLUE, size=24)
+    add_bullet(tf, "Principios de Diseño Visual (Knaflic, 2015):", bold=True, rgb=UNAB_ORANGE, size=32)
+    add_bullet(tf, "1. Eliminar el desorden (Declutter):", bold=True, rgb=UNAB_BLUE, size=28)
+    add_bullet(tf, "Quita bordes, gridlines y fondos que no sumen información.", level=1, rgb=UNAB_BLUE, size=24)
+    add_bullet(tf, "2. Dirigir la Atención:", bold=True, rgb=UNAB_BLUE, size=28)
+    add_bullet(tf, "Usa colores vibrantes (naranja) SOLO para los datos clave. El resto en tonos neutros (gris/azul).", level=1, rgb=UNAB_BLUE, size=24)
+    add_bullet(tf, "3. Evitar el 3D:", bold=True, rgb=UNAB_BLUE, size=28)
+    add_bullet(tf, "Los gráficos 3D (especialmente Pie Charts) distorsionan las proporciones reales.", level=1, rgb=UNAB_BLUE, size=24)
 
-    # --- SLIDE 7: Taller ---
+    # --- SLIDE 7: Dashboards ---
+    sl, tf = add_content_slide("Ejemplo Práctico: Dashboards")
+    add_bullet(tf, "¿Qué hace a un Dashboard excelente?", bold=True, rgb=UNAB_BLUE, size=32)
+    add_bullet(tf, "Jerarquía visual: Lo más importante (KPIs globales) va arriba a la izquierda.", level=1, rgb=UNAB_BLUE, size=26)
+    add_bullet(tf, "Ley de Proximidad (Gestalt): Gráficos de un mismo tema deben agruparse espacialmente.", level=1, rgb=UNAB_BLUE, size=26)
+    add_bullet(tf, "Menos es más: Un gerente tiene 5 segundos para entender si la empresa va bien o mal.", level=1, rgb=UNAB_BLUE, size=26)
+
+    # --- SLIDE 8: Taller ---
     sl, tf = add_content_slide("Taller: Pair Programming")
-    add_bullet(tf, "Exploración de Casos de Éxito en Empresas Data-Driven", bold=True, rgb=UNAB_ORANGE, size=32)
-    add_bullet(tf, "1. Elijan una empresa (Netflix, Zara, Spotify, Amazon).", level=1, rgb=UNAB_BLUE, size=26)
-    add_bullet(tf, "2. Investiguen qué tipo de datos recolectan (estructurados vs no estructurados).", level=1, rgb=UNAB_BLUE, size=26)
-    add_bullet(tf, "3. Analicen cómo usan esos datos para tomar decisiones.", level=1, rgb=UNAB_BLUE, size=26)
-    add_bullet(tf, "4. Redacten un resumen en formato Markdown y súbanlo a GitHub.", level=1, rgb=UNAB_BLUE, size=26)
-    add_bullet(tf, "Usen LLMNotebook como asistente de investigación.", level=1, bold=True, rgb=UNAB_BLUE, size=26)
+    add_bullet(tf, "Análisis Crítico de Dashboards", bold=True, rgb=UNAB_ORANGE, size=32)
+    add_bullet(tf, "1. Busquen en internet 2 Dashboards de Ventas (Uno saturado y uno limpio).", level=1, rgb=UNAB_BLUE, size=26)
+    add_bullet(tf, "2. Analicen qué principios de Gestalt y 'Decluttering' se violan en el malo.", level=1, rgb=UNAB_BLUE, size=26)
+    add_bullet(tf, "3. Redacten un resumen en formato Markdown y súbanlo a GitHub.", level=1, rgb=UNAB_BLUE, size=26)
+    add_bullet(tf, "Usen LLMNotebook como asistente crítico para esta evaluación.", level=1, bold=True, rgb=UNAB_BLUE, size=26)
 
     prs.save('diapositivas_semana_1.pptx')
-    print("Presentación PPTX generada con éxito en colores UNAB.")
+    print("Presentación PPTX generada con éxito con contenido avanzado.")
 
 if __name__ == '__main__':
     main()
