@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js for interactive charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
@@ -18,159 +21,192 @@
             --r-link-color: #E85C0B;
             --r-link-color-hover: #c94b07;
             --r-selection-background-color: #E85C0B;
+            /* Fixing text overflow by using slightly smaller global font */
+            --r-main-font-size: 32px;
         }
-        .reveal .slide-background {
-            background-color: #f8f9fa;
-        }
-        .reveal h1, .reveal h2, .reveal h3 {
-            text-transform: none;
-            font-weight: bold;
-        }
-        .reveal h1 { font-size: 2.5em; }
+        .reveal .slide-background { background-color: #f8f9fa; }
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
+        .reveal h1 { font-size: 2.2em; }
+        .reveal h2 { font-size: 1.6em; }
         .highlight { color: #E85C0B; font-weight: bold; }
         .box {
-            background: white;
-            border-left: 10px solid #003865;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin: 20px 0;
-            border-radius: 5px;
+            background: white; border-left: 10px solid #003865;
+            padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 15px 0; border-radius: 5px; font-size: 0.85em;
         }
-        ul.styled-list li {
-            margin-bottom: 15px;
-        }
-        .icon {
-            color: #E85C0B;
-            margin-right: 15px;
-        }
-        .comparison {
-            display: flex;
-            justify-content: space-between;
-        }
+        ul.styled-list li { margin-bottom: 10px; font-size: 0.9em; }
+        .icon { color: #E85C0B; margin-right: 15px; }
+        .comparison { display: flex; justify-content: space-between; gap: 20px; }
         .comparison-item {
-            width: 48%;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 48%; background: white; padding: 15px;
+            border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 0.75em;
         }
         .good-border { border-top: 5px solid #28a745; }
         .bad-border { border-top: 5px solid #dc3545; }
+        .chart-container { position: relative; height: 300px; width: 100%; margin-top: 10px; }
+        .small-text { font-size: 0.7em !important; }
     </style>
 </head>
 <body>
     <div class="reveal">
         <div class="slides">
 
-            <!-- Portada -->
+            <!-- 1. Portada -->
             <section data-transition="zoom">
-                <i class="fa-solid fa-chart-line" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px;"></i>
+                <i class="fa-solid fa-chart-line" style="font-size: 3em; color: #E85C0B; margin-bottom: 20px;"></i>
                 <h1>Inteligencia de <span class="highlight">Negocios</span></h1>
                 <h3>Clase 1: Introducción, Evolución y Diseño</h3>
                 <p><small>Docente: Dudbil Olvasada Pabon Riaño</small></p>
                 <p><small>Universidad Autónoma de Bucaramanga</small></p>
             </section>
+            
+            <!-- 2. Agenda -->
+            <section data-transition="convex">
+                <h2><i class="fa-solid fa-list icon"></i> Agenda de la Sesión</h2>
+                <div class="box">
+                    <ol>
+                        <li class="fragment">Acuerdos y Reglas de Clase</li>
+                        <li class="fragment">Estrategia EMI (Warm-up en Inglés)</li>
+                        <li class="fragment">¿Qué es Inteligencia de Negocios (BI)?</li>
+                        <li class="fragment">Glosario Técnico y Fundamentos Analíticos</li>
+                        <li class="fragment">Storytelling with Data (Knaflic) y Simulación Visual</li>
+                        <li class="fragment">Taller Práctico: Pair Programming</li>
+                        <li class="fragment">Conclusiones y Bibliografía</li>
+                    </ol>
+                </div>
+            </section>
 
-            <!-- Reglas de la clase -->
+            <!-- 3. Reglas de la clase -->
             <section data-transition="convex">
                 <h2><i class="fa-solid fa-handshake icon"></i> Acuerdos de Clase</h2>
                 <div class="box">
                     <ul class="styled-list">
                         <li class="fragment"><i class="fa-regular fa-clock icon"></i> <strong>Horario Oficial:</strong> Viernes de 10:00 AM a 1:00 PM.</li>
                         <li class="fragment"><i class="fa-solid fa-mug-hot icon"></i> <strong>Descanso Cognitivo:</strong> Pausa a las 11:30 AM.</li>
-                        <li class="fragment"><i class="fa-solid fa-earth-americas icon"></i> <strong>Espacio EMI:</strong> Inmersión en inglés (10 min).</li>
-                        <li class="fragment"><i class="fa-solid fa-robot icon"></i> <strong>Uso de IA:</strong> LLMNotebook como asistente de análisis ético.</li>
+                        <li class="fragment"><i class="fa-solid fa-earth-americas icon"></i> <strong>Espacio EMI:</strong> Inmersión en inglés (10-15 min).</li>
+                        <li class="fragment"><i class="fa-solid fa-robot icon"></i> <strong>Uso de IA:</strong> Fomentado como asistente ético (LLMNotebook / ChatGPT), pero sin plagio.</li>
                     </ul>
                 </div>
             </section>
 
-            <!-- EMI -->
+            <!-- 4. EMI -->
             <section data-transition="convex">
-                <h2>🇬🇧 EMI Strategy</h2>
-                <h3>Warm-up</h3>
+                <h2>🇬🇧 EMI Strategy: Warm-up</h2>
                 <p>Let's play a quick interactive game to learn core <strong>Business Intelligence</strong> vocabulary.</p>
                 <div class="fragment box" style="border-left-color: #E85C0B;">
                     <p><i class="fa-solid fa-laptop-code icon"></i> Go to your <strong>quiz_semana_1.html</strong> file and let's complete the exercise together!</p>
                 </div>
             </section>
 
-            <!-- Concepto de BI -->
+            <!-- 5. Concepto de BI -->
             <section data-transition="convex">
                 <h2>¿Qué es la <span class="highlight">BI</span>? (Sharda et al.)</h2>
                 <div class="box">
                     <p>Conjunto de estrategias, procesos y tecnologías enfocadas en la creación de conocimiento mediante el análisis de datos organizacionales.</p>
                 </div>
                 <ul class="styled-list">
-                    <li class="fragment"><strong>Analítica Descriptiva:</strong> ¿Qué sucedió? (Reportes)</li>
+                    <li class="fragment"><strong>Analítica Descriptiva:</strong> ¿Qué sucedió? (Reportes históricos)</li>
                     <li class="fragment"><strong>Analítica Predictiva:</strong> ¿Qué pasará? (Machine Learning)</li>
-                    <li class="fragment"><strong>Analítica Prescriptiva:</strong> ¿Qué debemos hacer? (Optimización)</li>
+                    <li class="fragment"><strong>Analítica Prescriptiva:</strong> ¿Qué debemos hacer? (Optimización matemática)</li>
                 </ul>
             </section>
             
-            <!-- Glosario BI -->
+            <!-- 6. Glosario BI -->
             <section data-transition="convex">
                 <h2>Glosario Técnico de BI</h2>
-                <div class="box" style="font-size: 0.8em;">
+                <div class="box">
                     <ul class="styled-list">
                         <li class="fragment"><strong>ETL (Extract, Transform, Load):</strong> El motor de BI. Extraer datos, limpiarlos (Transform) y cargarlos (Load).</li>
-                        <li class="fragment"><strong>OLTP (Online Transaction Processing):</strong> Sistemas de transacciones rápidas diarias (Ej. Caja Registradora, ERP). No sirven para analizar grandes volúmenes de historia.</li>
-                        <li class="fragment"><strong>OLAP (Online Analytical Processing):</strong> Sistemas diseñados para consultas analíticas complejas y multidimensionales.</li>
+                        <li class="fragment"><strong>OLTP vs OLAP:</strong> OLTP es para sistemas transaccionales (Caja registradora), OLAP para consultas analíticas complejas (Cubos de datos).</li>
                         <li class="fragment"><strong>Data Warehouse:</strong> Repositorio centralizado de datos estructurados de toda la empresa.</li>
-                        <li class="fragment"><strong>Data Mart:</strong> Un "mini" Data Warehouse enfocado en un solo departamento (ej. Solo Finanzas).</li>
+                        <li class="fragment"><strong>Data Mart:</strong> Un "mini" Warehouse enfocado en un solo departamento (ej. Solo Finanzas).</li>
                     </ul>
                 </div>
             </section>
 
-            <!-- Storytelling with data -->
+            <!-- 7. Storytelling with data -->
             <section data-transition="convex">
                 <h2><i class="fa-solid fa-book-open icon"></i> Storytelling with Data (Knaflic)</h2>
-                <p>Para dejar de hacer "gráficos básicos" y crear Dashboards de alto impacto:</p>
-                <div class="box fragment">
+                <div class="box">
                     <ol>
-                        <li><strong>Decluttering:</strong> Elimina TODO el desorden (bordes, gridlines gruesas, fondos grises).</li>
-                        <li><strong>Gestalt (Proximidad):</strong> Agrupa los KPIs relacionados visualmente.</li>
-                        <li><strong>Atención Dirigida:</strong> Usa color fuerte (ej. naranja UNAB) SOLO para resaltar el dato clave; el resto debe ser neutro (gris/azul oscuro).</li>
-                        <li><strong>Cero Gráficos 3D:</strong> Distorsionan la percepción visual de los datos, especialmente los *Pie charts*.</li>
+                        <li class="fragment"><strong>Decluttering (Limpieza Visual):</strong> Elimina bordes, gridlines gruesas, y sombras que sobrecargan la mente (Carga Cognitiva).</li>
+                        <li class="fragment"><strong>Gestalt (Proximidad):</strong> Agrupa visualmente los KPIs que comparten temática (ej. Ingresos y Costos juntos).</li>
+                        <li class="fragment"><strong>Atención Dirigida:</strong> Usa color vibrante (Naranja UNAB) SOLO para resaltar alertas. Usa grises y azules marinos para lo normal.</li>
+                        <li class="fragment"><strong>Cero Gráficos 3D:</strong> Distorsionan la percepción geométrica (Nunca uses 3D Pie Charts).</li>
                     </ol>
                 </div>
             </section>
 
-            <!-- Comparación Visual -->
-            <section data-transition="convex">
-                <h2>Anatomía de un Dashboard</h2>
+            <!-- 8. Interactive Simulation (Chart.js) -->
+            <section data-transition="zoom">
+                <h2>Simulación Interactiva: Gráfico Malo vs Bueno</h2>
                 <div class="comparison">
-                    <div class="comparison-item bad-border fragment">
-                        <h3><i class="fa-solid fa-xmark" style="color: red;"></i> Dashboard Malo</h3>
-                        <ul>
-                            <li>Uso excesivo de colores brillantes (Arcoíris).</li>
-                            <li>Gráficos de torta en 3D.</li>
-                            <li>Ausencia de jerarquía (ojos no saben a dónde mirar).</li>
-                            <li>Etiquetas de ejes redundantes.</li>
-                        </ul>
+                    <!-- Bad Chart -->
+                    <div class="comparison-item bad-border">
+                        <h3><i class="fa-solid fa-xmark" style="color: red;"></i> Cluttered & Confusing</h3>
+                        <div class="chart-container">
+                            <canvas id="badChart"></canvas>
+                        </div>
+                        <p class="small-text">Demasiados colores, sin orden, líneas de cuadrícula pesadas.</p>
                     </div>
-                    <div class="comparison-item good-border fragment">
-                        <h3><i class="fa-solid fa-check" style="color: green;"></i> Dashboard Excelente</h3>
-                        <ul>
-                            <li>KPIs principales (Ingresos, Costos) arriba a la izquierda.</li>
-                            <li>Paleta de 2 colores (Azul corporativo y un color de alerta).</li>
-                            <li>Diseño limpio sin bordes de celdas pesados (Declutter).</li>
-                            <li>Gráficos de barras horizontales ordenados de mayor a menor.</li>
-                        </ul>
+                    <!-- Good Chart -->
+                    <div class="comparison-item good-border">
+                        <h3><i class="fa-solid fa-check" style="color: green;"></i> Decluttered & Clear</h3>
+                        <div class="chart-container">
+                            <canvas id="goodChart"></canvas>
+                        </div>
+                        <p class="small-text">Orden de mayor a menor, color neutro, resaltando el valor superior (Naranja).</p>
                     </div>
                 </div>
             </section>
+            
+            <!-- 9. Image Mockup Simulation -->
+            <section data-transition="slide">
+                <h2>Ejemplo Práctico: Dashboard Clean</h2>
+                <p class="small-text">Una simulación de lo que construiremos, aplicando los principios Gestalt.</p>
+                <img src="dashboard_mockup.png" alt="Clean Dashboard Mockup" style="max-height: 450px; border-radius: 10px; box-shadow: 0px 4px 15px rgba(0,0,0,0.2);">
+            </section>
 
-            <!-- Taller Pair Programming -->
+            <!-- 10. Taller Pair Programming -->
             <section data-transition="convex">
-                <h2><i class="fa-solid fa-user-group icon"></i> Taller: Análisis de Dashboards</h2>
-                <div class="box" style="font-size: 0.8em;">
+                <h2><i class="fa-solid fa-user-group icon"></i> Taller: Análisis Crítico de Dashboards</h2>
+                <div class="box">
                     <ol>
-                        <li>Abran su cuenta de <strong>GitHub</strong> y <strong>LLMNotebook</strong>.</li>
-                        <li>Busquen en internet 2 Dashboards (Uno saturado/malo y uno limpio/bueno).</li>
+                        <li>En parejas, busquen en internet 2 Dashboards (Uno saturado/malo y uno limpio/bueno).</li>
                         <li>Analicen: ¿Qué principios de Gestalt y 'Decluttering' se violan en el malo?</li>
-                        <li>¿Por qué el bueno es efectivo para tomar decisiones rápidas?</li>
-                        <li>Redacten un archivo `.md` en GitHub con sus hallazgos apoyados por IA.</li>
+                        <li>Analicen la jerarquía visual del Dashboard bueno.</li>
+                        <li>Redacten un archivo `.md` en GitHub con sus hallazgos apoyados por IA (ChatGPT / LLMNotebook).</li>
                     </ol>
+                </div>
+            </section>
+
+            <!-- 11. Conclusiones -->
+            <section data-transition="convex">
+                <h2><i class="fa-solid fa-lightbulb icon"></i> Conclusiones</h2>
+                <div class="box">
+                    <ul class="styled-list">
+                        <li class="fragment"><strong>El BI es Estratégico:</strong> No se trata de dominar la herramienta técnica (SQL/Power BI), sino de usar los datos descriptivos para tomar decisiones <strong>prescriptivas</strong>.</li>
+                        <li class="fragment"><strong>El Diseño Importa:</strong> Un Data Warehouse perfecto con consultas instantáneas puede fracasar si el Dashboard que lo presenta está saturado e incomprensible (Clutter).</li>
+                        <li class="fragment"><strong>Contexto de Negocio:</strong> Un KPI (Key Performance Indicator) solo tiene sentido si está alineado a un objetivo del negocio (Aumentar Ventas, Reducir Costos).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 12. Bibliografía -->
+            <section data-transition="convex">
+                <h2><i class="fa-solid fa-book icon"></i> Bibliografía</h2>
+                <div class="box" style="font-size: 0.75em;">
+                    <p><strong>Textos Obligatorios:</strong></p>
+                    <ul>
+                        <li>Sharda, R., Delen, D., & Turban, E. (2020). <em>Business Intelligence, Analytics, and Data Science: A Managerial Perspective</em> (4th Edition). Pearson.</li>
+                        <li>Knaflic, C. N. (2015). <em>Storytelling with Data: A Data Visualization Guide for Business Professionals</em>. Wiley.</li>
+                    </ul>
+                    <p><strong>Recursos Web y Documentación:</strong></p>
+                    <ul>
+                        <li>Repositorio de Clase: <a href="https://github.com/dudbil/Inteligencia-de-negocios-UNAB" target="_blank">GitHub - Dudbil</a></li>
+                        <li>Microsoft Data Visualization Guidelines.</li>
+                    </ul>
                 </div>
             </section>
 
@@ -179,12 +215,82 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
     <script>
+        // Inicializar Reveal.js
         Reveal.initialize({
             hash: true,
             transition: 'convex',
             controls: true,
             progress: true,
-            center: true
+            center: true,
+            margin: 0.1,
+            minScale: 0.2,
+            maxScale: 1.5
+        });
+
+        // Configurar Simulaciones Interactivas con Chart.js
+        document.addEventListener("DOMContentLoaded", function() {
+            // Bad Chart Simulation
+            const ctxBad = document.getElementById('badChart').getContext('2d');
+            new Chart(ctxBad, {
+                type: 'bar',
+                data: {
+                    labels: ['Región A', 'Región B', 'Región C', 'Región D', 'Región E'],
+                    datasets: [{
+                        label: 'Ventas 2026',
+                        data: [120, 190, 80, 210, 150],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(153, 102, 255, 0.8)'
+                        ],
+                        borderColor: 'black',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { grid: { color: 'rgba(0,0,0,0.5)', lineWidth: 2 } },
+                        x: { grid: { color: 'rgba(0,0,0,0.5)', lineWidth: 2 } }
+                    }
+                }
+            });
+
+            // Good Chart Simulation
+            const ctxGood = document.getElementById('goodChart').getContext('2d');
+            new Chart(ctxGood, {
+                type: 'bar',
+                data: {
+                    // Ordenado de mayor a menor
+                    labels: ['Región D', 'Región B', 'Región E', 'Región A', 'Región C'],
+                    datasets: [{
+                        label: 'Ventas 2026',
+                        data: [210, 190, 150, 120, 80],
+                        // Usando colores institucionales y resaltando el primero
+                        backgroundColor: [
+                            '#E85C0B', // Highlight top
+                            '#003865',
+                            '#003865',
+                            '#003865',
+                            '#003865'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }, // Quitar leyenda innecesaria
+                    scales: {
+                        y: { grid: { display: false } }, // Decluttering
+                        x: { grid: { display: false } }  // Decluttering
+                    }
+                }
+            });
         });
     </script>
 </body>
