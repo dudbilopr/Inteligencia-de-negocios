@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Introducción a la Inteligencia de Negocios</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --r-main-color: #333;
+            --r-heading-color: #003865;
+            --r-link-color: #E85C0B;
+            --r-link-color-hover: #c94b07;
+            --r-selection-background-color: #E85C0B;
+        }
+        .reveal .slide-background {
+            background-color: #f8f9fa;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+            font-weight: bold;
+        }
+        .reveal h1 { font-size: 2.5em; }
+        .highlight { color: #E85C0B; font-weight: bold; }
+        .box {
+            background: white;
+            border-left: 10px solid #003865;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        ul.styled-list li {
+            margin-bottom: 15px;
+        }
+        .icon {
+            color: #E85C0B;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Portada -->
+            <section data-transition="zoom">
+                <i class="fa-solid fa-chart-line" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px;"></i>
+                <h1>Inteligencia de <span class="highlight">Negocios</span></h1>
+                <h3>Clase 1: Introducción y Evolución</h3>
+                <p><small>Docente: Dudbil Olvasada Pabon Riaño</small></p>
+                <p><small>Universidad Autónoma de Bucaramanga</small></p>
+            </section>
+
+            <!-- Reglas de la clase -->
+            <section data-transition="convex">
+                <h2><i class="fa-solid fa-handshake icon"></i> Acuerdos de Clase</h2>
+                <div class="box">
+                    <ul class="styled-list">
+                        <li class="fragment"><i class="fa-regular fa-clock icon"></i> <strong>Puntualidad:</strong> Iniciamos 7:00 AM.</li>
+                        <li class="fragment"><i class="fa-solid fa-mug-hot icon"></i> <strong>Pausas Cognitivas:</strong> Esenciales para el enfoque.</li>
+                        <li class="fragment"><i class="fa-solid fa-earth-americas icon"></i> <strong>Espacio EMI:</strong> Inmersión en inglés (10 min).</li>
+                        <li class="fragment"><i class="fa-solid fa-robot icon"></i> <strong>Uso de IA:</strong> LLMNotebook como copiloto ético.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- EMI -->
+            <section data-transition="convex">
+                <h2>🇬🇧 EMI Strategy</h2>
+                <h3>Warm-up</h3>
+                <p>Let's play a quick interactive game to learn core <strong>Business Intelligence</strong> vocabulary.</p>
+                <br>
+                <div class="fragment box" style="border-left-color: #E85C0B;">
+                    <p><i class="fa-solid fa-laptop-code icon"></i> Go to your <strong>quiz_semana_1.html</strong> file and let's complete the exercise together!</p>
+                </div>
+            </section>
+
+            <!-- Concepto de BI -->
+            <section data-transition="convex">
+                <h2>¿Qué es la <span class="highlight">Inteligencia de Negocios</span>?</h2>
+                <div class="box">
+                    <p>Es un conjunto de <strong>estrategias, procesos, aplicaciones, datos y tecnologías</strong> que se enfocan en la administración y creación de conocimiento sobre el medio, a través del análisis de datos existentes en una organización.</p>
+                </div>
+                <p class="fragment"><i class="fa-solid fa-arrow-right icon"></i> Convierte datos crudos en <strong>información accionable</strong>.</p>
+            </section>
+
+            <!-- Evolución del BI -->
+            <section data-transition="convex">
+                <h2>Evolución del BI</h2>
+                <ul class="styled-list">
+                    <li class="fragment"><i class="fa-solid fa-server icon"></i> <strong>BI Tradicional (1.0):</strong> Generación de reportes estáticos por el departamento de TI.</li>
+                    <li class="fragment"><i class="fa-solid fa-desktop icon"></i> <strong>Self-Service BI (2.0):</strong> Analistas explorando datos con herramientas como Power BI / Tableau.</li>
+                    <li class="fragment"><i class="fa-solid fa-brain icon"></i> <strong>Augmented BI (3.0):</strong> Integración de Machine Learning y NLP para descubrir <em>insights</em> automáticamente.</li>
+                </ul>
+            </section>
+
+            <!-- Storytelling with data -->
+            <section data-transition="convex">
+                <h2><i class="fa-solid fa-book-open icon"></i> Storytelling with Data</h2>
+                <p>No basta con tener datos y gráficos; hay que saber <strong>contar una historia</strong>.</p>
+                <div class="box fragment">
+                    <ol>
+                        <li>Entiende tu contexto (Quién, Qué, Cómo).</li>
+                        <li>Elige una presentación visual apropiada.</li>
+                        <li>Elimina el desorden (Declutter).</li>
+                        <li>Dirige la atención de tu audiencia.</li>
+                        <li>Piensa como un diseñador.</li>
+                    </ol>
+                </div>
+                <p class="fragment" style="font-size: 0.8em; color: gray;">- Knaflic, C. N. (2015)</p>
+            </section>
+
+            <!-- Tipos de Datos -->
+            <section data-transition="convex">
+                <h2>Tipos de Datos</h2>
+                <div style="display: flex; justify-content: space-around; margin-top: 40px;">
+                    <div class="fragment" style="width: 45%; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 5px solid #003865;">
+                        <h3>Estructurados</h3>
+                        <p><i class="fa-solid fa-table icon"></i> Tablas, bases de datos relacionales, Excel.</p>
+                        <p><small>Fáciles de analizar y almacenar.</small></p>
+                    </div>
+                    <div class="fragment" style="width: 45%; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 5px solid #E85C0B;">
+                        <h3>No Estructurados</h3>
+                        <p><i class="fa-solid fa-file-image icon"></i> Textos, imágenes, videos, redes sociales.</p>
+                        <p><small>Requieren procesamiento avanzado (NLP, Computer Vision).</small></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Taller Pair Programming -->
+            <section data-transition="convex">
+                <h2><i class="fa-solid fa-user-group icon"></i> Taller: Pair Programming</h2>
+                <h3>Exploración de Casos de Éxito</h3>
+                <div class="box" style="font-size: 0.8em;">
+                    <ol>
+                        <li>Abran su cuenta de <strong>GitHub</strong> y <strong>LLMNotebook</strong>.</li>
+                        <li>Elijan una empresa (Netflix, Zara, Spotify, Amazon).</li>
+                        <li>Investiguen: ¿Qué datos usan? ¿Cómo toman decisiones con ellos?</li>
+                        <li>¿Cómo presentarían un <em>Dashboard</em> para esa empresa?</li>
+                        <li>Redacten un archivo `.md` en GitHub con sus hallazgos.</li>
+                    </ol>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'convex', // none/fade/slide/convex/concave/zoom
+            controls: true,
+            progress: true,
+            center: true
+        });
+    </script>
+</body>
+</html>

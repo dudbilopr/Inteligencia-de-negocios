@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz EMI - Inteligencia de Negocios</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #003865;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .quiz-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #E85C0B;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question {
+            margin-bottom: 25px;
+            font-size: 1.1em;
+        }
+        select {
+            padding: 8px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #003865;
+            color: #003865;
+            background-color: #f4f4f4;
+            margin: 0 5px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #E85C0B;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #c94b07;
+        }
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .correct { color: green; }
+        .incorrect { color: red; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>🇬🇧 Business Intelligence - EMI Warm-Up</h1>
+    <p>Complete the sentences with the correct Business Intelligence terminology:</p>
+
+    <div class="question">
+        1. A <select id="q1"><option value="">--select--</option><option value="Dashboard">Dashboard</option><option value="KPI">KPI</option><option value="Data-Driven">Data-Driven</option></select> is a measurable value that demonstrates how effectively a company is achieving key business objectives.
+    </div>
+
+    <div class="question">
+        2. A company that makes decisions based on data analysis rather than intuition is considered to be <select id="q2"><option value="">--select--</option><option value="Data Warehouse">Data Warehouse</option><option value="Data-Driven">Data-Driven</option><option value="Dashboard">Dashboard</option></select>.
+    </div>
+
+    <div class="question">
+        3. A visual display of all of your data is commonly known as a <select id="q3"><option value="">--select--</option><option value="Dashboard">Dashboard</option><option value="BI">BI</option><option value="KPI">KPI</option></select>.
+    </div>
+
+    <div class="question">
+        4. <select id="q4"><option value="">--select--</option><option value="Business Intelligence">Business Intelligence</option><option value="Data Warehouse">Data Warehouse</option><option value="Data-Driven">Data-Driven</option></select> comprises the strategies and technologies used by enterprises for the data analysis of business information.
+    </div>
+
+    <button class="btn" onclick="checkAnswers()">Check Answers</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function checkAnswers() {
+        const answers = {
+            q1: "KPI",
+            q2: "Data-Driven",
+            q3: "Dashboard",
+            q4: "Business Intelligence"
+        };
+        let score = 0;
+        let total = Object.keys(answers).length;
+
+        for (let key in answers) {
+            let userAns = document.getElementById(key).value;
+            let el = document.getElementById(key);
+            if (userAns === answers[key]) {
+                score++;
+                el.style.backgroundColor = "#d4edda";
+                el.style.borderColor = "#c3e6cb";
+            } else {
+                el.style.backgroundColor = "#f8d7da";
+                el.style.borderColor = "#f5c6cb";
+            }
+        }
+
+        let res = document.getElementById("result");
+        if (score === total) {
+            res.innerHTML = `<span class="correct">Excellent! ${score}/${total} correct answers! 🎉</span>`;
+        } else {
+            res.innerHTML = `<span class="incorrect">Keep practicing! You got ${score}/${total} correct.</span>`;
+        }
+    }
+</script>
+
+</body>
+</html>
