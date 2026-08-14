@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inteligencia de Negocios - Curso Avanzado UNAB</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Background Animated Elements (Glassmorphism Depth) -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+    <div class="bg-shape shape3"></div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content glass-panel">
+                <div class="badge">CURSO UNAB</div>
+                <h1 class="title">Inteligencia de <span class="highlight">Negocios</span></h1>
+                <p class="subtitle"><span id="typed-text"></span></p>
+                <a href="#semanas" class="btn-primary">Explorar Módulos <i class="fa-solid fa-arrow-down"></i></a>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <section id="semanas" class="module-section">
+            <h2 class="section-title">Ruta de Aprendizaje</h2>
+            <div class="grid">
+                
+                <!-- Semana 1 -->
+                <div class="card glass-panel interactive-card">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <h3>Semana 1: Introducción a la Analítica</h3>
+                    <p>Fundamentos de la Inteligencia de Negocios, toma de decisiones basada en datos y el valor estratégico de la analítica en las organizaciones modernas.</p>
+                    
+                    <div class="card-actions">
+                        <a href="Semanas/Semana_1/diapositivas_semana_1.html" class="btn-secondary">
+                            <i class="fa-solid fa-person-chalkboard"></i> Clase Interactiva
+                        </a>
+                        <a href="Semanas/Semana_1/quiz_semana_1.html" class="btn-secondary outline">
+                            <i class="fa-solid fa-gamepad"></i> Quiz EMI
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Semana 2 (Próximamente) -->
+                <div class="card glass-panel locked-card">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3>Semana 2: Modelado Dimensional</h3>
+                    <p>Próximamente: Arquitectura de datos, ETL y diseño de bases de datos para Data Warehouses (Esquema Estrella y Copo de Nieve).</p>
+                    <div class="card-actions">
+                        <span class="btn-secondary disabled"><i class="fa-solid fa-hourglass-half"></i> Bloqueado</span>
+                    </div>
+                </div>
+                
+                <!-- Semana 3 (Próximamente) -->
+                <div class="card glass-panel locked-card">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <h3>Semana 3: Visualización de Datos</h3>
+                    <p>Próximamente: Dashboards interactivos, storytelling con datos y herramientas avanzadas de reporting.</p>
+                    <div class="card-actions">
+                        <span class="btn-secondary disabled"><i class="fa-solid fa-hourglass-half"></i> Bloqueado</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- AI Disclaimer Footer -->
+    <footer class="cyber-footer glass-panel">
+        <p>
+            <i class="fa-solid fa-robot"></i> 
+            <strong>Nota:</strong> Este material educativo ha sido diseñado y estructurado con el apoyo de Inteligencia Artificial Avanzada. Está sujeto a validación humana, iteraciones y posibles errores.
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script>
+        // Animación Cyber Typing en el Hero
+        var typed = new Typed('#typed-text', {
+            strings: [
+                "Transformando Datos en Decisiones Estratégicas.",
+                "Arquitecturas Modernas, Visualización y Big Data.",
+                "El Futuro del Business Intelligence en tus manos."
+            ],
+            typeSpeed: 45,
+            backSpeed: 25,
+            backDelay: 2500,
+            loop: true,
+            cursorChar: '_'
+        });
+    </script>
+</body>
+</html>
