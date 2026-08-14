@@ -3,105 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inteligencia de Negocios - Curso Avanzado UNAB</title>
+    <title>Inteligencia de Negocios - Plataforma Virtual UNAB</title>
     <link rel="stylesheet" href="style.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Background Animated Elements (Glassmorphism Depth) -->
-    <div class="bg-shape shape1"></div>
-    <div class="bg-shape shape2"></div>
-    <div class="bg-shape shape3"></div>
-
-    <div class="container">
-        <!-- Hero Section -->
-        <header class="hero">
-            <div class="hero-content glass-panel">
-                <div class="badge">CURSO UNAB</div>
-                <h1 class="title">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <p class="subtitle"><span id="typed-text"></span></p>
-                <a href="#semanas" class="btn-primary">Explorar Módulos <i class="fa-solid fa-arrow-down"></i></a>
+    
+    <!-- Top Header / Navbar -->
+    <header class="lms-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span class="site-name">Plataforma Académica UNAB</span>
             </div>
-        </header>
-
-        <!-- Main Content -->
-        <section id="semanas" class="module-section">
-            <h2 class="section-title">Ruta de Aprendizaje</h2>
-            <div class="grid">
-                
-                <!-- Semana 1 -->
-                <div class="card glass-panel interactive-card">
-                    <div class="card-icon">
-                        <i class="fa-solid fa-network-wired"></i>
-                    </div>
-                    <h3>Semana 1: Introducción a la Analítica</h3>
-                    <p>Fundamentos de la Inteligencia de Negocios, toma de decisiones basada en datos y el valor estratégico de la analítica en las organizaciones modernas.</p>
-                    
-                    <div class="card-actions">
-                        <a href="Semanas/Semana_1/diapositivas_semana_1.html" class="btn-secondary">
-                            <i class="fa-solid fa-person-chalkboard"></i> Clase Interactiva
-                        </a>
-                        <a href="Semanas/Semana_1/quiz_semana_1.html" class="btn-secondary outline">
-                            <i class="fa-solid fa-gamepad"></i> Quiz EMI
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Semana 2 (Próximamente) -->
-                <div class="card glass-panel locked-card">
-                    <div class="card-icon">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-                    <h3>Semana 2: Modelado Dimensional</h3>
-                    <p>Próximamente: Arquitectura de datos, ETL y diseño de bases de datos para Data Warehouses (Esquema Estrella y Copo de Nieve).</p>
-                    <div class="card-actions">
-                        <span class="btn-secondary disabled"><i class="fa-solid fa-hourglass-half"></i> Bloqueado</span>
-                    </div>
-                </div>
-                
-                <!-- Semana 3 (Próximamente) -->
-                <div class="card glass-panel locked-card">
-                    <div class="card-icon">
-                        <i class="fa-solid fa-chart-pie"></i>
-                    </div>
-                    <h3>Semana 3: Visualización de Datos</h3>
-                    <p>Próximamente: Dashboards interactivos, storytelling con datos y herramientas avanzadas de reporting.</p>
-                    <div class="card-actions">
-                        <span class="btn-secondary disabled"><i class="fa-solid fa-hourglass-half"></i> Bloqueado</span>
-                    </div>
-                </div>
-
+            <div class="user-area">
+                <span>Inteligencia de Negocios</span>
             </div>
-        </section>
-    </div>
+        </div>
+    </header>
 
-    <!-- AI Disclaimer Footer -->
-    <footer class="cyber-footer glass-panel">
-        <p>
-            <i class="fa-solid fa-robot"></i> 
-            <strong>Nota:</strong> Este material educativo ha sido diseñado y estructurado con el apoyo de Inteligencia Artificial Avanzada. Está sujeto a validación humana, iteraciones y posibles errores.
-        </p>
+    <!-- Breadcrumb / Course Header -->
+    <section class="course-banner">
+        <div class="container">
+            <h1>Inteligencia de Negocios y Analítica de Datos</h1>
+            <p>Maestría / Especialización - Facilitador: Dudbil Olvasada</p>
+        </div>
+    </section>
+
+    <main class="container main-content">
+        
+        <!-- General Information Block -->
+        <div class="topic-block general-block">
+            <div class="topic-header">
+                <h2>Información General del Curso</h2>
+            </div>
+            <div class="topic-content">
+                <p class="topic-description">Bienvenidos al curso. En este espacio encontrarán todo el material estructurado semana a semana, incluyendo diapositivas, videos, guías y talleres prácticos.</p>
+                <ul class="resource-list">
+                    <li>
+                        <a href="#" class="resource-link">
+                            <i class="fa-solid fa-file-pdf resource-icon pdf-icon"></i>
+                            <span class="resource-text">Syllabus y Plan de Curso (PDF)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="resource-link">
+                            <i class="fa-solid fa-comments resource-icon forum-icon"></i>
+                            <span class="resource-text">Foro de Dudas y Presentación</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Semana 1 -->
+        <div class="topic-block">
+            <div class="topic-header">
+                <h2>Semana 1: Introducción a la Analítica y Arquitectura</h2>
+                <span class="topic-date">Módulo Base</span>
+            </div>
+            <div class="topic-content">
+                <p class="topic-description">Fundamentos de la Inteligencia de Negocios, toma de decisiones basada en datos y el valor estratégico de la analítica en las organizaciones modernas.</p>
+                
+                <h3 class="resource-category">Recursos de Aprendizaje</h3>
+                <ul class="resource-list">
+                    <li>
+                        <a href="Semanas/Semana_1/diapositivas_semana_1.html" class="resource-link">
+                            <i class="fa-solid fa-person-chalkboard resource-icon ppt-icon"></i>
+                            <span class="resource-text">Clase Interactiva: Introducción a BI</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="resource-link">
+                            <i class="fa-solid fa-file-pdf resource-icon pdf-icon"></i>
+                            <span class="resource-text">Guía de Aprendizaje - Semana 1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="resource-link">
+                            <i class="fa-brands fa-youtube resource-icon video-icon"></i>
+                            <span class="resource-text">Grabación de la Sesión Sincrónica</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <h3 class="resource-category">Actividades Evaluativas</h3>
+                <ul class="resource-list">
+                    <li>
+                        <a href="Semanas/Semana_1/quiz_semana_1.html" class="resource-link">
+                            <i class="fa-solid fa-gamepad resource-icon quiz-icon"></i>
+                            <span class="resource-text">Quiz Interactivo (EMI) - Semana 1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="resource-link">
+                            <i class="fa-solid fa-file-arrow-up resource-icon assignment-icon"></i>
+                            <span class="resource-text">Taller Práctico: Modelado Básico (Entrega)</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Semana 2 -->
+        <div class="topic-block">
+            <div class="topic-header">
+                <h2>Semana 2: Modelado Dimensional (Próximamente)</h2>
+            </div>
+            <div class="topic-content locked-content">
+                <p class="topic-description">Arquitectura de datos, ETL y diseño de bases de datos para Data Warehouses (Esquema Estrella y Copo de Nieve).</p>
+                <div class="locked-message">
+                    <i class="fa-solid fa-lock"></i> Este módulo aún no está disponible.
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="lms-footer">
+        <div class="container">
+            <p>
+                <i class="fa-solid fa-robot"></i> 
+                <strong>Nota:</strong> Plataforma estructurada y diseñada con apoyo de Inteligencia Artificial Avanzada. Sujeto a revisión.
+            </p>
+        </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script>
-        // Animación Cyber Typing en el Hero
-        var typed = new Typed('#typed-text', {
-            strings: [
-                "Transformando Datos en Decisiones Estratégicas.",
-                "Arquitecturas Modernas, Visualización y Big Data.",
-                "El Futuro del Business Intelligence en tus manos."
-            ],
-            typeSpeed: 45,
-            backSpeed: 25,
-            backDelay: 2500,
-            loop: true,
-            cursorChar: '_'
-        });
-    </script>
 </body>
 </html>
