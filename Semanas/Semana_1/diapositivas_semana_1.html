@@ -160,22 +160,30 @@
             <!-- 2. Agenda (Grid Layout) -->
             <section data-transition="slide">
                 <h2 class="text-left"><i class="fa-solid fa-route icon"></i> Hoja de Ruta</h2>
-                <div class="grid-layout">
-                    <div class="grid-card fragment fade-up">
-                        <h4><i class="fa-solid fa-handshake icon"></i> 1. Acuerdos</h4>
-                        <p class="small-text">Reglas, horarios y descansos cognitivos.</p>
+                <div class="grid-layout" style="grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div class="grid-card fragment fade-up" style="padding: 15px;">
+                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-handshake icon"></i> 1. Acuerdos</h4>
+                        <p class="small-text">Reglas y EMI Warm-Up.</p>
                     </div>
-                    <div class="grid-card fragment fade-up">
-                        <h4><i class="fa-solid fa-earth-americas icon"></i> 2. EMI Warm-Up</h4>
-                        <p class="small-text">Vocabulario técnico y simulación en inglés.</p>
+                    <div class="grid-card fragment fade-up" style="padding: 15px;">
+                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-brain icon"></i> 2. Ecosistema</h4>
+                        <p class="small-text">Conceptos y Evolución histórica.</p>
                     </div>
-                    <div class="grid-card fragment fade-up">
-                        <h4><i class="fa-solid fa-network-wired icon"></i> 3. Ecosistema BI</h4>
-                        <p class="small-text">Bases de datos, ETL, Analítica e Insights.</p>
+                    <div class="grid-card fragment fade-up" style="padding: 15px;">
+                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-sitemap icon"></i> 3. Arquitectura</h4>
+                        <p class="small-text">Sistemas OLTP y procesos ETL.</p>
                     </div>
-                    <div class="grid-card fragment fade-up">
-                        <h4><i class="fa-solid fa-palette icon"></i> 4. Storytelling visual</h4>
-                        <p class="small-text">Principios Gestalt, Decluttering y visualizaciones.</p>
+                    <div class="grid-card fragment fade-up" style="padding: 15px;">
+                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-palette icon"></i> 4. Storytelling</h4>
+                        <p class="small-text">Principios Gestalt y Decluttering.</p>
+                    </div>
+                    <div class="grid-card fragment fade-up" style="padding: 15px;">
+                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-laptop-code icon"></i> 5. Taller</h4>
+                        <p class="small-text">Pair Programming de Dashboards.</p>
+                    </div>
+                    <div class="grid-card fragment fade-up" style="padding: 15px;">
+                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-flag-checkered icon"></i> 6. Cierre</h4>
+                        <p class="small-text">Glosario y Conclusiones.</p>
                     </div>
                 </div>
             </section>
@@ -277,20 +285,20 @@
                     </div>
                     <div class="split-right">
                         <!-- High Impact CSS Flowchart -->
-                        <div style="display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%;">
-                            <div class="grid-card" style="width: 80%; text-align: center; background: #f4f6f9; border: 2px dashed #003865;">
-                                <i class="fa-solid fa-server" style="font-size: 2em; color: #003865;"></i><br>
-                                <strong>1. Fuentes OLTP</strong>
+                        <div style="display: flex; flex-direction: column; gap: 5px; align-items: center; width: 100%;">
+                            <div class="grid-card" style="width: 80%; text-align: center; background: #f4f6f9; border: 2px dashed #003865; padding: 10px;">
+                                <i class="fa-solid fa-server" style="font-size: 1.5em; color: #003865;"></i><br>
+                                <strong style="font-size: 0.9em;">1. Fuentes OLTP</strong>
                             </div>
-                            <i class="fa-solid fa-arrow-down" style="font-size: 2em; color: #E85C0B;"></i>
-                            <div class="grid-card" style="width: 80%; text-align: center; background: linear-gradient(135deg, #E85C0B 0%, #c94b07 100%); color: white;">
-                                <i class="fa-solid fa-filter" style="font-size: 2em; color: white;"></i><br>
-                                <strong>2. Proceso ETL</strong>
+                            <i class="fa-solid fa-arrow-down" style="font-size: 1.2em; color: #E85C0B;"></i>
+                            <div class="grid-card" style="width: 80%; text-align: center; background: linear-gradient(135deg, #E85C0B 0%, #c94b07 100%); color: white; padding: 10px;">
+                                <i class="fa-solid fa-filter" style="font-size: 1.5em; color: white;"></i><br>
+                                <strong style="font-size: 0.9em;">2. Proceso ETL</strong>
                             </div>
-                            <i class="fa-solid fa-arrow-down" style="font-size: 2em; color: #003865;"></i>
-                            <div class="grid-card" style="width: 80%; text-align: center; background: linear-gradient(135deg, #003865 0%, #001f3f 100%); color: white;">
-                                <i class="fa-solid fa-cubes" style="font-size: 2em; color: white;"></i><br>
-                                <strong>3. Data Warehouse (OLAP)</strong>
+                            <i class="fa-solid fa-arrow-down" style="font-size: 1.2em; color: #003865;"></i>
+                            <div class="grid-card" style="width: 80%; text-align: center; background: linear-gradient(135deg, #003865 0%, #001f3f 100%); color: white; padding: 10px;">
+                                <i class="fa-solid fa-cubes" style="font-size: 1.5em; color: white;"></i><br>
+                                <strong style="font-size: 0.9em;">3. Data Warehouse (OLAP)</strong>
                             </div>
                         </div>
                     </div>
