@@ -353,9 +353,65 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
     <script>
-        // Inicializar Mermaid con tema base para adaptar colores
+        // Configurar Simulaciones Interactivas con Chart.js
+        function initCharts() {
+            const ctxBad = document.getElementById('badChart');
+            if (ctxBad) {
+                new Chart(ctxBad.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Norte', 'Sur', 'Este', 'Oeste', 'Centro'],
+                        datasets: [{
+                            label: 'Ventas 2026',
+                            data: [120, 190, 80, 210, 150],
+                            backgroundColor: ['red','blue','yellow','green','purple'],
+                            borderColor: 'black',
+                            borderWidth: 3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { grid: { color: 'rgba(0,0,0,1)', lineWidth: 3 } },
+                            x: { grid: { color: 'rgba(0,0,0,1)', lineWidth: 3 } }
+                        }
+                    }
+                });
+            }
+
+            const ctxGood = document.getElementById('goodChart');
+            if (ctxGood) {
+                new Chart(ctxGood.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Oeste', 'Sur', 'Centro', 'Norte', 'Este'],
+                        datasets: [{
+                            label: 'Ventas 2026',
+                            data: [210, 190, 150, 120, 80],
+                            backgroundColor: ['#E85C0B', '#003865', '#003865', '#003865', '#003865'],
+                            borderWidth: 0,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { grid: { display: false }, border: { display: false } },
+                            x: { grid: { display: false }, border: { display: false }, display: false }
+                        },
+                        animation: { duration: 2000, easing: 'easeOutBounce' }
+                    }
+                });
+            }
+        }
+
+        // Inicializar Mermaid SIN startOnLoad
         mermaid.initialize({ 
-            startOnLoad: true, 
+            startOnLoad: false, 
             theme: 'base',
             themeVariables: {
                 primaryColor: '#ffffff',
@@ -367,70 +423,30 @@
             }
         });
 
-        // Inicializar Reveal.js con total responsividad
-        Reveal.initialize({
-            hash: true,
-            transition: 'slide',
-            controls: true,
-            progress: true,
-            center: true,
-            width: "100%",
-            height: "100%",
-            margin: 0.05,
-            minScale: 0.5,
-            maxScale: 2.0
-        });
-
-        // Configurar Simulaciones Interactivas con Chart.js
-        document.addEventListener("DOMContentLoaded", function() {
-            const ctxBad = document.getElementById('badChart').getContext('2d');
-            new Chart(ctxBad, {
-                type: 'bar',
-                data: {
-                    labels: ['Norte', 'Sur', 'Este', 'Oeste', 'Centro'],
-                    datasets: [{
-                        label: 'Ventas 2026',
-                        data: [120, 190, 80, 210, 150],
-                        backgroundColor: ['red','blue','yellow','green','purple'],
-                        borderColor: 'black',
-                        borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: { grid: { color: 'rgba(0,0,0,1)', lineWidth: 3 } },
-                        x: { grid: { color: 'rgba(0,0,0,1)', lineWidth: 3 } }
-                    }
-                }
+        // Asegurarnos que Mermaid renderice TODO antes de que Reveal.js oculte las diapositivas
+        document.addEventListener("DOMContentLoaded", async function() {
+            try {
+                await mermaid.run({ querySelector: '.mermaid' });
+            } catch(e) {
+                console.error("Mermaid render error:", e);
+            }
+            
+            // Inicializar Reveal.js DESPUÉS de Mermaid
+            Reveal.initialize({
+                hash: true,
+                transition: 'slide',
+                controls: true,
+                progress: true,
+                center: true,
+                width: "100%",
+                height: "100%",
+                margin: 0.05,
+                minScale: 0.5,
+                maxScale: 2.0
             });
 
-            const ctxGood = document.getElementById('goodChart').getContext('2d');
-            new Chart(ctxGood, {
-                type: 'bar',
-                data: {
-                    labels: ['Oeste', 'Sur', 'Centro', 'Norte', 'Este'],
-                    datasets: [{
-                        label: 'Ventas 2026',
-                        data: [210, 190, 150, 120, 80],
-                        backgroundColor: ['#E85C0B', '#003865', '#003865', '#003865', '#003865'],
-                        borderWidth: 0,
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { display: false }, border: { display: false } },
-                        x: { grid: { display: false }, border: { display: false }, display: false }
-                    },
-                    animation: { duration: 2000, easing: 'easeOutBounce' }
-                }
-            });
+            // Inicializar gráficos
+            initCharts();
         });
     </script>
 </body>
