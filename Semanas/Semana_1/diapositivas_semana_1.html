@@ -42,25 +42,48 @@
             justify-content: space-between;
             align-items: center;
             height: 100%;
-            gap: 20px;
+            gap: 30px;
         }
         .split-left, .split-right { width: 48%; }
         
         .grid-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
             margin-top: 20px;
         }
         .grid-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
             border-top: 5px solid var(--unab-blue);
             text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grid-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.2), 0 5px 15px rgba(0,0,0,0.1);
         }
         
+        /* Floating / Glassmorphism effect for Diagrams */
+        .mermaid {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            margin: 15px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .mermaid:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.2), 0 5px 15px rgba(0,0,0,0.1);
+        }
+
         /* Text & Typography */
         .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
         .reveal h1 { font-size: 2.8em; }
@@ -74,19 +97,36 @@
             background: linear-gradient(135deg, #003865 0%, #005091 100%);
             color: white;
             padding: 15px 25px;
-            border-radius: 8px;
+            border-radius: 12px;
             border-left: 8px solid var(--unab-orange);
             font-size: 0.7em;
             text-align: left;
             margin: 20px 0;
-            box-shadow: 0 10px 20px rgba(0,56,101,0.2);
+            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
+            transition: transform 0.3s ease;
+        }
+        .pro-tip:hover {
+            transform: scale(1.02);
         }
         .pro-tip i { color: var(--unab-orange); margin-right: 10px; font-size: 1.2em; }
         
         ul.styled-list li { margin-bottom: 12px; font-size: 0.8em; }
         .icon { color: var(--unab-orange); margin-right: 15px; }
         
-        .chart-container { position: relative; height: 350px; width: 100%; }
+        .chart-container { 
+            position: relative; 
+            height: 350px; 
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15);
+            transition: transform 0.3s ease;
+        }
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.2);
+        }
         
         /* Dark Mode Slide */
         .dark-slide {
@@ -109,8 +149,8 @@
 
             <!-- 1. Portada (High Impact Full View) -->
             <section data-transition="zoom" class="dark-slide">
-                <i class="fa-solid fa-bolt" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1>Inteligencia de <span class="highlight">Negocios</span></h1>
+                <i class="fa-solid fa-bolt" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(232,92,11,0.5));"></i>
+                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
                 <h3>Clase 1: Evolución, Ecosistema y Diseño</h3>
                 <br>
                 <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
@@ -131,20 +171,20 @@
                     </div>
                     <div class="grid-card fragment fade-up">
                         <h4><i class="fa-solid fa-network-wired icon"></i> 3. Ecosistema BI</h4>
-                        <p class="small-text">Mind maps: Data Warehouse, ETL, Analítica.</p>
+                        <p class="small-text">Bases de datos, ETL, Analítica e Insights.</p>
                     </div>
                     <div class="grid-card fragment fade-up">
                         <h4><i class="fa-solid fa-palette icon"></i> 4. Storytelling visual</h4>
-                        <p class="small-text">Principios Gestalt, Decluttering y ejemplos vivos.</p>
+                        <p class="small-text">Principios Gestalt, Decluttering y visualizaciones.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- 3. Mapa Mental (Mermaid) - Qué es BI -->
+            <!-- 3. Diagrama (Mermaid) - Qué es BI -->
             <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-brain icon"></i> Mapa Mental: Analítica</h2>
+                <h2 class="text-left"><i class="fa-solid fa-brain icon"></i> Ecosistema Analítico</h2>
                 <div class="pro-tip">
-                    <i class="fa-solid fa-lightbulb"></i> <strong>Pro-Tip:</strong> El BI no es una herramienta (como Power BI). Es un ecosistema completo orientado a tomar decisiones.
+                    <i class="fa-solid fa-lightbulb"></i> <strong>Pro-Tip:</strong> El BI no es una herramienta aislada. Es un ecosistema vivo orientado a conectar el dato con la acción corporativa.
                 </div>
                 <div class="mermaid">
                     mindmap
@@ -152,13 +192,10 @@
                         Analítica
                           Descriptiva
                             (¿Qué pasó?)
-                            Reportes Históricos
                           Predictiva
                             (¿Qué pasará?)
-                            Machine Learning
                           Prescriptiva
                             (¿Qué hacer?)
-                            Optimización
                         Tecnología
                           ETL
                           Data Warehouse
@@ -171,36 +208,35 @@
 
             <!-- 4. Timeline (Mermaid) - Evolución del BI -->
             <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-timeline icon"></i> Evolución Histórica</h2>
+                <h2 class="text-left"><i class="fa-solid fa-timeline icon"></i> Evolución de los Datos</h2>
                 <div class="mermaid">
                     timeline
-                        title Historia del BI
-                        1980s : Sistemas de Soporte a Decisiones (DSS) : Reportes estáticos IT
-                        1990s : Data Warehousing (Bill Inmon) : OLAP y Minería de Datos
-                        2000s : BI Tradicional : Dashboards corporativos pesados
-                        2010s : Self-Service BI : Tableau, Power BI : Democratización de datos
-                        2020s : Augmented BI : IA Generativa, Predicciones en tiempo real
+                        title Hitos Históricos
+                        1980s : Sistemas DSS : Reportes estáticos IT
+                        1990s : Data Warehousing : OLAP y Minería de Datos
+                        2000s : BI Tradicional : Dashboards Corporativos
+                        2010s : Self-Service BI : Democratización del Dato
+                        2020s : Augmented BI : IA Predictiva
                 </div>
             </section>
 
-            <!-- 5. Split Screen - Glosario Técnico y Cuadro Sinóptico -->
+            <!-- 5. Split Screen - Flujo Arquitectura -->
             <section data-transition="fade">
-                <h2 class="text-left">Cuadro Sinóptico: Arquitectura Base</h2>
+                <h2 class="text-left"><i class="fa-solid fa-sitemap icon"></i> Arquitectura Base (ETL y OLAP)</h2>
                 <div class="split-screen">
                     <div class="split-left text-left">
                         <ul class="styled-list">
-                            <li class="fragment"><strong>Fuentes (OLTP):</strong> Datos sucios, ERP, Excel, Cajas registradoras. Hechos para rapidez, no para análisis.</li>
-                            <li class="fragment"><strong>ETL:</strong> Extraer, Transformar y Cargar. El paso más doloroso pero el más importante.</li>
-                            <li class="fragment"><strong>Data Warehouse:</strong> Repositorio limpio y estructurado (OLAP).</li>
-                            <li class="fragment"><strong>Visualización:</strong> Power BI / Dashboards interactivos.</li>
+                            <li class="fragment"><strong>Fuentes (OLTP):</strong> Datos crudos y transaccionales (Ej. Cajas registradoras, Excel). Optimizados para escritura.</li>
+                            <li class="fragment"><strong>ETL:</strong> Extraer, Transformar y Cargar. El filtro crítico de limpieza de datos.</li>
+                            <li class="fragment"><strong>Data Warehouse:</strong> Repositorio consolidado y confiable para lectura rápida (OLAP).</li>
+                            <li class="fragment"><strong>Visualización:</strong> Consumo de insights mediante métricas accionables.</li>
                         </ul>
                     </div>
                     <div class="split-right">
-                        <!-- Flujograma horizontal -->
                         <div class="mermaid">
                             graph LR
-                                A[(OLTP / APIs)] -->|Extract| B(Transformación)
-                                B -->|Load| C[(Data Warehouse)]
+                                A[(OLTP)] -->|Extracción| B(Limpieza / Transformación)
+                                B -->|Carga| C[(Data Warehouse)]
                                 C --> D{Dashboards}
                                 style B fill:#E85C0B,stroke:#333,stroke-width:2px,color:#fff
                                 style C fill:#003865,stroke:#333,stroke-width:2px,color:#fff
@@ -211,26 +247,26 @@
 
             <!-- 6. Dark Slide Impact: Storytelling -->
             <section data-transition="zoom" class="dark-slide">
-                <h1 style="font-size: 4em;">Storytelling</h1>
-                <h2 style="color: #E85C0B;">with Data</h2>
-                <p>No se trata de mostrar números. Se trata de contar una historia que obligue al negocio a tomar acción.</p>
+                <h1 style="font-size: 4em; text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Storytelling</h1>
+                <h2 style="color: #E85C0B; text-shadow: 0 5px 15px rgba(232,92,11,0.3);">with Data</h2>
+                <p>No se trata de graficar números. Se trata de contar una historia que obligue al negocio a tomar acción.</p>
             </section>
 
             <!-- 7. Simulación Viva: Gráficos -->
             <section data-transition="slide">
-                <h2 class="text-left">Ejemplo Vivo: El problema del "Clutter"</h2>
-                <p class="small-text text-left">Presiona para ver cómo el diseño cambia la percepción cognitiva.</p>
+                <h2 class="text-left"><i class="fa-solid fa-chart-pie icon"></i> El Problema del "Clutter" Visual</h2>
+                <p class="small-text text-left">Observa cómo la reducción de ruido y la Gestalt mejoran la comprensión.</p>
                 
                 <div class="split-screen">
                     <div class="split-left">
-                        <h4 style="color: red; text-align: left;">Saturado (Malo)</h4>
-                        <div class="chart-container">
+                        <h4 style="color: #dc3545; text-align: left; text-shadow: 0 2px 5px rgba(220,53,69,0.3);">Saturado y Confuso</h4>
+                        <div class="chart-container" style="border-top: 5px solid #dc3545;">
                             <canvas id="badChart"></canvas>
                         </div>
                     </div>
                     <div class="split-right">
-                        <h4 style="color: green; text-align: left;" class="fragment" data-fragment-index="1">Limpio (Gestalt)</h4>
-                        <div class="chart-container fragment" data-fragment-index="1">
+                        <h4 style="color: #28a745; text-align: left; text-shadow: 0 2px 5px rgba(40,167,69,0.3);" class="fragment" data-fragment-index="1">Limpio y Jerarquizado</h4>
+                        <div class="chart-container fragment" data-fragment-index="1" style="border-top: 5px solid #28a745;">
                             <canvas id="goodChart"></canvas>
                         </div>
                     </div>
@@ -239,23 +275,23 @@
             
             <!-- 8. Mockup / High fidelity example -->
             <section data-transition="slide">
-                <h2>El Meta del Curso: Dashboard Minimalista</h2>
-                <p class="small-text">Visualización alineada a KPIs sin basura visual (Eliminando 3D y bordes gruesos).</p>
-                <img src="dashboard_mockup.png" alt="Clean Dashboard" style="max-height: 400px; width: auto; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
+                <h2>El Objetivo: Interfaz Minimalista</h2>
+                <p class="small-text">Visualización libre de ruido visual, priorizando el dato y la toma de decisiones.</p>
+                <img src="dashboard_mockup.png" alt="Clean Dashboard" style="max-height: 400px; width: auto; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,56,101,0.3); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             </section>
 
             <!-- 9. Taller (Pro-Tip) -->
             <section data-transition="convex">
                 <h2 class="text-left"><i class="fa-solid fa-code icon"></i> Taller: Pair Programming</h2>
                 <div class="pro-tip">
-                    <i class="fa-solid fa-robot"></i> <strong>Pro-Tip:</strong> Utilicen LLMNotebook como asistente crítico. Pídanle que evalúe si el Dashboard que encontraron cumple con los principios de la Gestalt.
+                    <i class="fa-solid fa-robot"></i> <strong>Pro-Tip:</strong> Utilicen asistentes LLM como copilot crítico. Pregúntenles si el diseño del tablero evaluado cumple los lineamientos de *Storytelling with Data*.
                 </div>
-                <div class="box scrollable">
-                    <ol>
+                <div class="grid-card scrollable">
+                    <ol style="margin-left: 20px;">
                         <li>En parejas, busquen en internet 2 Dashboards reales.</li>
-                        <li>Analicen la carga cognitiva del malo. ¿Qué removerían?</li>
-                        <li>Identifiquen la jerarquía visual del bueno. ¿Qué atrae su ojo primero?</li>
-                        <li>Documenten en Markdown y suban a GitHub.</li>
+                        <li>Analicen la carga cognitiva del tablero deficiente. ¿Qué elementos removerían?</li>
+                        <li>Identifiquen la jerarquía visual del tablero efectivo. ¿A dónde viaja el ojo primero?</li>
+                        <li>Documenten en Markdown y suban a GitHub su conclusión analítica.</li>
                     </ol>
                 </div>
             </section>
@@ -265,8 +301,19 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
     <script>
-        // Inicializar Mermaid
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+        // Inicializar Mermaid con tema base para adaptar colores
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#333333',
+                primaryBorderColor: '#003865',
+                lineColor: '#003865',
+                secondaryColor: '#E85C0B',
+                tertiaryColor: '#f4f6f9'
+            }
+        });
 
         // Inicializar Reveal.js con total responsividad
         Reveal.initialize({
@@ -316,7 +363,8 @@
                         label: 'Ventas 2026',
                         data: [210, 190, 150, 120, 80],
                         backgroundColor: ['#E85C0B', '#003865', '#003865', '#003865', '#003865'],
-                        borderWidth: 0
+                        borderWidth: 0,
+                        borderRadius: 6
                     }]
                 },
                 options: {
