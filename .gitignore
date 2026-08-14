@@ -1,5 +1,2 @@
 # Material Institucional y Privado
-*.docx
-*.pdf
-*.pptx
-!Semanas/**/*.pptx
+# Puedes subir tus propios archivos DOCX, PDF y PPTX de forma manual.
