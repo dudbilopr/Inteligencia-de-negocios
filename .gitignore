@@ -1,0 +1,5 @@
+# Material Institucional y Privado
+*.docx
+*.pdf
+*.pptx
+!Semanas/**/*.pptx
