@@ -21,6 +21,13 @@ Desarrollar la capacidad de transformar datos en información útil para la toma
   - [Actividad EMI - Warm Up](Semanas/Semana_1/quiz_semana_1.html)
   - Presentación PPTX disponible en la carpeta local.
 
+### Unidad 2: Modelado e Integración de Datos
+
+- **[Semana 2: Modelado Relacional y ETL](Semanas/Semana_2/)**
+  - [Presentación Interactiva HTML](Semanas/Semana_2/diapositivas_semana_2.html)
+  - [Actividad EMI - Warm Up](Semanas/Semana_2/quiz_semana_2.html)
+  - [Taller de Pair Programming (Colab)](Semanas/Semana_2/Colab_Guiado_Semana2.ipynb)
+
 ---
 
 *Nota para el estudiante: Asegúrate de clonar o descargar este repositorio para tener acceso a los recursos y archivos requeridos durante las sesiones de taller.*

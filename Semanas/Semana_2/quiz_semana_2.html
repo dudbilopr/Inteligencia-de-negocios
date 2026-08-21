@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz EMI - Inteligencia de Negocios - Semana 2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #003865;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .quiz-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 650px;
+            width: 100%;
+        }
+        h1 {
+            color: #E85C0B;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question {
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        select {
+            padding: 8px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #003865;
+            color: #003865;
+            background-color: #f4f4f4;
+            margin: 0 5px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #E85C0B;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #c94b07;
+        }
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .correct { color: green; }
+        .incorrect { color: red; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>🇬🇧 Data Modeling - EMI Warm-Up</h1>
+    <p>Complete the sentences with the correct terminology for Data Integration and Modeling:</p>
+
+    <div class="question">
+        1. The process of gathering data from multiple sources, cleaning it, and loading it into a destination is called <select id="q1"><option value="">--select--</option><option value="ETL">ETL</option><option value="SQL">SQL</option><option value="Foreign Key">Foreign Key</option></select> (Extract, Transform, Load).
+    </div>
+
+    <div class="question">
+        2. A <select id="q2"><option value="">--select--</option><option value="Data Lake">Data Lake</option><option value="Primary Key">Primary Key</option><option value="Relational Database">Relational Database</option></select> is a unique identifier for a specific record in a database table.
+    </div>
+
+    <div class="question">
+        3. When we want to combine data from two or more tables based on a related column, we use a <select id="q3"><option value="">--select--</option><option value="Query">Query</option><option value="Join">Join</option><option value="Dashboard">Dashboard</option></select> operation.
+    </div>
+
+    <div class="question">
+        4. A <select id="q4"><option value="">--select--</option><option value="Star Schema">Star Schema</option><option value="Data Cleansing">Data Cleansing</option><option value="Foreign Key">Foreign Key</option></select> is a column in one table that links to the primary key of another table, establishing a relationship.
+    </div>
+
+    <div class="question">
+        5. Removing duplicates, handling missing values, and formatting dates correctly are all part of <select id="q5"><option value="">--select--</option><option value="Data Cleansing">Data Cleansing</option><option value="Data Warehousing">Data Warehousing</option><option value="Star Schema">Star Schema</option></select>.
+    </div>
+
+    <button class="btn" onclick="checkAnswers()">Check Answers</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function checkAnswers() {
+        const answers = {
+            q1: "ETL",
+            q2: "Primary Key",
+            q3: "Join",
+            q4: "Foreign Key",
+            q5: "Data Cleansing"
+        };
+        let score = 0;
+        let total = Object.keys(answers).length;
+
+        for (let key in answers) {
+            let userAns = document.getElementById(key).value;
+            let el = document.getElementById(key);
+            if (userAns === answers[key]) {
+                score++;
+                el.style.backgroundColor = "#d4edda";
+                el.style.borderColor = "#c3e6cb";
+            } else {
+                el.style.backgroundColor = "#f8d7da";
+                el.style.borderColor = "#f5c6cb";
+            }
+        }
+
+        let res = document.getElementById("result");
+        if (score === total) {
+            res.innerHTML = `<span class="correct">Excellent! ${score}/${total} correct answers!</span>`;
+        } else {
+            res.innerHTML = `<span class="incorrect">Keep practicing! You got ${score}/${total} correct.</span>`;
+        }
+    }
+</script>
+
+</body>
+</html>
