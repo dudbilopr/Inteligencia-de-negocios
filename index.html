@@ -269,10 +269,23 @@
         let userProgress = [];
         
         const syllabus = [
-            { b: "Unidad 1: Introducción a la Inteligencia de Negocios", w: 1, t: "Introducción, Evolución y Conceptos Básicos", d: "Fundamentos de BI y toma de decisiones basadas en datos.", type: "class" },
-            { b: "Unidad 2: Modelado e Integración de Datos", w: 2, t: "Modelado Relacional y ETL", d: "Conexiones, SQL, Esquema Estrella y Python Pandas.", type: "class" },
-            { b: "Unidad 3: Diseño y Visualizaciones", w: 3, t: "Principios de visualización y Dashboards", d: "Diseño efectivo de reportes interactivos (Próximamente).", type: "class" },
-            { b: "Unidad 4: Storytelling con Datos", w: 4, t: "Narrativa y toma de decisiones", d: "Comunicación de hallazgos a públicos no técnicos (Próximamente).", type: "class" }
+            { b: "Unidad 1: Concepto, Evolución y Fuentes", w: 1, t: "Concepto y evolución de BI; toma de decisiones", d: "Reto inicial sobre decisiones empresariales basadas en datos.", type: "class" },
+            { b: "Unidad 1: Concepto, Evolución y Fuentes", w: 2, t: "Tipos de datos, fuentes y fundamentos de KPI", d: "Exploración de fuentes y definición preliminar de problemas y KPIs.", type: "class" },
+            
+            { b: "Unidad 2: Modelado e Integración de Datos", w: 3, t: "Conexiones a BD, transformación y limpieza", d: "Diagnóstico de calidad y estructura. Primera aproximación a Power Query.", type: "class" },
+            { b: "Unidad 2: Modelado e Integración de Datos", w: 4, t: "Transformación en Power BI (Power Query)", d: "Laboratorio de limpieza, transformación y preparación.", type: "class" },
+            { b: "Unidad 2: Modelado e Integración de Datos", w: 5, t: "Modelado relacional y diagramas ER", d: "Construcción de modelos en estrella. Identificación de entidades y relaciones.", type: "class" },
+            { b: "Unidad 2: Modelado e Integración de Datos", w: 6, t: "Principios SQL y modelos escalables", d: "Taller aplicado de relaciones y estructura del modelo. Evaluación 1.", type: "class" },
+            
+            { b: "Unidad 3: Visualización Efectiva", w: 7, t: "Principios de visualización y KPI", d: "Laboratorio de selección de visualizaciones según pregunta y audiencia.", type: "class" },
+            { b: "Unidad 3: Visualización Efectiva", w: 8, t: "Reportes interactivos: filtros y drill-down", d: "Taller de construcción del dashboard del Proyecto 1.", type: "class" },
+            { b: "Unidad 3: Visualización Efectiva", w: 9, t: "Integración de datos y cierre del Proyecto 1", d: "Presentación individual: problema, datos, modelo, KPI y dashboard.", type: "class" },
+            { b: "Unidad 3: Visualización Efectiva", w: 10, t: "Automatización de actualización dinámica", d: "Laboratorio aplicado de conexiones y actualización. Quiz 2.", type: "class" },
+            
+            { b: "Unidad 4: Comunicación y Storytelling", w: 11, t: "Comunicación de resultados y narrativa visual", d: "Introducción al storytelling con datos. Análisis de audiencia.", type: "class" },
+            { b: "Unidad 4: Comunicación y Storytelling", w: 12, t: "Lenguaje y formato para públicos; Casos BI", d: "Lanzamiento del Proyecto 2. Selección de problema y validación.", type: "class" },
+            { b: "Unidad 4: Comunicación y Storytelling", w: 13, t: "Presentación de informes ejecutivos (Lab)", d: "Laboratorio Proyecto 2: análisis, dashboard, narrativa e informe.", type: "class" },
+            { b: "Unidad 4: Comunicación y Storytelling", w: 14, t: "Storytelling y toma de decisiones final", d: "Presentación final individual del Proyecto 2. Sustentación de hallazgos.", type: "class" }
         ];
 
         function renderSidebar() {
@@ -378,17 +391,17 @@
                             <div id="content-lab" class="tab-content p-0">
                                 <div class="p-6 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center bg-gray-50 dark:bg-slate-800/50 flex-wrap gap-4">
                                     <div>
-                                        <h3 class="font-bold text-lg text-gray-800 dark:text-gray-200"><i class="fas fa-chart-bar text-secondary mr-2"></i>Laboratorio Práctico en Power BI</h3>
-                                        <p class="text-sm text-gray-500 mt-1">Sigue la guía paso a paso para limpiar datos y modelar. <br><span class="text-xs italic">(Nota: Tienes a tu disposición un <a href="https://colab.research.google.com/github/dudbilopr/Inteligencia-de-negocios/blob/master/Semanas/Semana_${data.w}/Colab_Guiado_Semana${data.w}.ipynb" target="_blank" class="text-blue-500 hover:underline">script de Python opcional</a> para exploración autónoma).</span></p>
+                                        <h3 class="font-bold text-lg text-gray-800 dark:text-gray-200"><i class="fas fa-flask text-secondary mr-2"></i>Laboratorio / Taller Práctico</h3>
+                                        <p class="text-sm text-gray-500 mt-1">Sigue la guía interactiva para desarrollar la práctica de esta semana. <br><span class="text-xs italic">(Nota: Tienes a tu disposición un <a href="https://colab.research.google.com/github/dudbilopr/Inteligencia-de-negocios/blob/master/Semanas/Semana_${data.w}/Colab_Guiado_Semana${data.w}.ipynb" target="_blank" class="text-blue-500 hover:underline">script de Python opcional</a> para exploración autónoma).</span></p>
                                     </div>
                                     <div class="flex gap-2">
-                                        <button onclick="window.open('Semanas/Semana_${data.w}/Guia_Laboratorio_PowerBI_Semana${data.w}.html', '_blank')" class="bg-primary text-white px-4 py-2 rounded-md font-semibold shadow-sm hover:bg-blue-900 transition flex items-center gap-2">
-                                            <i class="fas fa-book-open"></i> Abrir Guía Power BI
+                                        <button onclick="window.open('Semanas/Semana_${data.w}/Guia_Laboratorio_Semana${data.w}.html', '_blank')" class="bg-primary text-white px-4 py-2 rounded-md font-semibold shadow-sm hover:bg-blue-900 transition flex items-center gap-2">
+                                            <i class="fas fa-book-open"></i> Abrir Guía de Laboratorio
                                         </button>
                                     </div>
                                 </div>
                                 <div class="w-full h-[600px] bg-white">
-                                    <iframe src="Semanas/Semana_${data.w}/Guia_Laboratorio_PowerBI_Semana${data.w}.html" width="100%" height="100%" frameborder="0" onerror="this.outerHTML='<div class=\\'p-10 text-center text-gray-500\\'><i class=\\'fas fa-clock text-4xl mb-4\\'></i><p>La guía de laboratorio aún no se ha publicado.</p></div>'"></iframe>
+                                    <iframe src="Semanas/Semana_${data.w}/Guia_Laboratorio_Semana${data.w}.html" width="100%" height="100%" frameborder="0" onerror="this.outerHTML='<div class=\\'p-10 text-center text-gray-500\\'><i class=\\'fas fa-clock text-4xl mb-4\\'></i><p>La guía de laboratorio aún no se ha publicado.</p></div>'"></iframe>
                                 </div>
                             </div>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz EMI - Inteligencia de Negocios</title>
+    <title>Quiz EMI - Inteligencia de Negocios - Semana 2</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,7 +20,7 @@
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            max-width: 600px;
+            max-width: 650px;
             width: 100%;
         }
         h1 {
@@ -31,6 +31,7 @@
         .question {
             margin-bottom: 25px;
             font-size: 1.1em;
+            line-height: 1.6;
         }
         select {
             padding: 8px;
@@ -70,23 +71,27 @@
 <body>
 
 <div class="quiz-container">
-    <h1>🇬🇧 Business Intelligence - EMI Warm-Up</h1>
-    <p>Complete the sentences with the correct Business Intelligence terminology:</p>
+    <h1>🇬🇧 Data Modeling - EMI Warm-Up</h1>
+    <p>Complete the sentences with the correct terminology for Data Integration and Modeling:</p>
 
     <div class="question">
-        1. A <select id="q1"><option value="">--select--</option><option value="Dashboard">Dashboard</option><option value="KPI">KPI</option><option value="Data-Driven">Data-Driven</option></select> is a measurable value that demonstrates how effectively a company is achieving key business objectives.
+        1. The process of gathering data from multiple sources, cleaning it, and loading it into a destination is called <select id="q1"><option value="">--select--</option><option value="ETL">ETL</option><option value="SQL">SQL</option><option value="Foreign Key">Foreign Key</option></select> (Extract, Transform, Load).
     </div>
 
     <div class="question">
-        2. A company that makes decisions based on data analysis rather than intuition is considered to be <select id="q2"><option value="">--select--</option><option value="Data Warehouse">Data Warehouse</option><option value="Data-Driven">Data-Driven</option><option value="Dashboard">Dashboard</option></select>.
+        2. A <select id="q2"><option value="">--select--</option><option value="Data Lake">Data Lake</option><option value="Primary Key">Primary Key</option><option value="Relational Database">Relational Database</option></select> is a unique identifier for a specific record in a database table.
     </div>
 
     <div class="question">
-        3. A visual display of all of your data is commonly known as a <select id="q3"><option value="">--select--</option><option value="Dashboard">Dashboard</option><option value="BI">BI</option><option value="KPI">KPI</option></select>.
+        3. When we want to combine data from two or more tables based on a related column, we use a <select id="q3"><option value="">--select--</option><option value="Query">Query</option><option value="Join">Join</option><option value="Dashboard">Dashboard</option></select> operation.
     </div>
 
     <div class="question">
-        4. <select id="q4"><option value="">--select--</option><option value="Business Intelligence">Business Intelligence</option><option value="Data Warehouse">Data Warehouse</option><option value="Data-Driven">Data-Driven</option></select> comprises the strategies and technologies used by enterprises for the data analysis of business information.
+        4. A <select id="q4"><option value="">--select--</option><option value="Star Schema">Star Schema</option><option value="Data Cleansing">Data Cleansing</option><option value="Foreign Key">Foreign Key</option></select> is a column in one table that links to the primary key of another table, establishing a relationship.
+    </div>
+
+    <div class="question">
+        5. Removing duplicates, handling missing values, and formatting dates correctly are all part of <select id="q5"><option value="">--select--</option><option value="Data Cleansing">Data Cleansing</option><option value="Data Warehousing">Data Warehousing</option><option value="Star Schema">Star Schema</option></select>.
     </div>
 
     <button class="btn" onclick="checkAnswers()">Check Answers</button>
@@ -96,10 +101,11 @@
 <script>
     function checkAnswers() {
         const answers = {
-            q1: "KPI",
-            q2: "Data-Driven",
-            q3: "Dashboard",
-            q4: "Business Intelligence"
+            q1: "ETL",
+            q2: "Primary Key",
+            q3: "Join",
+            q4: "Foreign Key",
+            q5: "Data Cleansing"
         };
         let score = 0;
         let total = Object.keys(answers).length;
@@ -119,7 +125,7 @@
 
         let res = document.getElementById("result");
         if (score === total) {
-            res.innerHTML = `<span class="correct">Excellent! ${score}/${total} correct answers! 🎉</span>`;
+            res.innerHTML = `<span class="correct">Excellent! ${score}/${total} correct answers!</span>`;
         } else {
             res.innerHTML = `<span class="incorrect">Keep practicing! You got ${score}/${total} correct.</span>`;
         }

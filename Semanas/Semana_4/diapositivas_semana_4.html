@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Inteligencia de Negocios - Semana 2</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+    <style>
+        :root {
+            --r-main-color: #333;
+            --r-heading-color: #003865;
+            --r-link-color: #E85C0B;
+            --r-link-color-hover: #c94b07;
+            --r-selection-background-color: #E85C0B;
+            --unab-blue: #003865;
+            --unab-orange: #E85C0B;
+        }
+        
+        .reveal .slides {
+            width: 90% !important;
+            height: 90% !important;
+            max-width: 1200px !important;
+            margin: auto;
+        }
+        .reveal .slide-background { background-color: #f4f6f9; }
+        
+        .split-screen {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            gap: 30px;
+        }
+        .split-left, .split-right { width: 48%; }
+        
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        .grid-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--unab-blue);
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
+        .reveal h1 { font-size: 2.8em; }
+        .reveal h2 { font-size: 1.8em; margin-bottom: 20px; }
+        .highlight { color: var(--unab-orange); }
+        .text-left { text-align: left; }
+        .small-text { font-size: 0.7em !important; line-height: 1.2; }
+        
+        .pro-tip {
+            background: linear-gradient(135deg, #003865 0%, #005091 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            border-left: 8px solid var(--unab-orange);
+            font-size: 0.7em;
+            text-align: left;
+            margin: 20px 0;
+            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
+            transition: transform 0.3s ease;
+        }
+        .pro-tip i { color: var(--unab-orange); margin-right: 10px; font-size: 1.2em; }
+        
+        ul.styled-list li { margin-bottom: 12px; font-size: 0.8em; }
+        .icon { color: var(--unab-orange); margin-right: 15px; }
+        
+        .dark-slide {
+            background-color: var(--unab-blue) !important;
+            color: white !important;
+        }
+        .dark-slide h1, .dark-slide h2, .dark-slide h3 { color: white !important; }
+
+        /* Sistema de Mini Ventanas Explicativas (Modales) */
+        .clickable-concept {
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+        }
+        .clickable-concept:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.3) !important;
+            z-index: 10;
+        }
+        .clickable-concept::after {
+            content: '\f0a6';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--unab-orange);
+            color: white;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .clickable-concept:hover::after { opacity: 1; }
+
+        #concept-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 56, 101, 0.6);
+            border-left: 10px solid var(--unab-orange);
+            z-index: 2000;
+            text-align: left;
+            font-family: sans-serif;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        #concept-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 56, 101, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1999;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #888;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--unab-orange); }
+        .modal-title { color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; font-weight: bold; display: flex; align-items: center; gap: 15px;}
+        .modal-body { font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px; }
+        .modal-example h4 { margin-top: 0; margin-bottom: 10px; color: var(--unab-blue); }
+    </style>
+</head>
+<body>
+    
+    <!-- Modal Interactivo Global -->
+    <div id="concept-modal-overlay" onclick="closeModal()"></div>
+    <div id="concept-modal">
+        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
+        <div class="modal-title"><i id="modal-icon" class="fa-solid fa-lightbulb"></i> <span id="modal-title">Título</span></div>
+        <div class="modal-body" id="modal-text">Texto explicativo</div>
+        <div class="modal-example">
+            <h4><i class="fa-solid fa-rocket"></i> Ejemplo Práctico:</h4>
+            <span id="modal-example-text">Ejemplo</span>
+        </div>
+    </div>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- 1. Portada -->
+            <section data-transition="zoom" class="dark-slide">
+                <i class="fa-solid fa-database" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(232,92,11,0.5));"></i>
+                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
+                <h3>Clase 2: Modelado e Integración de Datos</h3>
+                <br>
+                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
+            </section>
+            
+            <!-- 2. RAE -->
+            <section data-transition="slide">
+                <h2 style="color: #003865;"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
+                <div class="grid-layout" style="grid-template-columns: 1fr; gap: 15px; margin-top: 20px;">
+                    <div class="grid-card clickable-concept" onclick="openModal('Conectar y Transformar', 'fa-plug', 'Utilizar herramientas tecnológicas para extraer información de hojas de cálculo y bases de datos relacionales, realizando el proceso de limpieza (ETL).', 'Usar Pandas en Python o Power Query en Power BI para limpiar datos vacíos.')" style="border-left: 8px solid #E85C0B; padding: 15px;">
+                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1.1em;"><i class="fa-solid fa-plug"></i> 1.2 Conexión y Transformación</h4>
+                        <p style="margin-top: 5px; font-size: 0.9em; color: #333;">Conecta y transforma datos utilizando herramientas de BI.</p>
+                    </div>
+                    <div class="grid-card clickable-concept" onclick="openModal('Modelado Escalable', 'fa-project-diagram', 'Diseñar estructuras relacionales eficientes como esquemas en estrella o copo de nieve que permitan realizar cálculos veloces sobre millones de registros.', 'Crear una tabla de Hechos (Ventas) conectada a tablas de Dimensiones (Clientes, Productos, Calendario).')" style="border-left: 8px solid #E85C0B; padding: 15px;">
+                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1.1em;"><i class="fa-solid fa-project-diagram"></i> 1.3 Modelos Eficientes</h4>
+                        <p style="margin-top: 5px; font-size: 0.9em; color: #333;">Establece modelos de datos eficientes para análisis de negocio.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Conceptos Core -->
+            <section data-transition="convex">
+                <h2 class="text-left"><i class="fa-solid fa-sitemap icon"></i> Modelado Relacional</h2>
+                <div class="pro-tip">
+                    <i class="fa-solid fa-hand-pointer"></i> <strong>Pro-Tip:</strong> Explora las diferencias entre Hechos y Dimensiones.
+                </div>
+                <div class="split-screen">
+                    <div class="split-left grid-card clickable-concept" onclick="openModal('Tabla de Hechos (Facts)', 'fa-cash-register', 'Almacena métricas cuantitativas y transacciones (lo que se puede medir o sumar). Es inmensa y crece rápidamente.', 'Tabla de Ventas. Cada vez que alguien compra en el supermercado, se añade una nueva fila con la cantidad, precio y los IDs del cliente y producto.')" style="border-top: 5px solid #003865;">
+                        <h3 style="color: #003865; text-align: center;"><i class="fa-solid fa-cash-register"></i> Hechos</h3>
+                        <ul class="styled-list" style="margin-top: 20px;">
+                            <li>Contiene datos transaccionales.</li>
+                            <li>Alberga métricas, montos y cantidades.</li>
+                            <li>Incluye *Foreign Keys* hacia las dimensiones.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right grid-card clickable-concept" onclick="openModal('Tabla de Dimensiones (Dims)', 'fa-users-viewfinder', 'Contiene descripciones cualitativas. Responde al quién, qué, dónde y cuándo. Se usan para filtrar y agrupar los Hechos.', 'Tabla de Clientes. Contiene el nombre, género, ciudad y fecha de nacimiento. Tabla de Productos. Contiene la categoría, marca y peso.')" style="border-top: 5px solid #E85C0B;">
+                        <h3 style="color: #E85C0B; text-align: center;"><i class="fa-solid fa-users-viewfinder"></i> Dimensiones</h3>
+                        <ul class="styled-list" style="margin-top: 20px;">
+                            <li>Descriptores categóricos.</li>
+                            <li>Responde al Quién, Dónde, Cuándo, Qué.</li>
+                            <li>Contiene la *Primary Key* única.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Esquemas -->
+            <section>
+                <section data-transition="fade">
+                    <h2 class="text-left"><i class="fa-solid fa-star icon"></i> Esquema en Estrella</h2>
+                    <p class="small-text text-left">La estructura arquitectónica más utilizada en Inteligencia de Negocios para **Data Warehouses**.</p>
+                    
+                    <div class="split-layout" style="margin-top: 30px;">
+                        <div class="box-glass text-left">
+                            <h4 style="color: #003865;"><i class="fa-solid fa-bullseye"></i> ¿Por qué "Estrella"?</h4>
+                            <p class="small-text">Se llama así porque visualmente se asemeja a una estrella: tiene una gran tabla central (el núcleo) rodeada por varias tablas más pequeñas (las puntas de la estrella).</p>
+                        </div>
+                        <div class="box-glass text-left">
+                            <h4 style="color: #E85C0B;"><i class="fa-solid fa-bolt"></i> Objetivo Principal</h4>
+                            <p class="small-text">A diferencia de las bases de datos transaccionales (que buscan evitar redundancia), el esquema en estrella busca **velocidad extrema de lectura**. Está optimizado para que los tableros (Power BI, Tableau) consulten millones de filas en milisegundos.</p>
+                        </div>
+                    </div>
+                    <p class="small-text" style="margin-top: 20px;">⬇️ <i>Desliza hacia abajo para ver su anatomía</i></p>
+                </section>
+
+                <section data-transition="slide">
+                    <h2 class="text-left">Anatomía de la Estrella</h2>
+                    <div class="split-layout">
+                        <!-- Columna Izquierda: Explicación -->
+                        <div style="flex: 1; text-align: left; padding-right: 20px;">
+                            <p class="small-text">El modelo se divide estrictamente en dos tipos de tablas:</p>
+                            
+                            <div class="box-glass" style="margin-bottom: 15px; border-left: 5px solid #003865;">
+                                <strong>1. La Tabla de Hechos (El Centro)</strong><br>
+                                <span style="font-size: 0.8em; color: #555;">Contiene las métricas numéricas (Ej. `monto_total`, `cantidad`). Es enorme (millones de filas) y está llena de llaves foráneas (IDs) que apuntan a las dimensiones. Representa los "eventos" que ocurrieron.</span>
+                            </div>
+                            
+                            <div class="box-glass" style="border-left: 5px solid #E85C0B;">
+                                <strong>2. Las Tablas de Dimensiones (Las Puntas)</strong><br>
+                                <span style="font-size: 0.8em; color: #555;">Contienen los detalles descriptivos y de texto (Ej. `nombre_cliente`, `categoria_producto`). Filtran y agrupan los datos. Responden al: <em>¿Quién?, ¿Qué?, ¿Cuándo? y ¿Dónde?</em></span>
+                            </div>
+                        </div>
+
+                        <!-- Columna Derecha: Diagrama -->
+                        <div style="flex: 1; background: white; padding: 10px; border-radius: 12px; border: 2px solid #003865; font-size: 0.7em;">
+                            <div class="mermaid">
+erDiagram
+    DIM_CLIENTES ||--o{ FACT_VENTAS : Compra
+    DIM_PRODUCTOS ||--o{ FACT_VENTAS : Incluye
+    DIM_TIEMPO ||--o{ FACT_VENTAS : Ocurre
+    DIM_TIENDAS ||--o{ FACT_VENTAS : Lugar
+    
+    FACT_VENTAS {
+        int id_venta PK
+        int id_cliente FK
+        int id_producto FK
+        int id_tiempo FK
+        int id_tienda FK
+        float monto_total
+        int cantidad
+    }
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-transition="slide">
+                    <h2>Ejemplo en la Vida Real</h2>
+                    <p class="small-text">¿Cómo se registra la compra de un café en Starbucks en un Esquema Estrella?</p>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px; justify-content: center;">
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; width: 30%;">
+                            <h4 style="font-size: 1.1em; color: #003865;">Las Dimensiones (Contexto)</h4>
+                            <ul style="font-size: 0.7em; color: #334155;">
+                                <li><strong>Dim_Cliente:</strong> "Juan Pérez" (ID: 105)</li>
+                                <li><strong>Dim_Producto:</strong> "Latte Vainilla" (ID: 42)</li>
+                                <li><strong>Dim_Tienda:</strong> "Sucursal Centro" (ID: 8)</li>
+                                <li><strong>Dim_Tiempo:</strong> "21-Ago-2026 08:00 AM" (ID: 20260821)</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; font-size: 2em; color: #E85C0B;">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+
+                        <div style="background: #e0f2fe; padding: 15px; border-radius: 8px; border: 2px solid #0284c7; width: 30%;">
+                            <h4 style="font-size: 1.1em; color: #003865;">La Tabla de Hechos (El Evento)</h4>
+                            <p style="font-size: 0.7em; margin-bottom: 5px;">Se inserta <strong>UNA sola fila</strong> super ligera:</p>
+                            <code style="font-size: 0.65em; background: white; padding: 10px; display: block; border-radius: 5px; text-align: left;">
+                                id_cliente: 105<br>
+                                id_producto: 42<br>
+                                id_tienda: 8<br>
+                                id_tiempo: 20260821<br>
+                                -- MÉTRICAS --<br>
+                                cantidad: 1<br>
+                                monto: $4.50
+                            </code>
+                        </div>
+                    </div>
+                    <p class="small-text" style="margin-top: 20px; color: #E85C0B; font-weight: bold;">
+                        <i class="fa-solid fa-lightbulb"></i> Conclusión: La base de datos no guarda la palabra "Latte Vainilla" un millón de veces. Solo guarda el número "42". ¡Eso la hace rapidísima!
+                    </p>
+                </section>
+            </section>
+
+            <!-- 5. Taller Práctico -->
+            <section data-transition="slide" class="dark-slide">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" alt="Power BI" style="width: 120px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); display: inline-block;">
+                <h1 style="color: white !important;">Laboratorio Práctico</h1>
+                <p>Abran Power BI Desktop. Vamos a modelar un escenario empresarial real.</p>
+                <div class="grid-card" style="background: rgba(255,255,255,0.1); margin: 0 auto; max-width: 70%; text-align: center;">
+                    <h4 style="color: white; margin-top: 0;">Flujo Técnico</h4>
+                    <span style="color: #E85C0B; font-weight: bold;">Carga CSV ➔ Limpieza (Power Query) ➔ Modelo Estrella (Vista Modelo)</span>
+                </div>
+            </section>
+
+            <!-- 6. Glosario -->
+            <section data-transition="convex">
+                <h2 class="text-left"><i class="fa-solid fa-book icon"></i> Glosario Técnico</h2>
+                <div class="grid-layout" style="grid-template-columns: 1fr; gap: 10px;">
+                    <div class="grid-card" style="padding: 15px; border-left: 5px solid #003865;">
+                        <strong style="color: #003865;">Primary Key (PK):</strong> Identificador único para cada registro en una tabla (ej. Cédula).
+                    </div>
+                    <div class="grid-card" style="padding: 15px; border-left: 5px solid #E85C0B;">
+                        <strong style="color: #E85C0B;">Foreign Key (FK):</strong> Una columna que enlaza y hace referencia a la Primary Key de otra tabla.
+                    </div>
+                    <div class="grid-card" style="padding: 15px; border-left: 5px solid #003865;">
+                        <strong style="color: #003865;">ETL (Extract, Transform, Load):</strong> Proceso central de la ingeniería de datos para limpiar información cruda.
+                    </div>
+                    <div class="grid-card" style="padding: 15px; border-left: 5px solid #E85C0B;">
+                        <strong style="color: #E85C0B;">Power Query:</strong> Motor de transformación de datos subyacente en Power BI y Excel.
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. Conclusiones y Bibliografía -->
+            <section data-transition="slide">
+                <h2 class="text-left"><i class="fa-solid fa-flag-checkered icon"></i> Conclusiones y Cierre</h2>
+                <ul class="styled-list" style="margin-bottom: 30px;">
+                    <li>El análisis es tan bueno como la calidad de los datos subyacentes. (<i>Garbage In, Garbage Out</i>).</li>
+                    <li>Un modelo relacional optimizado (Esquema Estrella) permite visualizar millones de registros en milisegundos sin sobrecargar el servidor.</li>
+                    <li>Limpiar datos (ETL) puede tomar el 80% del tiempo de un proyecto de BI.</li>
+                </ul>
+                <div class="grid-card" style="background: #f4f6f9; border-top: 5px solid #003865;">
+                    <h4 style="color: #003865; margin-top: 0;"><i class="fa-solid fa-book-open"></i> Bibliografía</h4>
+                    <p class="small-text">
+                        1. Sharda, R., Delen, D., & Turban, E. (2020). Business Intelligence, Analytics, and Data Science: A Managerial Perspective.<br>
+                        2. Microsoft Power BI Docs. (2024). Data Modeling Techniques.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            controlsTutorial: false
+        });
+
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+
+        function openModal(title, iconClass, text, example) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-icon').className = 'fa-solid ' + iconClass;
+            document.getElementById('modal-text').innerText = text;
+            document.getElementById('modal-example-text').innerText = example;
+            
+            document.getElementById('concept-modal').style.display = 'block';
+            document.getElementById('concept-modal-overlay').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('concept-modal').classList.add('show');
+            }, 10);
+        }
+
+        function closeModal() {
+            document.getElementById('concept-modal').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('concept-modal').style.display = 'none';
+                document.getElementById('concept-modal-overlay').style.display = 'none';
+            }, 300);
+        }
+    </script>
+</body>
+</html>

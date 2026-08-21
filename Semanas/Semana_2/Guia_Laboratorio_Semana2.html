@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio - Semana 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#003865', secondary: '#E85C0B' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
+    
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-primary text-white p-8">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 bg-white/20 rounded-full flex justify-center items-center">
+                    <i class="fas fa-users-gear text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">Laboratorio: De la Intuición a la Analítica</h1>
+                    <p class="text-blue-200 text-sm">Semana 2 - Inteligencia de Negocios</p>
+                </div>
+            </div>
+            <p class="opacity-90 text-sm">En este taller no tocaremos código ni herramientas. Practicarás la habilidad más importante de un analista: traducir quejas ambiguas de gerencia en preguntas analíticas estructuradas y KPIs medibles.</p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 space-y-10">
+            
+            <!-- Caso Clínico -->
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-book-open"></i></div>
+                    <h2 class="text-xl font-bold text-primary">El Caso de Estudio: "TechStore"</h2>
+                </div>
+                
+                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-sm text-gray-700 mb-4 shadow-inner relative">
+                    <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg"><i class="fas fa-envelope mr-1"></i> Correo de Gerencia</div>
+                    <p class="mt-4"><em>"Hola equipo de Datos,<br><br>Estoy muy preocupado. Siento que la gente ya no compra igual que antes. La semana pasada entré a la tienda física y estaba vacía, aunque me dicen que la página web tiene mucho tráfico. A pesar de eso, las ganancias de este mes fueron menores que las del mes pasado. Creo que nuestras campañas de marketing en Instagram no están sirviendo para nada y solo estamos quemando dinero.<br><br>Necesito que me hagan un reporte urgente que me diga qué está pasando. ¡Gracias!"</em></p>
+                    <p class="mt-4 font-bold text-right">- El Gerente General</p>
+                </div>
+            </section>
+
+            <!-- Instrucciones -->
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-pen-to-square"></i></div>
+                    <h2 class="text-xl font-bold text-primary">Tu Misión (Pair Programming)</h2>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-primary p-4 rounded-r-md text-sm text-gray-700 mb-4">
+                    <p>Reúnete con tu pareja de proyecto. Lean cuidadosamente el correo y completen los siguientes tres pasos. Documenten sus respuestas en un documento de Word o Google Docs.</p>
+                </div>
+                
+                <ol class="space-y-6 mt-6">
+                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg">
+                        <strong class="text-primary text-lg block mb-2">1. Desglosar las Hipótesis</strong>
+                        <p class="text-sm text-gray-600 mb-2">El gerente está mezclando intuiciones con hechos. Separa el texto en 3 afirmaciones concretas que él cree que son ciertas.</p>
+                        <p class="text-xs text-gray-400 italic">Ejemplo: Afirmación 1: "Las ventas físicas están cayendo frente a las online".</p>
+                    </li>
+                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg">
+                        <strong class="text-primary text-lg block mb-2">2. Formulación de Preguntas Analíticas</strong>
+                        <p class="text-sm text-gray-600 mb-2">Convierte esas afirmaciones ambiguas en preguntas exactas que se le pueden hacer a una base de datos.</p>
+                        <p class="text-xs text-gray-400 italic">Ejemplo: "¿Cuál es la variación porcentual mensual (MoM) de los ingresos, segmentada por canal de venta (Físico vs Web) en los últimos 3 meses?"</p>
+                    </li>
+                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg">
+                        <strong class="text-primary text-lg block mb-2">3. Definición de 3 KPIs Clave</strong>
+                        <p class="text-sm text-gray-600 mb-2">Si tuvieras que construirle un Dashboard (Tablero) a este gerente mañana, ¿cuáles serían los 3 KPIs numéricos gigantes que pondrías en la parte superior para responder sus dudas?</p>
+                        <div class="text-xs text-gray-500 mt-2 bg-gray-50 p-2 rounded">
+                            <ul class="list-disc ml-5">
+                                <li>Nombre del KPI.</li>
+                                <li>Fórmula matemática simple (ej. Ingresos Netos - Costo Publicidad).</li>
+                                <li>¿Por qué es importante?</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+        </div>
+    </div>
+</body>
+</html>
