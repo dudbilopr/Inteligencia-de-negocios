@@ -235,11 +235,45 @@
             </section>
 
             <!-- 4. Esquemas -->
-            <section data-transition="fade">
-                <h2 class="text-left"><i class="fa-solid fa-star icon"></i> Esquema en Estrella</h2>
-                <p class="small-text text-left">La estructura reina en Inteligencia de Negocios para optimizar la velocidad de lectura.</p>
-                <div style="background: white; padding: 20px; border-radius: 12px; border: 2px solid #003865;">
-                    <div class="mermaid">
+            <section>
+                <section data-transition="fade">
+                    <h2 class="text-left"><i class="fa-solid fa-star icon"></i> Esquema en Estrella</h2>
+                    <p class="small-text text-left">La estructura arquitectónica más utilizada en Inteligencia de Negocios para **Data Warehouses**.</p>
+                    
+                    <div class="split-layout" style="margin-top: 30px;">
+                        <div class="box-glass text-left">
+                            <h4 style="color: #003865;"><i class="fa-solid fa-bullseye"></i> ¿Por qué "Estrella"?</h4>
+                            <p class="small-text">Se llama así porque visualmente se asemeja a una estrella: tiene una gran tabla central (el núcleo) rodeada por varias tablas más pequeñas (las puntas de la estrella).</p>
+                        </div>
+                        <div class="box-glass text-left">
+                            <h4 style="color: #E85C0B;"><i class="fa-solid fa-bolt"></i> Objetivo Principal</h4>
+                            <p class="small-text">A diferencia de las bases de datos transaccionales (que buscan evitar redundancia), el esquema en estrella busca **velocidad extrema de lectura**. Está optimizado para que los tableros (Power BI, Tableau) consulten millones de filas en milisegundos.</p>
+                        </div>
+                    </div>
+                    <p class="small-text" style="margin-top: 20px;">⬇️ <i>Desliza hacia abajo para ver su anatomía</i></p>
+                </section>
+
+                <section data-transition="slide">
+                    <h2 class="text-left">Anatomía de la Estrella</h2>
+                    <div class="split-layout">
+                        <!-- Columna Izquierda: Explicación -->
+                        <div style="flex: 1; text-align: left; padding-right: 20px;">
+                            <p class="small-text">El modelo se divide estrictamente en dos tipos de tablas:</p>
+                            
+                            <div class="box-glass" style="margin-bottom: 15px; border-left: 5px solid #003865;">
+                                <strong>1. La Tabla de Hechos (El Centro)</strong><br>
+                                <span style="font-size: 0.8em; color: #555;">Contiene las métricas numéricas (Ej. `monto_total`, `cantidad`). Es enorme (millones de filas) y está llena de llaves foráneas (IDs) que apuntan a las dimensiones. Representa los "eventos" que ocurrieron.</span>
+                            </div>
+                            
+                            <div class="box-glass" style="border-left: 5px solid #E85C0B;">
+                                <strong>2. Las Tablas de Dimensiones (Las Puntas)</strong><br>
+                                <span style="font-size: 0.8em; color: #555;">Contienen los detalles descriptivos y de texto (Ej. `nombre_cliente`, `categoria_producto`). Filtran y agrupan los datos. Responden al: <em>¿Quién?, ¿Qué?, ¿Cuándo? y ¿Dónde?</em></span>
+                            </div>
+                        </div>
+
+                        <!-- Columna Derecha: Diagrama -->
+                        <div style="flex: 1; background: white; padding: 10px; border-radius: 12px; border: 2px solid #003865; font-size: 0.7em;">
+                            <div class="mermaid">
 erDiagram
     DIM_CLIENTES ||--o{ FACT_VENTAS : Compra
     DIM_PRODUCTOS ||--o{ FACT_VENTAS : Incluye
@@ -255,17 +289,48 @@ erDiagram
         float monto_total
         int cantidad
     }
-    DIM_CLIENTES {
-        int id_cliente PK
-        string nombre
-        string segmento
-    }
-    DIM_PRODUCTOS {
-        int id_producto PK
-        string categoria
-    }
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </section>
+
+                <section data-transition="slide">
+                    <h2>Ejemplo en la Vida Real</h2>
+                    <p class="small-text">¿Cómo se registra la compra de un café en Starbucks en un Esquema Estrella?</p>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px; justify-content: center;">
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; width: 30%;">
+                            <h4 style="font-size: 1.1em; color: #003865;">Las Dimensiones (Contexto)</h4>
+                            <ul style="font-size: 0.7em; color: #334155;">
+                                <li><strong>Dim_Cliente:</strong> "Juan Pérez" (ID: 105)</li>
+                                <li><strong>Dim_Producto:</strong> "Latte Vainilla" (ID: 42)</li>
+                                <li><strong>Dim_Tienda:</strong> "Sucursal Centro" (ID: 8)</li>
+                                <li><strong>Dim_Tiempo:</strong> "21-Ago-2026 08:00 AM" (ID: 20260821)</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; font-size: 2em; color: #E85C0B;">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+
+                        <div style="background: #e0f2fe; padding: 15px; border-radius: 8px; border: 2px solid #0284c7; width: 30%;">
+                            <h4 style="font-size: 1.1em; color: #003865;">La Tabla de Hechos (El Evento)</h4>
+                            <p style="font-size: 0.7em; margin-bottom: 5px;">Se inserta <strong>UNA sola fila</strong> super ligera:</p>
+                            <code style="font-size: 0.65em; background: white; padding: 10px; display: block; border-radius: 5px; text-align: left;">
+                                id_cliente: 105<br>
+                                id_producto: 42<br>
+                                id_tienda: 8<br>
+                                id_tiempo: 20260821<br>
+                                -- MÉTRICAS --<br>
+                                cantidad: 1<br>
+                                monto: $4.50
+                            </code>
+                        </div>
+                    </div>
+                    <p class="small-text" style="margin-top: 20px; color: #E85C0B; font-weight: bold;">
+                        <i class="fa-solid fa-lightbulb"></i> Conclusión: La base de datos no guarda la palabra "Latte Vainilla" un millón de veces. Solo guarda el número "42". ¡Eso la hace rapidísima!
+                    </p>
+                </section>
             </section>
 
             <!-- 5. Taller Práctico -->
