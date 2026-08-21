@@ -357,7 +357,7 @@
                         <!-- TABS NAVIGATION (Coursera Style) -->
                         <div class="flex border-b border-gray-200 dark:border-slate-700 mb-6 overflow-x-auto hide-scroll">
                             <button id="btn-theory" onclick="switchTab('theory')" class="tab-btn active px-6 py-3 whitespace-nowrap"><i class="fas fa-chalkboard-teacher mr-2"></i>Presentación Magistral</button>
-                            <button id="btn-lab" onclick="switchTab('lab')" class="tab-btn px-6 py-3 whitespace-nowrap"><i class="fas fa-laptop-code mr-2"></i>Taller Práctico / Colab</button>
+                            <button id="btn-lab" onclick="switchTab('lab')" class="tab-btn px-6 py-3 whitespace-nowrap"><i class="fas fa-chart-bar mr-2"></i>Laboratorio Power BI</button>
                             <button id="btn-quiz" onclick="switchTab('quiz')" class="tab-btn px-6 py-3 whitespace-nowrap"><i class="fas fa-tasks mr-2"></i>Actividad EMI (Quiz)</button>
                         </div>
 
@@ -376,14 +376,19 @@
 
                             <!-- TAB 2: LABORATORIO -->
                             <div id="content-lab" class="tab-content p-0">
-                                <div class="p-6 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center bg-gray-50 dark:bg-slate-800/50">
+                                <div class="p-6 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center bg-gray-50 dark:bg-slate-800/50 flex-wrap gap-4">
                                     <div>
-                                        <h3 class="font-bold text-lg text-gray-800 dark:text-gray-200"><i class="fas fa-laptop-code text-secondary mr-2"></i>Laboratorio de Programación</h3>
-                                        <p class="text-sm text-gray-500 mt-1">Descarga el cuaderno o ábrelo directamente en Google Colab.</p>
+                                        <h3 class="font-bold text-lg text-gray-800 dark:text-gray-200"><i class="fas fa-chart-bar text-secondary mr-2"></i>Laboratorio Práctico en Power BI</h3>
+                                        <p class="text-sm text-gray-500 mt-1">Sigue la guía paso a paso para limpiar datos y modelar. <br><span class="text-xs italic">(Nota: Tienes a tu disposición un <a href="https://colab.research.google.com/github/dudbilopr/Inteligencia-de-negocios/blob/master/Semanas/Semana_${data.w}/Colab_Guiado_Semana${data.w}.ipynb" target="_blank" class="text-blue-500 hover:underline">script de Python opcional</a> para exploración autónoma).</span></p>
                                     </div>
-                                    <a href="https://colab.research.google.com/github/dudbilopr/Inteligencia-de-negocios/blob/master/Semanas/Semana_${data.w}/Colab_Guiado_Semana${data.w}.ipynb" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold shadow-sm hover:bg-blue-700 transition flex items-center gap-2">
-                                        <img src="https://colab.research.google.com/img/colab_favicon_256px.png" class="w-4 h-4 bg-white rounded-full"> Abrir en Colab
-                                    </a>
+                                    <div class="flex gap-2">
+                                        <button onclick="window.open('Semanas/Semana_${data.w}/Guia_Laboratorio_PowerBI_Semana${data.w}.html', '_blank')" class="bg-primary text-white px-4 py-2 rounded-md font-semibold shadow-sm hover:bg-blue-900 transition flex items-center gap-2">
+                                            <i class="fas fa-book-open"></i> Abrir Guía Power BI
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="w-full h-[600px] bg-white">
+                                    <iframe src="Semanas/Semana_${data.w}/Guia_Laboratorio_PowerBI_Semana${data.w}.html" width="100%" height="100%" frameborder="0" onerror="this.outerHTML='<div class=\\'p-10 text-center text-gray-500\\'><i class=\\'fas fa-clock text-4xl mb-4\\'></i><p>La guía de laboratorio aún no se ha publicado.</p></div>'"></iframe>
                                 </div>
                             </div>
 

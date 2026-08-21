@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Laboratorio - Power BI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#003865', secondary: '#E85C0B' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
+    
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-primary text-white p-8">
+            <div class="flex items-center gap-4 mb-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" alt="Power BI" class="w-12 h-12 bg-white p-1 rounded">
+                <div>
+                    <h1 class="text-2xl font-bold">Laboratorio: Modelado Dimensional en Power BI</h1>
+                    <p class="text-blue-200 text-sm">Semana 2 - Inteligencia de Negocios</p>
+                </div>
+            </div>
+            <p class="opacity-90 text-sm">En este taller aprenderás a cargar datos brutos desde un archivo CSV, transformarlos utilizando Power Query y finalmente crear un Esquema en Estrella relacionando Tablas de Hechos y Tablas de Dimensiones.</p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 space-y-10">
+            
+            <!-- Paso 1 -->
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold">1</div>
+                    <h2 class="text-xl font-bold text-primary">Importación de Datos</h2>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-primary p-4 rounded-r-md text-sm text-gray-700 mb-4">
+                    <p><strong>Objetivo:</strong> Traer la base de datos cruda al entorno de trabajo.</p>
+                </div>
+                <ol class="list-decimal ml-5 space-y-2 text-sm text-gray-600">
+                    <li>Abre <strong>Power BI Desktop</strong>.</li>
+                    <li>En la cinta de opciones principal (Inicio), haz clic en <strong>"Obtener datos"</strong>.</li>
+                    <li>Selecciona <strong>"Texto/CSV"</strong>.</li>
+                    <li>Busca y selecciona el archivo <code class="bg-gray-100 text-red-500 px-1 rounded">ventas_brutas_empresa.csv</code> (disponible en la plataforma).</li>
+                    <li>Aparecerá una ventana de previsualización. <strong>¡No hagas clic en Cargar!</strong> Haz clic en <span class="font-bold text-secondary">"Transformar datos"</span>.</li>
+                </ol>
+            </section>
+
+            <!-- Paso 2 -->
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold">2</div>
+                    <h2 class="text-xl font-bold text-primary">Limpieza ETL con Power Query</h2>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-primary p-4 rounded-r-md text-sm text-gray-700 mb-4">
+                    <p><strong>Objetivo:</strong> Asegurar la calidad de los datos (tipos de datos correctos y sin errores).</p>
+                </div>
+                <ol class="list-decimal ml-5 space-y-2 text-sm text-gray-600">
+                    <li>Revisa los iconos junto a los nombres de las columnas (ej. `1.2`, `ABC`, `📅`). Estos indican el tipo de dato.</li>
+                    <li>Asegúrate de que la columna <code class="bg-gray-100 text-red-500 px-1 rounded">Monto_Total</code> sea de tipo <em>Número decimal fijo</em>. Si no lo es, haz clic en el ícono de la esquina superior izquierda de la columna y cámbialo.</li>
+                    <li>Asegúrate de que la columna <code class="bg-gray-100 text-red-500 px-1 rounded">Fecha_Venta</code> sea de tipo <em>Fecha</em>.</li>
+                    <li>Elimina filas vacías: En la pestaña Inicio, haz clic en <strong>"Quitar filas" -> "Quitar filas en blanco"</strong>.</li>
+                    <li>Una vez limpio, haz clic en el botón superior izquierdo <span class="font-bold text-primary">"Cerrar y aplicar"</span>.</li>
+                </ol>
+            </section>
+
+            <!-- Paso 3 -->
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold">3</div>
+                    <h2 class="text-xl font-bold text-primary">Construcción del Esquema en Estrella</h2>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-primary p-4 rounded-r-md text-sm text-gray-700 mb-4">
+                    <p><strong>Objetivo:</strong> Relacionar las tablas para habilitar los filtros dinámicos.</p>
+                </div>
+                <ol class="list-decimal ml-5 space-y-2 text-sm text-gray-600">
+                    <li>En el panel lateral izquierdo de Power BI, haz clic en el tercer ícono: <strong>"Vista de Modelo"</strong> (el que parece un diagrama de cajitas entrelazadas).</li>
+                    <li>Verás todas tus tablas. Organízalas visualmente: coloca la tabla <code class="bg-gray-100 text-red-500 px-1 rounded">FACT_Ventas</code> en el centro.</li>
+                    <li>Coloca las tablas de dimensiones (Ej. <code class="bg-gray-100 text-red-500 px-1 rounded">DIM_Clientes</code>, <code class="bg-gray-100 text-red-500 px-1 rounded">DIM_Productos</code>) alrededor de la tabla de hechos.</li>
+                    <li><strong>Crear la relación:</strong> Haz clic sostenido sobre la columna <code class="bg-gray-100 text-red-500 px-1 rounded">ID_Cliente</code> en la tabla `DIM_Clientes` y arrástrala hasta soltarla sobre la columna <code class="bg-gray-100 text-red-500 px-1 rounded">ID_Cliente</code> en la tabla `FACT_Ventas`.</li>
+                    <li>Repite el proceso para `ID_Producto` y las demás dimensiones.</li>
+                    <li>Debería formarse una relación <strong>1 a * (Uno a Varios)</strong>, donde el "1" está en la dimensión y el "*" está en la tabla de hechos.</li>
+                </ol>
+            </section>
+
+            <!-- Reto Autonomo -->
+            <section class="mt-8 border-2 border-dashed border-secondary p-6 rounded-lg bg-orange-50">
+                <h3 class="text-lg font-bold text-secondary mb-2"><i class="fas fa-trophy mr-2"></i> Reto Autónomo</h3>
+                <p class="text-sm text-gray-700 mb-4">Ahora que tienes el modelo en estrella, ve a la <strong>Vista de Informe</strong> (primer ícono a la izquierda) y crea tu primer visual:</p>
+                <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                    <li>Agrega un gráfico de barras.</li>
+                    <li>Arrastra el `Nombre_Categoria` desde `DIM_Productos` al Eje X.</li>
+                    <li>Arrastra el `Monto_Total` desde `FACT_Ventas` al Eje Y.</li>
+                </ul>
+                <p class="text-xs text-gray-500 mt-4 italic">El modelo dimensional se encarga de que este cálculo ocurra en milisegundos gracias a la propagación del filtro.</p>
+            </section>
+
+        </div>
+    </div>
+</body>
+</html>
