@@ -240,30 +240,30 @@
                 <p class="small-text text-left">La estructura reina en Inteligencia de Negocios para optimizar la velocidad de lectura.</p>
                 <div style="background: white; padding: 20px; border-radius: 12px; border: 2px solid #003865;">
                     <div class="mermaid">
-                        erDiagram
-                            DIM_CLIENTES ||--o{ FACT_VENTAS : "Compra"
-                            DIM_PRODUCTOS ||--o{ FACT_VENTAS : "Incluye"
-                            DIM_TIEMPO ||--o{ FACT_VENTAS : "Ocurre"
-                            DIM_TIENDAS ||--o{ FACT_VENTAS : "Lugar"
-                            
-                            FACT_VENTAS {
-                                int id_venta PK
-                                int id_cliente FK
-                                int id_producto FK
-                                int id_tiempo FK
-                                int id_tienda FK
-                                float monto_total
-                                int cantidad
-                            }
-                            DIM_CLIENTES {
-                                int id_cliente PK
-                                string nombre
-                                string segmento
-                            }
-                            DIM_PRODUCTOS {
-                                int id_producto PK
-                                string categoria
-                            }
+erDiagram
+    DIM_CLIENTES ||--o{ FACT_VENTAS : Compra
+    DIM_PRODUCTOS ||--o{ FACT_VENTAS : Incluye
+    DIM_TIEMPO ||--o{ FACT_VENTAS : Ocurre
+    DIM_TIENDAS ||--o{ FACT_VENTAS : Lugar
+    
+    FACT_VENTAS {
+        int id_venta PK
+        int id_cliente FK
+        int id_producto FK
+        int id_tiempo FK
+        int id_tienda FK
+        float monto_total
+        int cantidad
+    }
+    DIM_CLIENTES {
+        int id_cliente PK
+        string nombre
+        string segmento
+    }
+    DIM_PRODUCTOS {
+        int id_producto PK
+        string categoria
+    }
                     </div>
                 </div>
             </section>
