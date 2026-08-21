@@ -297,407 +297,180 @@
         </div>
     </div>
 
-    <div class="reveal">
-        <div class="slides">
+                    <div class="reveal">
+            <div class="slides">
 
-            <!-- 1. Portada -->
-            <section data-transition="zoom" class="dark-slide">
-                <i class="fa-solid fa-bolt" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(232,92,11,0.5));"></i>
-                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Clase 1: Evolución, Ecosistema y Diseño</h3>
-                <br>
-                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
-            </section>
-            
-            <!-- 2. Agenda -->
-            <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-route icon"></i> Hoja de Ruta</h2>
-                <div class="grid-layout" style="grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 10px;">
-                    <div class="grid-card fragment fade-up" style="padding: 15px;">
-                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-handshake icon"></i> 1. Acuerdos</h4>
-                        <p class="small-text">Reglas y EMI Warm-Up.</p>
-                    </div>
-                    <div class="grid-card fragment fade-up" style="padding: 15px;">
-                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-brain icon"></i> 2. Ecosistema</h4>
-                        <p class="small-text">Conceptos y Evolución histórica.</p>
-                    </div>
-                    <div class="grid-card fragment fade-up" style="padding: 15px;">
-                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-sitemap icon"></i> 3. Arquitectura</h4>
-                        <p class="small-text">Sistemas OLTP y procesos ETL.</p>
-                    </div>
-                    <div class="grid-card fragment fade-up" style="padding: 15px;">
-                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-palette icon"></i> 4. Storytelling</h4>
-                        <p class="small-text">Principios Gestalt y Decluttering.</p>
-                    </div>
-                    <div class="grid-card fragment fade-up" style="padding: 15px;">
-                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-laptop-code icon"></i> 5. Taller</h4>
-                        <p class="small-text">Pair Programming de Dashboards.</p>
-                    </div>
-                    <div class="grid-card fragment fade-up" style="padding: 15px;">
-                        <h4 style="font-size: 1.1em; margin-bottom: 5px;"><i class="fa-solid fa-flag-checkered icon"></i> 6. Cierre</h4>
-                        <p class="small-text">Glosario y Conclusiones.</p>
-                    </div>
+            <!-- 1. Título -->
+            <section data-transition="fade" class="dark-slide">
+                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                    <i class="fa-solid fa-bullseye" style="font-size: 3em; color: #E85C0B; margin-bottom: 20px;"></i>
+                    <h1>Métricas y KPIs</h1>
+                    <h3>El puente entre el Negocio y los Datos</h3>
+                    <p style="color: #ccc;">Unidad 1 - Semana 2</p>
                 </div>
             </section>
 
-            <!-- 2.1 Resultados de Aprendizaje (RAE) -->
+            <!-- 2. RAE -->
             <section data-transition="zoom" class="dark-slide">
                 <h2 style="color: #E85C0B; margin-top: -30px;"><i class="fa-solid fa-bullseye" style="color: white;"></i> Objetivos de Aprendizaje (RAE)</h2>
                 <div class="grid-layout" style="grid-template-columns: 1fr; gap: 15px; margin-top: 20px;">
-                    <div class="grid-card clickable-concept" onclick="openModal('Competencia 1: Datos', 'fa-database', 'Identificar fuentes de datos estructuradas y no estructuradas. Conectar y transformar datos estableciendo modelos de datos eficientes.', 'Esta clase: Concepto, tipos de datos, fuentes y ecosistema BI.')" style="border-left: 8px solid #E85C0B; padding: 15px;">
-                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1em;"><i class="fa-solid fa-database"></i> 1. Integración y Transformación</h4>
-                        <p style="margin-top: 5px; font-size: 0.85em; color: #333 !important; line-height: 1.2;">Generar información relevante a partir de diversas fuentes empresariales para apoyar la toma de decisiones.</p>
+                    <div class="grid-card" style="border-left: 8px solid #E85C0B; padding: 15px;">
+                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1em;"><i class="fa-solid fa-database"></i> 1. Clasificación de Datos</h4>
+                        <p style="margin-top: 5px; font-size: 0.85em; color: #333 !important; line-height: 1.2;">Distinguir entre fuentes organizacionales y los diferentes tipos de datos.</p>
                     </div>
-                    <div class="grid-card clickable-concept" onclick="openModal('Competencia 2: Dashboards', 'fa-chart-pie', 'Diseñar dashboards enfocados en KPIs, aplicando principios de diseño visual y automatizando conexiones dinámicas.', 'Esta clase: Fundamentos de diseño de reportes dinámicos e interactivos.')" style="border-left: 8px solid #E85C0B; padding: 15px;">
-                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1em;"><i class="fa-solid fa-chart-pie"></i> 2. Visualizaciones Interactivas</h4>
-                        <p style="margin-top: 5px; font-size: 0.85em; color: #333 !important; line-height: 1.2;">Desarrollar dashboards en herramientas de BI enfocados en indicadores clave (KPIs).</p>
+                    <div class="grid-card" style="border-left: 8px solid #E85C0B; padding: 15px;">
+                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1em;"><i class="fa-solid fa-chart-line"></i> 2. Formulación de KPIs</h4>
+                        <p style="margin-top: 5px; font-size: 0.85em; color: #333 !important; line-height: 1.2;">Comprender los fundamentos de Key Performance Indicators (KPIs) y su impacto estratégico.</p>
                     </div>
-                    <div class="grid-card clickable-concept" onclick="openModal('Competencia 3: Narrativa', 'fa-comments', 'Interpretar hallazgos, redactar informes ejecutivos y presentar historias mediante narrativas claras y persuasivas.', 'Esta clase: Storytelling con datos, comunicación visual y principios Gestalt.')" style="border-left: 8px solid #E85C0B; padding: 15px;">
-                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1em;"><i class="fa-solid fa-comments"></i> 3. Comunicación Analítica</h4>
-                        <p style="margin-top: 5px; font-size: 0.85em; color: #333 !important; line-height: 1.2;">Comunicar hallazgos a públicos no técnicos mediante narrativas basadas en datos adaptadas al contexto organizacional.</p>
+                    <div class="grid-card" style="border-left: 8px solid #E85C0B; padding: 15px;">
+                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1em;"><i class="fa-solid fa-comments"></i> 3. El Lenguaje Analítico</h4>
+                        <p style="margin-top: 5px; font-size: 0.85em; color: #333 !important; line-height: 1.2;">Traducir problemas abstractos de negocio en preguntas analíticas accionables.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- 2.2 Acuerdos y EMI Warm-Up -->
+            <!-- 3. Tipos de Datos -->
             <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-handshake icon"></i> Acuerdos y EMI Warm-Up</h2>
-                <div class="split-screen">
-                    <!-- Izquierda: Acuerdos -->
-                    <div class="split-left text-left">
-                        <div class="grid-card" style="background: #f4f6f9; border-top: 5px solid var(--unab-blue);">
-                            <h4 style="color: var(--unab-blue);"><i class="fa-solid fa-scale-balanced"></i> Reglas de Juego</h4>
-                            <ul class="styled-list">
-                                <li><strong>Horario:</strong> Viernes de 10:00 AM a 1:00 PM (Salón L55).</li>
-                                <li><strong>Descanso Cognitivo:</strong> 15 min intermedios para asimilar conceptos.</li>
-                                <li><strong>Metodología:</strong> Pair Programming (Piloto y Copiloto).</li>
-                                <li><strong>Fechas Asincrónicas:</strong> 18 Sep, 16 Oct, 13 Nov (Trabajo autónomo).</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Derecha: EMI Warm-Up -->
-                    <div class="split-right">
-                        <div class="grid-card" style="background: linear-gradient(135deg, #003865 0%, #001f3f 100%); color: white; border-top: 5px solid var(--unab-orange);">
-                            <h4 style="color: white;"><i class="fa-solid fa-language"></i> EMI: Tech Match</h4>
-                            <p class="small-text" style="color: #ccc;">(English Medium Instruction) Match the term with its meaning:</p>
-                            
-                            <div class="clickable-concept" onclick="openModal('Insight', 'fa-lightbulb', 'A deep, actionable understanding found in data.', 'Noticing that ice cream sales go up when hurricane warnings are issued.')" style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: left;">
-                                <strong style="color: var(--unab-orange);">1. Insight</strong> <span style="font-size: 0.8em; margin-left: 10px;">➔ Actionable finding</span>
-                            </div>
-                            <div class="clickable-concept" onclick="openModal('Query', 'fa-database', 'A formal request for information from a database.', 'SELECT * FROM Sales WHERE Year = 2026;')" style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: left;">
-                                <strong style="color: var(--unab-orange);">2. Query</strong> <span style="font-size: 0.8em; margin-left: 10px;">➔ Database question</span>
-                            </div>
-                            <div class="clickable-concept" onclick="openModal('Clutter', 'fa-trash', 'Unnecessary visual elements that distract the user.', 'Gridlines, 3D borders, excessive colors in a chart.')" style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; text-align: left;">
-                                <strong style="color: var(--unab-orange);">3. Clutter</strong> <span style="font-size: 0.8em; margin-left: 10px;">➔ Visual noise</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 3. Diagrama HTML/CSS - Qué es BI -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-brain icon"></i> Ecosistema Analítico</h2>
-                <div class="pro-tip">
-                    <i class="fa-solid fa-hand-pointer"></i> <strong>Pro-Tip:</strong> Da clic en cada módulo del diagrama para explorar su concepto y un ejemplo práctico.
-                </div>
-                <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 40px;">
-                    
-                    <div class="clickable-concept" onclick="openModal('Business Intelligence', 'fa-chart-line', 'Es la disciplina que combina arquitectura, bases de datos y análisis visual para ayudar a una empresa a tomar mejores decisiones basadas en datos.', 'El gerente de un supermercado analizando en vivo por qué las ventas de carne bajaron los martes, para luego lanzar una promoción específica.')" style="background: linear-gradient(135deg, #003865 0%, #001f3f 100%); color: white; padding: 40px; border-radius: 50%; border: 5px solid #E85C0B; z-index: 2;">
-                        <i class="fa-solid fa-chart-line" style="font-size: 3em; margin-bottom: 10px;"></i><br>
-                        <strong style="font-size: 1.2em;">Business<br>Intelligence</strong>
-                    </div>
-                    
-                    <div style="display: flex; flex-direction: column; gap: 20px;">
-                        <div class="grid-card clickable-concept" onclick="openModal('Tecnología (Infraestructura)', 'fa-database', 'Es la columna vertebral. Involucra extraer datos dispersos, limpiarlos y almacenarlos en un repositorio central.', 'Un script que descarga ventas diarias desde un Excel y reportes desde un sistema SAP, los unifica y los guarda en un Data Warehouse.')" style="display: flex; align-items: center; gap: 15px; padding: 15px 25px; border-left: 8px solid #E85C0B;">
-                            <i class="fa-solid fa-database" style="color: #003865; font-size: 2em;"></i>
-                            <div>
-                                <h4 style="margin: 0; color: #003865;">Tecnología</h4>
-                                <span class="small-text">ETL, Data Warehouse, OLAP</span>
-                            </div>
-                        </div>
-                        <div class="grid-card clickable-concept" onclick="openModal('Analítica de Datos', 'fa-magnifying-glass-chart', 'El proceso de aplicar matemáticas y estadística a los datos para encontrar patrones.', 'Usar Machine Learning (Analítica Predictiva) para adivinar qué clientes tienen más probabilidad de cancelar su suscripción a Netflix el próximo mes.')" style="display: flex; align-items: center; gap: 15px; padding: 15px 25px; border-left: 8px solid #E85C0B;">
-                            <i class="fa-solid fa-magnifying-glass-chart" style="color: #003865; font-size: 2em;"></i>
-                            <div>
-                                <h4 style="margin: 0; color: #003865;">Analítica</h4>
-                                <span class="small-text">Descriptiva, Predictiva, Prescriptiva</span>
-                            </div>
-                        </div>
-                        <div class="grid-card clickable-concept" onclick="openModal('Toma de Decisiones', 'fa-briefcase', 'La parte humana. Es utilizar los hallazgos tecnológicos para cambiar el rumbo de la empresa y generar dinero o ahorrar costos.', 'En lugar de intuir qué producto vender, el equipo de marketing decide invertir todo su presupuesto en publicidad de zapatos al descubrir en un Dashboard que es el producto con mayor margen de ganancia (ROI).')" style="display: flex; align-items: center; gap: 15px; padding: 15px 25px; border-left: 8px solid #E85C0B;">
-                            <i class="fa-solid fa-briefcase" style="color: #003865; font-size: 2em;"></i>
-                            <div>
-                                <h4 style="margin: 0; color: #003865;">Negocio</h4>
-                                <span class="small-text">Decisiones, KPIs, ROI</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4. Timeline CSS - Evolución -->
-            <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-timeline icon"></i> Evolución de los Datos</h2>
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 50px; position: relative;">
-                    <div style="position: absolute; top: 25px; left: 5%; right: 5%; height: 5px; background: #003865; z-index: 0;"></div>
-                    
-                    <div class="clickable-concept" onclick="openModal('1980s: DSS', 'fa-print', 'Decision Support Systems. Eran los primeros reportes operacionales construidos en terminales primitivas.', 'El gerente pedía un estado financiero el lunes. IT corría un comando, y el jueves le entregaban 500 hojas impresas con una tabla gigante de números.')" style="z-index: 1; text-align: center; width: 18%; background: transparent;">
-                        <div style="width: 50px; height: 50px; background: #E85C0B; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin: 0 auto;"></div>
-                        <h4 style="margin-top: 15px; color: #003865;">1980s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">Sistemas DSS.</p>
-                    </div>
-                    
-                    <div class="clickable-concept" onclick="openModal('1990s: Data Warehousing', 'fa-database', 'Se concibe la idea de que los datos históricos de una empresa deben vivir en un repositorio consolidado, independiente del sistema de ventas.', 'Bases de datos gigantes de Oracle donde empezaron a guardar el historial de compras de todos los clientes de WalMart de los últimos 5 años.')" style="z-index: 1; text-align: center; width: 18%;">
-                        <div style="width: 50px; height: 50px; background: #003865; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin: 0 auto;"></div>
-                        <h4 style="margin-top: 15px; color: #003865;">1990s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">OLAP y Data Warehouse.</p>
-                    </div>
-                    
-                    <div class="clickable-concept" onclick="openModal('2000s: BI Tradicional', 'fa-chart-bar', 'Nacen los primeros tableros visuales, pero eran pesados, costosos y requerían que el departamento de IT (Ingenieros) los creara paso a paso.', 'Un gerente comercial pedía un gráfico de barras, y tenía que abrir un ticket a Soporte Técnico, quienes tardaban 2 semanas en construirlo.')" style="z-index: 1; text-align: center; width: 18%;">
-                        <div style="width: 50px; height: 50px; background: #E85C0B; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin: 0 auto;"></div>
-                        <h4 style="margin-top: 15px; color: #003865;">2000s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">BI Tradicional.</p>
-                    </div>
-
-                    <div class="clickable-concept" onclick="openModal('2010s: Self-Service BI', 'fa-user-check', 'Herramientas drag-and-drop democratizan el uso de los datos. Cualquiera puede crear un tablero interactivo.', 'Un analista financiero instala Power BI o Tableau en su PC y conecta un Excel. En 20 minutos diseña un dashboard dinámico para la junta directiva sin saber programar código.')" style="z-index: 1; text-align: center; width: 18%;">
-                        <div style="width: 50px; height: 50px; background: #003865; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin: 0 auto;"></div>
-                        <h4 style="margin-top: 15px; color: #003865;">2010s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">Self-Service BI.</p>
-                    </div>
-
-                    <div class="clickable-concept" onclick="openModal('2020s: Augmented BI', 'fa-robot', 'La Inteligencia Artificial se incrusta en el análisis visual. Chatbots que responden sobre los datos y machine learning integrado.', 'Preguntar en lenguaje natural: ¿Por qué cayeron las ventas? y que la herramienta genere automáticamente un análisis de correlación explicando que se debió al clima lluvioso de esa semana.')" style="z-index: 1; text-align: center; width: 18%;">
-                        <div style="width: 50px; height: 50px; background: #E85C0B; border-radius: 50%; border: 4px solid white; box-shadow: 0 0 20px rgba(232,92,11,0.6); margin: 0 auto; transform: scale(1.2);"></div>
-                        <h4 style="margin-top: 15px; color: #E85C0B; font-weight: bold;">2020s</h4>
-                        <p class="small-text" style="background: white; padding: 10px; border-radius: 8px;">Augmented BI (IA).</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4.1. Tipos de Datos -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-file-code icon"></i> Tipos de Datos Empresariales</h2>
-                <div class="split-screen" style="margin-top: 30px;">
-                    <div class="split-left grid-card clickable-concept" onclick="openModal('Datos Estructurados', 'fa-table', 'Información altamente organizada y predecible. Reside en bases de datos relacionales (SQL). Cada dato tiene un tipo y longitud definidos.', 'Excel, SQL Server, Facturación. (Por ejemplo: Cliente_ID=101, Monto=$500, Fecha=2026-08-14)')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865; text-align: center;"><i class="fa-solid fa-table"></i> Estructurados</h3>
-                        <ul class="styled-list" style="margin-top: 20px;">
-                            <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Altamente organizados (Filas y Columnas).</li>
-                            <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Fáciles de buscar y analizar mediante SQL.</li>
-                            <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Usados en transacciones diarias (OLTP).</li>
-                        </ul>
-                    </div>
-                    <div class="split-right grid-card clickable-concept" onclick="openModal('Datos No Estructurados', 'fa-photo-film', 'Información sin un modelo de datos predefinido o no organizada de manera estándar. Representan el 80% de los datos generados hoy en día.', 'Correos electrónicos, PDFs, imágenes médicas, audios de WhatsApp, posts en Twitter. Requieren Inteligencia Artificial y Big Data para procesarlos.')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B; text-align: center;"><i class="fa-solid fa-photo-film"></i> No Estructurados</h3>
-                        <ul class="styled-list" style="margin-top: 20px;">
-                            <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Sin formato fijo ni modelo relacional.</li>
-                            <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Difíciles de analizar (requieren IA).</li>
-                            <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Son el 80% del volumen de datos moderno.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 5. Split Screen - Flujo Arquitectura -->
-            <section data-transition="fade">
-                <h2 class="text-left"><i class="fa-solid fa-sitemap icon"></i> Arquitectura Base</h2>
-                <div class="split-screen">
-                    <div class="split-left text-left">
+                <h2 class="text-left"><i class="fa-solid fa-server icon"></i> La Materia Prima: Tipos de Datos</h2>
+                <p class="small-text text-left">Antes de modelar, debemos entender qué forma tienen los datos.</p>
+                <div class="grid-layout">
+                    <!-- Estructurados -->
+                    <div class="grid-card clickable-concept" onclick="openModal('Datos Estructurados', 'fa-table', 'Datos altamente organizados, formateados en tablas de filas y columnas, listos para bases de datos relacionales.', 'Bases de datos SQL, Tablas de Excel, Archivos CSV. Ej: El historial de facturación.')">
+                        <i class="fa-solid fa-table" style="font-size: 2.5em; color: #003865;"></i>
+                        <h4 style="color: #003865; margin-top: 15px;">Estructurados (20%)</h4>
                         <ul class="styled-list">
-                            <li class="fragment">El 80% del tiempo en Ciencia de Datos se invierte en limpiar información (ETL).</li>
-                            <li class="fragment">No se puede hacer analítica seria directamente sobre la base de datos de producción (OLTP).</li>
-                            <li class="fragment">El Data Warehouse (OLAP) sirve para agrupar y leer hiper-rápido.</li>
+                            <li>Esquema rígido (Filas/Columnas).</li>
+                            <li>Fáciles de consultar (SQL).</li>
+                            <li>Numéricos y categóricos precisos.</li>
                         </ul>
                     </div>
-                    <div class="split-right">
-                        <div style="display: flex; flex-direction: column; gap: 5px; align-items: center; width: 100%;">
-                            <div class="grid-card clickable-concept" onclick="openModal('Sistemas OLTP', 'fa-server', 'Online Transaction Processing. Son bases de datos relacionales diseñadas para Insertar, Actualizar y Borrar datos individuales a la velocidad de la luz. Si un analista de BI corre una mega consulta aquí, tumbaría el sistema y paralizaría las ventas.', 'La caja de pago de un supermercado (registra 1 venta). O un cajero de un Banco (registra 1 retiro).')" style="width: 80%; text-align: center; background: #f4f6f9; border: 2px dashed #003865; padding: 10px;">
-                                <i class="fa-solid fa-server" style="font-size: 1.5em; color: #003865;"></i><br>
-                                <strong style="font-size: 0.9em;">1. Fuentes (OLTP)</strong>
-                            </div>
-                            <i class="fa-solid fa-arrow-down" style="font-size: 1.2em; color: #E85C0B;"></i>
-                            <div class="grid-card clickable-concept" onclick="openModal('El Proceso ETL', 'fa-filter', 'Extract, Transform, Load. El filtro mágico donde extraes basura de las fuentes, limpias nulos, estandarizas monedas o fechas, y cargas el resultado puro y perfecto al almacén.', 'En un sistema los clientes están como M y F. En otro como Hombre y Mujer. El ETL se encarga de convertir todo uniformemente a Masculino y Femenino antes de guardarlo.')" style="width: 80%; text-align: center; background: linear-gradient(135deg, #E85C0B 0%, #c94b07 100%); color: white; padding: 10px;">
-                                <i class="fa-solid fa-filter" style="font-size: 1.5em; color: white;"></i><br>
-                                <strong style="font-size: 0.9em;">2. Proceso ETL</strong>
-                            </div>
-                            <i class="fa-solid fa-arrow-down" style="font-size: 1.2em; color: #003865;"></i>
-                            <div class="grid-card clickable-concept" onclick="openModal('Data Warehouse (OLAP)', 'fa-cubes', 'Online Analytical Processing. El almacén central con datos limpios históricos. Está diseñado matemáticamente para Lecturas Masivas rápidas de miles de millones de filas.', 'Una consulta que suma todas las ventas globales de Coca-Cola en la última década agrupadas por continente y mes. En OLTP tardaría horas; en OLAP tarda milisegundos.')" style="width: 80%; text-align: center; background: linear-gradient(135deg, #003865 0%, #001f3f 100%); color: white; padding: 10px;">
-                                <i class="fa-solid fa-cubes" style="font-size: 1.5em; color: white;"></i><br>
-                                <strong style="font-size: 0.9em;">3. Data Warehouse (OLAP)</strong>
-                            </div>
-                        </div>
+                    <!-- No Estructurados -->
+                    <div class="grid-card clickable-concept" onclick="openModal('Datos No Estructurados', 'fa-file-audio', 'Datos sin un modelo predefinido o esquema tabular. Difíciles de analizar sin herramientas de IA (Procesamiento de Lenguaje Natural o Visión por Computadora).', 'Correos electrónicos, llamadas grabadas de servicio al cliente, PDFs, Posts de Twitter/X.')">
+                        <i class="fa-solid fa-file-audio" style="font-size: 2.5em; color: #E85C0B;"></i>
+                        <h4 style="color: #003865; margin-top: 15px;">No Estructurados (80%)</h4>
+                        <ul class="styled-list">
+                            <li>Sin formato fijo.</li>
+                            <li>Texto libre, Audio, Video, Imágenes.</li>
+                            <li>Requieren Inteligencia Artificial / NLP.</li>
+                        </ul>
                     </div>
                 </div>
             </section>
 
-            <!-- 6. Dark Slide Impact -->
-            <section data-transition="zoom" class="dark-slide">
-                <h1 style="font-size: 4em; text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Storytelling</h1>
-                <h2 style="color: #E85C0B; text-shadow: 0 5px 15px rgba(232,92,11,0.3);">with Data</h2>
-                <p>No se trata de graficar números. Se trata de contar una historia que obligue al negocio a tomar acción.</p>
-            </section>
-
-            <!-- 7. Simulación Viva: Gráficos -->
-            <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-chart-pie icon"></i> El Problema del "Clutter" Visual</h2>
-                <p class="small-text text-left">Observa cómo la reducción de ruido y la Gestalt mejoran la comprensión.</p>
-                <div class="split-screen">
-                    <div class="split-left clickable-concept" onclick="openModal('Carga Cognitiva (Clutter)', 'fa-triangle-exclamation', 'Todo lo que se añade a un gráfico que no aporta valor informativo se llama ruido o clutter. Borde 3D, líneas de cuadrícula innecesarias, colores excesivos. Obligan al cerebro a trabajar el doble.', 'Un gráfico circular 3D desglosado con 15 tajadas de colores aleatorios y etiquetas flotando, donde es imposible distinguir qué tajada es más grande.')">
-                        <h4 style="color: #dc3545; text-align: left; text-shadow: 0 2px 5px rgba(220,53,69,0.3);">Saturado y Confuso (Carga Cognitiva)</h4>
-                        <div class="chart-container" style="border-top: 5px solid #dc3545;">
-                            <canvas id="badChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="split-right clickable-concept" onclick="openModal('Principios Gestalt & Decluttering', 'fa-eye', 'Usar la psicología visual humana. El cerebro agrupa objetos por cercanía. Si eliminamos todos los bordes, unificamos en tonos grises o azules, y solo resaltamos el dato crucial en naranja, la historia se cuenta sola en un segundo.', 'Un gráfico de barras limpio, donde todas las barras son grises excepto la de nuestro competidor que es roja brillante. El ojo viaja instantáneamente a la barra roja sin esfuerzo.')">
-                        <h4 style="color: #28a745; text-align: left; text-shadow: 0 2px 5px rgba(40,167,69,0.3);">Limpio y Jerarquizado (Gestalt)</h4>
-                        <div class="chart-container" style="border-top: 5px solid #28a745;">
-                            <canvas id="goodChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 7.1. Simulación Viva: Spaghetti vs Focalización -->
+            <!-- 4. Fuentes Organizacionales -->
             <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-chart-line icon"></i> El Síndrome del "Espagueti"</h2>
-                <p class="small-text text-left">Problema: El cerebro no puede procesar 5 tendencias simultáneas con la misma jerarquía visual.</p>
-                <div class="split-screen">
-                    <div class="split-left clickable-concept" onclick="openModal('Gráfico de Espagueti', 'fa-ban', 'Todas las líneas compiten por atención. Los colores brillantes confunden y las cuadrículas gruesas de fondo generan ruido visual innecesario.', 'Intenta descubrir qué pasó con la Región Este en 2024. ¡Es agotador!')">
-                        <h4 style="color: #dc3545; text-align: left; text-shadow: 0 2px 5px rgba(220,53,69,0.3);">Sobrecarga Cognitiva</h4>
-                        <div class="chart-container" style="border-top: 5px solid #dc3545;">
-                            <canvas id="badLineChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="split-right clickable-concept" onclick="openModal('Uso Estratégico del Color', 'fa-eye', 'Usamos el color gris para dar contexto sin saturar. Usamos el color Naranja corporativo SOLAMENTE para guiar el ojo hacia la historia que queremos contar.', 'Ahora es obvio que la historia trata sobre el crecimiento constante de la Región Norte.')">
-                        <h4 style="color: #28a745; text-align: left; text-shadow: 0 2px 5px rgba(40,167,69,0.3);">Focalización (Gestalt)</h4>
-                        <div class="chart-container" style="border-top: 5px solid #28a745;">
-                            <canvas id="goodLineChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="fragment fade-up pro-tip" style="margin-top: 5px; padding: 10px 15px; background: #333; cursor: pointer;" onclick="openModal('Respuesta a la Audiencia', 'fa-person-chalkboard', 'El contraste es la herramienta más poderosa del analista. El ojo humano pre-atentivamente busca la diferencia.', 'El color no debe usarse para decorar, debe usarse para dirigir la mirada de tu jefe.')">
-                    <i class="fa-solid fa-circle-question" style="color: #fff;"></i> <strong style="color: white;">Interacción con el público:</strong> ¿Hacia dónde viaja su mirada en la gráfica izquierda vs derecha? <i class="fa-regular fa-hand-pointer" style="color: #E85C0B; margin-left: 10px; font-size: 1.2em;"></i>
-                </div>
-            </section>
-
-            <!-- 7.2. Simulación Viva: La Trampa Circular -->
-            <section data-transition="zoom">
-                <h2 class="text-left"><i class="fa-solid fa-chart-pie icon"></i> La Trampa del Gráfico Circular</h2>
-                <p class="small-text text-left">El ojo humano es pésimo calculando áreas y ángulos. Las porciones similares son indescifrables.</p>
-                <div class="split-screen">
-                    <div class="split-left clickable-concept" onclick="openModal('El Pastel Mortal', 'fa-chart-pie', 'Múltiples categorías, colores idénticos, leyenda separada. El cerebro tiene que rebotar entre el gráfico y la leyenda repetidas veces, agotando la memoria a corto plazo.', '¿Qué producto vendió más, Producto B o Producto D?')">
-                        <h4 style="color: #dc3545; text-align: left; text-shadow: 0 2px 5px rgba(220,53,69,0.3);">Ángulos Indescifrables</h4>
-                        <div class="chart-container" style="border-top: 5px solid #dc3545;">
-                            <canvas id="badPieChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="split-right clickable-concept" onclick="openModal('La Alternativa Directa', 'fa-chart-bar', 'Si quieres comparar cantidades precisas, el ser humano procesa mucho mejor la longitud (barras) que el área (círculos). O si la historia es un solo dato, ¡Usa un KPI Gigante!', 'Las barras ordenadas de mayor a menor resuelven la comparación en 1 segundo.')">
-                        <h4 style="color: #28a745; text-align: left; text-shadow: 0 2px 5px rgba(40,167,69,0.3);">Longitud y Orden</h4>
-                        <div class="chart-container" style="border-top: 5px solid #28a745;">
-                            <canvas id="goodDonutChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="fragment fade-up pro-tip" style="margin-top: 5px; padding: 10px 15px; background: #333; cursor: pointer;" onclick="openModal('Respuesta a la Audiencia', 'fa-person-chalkboard', 'Casi nunca. Salvo que solo compares dos o máximo tres categorías con una diferencia abismal (ej. 80% vs 20%). De lo contrario, las barras son tus amigas.', 'Regla de oro: No obligues a tu gerente a calcular ángulos.')">
-                    <i class="fa-solid fa-circle-question" style="color: #fff;"></i> <strong style="color: white;">Interacción con el público:</strong> En 3 segundos, ¿quién me dice cuál es mayor entre B y D en la izquierda? ¿Cuándo SÍ deberíamos usar un circular? <i class="fa-regular fa-hand-pointer" style="color: #E85C0B; margin-left: 10px; font-size: 1.2em;"></i>
-                </div>
-            </section>
-            
-            <!-- 8. Mockup / High fidelity example -->
-            <section data-transition="slide">
-                <h2>El Objetivo: Interfaz Minimalista</h2>
-                <p class="small-text">Visualización libre de ruido visual, priorizando el dato y la toma de decisiones.</p>
-                <img src="dashboard_mockup.png" class="clickable-concept" onclick="openModal('El Tablero Ideal', 'fa-desktop', 'Un Dashboard no debe verse como el cuadro de mandos de una nave espacial lleno de relojes. Debe verse como una página web elegante, con espacios en blanco, tipografía clara y focalizada.', 'Fíjense en la imagen: El título indica el resumen, los KPIs clave (KPI cards) están arriba inmensos, y el uso del color se reserva solo para indicar métricas alarmantes o victoriosas.')" style="max-height: 400px; width: auto; border-radius: 16px;">
-            </section>
-
-            <!-- 9. Taller (Pro-Tip) -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-code icon"></i> Taller: Pair Programming</h2>
+                <h2 class="text-left"><i class="fa-solid fa-building icon"></i> Fuentes Organizacionales</h2>
                 <div class="pro-tip">
-                    <i class="fa-solid fa-robot"></i> <strong>Pro-Tip:</strong> Utilicen asistentes LLM como copilot crítico. Pregúntenles si el diseño del tablero evaluado cumple los lineamientos de *Storytelling with Data*.
+                    <i class="fa-solid fa-hand-pointer"></i> <strong>Pro-Tip:</strong> Da clic en cada sigla para ver su significado. ¿De dónde sacamos los datos en una empresa real?
                 </div>
-                <div class="grid-card scrollable">
-                    <ol style="margin-left: 20px;">
-                        <li>En parejas, busquen en internet 2 Dashboards reales.</li>
-                        <li>Analicen la carga cognitiva del tablero deficiente. ¿Qué elementos removerían?</li>
-                        <li>Identifiquen la jerarquía visual del tablero efectivo. ¿A dónde viaja el ojo primero?</li>
-                        <li>Documenten en Markdown y suban a GitHub su conclusión analítica.</li>
-                    </ol>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    
+                    <div class="clickable-concept" onclick="openModal('ERP (Enterprise Resource Planning)', 'fa-industry', 'El software central que gestiona la facturación, contabilidad, inventarios y nómina.', 'SAP, Oracle, Microsoft Dynamics. Aquí encuentras las Ventas Crudas.')" style="background: white; padding: 25px; border-radius: 12px; border-bottom: 5px solid #003865; width: 45%; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                        <h3 style="color: #003865; margin-bottom: 5px;">ERP</h3>
+                        <p class="small-text">Sistemas Transaccionales Core.</p>
+                    </div>
+
+                    <div class="clickable-concept" onclick="openModal('CRM (Customer Relationship Management)', 'fa-users', 'El software donde vive la relación con el cliente: llamadas, correos, quejas y cotizaciones.', 'Salesforce, HubSpot. Aquí encuentras el motivo por el cual los clientes se van (Churn).')" style="background: white; padding: 25px; border-radius: 12px; border-bottom: 5px solid #E85C0B; width: 45%; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                        <h3 style="color: #E85C0B; margin-bottom: 5px;">CRM</h3>
+                        <p class="small-text">Gestión de Clientes.</p>
+                    </div>
+                    
+                    <div class="clickable-concept" onclick="openModal('Flat Files (Archivos Planos)', 'fa-file-excel', 'Las famosas hojas de cálculo que muchas empresas aún usan como base de datos por accidente.', 'Archivos Excel, CSVs exportados, Google Sheets.')" style="background: white; padding: 25px; border-radius: 12px; border-bottom: 5px solid #003865; width: 45%; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                        <h3 style="color: #003865; margin-bottom: 5px;">Archivos Planos</h3>
+                        <p class="small-text">CSVs y Hojas de Cálculo.</p>
+                    </div>
+
+                    <div class="clickable-concept" onclick="openModal('APIs Externas', 'fa-cloud-bolt', 'Conexiones a servicios en la nube para traer datos externos que enriquecen nuestra base local.', 'API del clima (para ver si las lluvias afectan las ventas) o API del Banco de la República (para ver la TRM del dólar).')" style="background: white; padding: 25px; border-radius: 12px; border-bottom: 5px solid #E85C0B; width: 45%; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                        <h3 style="color: #E85C0B; margin-bottom: 5px;">APIs Externas</h3>
+                        <p class="small-text">Datos en la nube (Clima, Dólar, RRSS).</p>
+                    </div>
+
                 </div>
             </section>
 
-            <!-- 10. Glosario -->
+            <!-- 5. Métricas vs KPIs -->
+            <section data-transition="slide" class="dark-slide">
+                <h2 style="color: white;"><i class="fa-solid fa-gauge-high" style="color: #E85C0B;"></i> Métrica vs K.P.I.</h2>
+                <p class="small-text text-left">No todos los números importan. Un gerente no tiene tiempo de ver 500 métricas.</p>
+                
+                <div class="split-layout" style="margin-top: 30px; display: flex; gap: 30px;">
+                    <div style="flex: 1; background: rgba(255,255,255,0.1); padding: 25px; border-radius: 12px; border-top: 5px solid white;">
+                        <h4 style="color: white; margin-top: 0;"><i class="fa-solid fa-ruler"></i> Métrica</h4>
+                        <p class="small-text">Es simplemente un número cuantificable. Mide algo que pasó.</p>
+                        <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; font-family: monospace; font-size: 0.7em; color: #ccc;">
+                            - "Tuvimos 5,000 visitas en la web."<br>
+                            - "Vendimos 200 zapatos hoy."
+                        </div>
+                        <p style="font-size: 0.6em; margin-top: 15px; color: #aaa;">¿Es bueno o malo? Por sí sola, la métrica no lo dice.</p>
+                    </div>
+                    
+                    <div style="flex: 1; background: rgba(232, 92, 11, 0.1); padding: 25px; border-radius: 12px; border-top: 5px solid #E85C0B;">
+                        <h4 style="color: #E85C0B; margin-top: 0;"><i class="fa-solid fa-star"></i> K.P.I.</h4>
+                        <p class="small-text"><em>Key Performance Indicator</em>. Es una métrica **atada a un objetivo estratégico** de la empresa.</p>
+                        <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; font-family: monospace; font-size: 0.7em; color: #fff;">
+                            - "Tasa de Conversión: 4% (Meta: 5%)" ❌<br>
+                            - "Costo de Adquisición de Cliente (CAC) bajó un 10%" ✅
+                        </div>
+                        <p style="font-size: 0.6em; margin-top: 15px; color: #E85C0B; font-weight: bold;">Un KPI te obliga a tomar una decisión.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. El Arte de Preguntar -->
+            <section data-transition="zoom">
+                <h2 class="text-left"><i class="fa-solid fa-comment-dots icon"></i> Preguntas Analíticas</h2>
+                <div class="pro-tip">
+                    <i class="fa-solid fa-language"></i> <strong>Traductor:</strong> La habilidad más valiosa de un analista no es programar en Python o Power BI. Es traducir una queja de negocio a una pregunta con datos.
+                </div>
+                
+                <table style="width: 100%; font-size: 0.7em; border-collapse: collapse; margin-top: 30px;">
+                    <thead>
+                        <tr style="background: #003865; color: white;">
+                            <th style="padding: 15px; border-radius: 8px 0 0 0;">Lo que dice el Gerente (Negocio)</th>
+                            <th style="padding: 15px; background: #E85C0B;">Lo que debes buscar en la Base de Datos (Analítica)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #ccc;">
+                            <td style="padding: 15px;">"La gente no está comprando este mes."</td>
+                            <td style="padding: 15px; background: #fff5f0;">¿Cuál es la variación porcentual de ventas de este mes vs el mes anterior, segmentada por línea de producto?</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc;">
+                            <td style="padding: 15px;">"Se nos están yendo los clientes buenos."</td>
+                            <td style="padding: 15px; background: #fff5f0;">¿Cuál es el <em>Churn Rate</em> (Tasa de Abandono) de los clientes en el cuartil superior de compras (Q4) en el último trimestre?</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px;">"Nuestras campañas de Facebook no sirven."</td>
+                            <td style="padding: 15px; background: #fff5f0;">¿Cuál es el Costo de Adquisición de Cliente (CAC) y el Retorno de Inversión (ROI) específico del canal orgánico vs canal pago?</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 7. Taller Práctico Teórico -->
+            <section data-transition="slide" class="dark-slide">
+                <i class="fa-solid fa-users-gear" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px;"></i>
+                <h1 style="color: white !important;">Laboratorio de Negocio</h1>
+                <p>Ve a la plataforma y abre la actividad: <strong>Taller de Preguntas Analíticas</strong>.</p>
+                <div class="grid-card" style="background: rgba(255,255,255,0.1); margin: 0 auto; max-width: 70%; text-align: center;">
+                    <h4 style="color: white; margin-top: 0;">Flujo Técnico</h4>
+                    <span style="color: #E85C0B; font-weight: bold;">Lectura de Caso ➔ Traducción a Pregunta Analítica ➔ Definición de 3 KPIs Clave</span>
+                </div>
+            </section>
+
+            <!-- 8. Conclusiones -->
             <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-book icon"></i> Glosario de Términos</h2>
-                <div class="grid-layout scrollable" style="max-height: 55vh;">
-                    <div class="grid-card clickable-concept" onclick="openModal('Glosario: ETL', 'fa-filter', 'Proceso fundamental de ingeniería de datos para asegurar calidad y pureza en la información.', 'Tomar 3 excels mal llenados, quitarles los espacios en blanco, volver las fechas al formato Año-Mes-Día y guardar el resultado.')">
-                        <h4 style="color: var(--unab-blue);">ETL</h4>
-                        <p class="small-text">Extract, Transform, Load.</p>
-                    </div>
-                    <div class="grid-card clickable-concept" onclick="openModal('Glosario: Data Warehouse', 'fa-cubes', 'Base de datos analítica orientada a columnas, diseñada exclusivamente para consultar información de forma súper eficiente.', 'En lugar de guardar filas de compras (cliente 1 compró A, cliente 2 compró B), se estructura por hechos históricos para fácil suma matemática.')">
-                        <h4 style="color: var(--unab-blue);">Data Warehouse</h4>
-                        <p class="small-text">Almacén histórico OLAP.</p>
-                    </div>
-                    <div class="grid-card clickable-concept" onclick="openModal('Glosario: Storytelling', 'fa-comments', 'El arte de traducir puros números fríos en una narrativa verbal y visual que los humanos empáticos puedan procesar y reaccionar.', 'Decir: Nuestra retención cayó un 15% por culpa del cambio de interfaz en el botón de pago (respaldado por un gráfico lineal que cae estrepitosamente).')">
-                        <h4 style="color: var(--unab-blue);">Storytelling</h4>
-                        <p class="small-text">Narrativa con datos.</p>
-                    </div>
-                    <div class="grid-card clickable-concept" onclick="openModal('Glosario: Gestalt', 'fa-eye', 'Leyes biológicas de cómo percibimos la información. Gestalt significa forma unificada en alemán.', 'Ley de la Proximidad: Si pones dos gráficos cerca y los rodeas con un borde muy sutil, el cerebro asume que están directamente relacionados sin necesidad de un título gigantesco.')">
-                        <h4 style="color: var(--unab-blue);">Gestalt</h4>
-                        <p class="small-text">Psicología de la percepción.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 11. Conclusiones (High Impact) -->
-            <section data-transition="zoom" class="dark-slide">
-                <h2 style="color: #E85C0B;"><i class="fa-solid fa-flag-checkered" style="color: white;"></i> Conclusiones</h2>
-                <ul class="styled-list" style="margin-top: 30px; font-size: 1.2em;">
-                    <li class="fragment">El diseño de datos es <strong>estrategia organizacional</strong>, no solo estética.</li>
-                    <li class="fragment">El 80% del esfuerzo reside en la ingeniería de datos (ETL); el 20% en la visualización.</li>
-                    <li class="fragment">Si un dashboard no puede leerse en 5 segundos, ha fracasado en su propósito.</li>
+                <h2 class="text-left"><i class="fa-solid fa-flag-checkered icon"></i> Conclusiones</h2>
+                <ul class="styled-list" style="margin-bottom: 30px;">
+                    <li>El 80% de los datos del mundo son no estructurados, pero el BI tradicional arranca atacando el 20% estructurado (ERP/CRM).</li>
+                    <li><strong>Vanity Metrics:</strong> Cuidado con las métricas vanidosas (ej. Likes en un post). Si el número no te dice qué hacer a continuación, no es un KPI.</li>
+                    <li>El analista de BI es un puente: debe hablar el idioma del gerente (Ganancias, Estrategia) y el idioma del ingeniero (SQL, Bases de datos, ETL).</li>
                 </ul>
             </section>
 
-            <!-- 12. Bibliografía -->
-            <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-bookmark icon"></i> Bibliografía Requerida</h2>
-                <div class="split-screen">
-                    <div class="split-left text-left">
-                        <ul class="styled-list">
-                            <li><strong>Nussbaumer Knaflic, C. (2015).</strong> <em>Storytelling with Data: A Data Visualization Guide for Business Professionals.</em> Wiley.</li>
-                            <br>
-                            <li><strong>Kimball, R., & Ross, M. (2013).</strong> <em>The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling.</em> Wiley.</li>
-                        </ul>
-                    </div>
-                    <div class="split-right">
-                        <div class="pro-tip">
-                            <i class="fa-solid fa-book-open"></i> <strong>Lectura Autónoma:</strong> Revisen el Capítulo 1 y 2 de <em>Storytelling with Data</em> para la próxima clase. Aplicaremos los conceptos en el laboratorio.
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 13. Cierre y Disclaimer IA (Alta Impacto / Cyber) -->
-            <section data-transition="zoom" class="ai-slide" data-background-color="#050510">
-                <div class="ai-container">
-                    <i class="fa-solid fa-microchip ai-icon" style="font-size: 2.2em; margin-bottom: 0;"></i>
-                    <h2 class="ai-title" style="font-size: 1.4em !important; margin-bottom: 10px;">¡Gracias por su atención!</h2>
-                    
-                    <div class="ai-glass-box" style="padding: 2px; width: 85%;">
-                        <div class="ai-content" style="padding: 15px 20px;">
-                            <h4 style="color: #E85C0B; font-family: 'Courier New', Courier, monospace; margin-bottom: 5px; font-size: 0.75em; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">
-                                <i class="fa-solid fa-terminal" style="margin-right: 10px;"></i> [ SYSTEM_LOG: AI_DISCLAIMER.exe ]
-                            </h4>
-                            <p class="ai-text" style="font-size: 0.6em !important; min-height: 90px; line-height: 1.4;">
-                                <span id="typed-ai-text"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            </div>
         </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
     <script>
         // Modal functions
         function openModal(title, iconClass, text, example) {
