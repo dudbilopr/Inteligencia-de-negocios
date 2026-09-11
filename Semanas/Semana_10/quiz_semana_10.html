@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMI Activity - Semana 1</title>
+    <title>EMI Activity - Semana 10</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,27 +26,22 @@
 
     <div class="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-primary">
         <div class="bg-gradient-to-r from-primary to-blue-900 p-8 text-center text-white">
-            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-globe text-secondary mr-3"></i>EMI Reading & Quiz - Week 1</h1>
-            <p class="text-blue-200">English as a Medium of Instruction: Introduction to Business Intelligence</p>
+            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-globe text-secondary mr-3"></i>EMI Reading & Quiz - Week 10</h1>
+            <p class="text-blue-200">English as a Medium of Instruction: Cloud Deployment & Automation</p>
         </div>
         
         <!-- Reading Section -->
         <div class="p-8 border-b border-gray-200 bg-gray-50">
-            <h2 class="text-xl font-bold text-primary mb-4"><i class="fas fa-book-reader text-secondary mr-2"></i> Case Study: The Data-Driven Transition</h2>
+            <h2 class="text-xl font-bold text-primary mb-4"><i class="fas fa-book-reader text-secondary mr-2"></i> Analytical Context</h2>
             <div class="text-gray-700 text-sm leading-relaxed space-y-4">
-                <p>
-                    A traditional retail company relies heavily on the intuition of its senior managers to stock inventory. During the holiday season, they ordered excess stock of winter coats based on a "gut feeling" about a harsh winter. However, the weather remained mild, leading to massive inventory holding costs and severe profit margin compression.
-                </p>
-                <p>
-                    To prevent this, the CEO decided to transition the company into a <strong>Data-Driven</strong> organization. They implemented a Business Intelligence (BI) architecture that connects Point of Sale (POS) systems, CRM data, and external weather APIs into a centralized <strong>Data Warehouse</strong>. The BI system now provides real-time predictive analytics rather than relying solely on historical descriptive reports. 
-                </p>
+                <p>Modern Business Intelligence requires automated delivery. Once a model is built locally, it is published to the Cloud (e.g., Power BI Service) into collaborative environments called <strong>Workspaces</strong>.</p><p>To ensure executives always have fresh data, architects configure a <strong>Scheduled Refresh</strong> via an On-Premises Data Gateway or direct cloud connection. The architecture fundamentally separates the <em>Semantic Model</em> (the database and DAX rules) from the <em>Report</em> (the visual interface), allowing multiple different reports to connect to a single, certified, and automated 'Golden Dataset'.</p>
             </div>
         </div>
 
         <!-- Quiz Section -->
         <div class="p-8" id="quiz-container">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-semibold text-gray-700">Analytical Challenge:</h2>
+                <h2 class="text-xl font-semibold text-gray-700">Test Your Knowledge:</h2>
                 <span class="text-sm font-bold text-white bg-secondary px-3 py-1 rounded-full" id="score-tracker">Score: 0/3</span>
             </div>
             
@@ -68,40 +63,40 @@
 
     <script>
         const questions = [
-            { 
-                q: "Based on the case study, what is the primary fundamental flaw of relying solely on the senior managers' 'gut feeling' (intuition)?", 
-                options: [
-                    "Intuition cannot scale across multiple retail branches efficiently.", 
-                    "It lacks empirical validation and is highly susceptible to cognitive biases (e.g., availability heuristic).", 
-                    "It increases the Data-Ink ratio making it harder to read inventory logs.", 
-                    "It requires too much processing power compared to a Data Warehouse."
-                ], 
-                ans: 1,
-                explanation: "Correct! Intuition is heavily biased. A Data-Driven approach grounds decisions in empirical, verifiable evidence, reducing financial risk."
-            },
-            { 
-                q: "Why is integrating external weather APIs crucial for the new BI architecture of this retail company?", 
-                options: [
-                    "To generate descriptive analytics about past winters.", 
-                    "To replace the CRM system entirely.", 
-                    "To shift the paradigm from descriptive analytics to predictive analytics, anticipating demand shifts.", 
-                    "To design better logos for the winter coats."
-                ], 
-                ans: 2,
-                explanation: "Exactly! Moving from just asking 'What happened?' (descriptive) to 'What will happen?' (predictive) based on external variables is a core BI advantage."
-            },
-            { 
-                q: "In the context of the BI architecture described, what is the specific role of the Data Warehouse?", 
-                options: [
-                    "To serve as a front-end visualization tool for the CEO.", 
-                    "To act as a centralized, integrated repository of data consolidated from multiple operational sources (POS, CRM, API).", 
-                    "To directly process credit card transactions at the cash register.", 
-                    "To train the sales staff on how to use the new winter coats."
-                ], 
-                ans: 1,
-                explanation: "Spot on! A Data Warehouse acts as the single source of truth, integrating siloed operational data into a unified schema optimized for analytical querying (OLAP)."
-            }
-        ];
+    {
+        "q": "In a cloud deployment, what is the architectural advantage of separating the Semantic Model from the Report (Thin Report methodology)?",
+        "options": [
+            "It allows you to use different colors.",
+            "It establishes a 'Single Source of Truth'. Multiple reports across different departments can connect live to one centralized, certified Semantic Model, preventing metric fragmentation.",
+            "It makes the file size larger on your hard drive.",
+            "It bypasses Row-Level Security."
+        ],
+        "ans": 1,
+        "explanation": "Correct! Centralizing the model means if you update the DAX logic for 'Net Profit', every connected report in the company updates instantly. No more siloed, conflicting Excel files."
+    },
+    {
+        "q": "If your semantic model connects to an internal on-premises SQL Server, what infrastructure component is absolutely required to enable a Scheduled Refresh in the Cloud?",
+        "options": [
+            "A Data Gateway installed on an internal server to act as a secure bridge between the Cloud and the local SQL database.",
+            "A premium subscription for every user.",
+            "A physical USB drive.",
+            "A Python script running in a while-loop."
+        ],
+        "ans": 0,
+        "explanation": "Exactly. Cloud services cannot magically breach your corporate firewall. The Data Gateway securely polls the cloud for refresh requests and queries the local SQL server."
+    },
+    {
+        "q": "What happens if a Scheduled Refresh fails on a Monday morning?",
+        "options": [
+            "The dashboard crashes and displays a blue screen to all executives.",
+            "The cloud service deletes the dataset automatically.",
+            "The dashboard remains accessible but displays stale (old) data from the last successful refresh, and the model owner receives a failure notification.",
+            "The CEO's computer shuts down."
+        ],
+        "ans": 2,
+        "explanation": "Spot on. The VertiPaq engine holds the last cached state in memory. Viewers still see the old data, preventing a complete blackout while the engineering team fixes the pipeline."
+    }
+];
 
         let currentQuestion = 0;
         let score = 0;
@@ -137,7 +132,7 @@
                         btn.classList.remove('opacity-50', 'border-gray-200');
                         btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
                         score++;
-                        scoreTracker.innerText = `Score: ${score}/3`;
+                        scoreTracker.innerText = `Score: ${score}/${questions.length}`;
                         showFeedback(true, q.explanation);
                     } else {
                         btn.classList.remove('opacity-50', 'border-gray-200');
@@ -155,7 +150,7 @@
                         nextBtn.classList.remove('hidden');
                         nextBtn.classList.add('fade-in');
                     } else {
-                        feedbackDiv.innerHTML += `<br><br><div class="text-center text-primary mt-2"><strong>Quiz Completed! Final Score: ${score}/3</strong></div>`;
+                        feedbackDiv.innerHTML += `<br><br><div class="text-center text-primary mt-2"><strong>Quiz Completed! Final Score: ${score}/${questions.length}</strong></div>`;
                     }
                 };
                 optionsDiv.appendChild(btn);

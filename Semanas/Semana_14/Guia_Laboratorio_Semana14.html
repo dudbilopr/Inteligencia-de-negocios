@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio - Semana 14</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#003865', secondary: '#E85C0B' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
+    
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-primary text-white p-8">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 bg-white/20 rounded-full flex justify-center items-center">
+                    <i class="fas fa-flag-checkered text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">Rúbrica: Sustentación Proyecto 2</h1>
+                    <p class="text-blue-200 text-sm">Semana 14 - Inteligencia de Negocios</p>
+                </div>
+            </div>
+            <p class="opacity-90 text-sm">Criterios de evaluación para la presentación ejecutiva final.</p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 space-y-10">
+            
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-balance-scale"></i></div>
+                    <h2 class="text-xl font-bold text-primary">Esquema de Evaluación</h2>
+                </div>
+                
+                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-sm text-gray-700 mb-4 shadow-inner relative">
+                    <p class="mb-4">El proyecto 2 es la evaluación sumativa de toda la unidad. El objetivo no es auditar tu código DAX, sino tu capacidad de convertir los datos generados por dicho código en valor empresarial.</p>
+                </div>
+            </section>
+
+            <!-- Rubrica -->
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-list-ol"></i></div>
+                    <h2 class="text-xl font-bold text-primary">Criterios (100 puntos totales)</h2>
+                </div>
+                
+                <ul class="space-y-4 mt-6">
+                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
+                        <div class="bg-indigo-100 text-indigo-700 font-bold px-3 py-1 rounded text-sm whitespace-nowrap">20 Pts</div>
+                        <div>
+                            <strong class="text-gray-800">Modelo Dimensional y DAX (Validación técnica offline)</strong>
+                            <p class="text-sm text-gray-600">Esquema en estrella correctamente implementado. Medidas DAX eficientes (uso de iteradores y time intelligence adecuado). Sin columnas redundantes.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
+                        <div class="bg-orange-100 text-orange-700 font-bold px-3 py-1 rounded text-sm whitespace-nowrap">30 Pts</div>
+                        <div>
+                            <strong class="text-gray-800">Calidad Visual (Data-Ink Ratio y UX)</strong>
+                            <p class="text-sm text-gray-600">Dashboard libre de "Clutter". Uso estratégico del color (atributos preatentivos) para dirigir la mirada a las complicaciones. Presencia de jerarquía visual y tooltips/drill-through.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
+                        <div class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded text-sm whitespace-nowrap">30 Pts</div>
+                        <div>
+                            <strong class="text-gray-800">Narrativa y Argumentación (El "Pitch")</strong>
+                            <p class="text-sm text-gray-600">Implementación de la estructura SCR (Situación, Complicación, Resolución). Claridad verbal. Capacidad para responder analíticamente a los cuestionamientos del jurado simulando rol C-Level.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
+                        <div class="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded text-sm whitespace-nowrap">20 Pts</div>
+                        <div>
+                            <strong class="text-gray-800">Documento Ejecutivo</strong>
+                            <p class="text-sm text-gray-600">Calidad, síntesis y ortografía del informe ejecutivo escrito (Max 2 páginas).</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-100 p-4 text-center text-xs text-gray-500 border-t border-gray-200">
+            Curso de Inteligencia de Negocios - Universidad Autónoma de Bucaramanga<br>
+            Evaluación Final (Semana 14).
+        </div>
+    </div>
+
+</body>
+</html>

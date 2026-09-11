@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 4 - Time Intelligence (Inteligencia de Tiempo)</title>
+    <title>Laboratorio Semana 10 - Integración con Python y R</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -34,15 +34,15 @@
             <div class="relative z-10">
                 <div class="flex items-center gap-5 mb-6">
                     <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-calendar-alt text-3xl text-secondary"></i>
+                        <i class="fas fa-python text-3xl text-secondary"></i>
                     </div>
                     <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 4</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Análisis Comparativo e Inteligencia Temporal</h1>
+                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 10</p>
+                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Python Avanzado dentro de Power BI</h1>
                     </div>
                 </div>
                 <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> En este escenario, el Director Financiero (CFO) te ha pedido un informe detallado que muestre el desempeño de ventas contra el año pasado, evaluando estacionalidad y crecimiento. Aprenderás a dominar CALCULATE y a construir una tabla de fechas paramétrica.</p>
+                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> Hay gráficos estadísticos profundos que BI no soporta nativamente. Como analista de datos avanzado, escribirás código en Seaborn (Python) para generar un Mapa de Calor (Heatmap) de correlaciones de Pearson, incrustado en el dashboard operativo.</p>
                 </div>
             </div>
         </div>
@@ -59,27 +59,27 @@
                 <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
                     1
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Construcción del Calendario en DAX</h3>
+                <h3 class="text-xl font-bold text-primary mb-3">Configuración del Entorno (Python Runtime)</h3>
                 <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear una nueva tabla utilizando DAX: <code>Calendario = ADDCOLUMNS(CALENDARAUTO(), "Año", YEAR([Date]), "Mes_Num", MONTH([Date]), "Mes_Nombre", FORMAT([Date], "MMMM"))</code>. Marcarla como tabla de fechas oficial.</p>
+                    <p class="leading-relaxed">Asegurar que Python y Pandas/Matplotlib/Seaborn estén instalados y mapeados en las opciones globales del software BI (Options > Python Scripting).</p>
                 </div>
             </div>
             <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
                 <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
                     2
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Métricas Acumuladas</h3>
+                <h3 class="text-xl font-bold text-primary mb-3">Transformación ETL con Pandas</h3>
                 <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear las medidas base acumulativas para comprender la tracción del negocio:<br><code>Ventas_YTD = TOTALYTD([Ventas_Total], Calendario[Date])</code></p>
+                    <p class="leading-relaxed">En Power Query, seleccionar 'Ejecutar script de Python'. Extraer el año y mes de una fecha compleja utilizando las potentes funciones lambda y de string de Pandas: `dataset['Año'] = dataset['Fecha_Cruda'].str.extract(r'(\d{4})')`.</p>
                 </div>
             </div>
             <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
                 <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
                     3
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Métricas de Crecimiento (YoY)</h3>
+                <h3 class="text-xl font-bold text-primary mb-3">Visualización de Correlaciones (Heatmap)</h3>
                 <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear la comparativa interanual y calcular la variación porcentual:<br><code>Ventas_LY = CALCULATE([Ventas_Total], SAMEPERIODLASTYEAR(Calendario[Date]))</code><br><code>Crecimiento_YoY = DIVIDE([Ventas_Total] - [Ventas_LY], [Ventas_LY])</code></p>
+                    <p class="leading-relaxed">Arrastrar el visual de Python al lienzo. Añadir métricas numéricas continuas (Ventas, Temperatura_Clima, Descuentos). Escribir el script: `import seaborn as sns; import matplotlib.pyplot as plt; sns.heatmap(dataset.corr(), annot=True, cmap='Blues'); plt.show()`.</p>
                 </div>
             </div>
             </div>
@@ -99,7 +99,7 @@
                 </h2>
                 <div class="bg-white/10 rounded-xl p-6 border border-white/10">
                     <p class="text-gray-300 text-lg leading-relaxed">
-                        Diseñar una medida avanzada que calcule un promedio móvil de ventas de los últimos 30 días, manejando contextos de fechas dinámicos mediante las funciones CALCULATE, DATESINPERIOD y LASTDATE, para suavizar la curva de tendencia estacional.
+                        Entrenar y serializar (joblib/pickle) un modelo simple de Random Forest Regressor en Jupyter Notebook externo. Importarlo dentro de Power Query para realizar predicciones dinámicas y crear una columna calculada predictiva.
                     </p>
                 </div>
                 

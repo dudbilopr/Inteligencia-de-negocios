@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 4 - Time Intelligence (Inteligencia de Tiempo)</title>
+    <title>Laboratorio Semana 6 - Principios de Visualización de Datos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -34,15 +34,15 @@
             <div class="relative z-10">
                 <div class="flex items-center gap-5 mb-6">
                     <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-calendar-alt text-3xl text-secondary"></i>
+                        <i class="fas fa-palette text-3xl text-secondary"></i>
                     </div>
                     <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 4</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Análisis Comparativo e Inteligencia Temporal</h1>
+                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 6</p>
+                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Refactorización Visual y Limpieza de Reportes</h1>
                     </div>
                 </div>
                 <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> En este escenario, el Director Financiero (CFO) te ha pedido un informe detallado que muestre el desempeño de ventas contra el año pasado, evaluando estacionalidad y crecimiento. Aprenderás a dominar CALCULATE y a construir una tabla de fechas paramétrica.</p>
+                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> Te entregan un reporte antiguo saturado de colores neón, gráficos 3D y tablas ilegibles. Tu tarea es aplicar Data-to-Ink ratio, rediseñar la paleta de colores a un estándar corporativo serio y corregir los engaños visuales (ejes truncados, ángulos engañosos).</p>
                 </div>
             </div>
         </div>
@@ -59,27 +59,27 @@
                 <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
                     1
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Construcción del Calendario en DAX</h3>
+                <h3 class="text-xl font-bold text-primary mb-3">Limpieza (Decluttering)</h3>
                 <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear una nueva tabla utilizando DAX: <code>Calendario = ADDCOLUMNS(CALENDARAUTO(), "Año", YEAR([Date]), "Mes_Num", MONTH([Date]), "Mes_Nombre", FORMAT([Date], "MMMM"))</code>. Marcarla como tabla de fechas oficial.</p>
+                    <p class="leading-relaxed">Tomar un gráfico de líneas sobresaturado. Eliminar el fondo gris, quitar las líneas de cuadrícula secundarias, remover el borde del marco y colocar etiquetas al final de la línea en lugar de una leyenda confusa.</p>
                 </div>
             </div>
             <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
                 <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
                     2
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Métricas Acumuladas</h3>
+                <h3 class="text-xl font-bold text-primary mb-3">Transformación a Barras Horizontales</h3>
                 <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear las medidas base acumulativas para comprender la tracción del negocio:<br><code>Ventas_YTD = TOTALYTD([Ventas_Total], Calendario[Date])</code></p>
+                    <p class="leading-relaxed">Convertir un gráfico circular ilegible (con 15 países) en un gráfico de barras horizontales ordenado de mayor a menor, donde solo el Top 3 esté resaltado en color corporativo (naranja) y el resto en gris neutro.</p>
                 </div>
             </div>
             <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
                 <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
                     3
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Métricas de Crecimiento (YoY)</h3>
+                <h3 class="text-xl font-bold text-primary mb-3">Paletas Semánticas (Color-Blind Friendly)</h3>
                 <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear la comparativa interanual y calcular la variación porcentual:<br><code>Ventas_LY = CALCULATE([Ventas_Total], SAMEPERIODLASTYEAR(Calendario[Date]))</code><br><code>Crecimiento_YoY = DIVIDE([Ventas_Total] - [Ventas_LY], [Ventas_LY])</code></p>
+                    <p class="leading-relaxed">Implementar un tema JSON en Power BI que reemplace los colores predeterminados por una paleta adaptada a personas con daltonismo, garantizando accesibilidad y seriedad institucional.</p>
                 </div>
             </div>
             </div>
@@ -99,7 +99,7 @@
                 </h2>
                 <div class="bg-white/10 rounded-xl p-6 border border-white/10">
                     <p class="text-gray-300 text-lg leading-relaxed">
-                        Diseñar una medida avanzada que calcule un promedio móvil de ventas de los últimos 30 días, manejando contextos de fechas dinámicos mediante las funciones CALCULATE, DATESINPERIOD y LASTDATE, para suavizar la curva de tendencia estacional.
+                        Crear un gráfico combinado (Líneas y Columnas Apiladas) que comparta el eje X, pero manejar escalas relativas independientes (porcentaje de margen en línea vs volumen de venta en barras) de manera que ninguna visualización aplaste a la otra.
                     </p>
                 </div>
                 

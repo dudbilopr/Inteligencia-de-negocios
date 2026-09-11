@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMI Activity - Semana 1</title>
+    <title>EMI Activity - Semana 11</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,19 +26,19 @@
 
     <div class="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-primary">
         <div class="bg-gradient-to-r from-primary to-blue-900 p-8 text-center text-white">
-            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-globe text-secondary mr-3"></i>EMI Reading & Quiz - Week 1</h1>
-            <p class="text-blue-200">English as a Medium of Instruction: Introduction to Business Intelligence</p>
+            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-globe text-secondary mr-3"></i>EMI Reading & Quiz - Week 11</h1>
+            <p class="text-blue-200">English as a Medium of Instruction: Storytelling with Data</p>
         </div>
         
         <!-- Reading Section -->
         <div class="p-8 border-b border-gray-200 bg-gray-50">
-            <h2 class="text-xl font-bold text-primary mb-4"><i class="fas fa-book-reader text-secondary mr-2"></i> Case Study: The Data-Driven Transition</h2>
+            <h2 class="text-xl font-bold text-primary mb-4"><i class="fas fa-book-reader text-secondary mr-2"></i> Short Reading: The Power of Preattentive Attributes</h2>
             <div class="text-gray-700 text-sm leading-relaxed space-y-4">
                 <p>
-                    A traditional retail company relies heavily on the intuition of its senior managers to stock inventory. During the holiday season, they ordered excess stock of winter coats based on a "gut feeling" about a harsh winter. However, the weather remained mild, leading to massive inventory holding costs and severe profit margin compression.
+                    In data visualization, <strong>preattentive attributes</strong> are visual properties that our brains process in milliseconds, before we even realize we are paying attention. According to Cole Nussbaumer Knaflic (<em>Storytelling with Data</em>), these attributes—such as color, size, shape, and spatial position—can be leveraged to direct the audience's attention exactly where you want it.
                 </p>
                 <p>
-                    To prevent this, the CEO decided to transition the company into a <strong>Data-Driven</strong> organization. They implemented a Business Intelligence (BI) architecture that connects Point of Sale (POS) systems, CRM data, and external weather APIs into a centralized <strong>Data Warehouse</strong>. The BI system now provides real-time predictive analytics rather than relying solely on historical descriptive reports. 
+                    However, preattentive attributes lose their power if overused. If everything is highlighted, nothing is highlighted. This ties into the concept of <strong>clutter</strong> (cognitive load). Clutter refers to visual elements that take up space but don't increase understanding. The <em>Data-Ink Ratio</em> principle suggests that you should maximize the ink used to present data and minimize the ink used for non-data elements (like heavy gridlines or 3D effects).
                 </p>
             </div>
         </div>
@@ -46,7 +46,7 @@
         <!-- Quiz Section -->
         <div class="p-8" id="quiz-container">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-semibold text-gray-700">Analytical Challenge:</h2>
+                <h2 class="text-xl font-semibold text-gray-700">Test Your Knowledge:</h2>
                 <span class="text-sm font-bold text-white bg-secondary px-3 py-1 rounded-full" id="score-tracker">Score: 0/3</span>
             </div>
             
@@ -69,37 +69,37 @@
     <script>
         const questions = [
             { 
-                q: "Based on the case study, what is the primary fundamental flaw of relying solely on the senior managers' 'gut feeling' (intuition)?", 
+                q: "Based on the reading, what happens when preattentive attributes (like color highlighting) are overused in a dashboard?", 
                 options: [
-                    "Intuition cannot scale across multiple retail branches efficiently.", 
-                    "It lacks empirical validation and is highly susceptible to cognitive biases (e.g., availability heuristic).", 
-                    "It increases the Data-Ink ratio making it harder to read inventory logs.", 
-                    "It requires too much processing power compared to a Data Warehouse."
+                    "They lose their effectiveness because 'if everything is highlighted, nothing is highlighted'.", 
+                    "They decrease the Data-Ink Ratio, making the dashboard load slower.", 
+                    "They force the audience to make better business decisions automatically.", 
+                    "They improve cognitive load by giving the brain more visual stimuli to process."
                 ], 
-                ans: 1,
-                explanation: "Correct! Intuition is heavily biased. A Data-Driven approach grounds decisions in empirical, verifiable evidence, reducing financial risk."
+                ans: 0,
+                explanation: "Correct! Overusing highlighting dilutes its power. You must use it sparingly to draw the eye to the most critical 'Big Idea'."
             },
             { 
-                q: "Why is integrating external weather APIs crucial for the new BI architecture of this retail company?", 
+                q: "Which of the following modifications effectively reduces 'clutter' according to the Data-Ink Ratio principle?", 
                 options: [
-                    "To generate descriptive analytics about past winters.", 
-                    "To replace the CRM system entirely.", 
-                    "To shift the paradigm from descriptive analytics to predictive analytics, anticipating demand shifts.", 
-                    "To design better logos for the winter coats."
+                    "Adding a 3D effect to a pie chart.", 
+                    "Removing background gridlines and removing borders from a bar chart.", 
+                    "Changing all the bars to bright red.", 
+                    "Including the exact decimal data labels (e.g., 45.321%) for every single point."
+                ], 
+                ans: 1,
+                explanation: "Exactly! Removing non-essential elements like heavy gridlines or borders increases the proportion of ink dedicated strictly to the data."
+            },
+            { 
+                q: "When applying Storytelling with Data to a C-Level presentation, what is the most critical first step before choosing a chart type?", 
+                options: [
+                    "Deciding whether to use Power BI or Tableau.", 
+                    "Applying a dark mode theme for visual impact.", 
+                    "Identifying the audience ('Who') and the action you want them to take ('What').", 
+                    "Cleaning the dataset to remove null values."
                 ], 
                 ans: 2,
-                explanation: "Exactly! Moving from just asking 'What happened?' (descriptive) to 'What will happen?' (predictive) based on external variables is a core BI advantage."
-            },
-            { 
-                q: "In the context of the BI architecture described, what is the specific role of the Data Warehouse?", 
-                options: [
-                    "To serve as a front-end visualization tool for the CEO.", 
-                    "To act as a centralized, integrated repository of data consolidated from multiple operational sources (POS, CRM, API).", 
-                    "To directly process credit card transactions at the cash register.", 
-                    "To train the sales staff on how to use the new winter coats."
-                ], 
-                ans: 1,
-                explanation: "Spot on! A Data Warehouse acts as the single source of truth, integrating siloed operational data into a unified schema optimized for analytical querying (OLAP)."
+                explanation: "Spot on! The 'Who' and 'What' define the entire narrative. A chart without a clear audience and purpose is just raw data, not a story."
             }
         ];
 

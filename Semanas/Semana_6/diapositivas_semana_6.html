@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Inteligencia de Negocios - Semana 4</title>
+    <title>Inteligencia de Negocios - Semana 6</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
@@ -148,9 +148,9 @@
             <section data-transition="zoom" class="dark-slide">
                 <div id="typed-container"><span id="typed-output"></span></div>
                 <br>
-                <i class="fa-solid fa-calendar-alt" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
+                <i class="fa-solid fa-palette" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
                 <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Semana 4: Time Intelligence (Inteligencia de Tiempo)</h3>
+                <h3>Semana 6: Principios de Visualización de Datos</h3>
                 <br>
                 <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
             </section>
@@ -162,7 +162,7 @@
                     <h3 style="color: #003865; margin-bottom: 20px;">Meta Analítica</h3>
                     <p style="font-size: 1.2em; color: #333; line-height: 1.6;">
                         <i class="fa-solid fa-check-double text-green-600" style="color: #E85C0B; margin-right: 15px;"></i>
-                        Desarrollar análisis temporales complejos (YTD, MTD, SAMEPERIODLASTYEAR) mediante expresiones DAX avanzadas y la construcción de una Dimensión de Calendario robusta.
+                        Aplicar los principios de percepción visual (Gestalt) y elección correcta de gráficos para contar historias de datos evitando sesgos y engaños visuales.
                     </p>
                 </div>
             </section>
@@ -171,14 +171,14 @@
             <section data-transition="convex">
                 <h2 class="text-left"><i class="fa-solid fa-cubes-stacked" style="color: #E85C0B;"></i> Conceptos Analíticos Clave</h2>
                 <div class="split-layout">
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Dimensión Calendario', 'fa-table-cells', 'Tabla central para análisis temporal. Debe tener una fila continua por cada día (sin saltos), marcada oficialmente como 'Tabla de Fechas' en Power BI para habilitar las funciones de Time Intelligence.', 'Dim_Calendar = CALENDAR(MIN(Ventas[Fecha]), MAX(Ventas[Fecha]))')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865;"><i class="fa-solid fa-table-cells"></i> Dimensión Calendario</h3>
-                        <p class="small-text" style="margin-top: 20px;">Tabla central para análisis temporal. Debe tener una fila continua por cada día (sin saltos), marcada oficialmente como 'Tabla de Fechas' en Power BI para habilitar las funciones de Time Intelligence.</p>
+                    <div class="box-glass text-left clickable-concept" onclick="openModal('Principios Gestalt', 'fa-shapes', 'Leyes de la percepción (Proximidad, Similitud, Cierre, Continuidad) que explican cómo el cerebro humano agrupa elementos visuales. Vitales para organizar un reporte sin usar bordes saturados.', 'Usar espacios en blanco (White Space) en lugar de líneas negras duras para separar secciones de un dashboard.')" style="border-top: 5px solid #003865;">
+                        <h3 style="color: #003865;"><i class="fa-solid fa-shapes"></i> Principios Gestalt</h3>
+                        <p class="small-text" style="margin-top: 20px;">Leyes de la percepción (Proximidad, Similitud, Cierre, Continuidad) que explican cómo el cerebro humano agrupa elementos visuales. Vitales para organizar un reporte sin usar bordes saturados.</p>
                         <div style="margin-top: 20px; font-weight: bold; color: #E85C0B; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
                     </div>
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('CALCULATE', 'fa-bolt', 'La función más poderosa y compleja de DAX. Es la única función que puede alterar o sobrescribir el Contexto de Filtro existente en una visualización.', 'Ventas_Ayer = CALCULATE([Ventas_Total], PREVIOUSDAY(Calendario[Date]))')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-bolt"></i> CALCULATE</h3>
-                        <p class="small-text" style="margin-top: 20px;">La función más poderosa y compleja de DAX. Es la única función que puede alterar o sobrescribir el Contexto de Filtro existente en una visualización.</p>
+                    <div class="box-glass text-left clickable-concept" onclick="openModal('Data-to-Ink Ratio', 'fa-eraser', 'Concepto de Edward Tufte. La mayor parte de la tinta (o píxeles) de un gráfico debe dedicarse a mostrar los datos. Se deben eliminar cuadrículas pesadas, bordes y fondos decorativos.', 'Eliminar el eje Y si ya estás utilizando etiquetas de datos directamente en las barras.')" style="border-top: 5px solid #E85C0B;">
+                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-eraser"></i> Data-to-Ink Ratio</h3>
+                        <p class="small-text" style="margin-top: 20px;">Concepto de Edward Tufte. La mayor parte de la tinta (o píxeles) de un gráfico debe dedicarse a mostrar los datos. Se deben eliminar cuadrículas pesadas, bordes y fondos decorativos.</p>
                         <div style="margin-top: 20px; font-weight: bold; color: #003865; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
                     </div>
                 </div>
@@ -187,19 +187,16 @@
             <!-- 4. Discusión Profunda Inyectada -->
             
         <section>
-            <h2>El Motor Analítico Temporal (DAX)</h2>
+            <h2>El Arte de Elegir el Gráfico Correcto</h2>
             <div class="split-layout">
                 <div class="box-glass text-left" style="border-left: 5px solid #003865;">
-                    <h4 style="color: #003865;"><i class="fa-solid fa-chart-line"></i> Análisis Acumulados</h4>
-                    <p class="small-text">Las empresas no solo ven el día a día. Evalúan el acumulado del año (YTD - Year To Date), trimestre (QTD) o mes (MTD). DAX resuelve esto con funciones optimizadas que desplazan el filtro hasta el inicio del periodo correspondiente.</p>
+                    <h4 style="color: #003865;"><i class="fa-solid fa-chart-column"></i> Comparación y Evolución</h4>
+                    <p class="small-text">Para comparar volúmenes absolutos entre categorías (Ej. Ventas por País), el <strong>Gráfico de Barras Horizontales</strong> es el rey absoluto por la facilidad de lectura de etiquetas. Para series de tiempo (Ej. Ventas por Mes), se exige el <strong>Gráfico de Líneas</strong> o Áreas para mostrar continuidad.</p>
                 </div>
                 <div class="box-glass text-left" style="border-left: 5px solid #E85C0B;">
-                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-scale-balanced"></i> Comparación Histórica (YoY)</h4>
-                    <p class="small-text">Para saber si estamos creciendo, debemos comparar las ventas de este mes con el *mismo mes del año anterior*. La función <code>SAMEPERIODLASTYEAR</code> retrocede dinámicamente el contexto de filtro exactamente un año en el calendario.</p>
+                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-ban"></i> Enemigos de la Percepción</h4>
+                    <p class="small-text">El cerebro humano no es bueno estimando ángulos ni áreas 3D. <strong>Evitar siempre:</strong><br>- Gráficos circulares con más de 3 categorías (el ojo no mide bien los ángulos).<br>- Gráficos en 3D (distorsionan la perspectiva y los volúmenes).<br>- Medidores (gauges) saturados.</p>
                 </div>
-            </div>
-            <div class="pro-tip" style="margin-top: 15px;">
-                <i class="fa-solid fa-triangle-exclamation"></i> <strong>Cuidado:</strong> Si tu tabla de calendario tiene 'huecos' (faltan días) o no está marcada como tabla de fechas, las funciones de Time Intelligence arrojarán errores silenciosos o valores incorrectos.
             </div>
         </section>
         
@@ -211,7 +208,7 @@
                 <p style="font-size: 1.2em;">Migración de entorno teórico a plataforma práctica.</p>
                 <div class="box-glass" style="background: rgba(255,255,255,0.1); margin: 30px auto; max-width: 80%; text-align: center; border: 1px solid rgba(255,255,255,0.2);">
                     <h4 style="color: white; margin-top: 0;">Flujo Técnico a ejecutar:</h4>
-                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 4</span>
+                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 6</span>
                 </div>
             </section>
 

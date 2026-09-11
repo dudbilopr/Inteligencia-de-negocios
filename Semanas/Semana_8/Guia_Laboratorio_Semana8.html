@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 4 - Time Intelligence (Inteligencia de Tiempo)</title>
+    <title>Laboratorio Semana 8 - Gobernanza y Row-Level Security (RLS)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -34,15 +34,15 @@
             <div class="relative z-10">
                 <div class="flex items-center gap-5 mb-6">
                     <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-calendar-alt text-3xl text-secondary"></i>
+                        <i class="fas fa-shield-halved text-3xl text-secondary"></i>
                     </div>
                     <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 4</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Análisis Comparativo e Inteligencia Temporal</h1>
+                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 8</p>
+                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Implementación de Seguridad Avanzada</h1>
                     </div>
                 </div>
                 <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> En este escenario, el Director Financiero (CFO) te ha pedido un informe detallado que muestre el desempeño de ventas contra el año pasado, evaluando estacionalidad y crecimiento. Aprenderás a dominar CALCULATE y a construir una tabla de fechas paramétrica.</p>
+                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> Escenario: Has construido el reporte corporativo de ventas globales. Legal te ha advertido que el Gerente de Colombia NO puede ver los salarios ni las ventas del Gerente de México. Deberás implementar RLS dinámico utilizando el UPN de Office 365 de los usuarios.</p>
                 </div>
             </div>
         </div>
@@ -59,27 +59,27 @@
                 <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
                     1
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Construcción del Calendario en DAX</h3>
+                <h3 class="text-xl font-bold text-primary mb-3">Configuración de RLS Estático</h3>
                 <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear una nueva tabla utilizando DAX: <code>Calendario = ADDCOLUMNS(CALENDARAUTO(), "Año", YEAR([Date]), "Mes_Num", MONTH([Date]), "Mes_Nombre", FORMAT([Date], "MMMM"))</code>. Marcarla como tabla de fechas oficial.</p>
+                    <p class="leading-relaxed">Ingresar a 'Administrar Roles' en PBI Desktop. Crear el rol 'Gerente Norte'. Aplicar el filtro DAX en la tabla Dim_Tiendas: `[Region] = "Norte"`. Utilizar la herramienta 'Ver como' para validar la restricción visual.</p>
                 </div>
             </div>
             <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
                 <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
                     2
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Métricas Acumuladas</h3>
+                <h3 class="text-xl font-bold text-primary mb-3">Tabla Puente de Seguridad (RLS Dinámico)</h3>
                 <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear las medidas base acumulativas para comprender la tracción del negocio:<br><code>Ventas_YTD = TOTALYTD([Ventas_Total], Calendario[Date])</code></p>
+                    <p class="leading-relaxed">Importar una tabla de mapeo (UserSecurity) que conecte el Email corporativo con el ID de Región. Establecer una relación bidireccional filtrada por seguridad hacia la tabla dimensional.</p>
                 </div>
             </div>
             <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
                 <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
                     3
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Métricas de Crecimiento (YoY)</h3>
+                <h3 class="text-xl font-bold text-primary mb-3">Implementación de Función UPN</h3>
                 <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear la comparativa interanual y calcular la variación porcentual:<br><code>Ventas_LY = CALCULATE([Ventas_Total], SAMEPERIODLASTYEAR(Calendario[Date]))</code><br><code>Crecimiento_YoY = DIVIDE([Ventas_Total] - [Ventas_LY], [Ventas_LY])</code></p>
+                    <p class="leading-relaxed">Crear un rol dinámico llamado 'DynamicUser' con el filtro: `UserSecurity[Email] = USERPRINCIPALNAME()`. Demostrar en DAX Studio o PBI Desktop simulando ingresos de diferentes correos electrónicos.</p>
                 </div>
             </div>
             </div>
@@ -99,7 +99,7 @@
                 </h2>
                 <div class="bg-white/10 rounded-xl p-6 border border-white/10">
                     <p class="text-gray-300 text-lg leading-relaxed">
-                        Diseñar una medida avanzada que calcule un promedio móvil de ventas de los últimos 30 días, manejando contextos de fechas dinámicos mediante las funciones CALCULATE, DATESINPERIOD y LASTDATE, para suavizar la curva de tendencia estacional.
+                        Implementar un modelo de seguridad jerárquica (Parent-Child) utilizando las funciones PATH, PATHCONTAINS y USERPRINCIPALNAME() de DAX, permitiendo que un Director Regional vea todos los países bajo su mando, mientras que un Country Manager vea solo su país.
                     </p>
                 </div>
                 

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métricas vs KPIs - Inteligencia de Negocios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { primary: '#003865', secondary: '#E85C0B' } }
+            }
+        }
+    </script>
+    <style>
+        .reveal { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .dark-slide { background-color: #0f172a !important; color: white !important; }
+        .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .reveal h1, .reveal h2, .reveal h3 { color: inherit; text-transform: none; font-weight: 700; }
+        .gradient-text { background: linear-gradient(90deg, #E85C0B, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .concept-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; color: #333; padding: 2rem; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); z-index: 1000; width: 80%; max-width: 600px; }
+        .concept-modal.active { display: block; animation: zoomIn 0.3s ease-out forwards; }
+        @keyframes zoomIn { from { opacity: 0; transform: translate(-50%, -60%) scale(0.9); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; backdrop-filter: blur(4px); }
+        .overlay.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Portada -->
+            <section class="dark-slide" data-transition="fade">
+                <div class="flex flex-col items-center justify-center h-full">
+                    <div class="w-20 h-20 bg-gradient-to-br from-primary to-blue-800 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-900/50">
+                        <i class="fas fa-chart-line text-4xl text-white"></i>
+                    </div>
+                    <h1 class="text-5xl font-bold mb-4">Métricas <span class="text-gray-400 font-normal">vs</span> <span class="gradient-text">KPIs</span></h1>
+                    <p class="text-xl text-gray-300 max-w-2xl text-center mb-8">
+                        No todo lo que se puede medir importa. Cómo diferenciar indicadores clave de métricas de vanidad.
+                    </p>
+                    <div class="flex gap-4">
+                        <span class="px-4 py-1 rounded-full bg-blue-900/50 text-blue-300 text-sm border border-blue-800">Semana 2</span>
+                        <span class="px-4 py-1 rounded-full bg-orange-900/50 text-orange-300 text-sm border border-orange-800">Semrush Insight</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Introducción -->
+            <section data-transition="slide">
+                <h2 class="text-3xl font-bold text-primary mb-10"><i class="fas fa-balance-scale mr-3 text-secondary"></i>La Gran Confusión</h2>
+                
+                <div class="grid grid-cols-2 gap-8 text-left">
+                    <div class="bg-white p-8 rounded-xl shadow-sm border-l-4 border-gray-400 hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xl text-gray-600 mb-4">
+                            <i class="fas fa-ruler"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Métrica (Metric)</h3>
+                        <p class="text-sm text-gray-600">
+                            Cualquier dato cuantificable que rastrea el estado o proceso de una actividad empresarial. Son tácticas y hay cientos de ellas.
+                        </p>
+                        <ul class="text-xs text-gray-500 mt-4 space-y-2 list-disc pl-4">
+                            <li>Visitas a la página.</li>
+                            <li>Tasa de rebote.</li>
+                            <li>Seguidores nuevos.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-xl shadow-sm border-l-4 border-secondary hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-xl text-secondary mb-4">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">KPI (Key Performance Indicator)</h3>
+                        <p class="text-sm text-gray-600">
+                            Una métrica <strong>crucial</strong> atada a un objetivo estratégico del negocio. Mide el éxito hacia una meta específica.
+                        </p>
+                        <ul class="text-xs text-gray-500 mt-4 space-y-2 list-disc pl-4">
+                            <li>Costo de Adquisición de Cliente (CAC).</li>
+                            <li>Valor del Tiempo de Vida (LTV).</li>
+                            <li>Retorno de Inversión (ROI).</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-8 p-4 bg-blue-50 text-blue-800 rounded-lg text-sm text-left border border-blue-200">
+                    <i class="fas fa-lightbulb text-yellow-500 mr-2"></i><strong>Regla de oro:</strong> Todo KPI es una métrica, pero no toda métrica es un KPI.
+                </div>
+            </section>
+
+            <!-- Anatomía de un buen KPI -->
+            <section class="dark-slide" data-transition="slide">
+                <h2 class="text-3xl font-bold mb-10"><i class="fas fa-cogs mr-3 text-secondary"></i>Anatomía de un Buen KPI</h2>
+                <div class="grid grid-cols-4 gap-4 text-center">
+                    
+                    <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform cursor-pointer" onclick="openModal('modalS')">
+                        <div class="text-4xl font-black text-secondary mb-2">S</div>
+                        <div class="text-sm font-bold text-white">Specific</div>
+                        <div class="text-xs text-gray-400 mt-2">(Específico)</div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform cursor-pointer" onclick="openModal('modalM')">
+                        <div class="text-4xl font-black text-blue-400 mb-2">M</div>
+                        <div class="text-sm font-bold text-white">Measurable</div>
+                        <div class="text-xs text-gray-400 mt-2">(Medible)</div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform cursor-pointer" onclick="openModal('modalA')">
+                        <div class="text-4xl font-black text-green-400 mb-2">A</div>
+                        <div class="text-sm font-bold text-white">Actionable</div>
+                        <div class="text-xs text-gray-400 mt-2">(Accionable)</div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform cursor-pointer" onclick="openModal('modalR')">
+                        <div class="text-4xl font-black text-purple-400 mb-2">R</div>
+                        <div class="text-sm font-bold text-white">Relevant</div>
+                        <div class="text-xs text-gray-400 mt-2">(Relevante)</div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-8">Haz clic en cada letra para revelar su significado en Inteligencia de Negocios.</p>
+            </section>
+
+            <!-- Métricas de Vanidad -->
+            <section data-transition="fade">
+                <h2 class="text-3xl font-bold text-red-600 mb-6"><i class="fas fa-mask mr-3"></i>Métricas de Vanidad</h2>
+                <p class="text-lg text-gray-700 text-left mb-8 max-w-3xl mx-auto">
+                    Son números que te hacen sentir bien (suben constantemente), pero no te ayudan a tomar decisiones empresariales.
+                </p>
+                
+                <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-left max-w-3xl mx-auto">
+                    <h3 class="text-lg font-bold text-red-800 mb-4">Ejemplo Clásico:</h3>
+                    <div class="flex items-center gap-6">
+                        <div class="text-5xl text-red-400"><i class="fab fa-instagram"></i></div>
+                        <div>
+                            <p class="text-gray-800 font-semibold mb-2">"Llegamos a 10,000 seguidores esta semana"</p>
+                            <p class="text-sm text-gray-600">
+                                ¿Estos seguidores están comprando? ¿Mejoró el margen de ganancia? Si la respuesta es no, es una métrica de vanidad. El KPI real sería la <strong>Tasa de Conversión</strong> desde redes sociales.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusiones -->
+            <section data-transition="slide" class="dark-slide">
+                <h2 class="text-3xl font-bold mb-8"><i class="fas fa-flag-checkered mr-3 text-green-400"></i>Conclusiones</h2>
+                
+                <div class="space-y-4 text-left max-w-2xl mx-auto">
+                    <div class="glass-card p-4 rounded-lg flex items-start gap-4">
+                        <div class="text-secondary mt-1"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">Alineación Estratégica</h4>
+                            <p class="text-xs text-gray-400">Si un número no está conectado a una meta financiera, operativa o de mercado, es una métrica, no un KPI.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-4 rounded-lg flex items-start gap-4">
+                        <div class="text-secondary mt-1"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">Menos es Más</h4>
+                            <p class="text-xs text-gray-400">Un dashboard con 50 KPIs no funciona. Selecciona entre 3 y 7 KPIs principales por departamento.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-4 rounded-lg flex items-start gap-4">
+                        <div class="text-secondary mt-1"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">El contexto es rey</h4>
+                            <p class="text-xs text-gray-400">Un KPI sin un objetivo (Target) o una tendencia histórica pierde su capacidad accionable.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Modales para SMART -->
+    <div class="overlay" id="overlay" onclick="closeModals()"></div>
+    
+    <div id="modalS" class="concept-modal">
+        <h3 class="text-2xl font-bold text-secondary mb-4">Specific (Específico)</h3>
+        <p class="text-gray-600">El KPI debe ser lo suficientemente claro para que cualquiera en la empresa lo entienda de la misma manera. "Aumentar ventas" no es específico. "Aumentar las ventas del Producto X en un 15% en el Q3" sí lo es.</p>
+        <button onclick="closeModals()" class="mt-6 w-full bg-primary text-white py-2 rounded-lg font-bold">Entendido</button>
+    </div>
+
+    <div id="modalM" class="concept-modal">
+        <h3 class="text-2xl font-bold text-blue-600 mb-4">Measurable (Medible)</h3>
+        <p class="text-gray-600">Debes poder cuantificar el KPI con precisión usando las herramientas (bases de datos, CRMs) que tienes disponibles. Si no puedes extraer el dato de manera confiable, no sirve como KPI.</p>
+        <button onclick="closeModals()" class="mt-6 w-full bg-primary text-white py-2 rounded-lg font-bold">Entendido</button>
+    </div>
+
+    <div id="modalA" class="concept-modal">
+        <h3 class="text-2xl font-bold text-green-600 mb-4">Actionable (Accionable)</h3>
+        <p class="text-gray-600">Si el KPI baja drásticamente, ¿sabes qué hacer para arreglarlo? Si un indicador cambia y nadie en el equipo tiene el poder de influir en él o cambiar la estrategia, es inútil.</p>
+        <button onclick="closeModals()" class="mt-6 w-full bg-primary text-white py-2 rounded-lg font-bold">Entendido</button>
+    </div>
+
+    <div id="modalR" class="concept-modal">
+        <h3 class="text-2xl font-bold text-purple-600 mb-4">Relevant (Relevante)</h3>
+        <p class="text-gray-600">Debe importar directamente al modelo de negocio de la empresa. Para una app gratuita, el número de descargas puede ser relevante. Para una plataforma SaaS B2B, el Ingreso Recurrente Mensual (MRR) es infinitamente más relevante.</p>
+        <button onclick="closeModals()" class="mt-6 w-full bg-primary text-white py-2 rounded-lg font-bold">Entendido</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            controls: true, progress: true, center: true, hash: true,
+            transition: 'slide'
+        });
+
+        function openModal(id) {
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModals() {
+            document.getElementById('overlay').classList.remove('active');
+            document.querySelectorAll('.concept-modal').forEach(m => m.classList.remove('active'));
+        }
+    </script>
+</body>
+</html>

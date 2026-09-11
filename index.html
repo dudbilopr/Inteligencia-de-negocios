@@ -270,7 +270,7 @@
         
         const syllabus = [
             { b: "Unidad 1: Concepto, Evolución y Fuentes", w: 1, t: "Concepto y evolución de BI; toma de decisiones", d: "Reto inicial sobre decisiones empresariales basadas en datos.", type: "class" },
-            { b: "Unidad 1: Concepto, Evolución y Fuentes", w: 2, t: "Tipos de datos, fuentes y fundamentos de KPI", d: "Exploración de fuentes y definición preliminar de problemas y KPIs.", type: "class" },
+            { b: "Unidad 1: Concepto, Evolución y Fuentes", w: 2, t: "Tipos de datos, fuentes y fundamentos de KPI", d: "Exploración de fuentes y definición preliminar de problemas y KPIs.", type: "class", videoUrl: "https://www.youtube.com/embed/ItZlTixh6Bs" },
             
             { b: "Unidad 2: Modelado e Integración de Datos", w: 3, t: "Conexiones a BD, transformación y limpieza", d: "Diagnóstico de calidad y estructura. Primera aproximación a Power Query.", type: "class" },
             { b: "Unidad 2: Modelado e Integración de Datos", w: 4, t: "Transformación en Power BI (Power Query)", d: "Laboratorio de limpieza, transformación y preparación.", type: "class" },
@@ -285,7 +285,9 @@
             { b: "Unidad 4: Comunicación y Storytelling", w: 11, t: "Comunicación de resultados y narrativa visual", d: "Introducción al storytelling con datos. Análisis de audiencia.", type: "class" },
             { b: "Unidad 4: Comunicación y Storytelling", w: 12, t: "Lenguaje y formato para públicos; Casos BI", d: "Lanzamiento del Proyecto 2. Selección de problema y validación.", type: "class" },
             { b: "Unidad 4: Comunicación y Storytelling", w: 13, t: "Presentación de informes ejecutivos (Lab)", d: "Laboratorio Proyecto 2: análisis, dashboard, narrativa e informe.", type: "class" },
-            { b: "Unidad 4: Comunicación y Storytelling", w: 14, t: "Storytelling y toma de decisiones final", d: "Presentación final individual del Proyecto 2. Sustentación de hallazgos.", type: "class" }
+            { b: "Unidad 4: Comunicación y Storytelling", w: 14, t: "Storytelling y toma de decisiones final", d: "Presentación final individual del Proyecto 2. Sustentación de hallazgos.", type: "class" },
+            
+            { b: "Material Complementario", w: 'R', t: "Comunidad y Herramientas", d: "Repositorios y comparativas de software BI.", type: "resource" }
         ];
 
         function renderSidebar() {
@@ -299,17 +301,21 @@
                     currentBlock = item.b;
                 }
                 
-                let icon = item.type === 'exam' ? 'fa-pen-nib text-secondary' : 'fa-play-circle text-primary dark:text-blue-400';
+                let icon = 'fa-play-circle text-primary dark:text-blue-400';
+                if (item.type === 'exam') icon = 'fa-pen-nib text-secondary';
+                if (item.type === 'resource') icon = 'fa-link text-green-500';
                 
                 const bgHover = 'hover:bg-blue-50 dark:hover:bg-slate-800 cursor-pointer';
                 const borderActive = 'border-l-4 border-transparent hover:border-primary';
                 
+                const weekLabel = item.w === 'R' ? 'Recurso:' : `Semana ${item.w}:`;
+
                 html += `
                     <button onclick="loadContent(${index})" 
                             class="w-full text-left p-3 rounded-r-lg ${borderActive} ${bgHover} transition-all flex items-center gap-3 mb-1 group">
                         <i class="fas ${icon} text-lg opacity-80 group-hover:opacity-100"></i>
                         <div class="flex-1">
-                            <div class="text-sm font-semibold text-gray-800 dark:text-gray-200">Semana ${item.w}:</div>
+                            <div class="text-sm font-semibold text-gray-800 dark:text-gray-200">${weekLabel}</div>
                             <div class="text-xs text-gray-500 line-clamp-1">${item.t}</div>
                         </div>
                     </button>
@@ -371,7 +377,8 @@
                         <div class="flex border-b border-gray-200 dark:border-slate-700 mb-6 overflow-x-auto hide-scroll">
                             <button id="btn-theory" onclick="switchTab('theory')" class="tab-btn active px-6 py-3 whitespace-nowrap"><i class="fas fa-chalkboard-teacher mr-2"></i>Presentación Magistral</button>
                             <button id="btn-lab" onclick="switchTab('lab')" class="tab-btn px-6 py-3 whitespace-nowrap"><i class="fas fa-chart-bar mr-2"></i>Laboratorio Power BI</button>
-                            <button id="btn-quiz" onclick="switchTab('quiz')" class="tab-btn px-6 py-3 whitespace-nowrap"><i class="fas fa-tasks mr-2"></i>Actividad EMI (Quiz)</button>
+                            <button id="btn-quiz" onclick="switchTab('quiz')" class="tab-btn px-6 py-3 whitespace-nowrap"><i class="fas fa-gamepad mr-2"></i>Juego Didáctico</button>
+                            ${data.videoUrl ? `<button id="btn-video" onclick="switchTab('video')" class="tab-btn px-6 py-3 whitespace-nowrap"><i class="fab fa-youtube text-red-500 mr-2"></i>Material Audiovisual</button>` : ''}
                         </div>
 
                         <div class="card rounded-xl overflow-hidden shadow-sm bg-white dark:bg-slate-800 border-x border-b border-gray-200 dark:border-slate-700">
@@ -405,13 +412,41 @@
                                 </div>
                             </div>
 
-                            <!-- TAB 3: QUIZ -->
+                            <!-- TAB 3: QUIZ / JUEGO -->
                             <div id="content-quiz" class="tab-content p-0">
                                 <div class="w-full h-[600px] bg-gray-50 dark:bg-slate-900">
-                                    <iframe src="Semanas/Semana_${data.w}/quiz_semana_${data.w}.html" width="100%" height="100%" frameborder="0" onerror="this.outerHTML='<div class=\\'p-10 text-center text-gray-500\\'><i class=\\'fas fa-clock text-4xl mb-4\\'></i><p>El quiz aún no se ha publicado.</p></div>'"></iframe>
+                                    <iframe src="Semanas/Semana_${data.w}/quiz_semana_${data.w}.html" width="100%" height="100%" frameborder="0" onerror="this.outerHTML='<div class=\\'p-10 text-center text-gray-500\\'><i class=\\'fas fa-clock text-4xl mb-4\\'></i><p>El juego didáctico aún no se ha publicado.</p></div>'"></iframe>
                                 </div>
                             </div>
+                            
+                            <!-- TAB 4: VIDEO -->
+                            ${data.videoUrl ? `
+                            <div id="content-video" class="tab-content p-0">
+                                <div class="p-6 border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50">
+                                    <h3 class="font-bold text-lg text-gray-800 dark:text-gray-200"><i class="fab fa-youtube text-red-500 mr-2"></i>Video Explicativo</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Revisa este material audiovisual para profundizar en los conceptos de la semana.</p>
+                                </div>
+                                <div class="w-full aspect-[16/9] bg-black">
+                                    <iframe width="100%" height="100%" src="${data.videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                            ` : ''}
 
+                        </div>
+                    </div>
+                `;
+            } else if (data.type === 'resource') {
+                mainView.innerHTML = `
+                    <div class="h-full flex flex-col">
+                        <div class="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 p-6 shadow-sm z-10 flex justify-between items-center gap-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-green-500 mb-1 block">Recursos Adicionales</span>
+                                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">${data.t}</h2>
+                                <p class="text-sm text-gray-500 mt-1">${data.d}</p>
+                            </div>
+                        </div>
+                        <div class="flex-1 w-full h-full bg-gray-50 dark:bg-slate-900 overflow-hidden">
+                            <iframe src="Semanas/Recursos/recursos_adicionales.html" width="100%" height="100%" frameborder="0" onerror="this.outerHTML='<div class=\\'p-10 text-center text-gray-500\\'><i class=\\'fas fa-clock text-4xl mb-4\\'></i><p>El recurso aún no se ha publicado.</p></div>'"></iframe>
                         </div>
                     </div>
                 `;

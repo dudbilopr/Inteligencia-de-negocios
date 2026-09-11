@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMI Activity - Semana 1</title>
+    <title>EMI Activity - Semana 8</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,27 +26,22 @@
 
     <div class="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-primary">
         <div class="bg-gradient-to-r from-primary to-blue-900 p-8 text-center text-white">
-            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-globe text-secondary mr-3"></i>EMI Reading & Quiz - Week 1</h1>
-            <p class="text-blue-200">English as a Medium of Instruction: Introduction to Business Intelligence</p>
+            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-globe text-secondary mr-3"></i>EMI Reading & Quiz - Week 8</h1>
+            <p class="text-blue-200">English as a Medium of Instruction: Data Governance & Row-Level Security</p>
         </div>
         
         <!-- Reading Section -->
         <div class="p-8 border-b border-gray-200 bg-gray-50">
-            <h2 class="text-xl font-bold text-primary mb-4"><i class="fas fa-book-reader text-secondary mr-2"></i> Case Study: The Data-Driven Transition</h2>
+            <h2 class="text-xl font-bold text-primary mb-4"><i class="fas fa-book-reader text-secondary mr-2"></i> Analytical Context</h2>
             <div class="text-gray-700 text-sm leading-relaxed space-y-4">
-                <p>
-                    A traditional retail company relies heavily on the intuition of its senior managers to stock inventory. During the holiday season, they ordered excess stock of winter coats based on a "gut feeling" about a harsh winter. However, the weather remained mild, leading to massive inventory holding costs and severe profit margin compression.
-                </p>
-                <p>
-                    To prevent this, the CEO decided to transition the company into a <strong>Data-Driven</strong> organization. They implemented a Business Intelligence (BI) architecture that connects Point of Sale (POS) systems, CRM data, and external weather APIs into a centralized <strong>Data Warehouse</strong>. The BI system now provides real-time predictive analytics rather than relying solely on historical descriptive reports. 
-                </p>
+                <p>Data Governance ensures data accuracy, privacy, and security across the organization. In BI architectures, sharing a dashboard with the entire company doesn't mean everyone should see all the data.</p><p><strong>Row-Level Security (RLS)</strong> is an architectural feature that filters data access at the database row level based on the user's credentials. For example, a Regional Manager logging in will only see sales data for their specific region, even though they are viewing the exact same dashboard link as the CEO (who sees everything). RLS is enforced at the semantic model level, making it highly secure.</p>
             </div>
         </div>
 
         <!-- Quiz Section -->
         <div class="p-8" id="quiz-container">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-semibold text-gray-700">Analytical Challenge:</h2>
+                <h2 class="text-xl font-semibold text-gray-700">Test Your Knowledge:</h2>
                 <span class="text-sm font-bold text-white bg-secondary px-3 py-1 rounded-full" id="score-tracker">Score: 0/3</span>
             </div>
             
@@ -68,40 +63,40 @@
 
     <script>
         const questions = [
-            { 
-                q: "Based on the case study, what is the primary fundamental flaw of relying solely on the senior managers' 'gut feeling' (intuition)?", 
-                options: [
-                    "Intuition cannot scale across multiple retail branches efficiently.", 
-                    "It lacks empirical validation and is highly susceptible to cognitive biases (e.g., availability heuristic).", 
-                    "It increases the Data-Ink ratio making it harder to read inventory logs.", 
-                    "It requires too much processing power compared to a Data Warehouse."
-                ], 
-                ans: 1,
-                explanation: "Correct! Intuition is heavily biased. A Data-Driven approach grounds decisions in empirical, verifiable evidence, reducing financial risk."
-            },
-            { 
-                q: "Why is integrating external weather APIs crucial for the new BI architecture of this retail company?", 
-                options: [
-                    "To generate descriptive analytics about past winters.", 
-                    "To replace the CRM system entirely.", 
-                    "To shift the paradigm from descriptive analytics to predictive analytics, anticipating demand shifts.", 
-                    "To design better logos for the winter coats."
-                ], 
-                ans: 2,
-                explanation: "Exactly! Moving from just asking 'What happened?' (descriptive) to 'What will happen?' (predictive) based on external variables is a core BI advantage."
-            },
-            { 
-                q: "In the context of the BI architecture described, what is the specific role of the Data Warehouse?", 
-                options: [
-                    "To serve as a front-end visualization tool for the CEO.", 
-                    "To act as a centralized, integrated repository of data consolidated from multiple operational sources (POS, CRM, API).", 
-                    "To directly process credit card transactions at the cash register.", 
-                    "To train the sales staff on how to use the new winter coats."
-                ], 
-                ans: 1,
-                explanation: "Spot on! A Data Warehouse acts as the single source of truth, integrating siloed operational data into a unified schema optimized for analytical querying (OLAP)."
-            }
-        ];
+    {
+        "q": "Why is Row-Level Security (RLS) implemented at the Semantic Model layer rather than hiding visuals on the report page?",
+        "options": [
+            "Because hiding visuals makes the report ugly.",
+            "Because report-level hiding can be easily bypassed by users querying the model directly (e.g., via Analyze in Excel); RLS securely filters the underlying data regardless of the tool used.",
+            "Because RLS makes the DAX calculations faster.",
+            "Because Power BI doesn't allow hiding visuals."
+        ],
+        "ans": 1,
+        "explanation": "Correct! RLS secures the data at the core engine level. If a user connects to the dataset via Excel or an API, the security filter remains strictly enforced."
+    },
+    {
+        "q": "What DAX function is universally used to implement Dynamic Row-Level Security by capturing the identity of the person looking at the dashboard?",
+        "options": [
+            "USERPRINCIPALNAME()",
+            "GETUSER()",
+            "CALCULATE()",
+            "SECURITYFILTER()"
+        ],
+        "ans": 0,
+        "explanation": "Exactly. USERPRINCIPALNAME() returns the email address of the logged-in user, which can then be matched against a security table to filter the rows dynamically."
+    },
+    {
+        "q": "If a user is assigned to an RLS role that restricts them to 'Region = Europe', but they are also given 'Contributor' workspace permissions in the Power BI Service, what will happen?",
+        "options": [
+            "They will only see Europe.",
+            "The dashboard will crash due to a conflict.",
+            "They will see all data globally, because Workspace edit permissions override RLS restrictions.",
+            "They will be locked out of the workspace."
+        ],
+        "ans": 2,
+        "explanation": "Spot on. RLS only applies to 'Viewers'. If you give someone edit access (Contributor, Member, Admin) in the Workspace, they bypass RLS completely. Security architecture must account for this."
+    }
+];
 
         let currentQuestion = 0;
         let score = 0;
@@ -137,7 +132,7 @@
                         btn.classList.remove('opacity-50', 'border-gray-200');
                         btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
                         score++;
-                        scoreTracker.innerText = `Score: ${score}/3`;
+                        scoreTracker.innerText = `Score: ${score}/${questions.length}`;
                         showFeedback(true, q.explanation);
                     } else {
                         btn.classList.remove('opacity-50', 'border-gray-200');
@@ -155,7 +150,7 @@
                         nextBtn.classList.remove('hidden');
                         nextBtn.classList.add('fade-in');
                     } else {
-                        feedbackDiv.innerHTML += `<br><br><div class="text-center text-primary mt-2"><strong>Quiz Completed! Final Score: ${score}/3</strong></div>`;
+                        feedbackDiv.innerHTML += `<br><br><div class="text-center text-primary mt-2"><strong>Quiz Completed! Final Score: ${score}/${questions.length}</strong></div>`;
                     }
                 };
                 optionsDiv.appendChild(btn);

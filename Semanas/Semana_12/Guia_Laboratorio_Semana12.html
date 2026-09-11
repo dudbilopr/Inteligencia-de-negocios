@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio - Semana 12</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#003865', secondary: '#E85C0B' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
+    
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-primary text-white p-8">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 bg-white/20 rounded-full flex justify-center items-center">
+                    <i class="fas fa-rocket text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">Laboratorio: Kick-off Proyecto 2</h1>
+                    <p class="text-blue-200 text-sm">Semana 12 - Inteligencia de Negocios</p>
+                </div>
+            </div>
+            <p class="opacity-90 text-sm">Definición de problema de negocio, recolección de fuentes y planeación de la audiencia objetivo.</p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 space-y-10">
+            
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-search"></i></div>
+                    <h2 class="text-xl font-bold text-primary">El Reto Analítico (Práctica Autónoma)</h2>
+                </div>
+                
+                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-sm text-gray-700 mb-4 shadow-inner relative">
+                    <p class="mb-4">Tu trabajo para el cierre del curso ya no es técnico; hemos superado la fase de programación DAX y arquitectura ETL. Ahora asumes el rol de <strong>Consultor Analítico</strong>.</p>
+                    <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg"><i class="fas fa-info-circle mr-1"></i> Contexto</div>
+                    <p class="mt-4 italic">"Debes buscar un dataset crudo (preferiblemente de Kaggle o Datos Abiertos), procesarlo en Power BI, y construir una narrativa que resuelva una pregunta de negocio específica para una audiencia específica."</p>
+                </div>
+            </section>
+
+            <!-- Instrucciones -->
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-tasks"></i></div>
+                    <h2 class="text-xl font-bold text-primary">Matriz de Planeación del Proyecto</h2>
+                </div>
+                
+                <ol class="space-y-6 mt-6">
+                    <!-- Paso 1 -->
+                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
+                        <strong class="text-primary text-lg block mb-2">Paso 1: Selección del Contexto y los Datos</strong>
+                        <p class="text-sm text-gray-600 mb-4">No uses datos de prueba (como Northwind o Contoso). Encuentra un dataset del mundo real (al menos 10.000 filas).</p>
+                        <div class="bg-indigo-50 p-4 rounded border border-indigo-200 mb-4 text-sm text-gray-800">
+                            <strong>Acción:</strong> Descarga el archivo CSV/Excel. Documenta en un archivo de texto la <em>Fuente</em> y el <em>Diccionario de Datos</em> básico (qué significa cada columna).
+                        </div>
+                    </li>
+                    
+                    <!-- Paso 2 -->
+                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-orange-500"></div>
+                        <strong class="text-primary text-lg block mb-2">Paso 2: La Pregunta de Decisión</strong>
+                        <p class="text-sm text-gray-600 mb-4">Un dashboard sin pregunta es solo un repositorio de tablas. ¿Qué problema vas a resolver?</p>
+                        <div class="bg-orange-50 p-4 rounded border border-orange-200 mb-4 text-sm text-gray-800">
+                            <strong>Ejemplo Incorrecto:</strong> "Mostrar ventas por país".<br>
+                            <strong>Ejemplo Correcto (Pregunta de Decisión):</strong> "¿En qué región de América Latina deberíamos invertir 2 millones de dólares para la próxima campaña de marketing, basándonos en la retención de usuarios actuales?"
+                        </div>
+                    </li>
+                    
+                    <!-- Paso 3 -->
+                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-green-500"></div>
+                        <strong class="text-primary text-lg block mb-2">Paso 3: Definición del Perfil de la Audiencia</strong>
+                        <p class="text-sm text-gray-600 mb-4">¿Quién te evaluará (en la simulación)? Define su cargo y nivel técnico.</p>
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200 text-sm">
+                            <ul class="list-disc pl-5 space-y-2 text-gray-800">
+                                <li><strong>Opción A (C-Level):</strong> VP de Marketing o CEO. Requieren lenguaje financiero, KPIs agregados y resúmenes directos.</li>
+                                <li><strong>Opción B (Nivel Táctico):</strong> Gerente de Operaciones. Requiere exploración profunda, drill-through y ver tendencias granulares por equipos.</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+            
+            <section class="mt-8 border-t border-gray-200 pt-8">
+                <h3 class="text-lg font-bold text-primary mb-3"><i class="fas fa-file-alt mr-2"></i> Entregable para la Próxima Sesión</h3>
+                <p class="text-sm text-gray-600">
+                    Traer validado con el docente el "Project Charter" (Documento de 1 página) especificando: Dataset elegido, Pregunta de Negocio Central, y Tipo de Audiencia Seleccionada.
+                </p>
+            </section>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-100 p-4 text-center text-xs text-gray-500 border-t border-gray-200">
+            Curso de Inteligencia de Negocios - Universidad Autónoma de Bucaramanga<br>
+            Construido bajo parámetros de Aprendizaje Basado en Proyectos (ABPr).
+        </div>
+    </div>
+
+</body>
+</html>

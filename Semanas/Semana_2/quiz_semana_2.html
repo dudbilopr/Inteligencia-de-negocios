@@ -3,128 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz EMI - Inteligencia de Negocios</title>
+    <title>EMI Activity - Semana 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#003865', secondary: '#E85C0B' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            color: #003865;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .quiz-container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 100%;
-        }
-        h1 {
-            color: #E85C0B;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .question {
-            margin-bottom: 25px;
-            font-size: 1.1em;
-        }
-        select {
-            padding: 8px;
-            font-size: 1em;
-            border-radius: 5px;
-            border: 1px solid #003865;
-            color: #003865;
-            background-color: #f4f4f4;
-            margin: 0 5px;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: #E85C0B;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 20px;
-        }
-        .btn:hover {
-            background-color: #c94b07;
-        }
-        #result {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        .correct { color: green; }
-        .incorrect { color: red; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 flex flex-col items-center justify-center min-h-screen font-sans p-6 text-gray-800">
 
-<div class="quiz-container">
-    <h1>🇬🇧 Business Intelligence - EMI Warm-Up</h1>
-    <p>Complete the sentences with the correct Business Intelligence terminology:</p>
+    <div class="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-primary">
+        <div class="bg-gradient-to-r from-primary to-blue-900 p-8 text-center text-white">
+            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-globe text-secondary mr-3"></i>EMI Reading & Quiz - Week 2</h1>
+            <p class="text-blue-200">English as a Medium of Instruction: Dimensional Modeling & ETL</p>
+        </div>
+        
+        <!-- Reading Section -->
+        <div class="p-8 border-b border-gray-200 bg-gray-50">
+            <h2 class="text-xl font-bold text-primary mb-4"><i class="fas fa-book-reader text-secondary mr-2"></i> Analytical Context</h2>
+            <div class="text-gray-700 text-sm leading-relaxed space-y-4">
+                <p>In dimensional modeling, we separate data into <strong>Fact tables</strong> (containing quantitative business metrics) and <strong>Dimension tables</strong> (containing descriptive attributes). This is known as a Star Schema.</p><p>During the Extract, Transform, Load (ETL) process, analytical rigor dictates that we minimize transformations in the reporting layer and instead push them upstream to the data source or Power Query to optimize the VertiPaq engine's memory compression.</p>
+            </div>
+        </div>
 
-    <div class="question">
-        1. A <select id="q1"><option value="">--select--</option><option value="Dashboard">Dashboard</option><option value="KPI">KPI</option><option value="Data-Driven">Data-Driven</option></select> is a measurable value that demonstrates how effectively a company is achieving key business objectives.
+        <!-- Quiz Section -->
+        <div class="p-8" id="quiz-container">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-700">Test Your Knowledge:</h2>
+                <span class="text-sm font-bold text-white bg-secondary px-3 py-1 rounded-full" id="score-tracker">Score: 0/3</span>
+            </div>
+            
+            <div id="question" class="text-xl font-bold text-primary mb-6 min-h-[60px]">
+                Loading challenge...
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="options">
+                <!-- Options injected here -->
+            </div>
+
+            <div id="feedback" class="mt-8 hidden p-4 rounded-lg font-bold text-base"></div>
+            
+            <div class="mt-6 text-right">
+                <button id="next-btn" class="hidden bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-800 transition">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+            </div>
+        </div>
     </div>
 
-    <div class="question">
-        2. A company that makes decisions based on data analysis rather than intuition is considered to be <select id="q2"><option value="">--select--</option><option value="Data Warehouse">Data Warehouse</option><option value="Data-Driven">Data-Driven</option><option value="Dashboard">Dashboard</option></select>.
-    </div>
+    <script>
+        const questions = [
+    {
+        "q": "Why is a Star Schema strongly preferred over a highly normalized Snowflake schema in modern BI tools like Power BI?",
+        "options": [
+            "It reduces database storage costs by removing all dimension tables.",
+            "It minimizes the number of joins required to aggregate metrics, significantly optimizing read performance and DAX evaluation.",
+            "It automatically generates the ETL code in Python.",
+            "It is a requirement for generating 3D pie charts."
+        ],
+        "ans": 1,
+        "explanation": "Correct. Star schemas reduce the query path length. Fewer joins mean the VertiPaq engine can compress and query the data much faster than highly normalized snowflake designs."
+    },
+    {
+        "q": "During an ETL process, you encounter 'dirty data' with missing dates in a sales dataset. What is the most analytically rigorous approach?",
+        "options": [
+            "Delete the rows with missing dates immediately to clean the visual.",
+            "Replace the missing dates with today's date so the dashboard doesn't crash.",
+            "Investigate the root cause at the source system, and handle the anomaly explicitly by assigning them to a 'Unknown / N/A' dimension key.",
+            "Leave them as NULL and let the DAX engine handle it dynamically during every query."
+        ],
+        "ans": 2,
+        "explanation": "Spot on. You should never silently delete data or falsify dates. Mapping them to an 'Unknown' dimension preserves the revenue metrics while explicitly identifying data quality issues."
+    },
+    {
+        "q": "What is the fundamental difference between a Fact Table and a Dimension Table?",
+        "options": [
+            "Fact tables store numerical measures (events), whereas Dimension tables store descriptive attributes (context).",
+            "Fact tables are always smaller than Dimension tables.",
+            "Dimension tables update every second, while Fact tables are static.",
+            "Fact tables are used in Excel, while Dimension tables are used in SQL."
+        ],
+        "ans": 0,
+        "explanation": "Exactly. Facts are the 'verbs' (e.g., Sales, Clicks) containing quantitative data, and Dimensions are the 'nouns' (e.g., Customer, Date, Product) providing the filtering context."
+    }
+];
 
-    <div class="question">
-        3. A visual display of all of your data is commonly known as a <select id="q3"><option value="">--select--</option><option value="Dashboard">Dashboard</option><option value="BI">BI</option><option value="KPI">KPI</option></select>.
-    </div>
-
-    <div class="question">
-        4. <select id="q4"><option value="">--select--</option><option value="Business Intelligence">Business Intelligence</option><option value="Data Warehouse">Data Warehouse</option><option value="Data-Driven">Data-Driven</option></select> comprises the strategies and technologies used by enterprises for the data analysis of business information.
-    </div>
-
-    <button class="btn" onclick="checkAnswers()">Check Answers</button>
-    <div id="result"></div>
-</div>
-
-<script>
-    function checkAnswers() {
-        const answers = {
-            q1: "KPI",
-            q2: "Data-Driven",
-            q3: "Dashboard",
-            q4: "Business Intelligence"
-        };
+        let currentQuestion = 0;
         let score = 0;
-        let total = Object.keys(answers).length;
+        
+        const questionDiv = document.getElementById('question');
+        const optionsDiv = document.getElementById('options');
+        const feedbackDiv = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreTracker = document.getElementById('score-tracker');
 
-        for (let key in answers) {
-            let userAns = document.getElementById(key).value;
-            let el = document.getElementById(key);
-            if (userAns === answers[key]) {
-                score++;
-                el.style.backgroundColor = "#d4edda";
-                el.style.borderColor = "#c3e6cb";
+        function loadQuestion() {
+            feedbackDiv.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            optionsDiv.innerHTML = '';
+            
+            const q = questions[currentQuestion];
+            questionDiv.innerText = `Q${currentQuestion + 1}: ${q.q}`;
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-lg border-2 border-gray-200 hover:border-secondary hover:bg-orange-50 font-semibold text-gray-700 transition duration-200 flex items-center justify-between group";
+                btn.innerHTML = `<span>${opt}</span> <i class="fas fa-chevron-right text-gray-300 group-hover:text-secondary"></i>`;
+                
+                btn.onclick = () => {
+                    // Disable all buttons after click
+                    Array.from(optionsDiv.children).forEach(b => {
+                        b.disabled = true;
+                        b.classList.add('opacity-50', 'cursor-not-allowed');
+                        b.classList.remove('hover:border-secondary', 'hover:bg-orange-50');
+                    });
+                    
+                    if(idx === q.ans) {
+                        btn.classList.remove('opacity-50', 'border-gray-200');
+                        btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
+                        score++;
+                        scoreTracker.innerText = `Score: ${score}/${questions.length}`;
+                        showFeedback(true, q.explanation);
+                    } else {
+                        btn.classList.remove('opacity-50', 'border-gray-200');
+                        btn.classList.add('bg-red-100', 'border-red-500', 'text-red-800', 'opacity-100');
+                        
+                        // Highlight correct one
+                        const correctBtn = optionsDiv.children[q.ans];
+                        correctBtn.classList.remove('opacity-50', 'border-gray-200');
+                        correctBtn.classList.add('bg-green-50', 'border-green-300', 'opacity-100');
+                        
+                        showFeedback(false, q.explanation);
+                    }
+                    
+                    if(currentQuestion < questions.length - 1) {
+                        nextBtn.classList.remove('hidden');
+                        nextBtn.classList.add('fade-in');
+                    } else {
+                        feedbackDiv.innerHTML += `<br><br><div class="text-center text-primary mt-2"><strong>Quiz Completed! Final Score: ${score}/${questions.length}</strong></div>`;
+                    }
+                };
+                optionsDiv.appendChild(btn);
+            });
+        }
+        
+        function showFeedback(isCorrect, text) {
+            feedbackDiv.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
+            if(isCorrect) {
+                feedbackDiv.classList.add('bg-green-100', 'text-green-700', 'fade-in');
+                feedbackDiv.innerHTML = `<i class="fas fa-check-circle mr-2"></i> ${text}`;
             } else {
-                el.style.backgroundColor = "#f8d7da";
-                el.style.borderColor = "#f5c6cb";
+                feedbackDiv.classList.add('bg-red-100', 'text-red-700', 'fade-in');
+                feedbackDiv.innerHTML = `<i class="fas fa-times-circle mr-2"></i> Incorrect. ${text}`;
             }
         }
 
-        let res = document.getElementById("result");
-        if (score === total) {
-            res.innerHTML = `<span class="correct">Excellent! ${score}/${total} correct answers! 🎉</span>`;
-        } else {
-            res.innerHTML = `<span class="incorrect">Keep practicing! You got ${score}/${total} correct.</span>`;
-        }
-    }
-</script>
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            loadQuestion();
+        });
 
+        // Init
+        loadQuestion();
+    </script>
 </body>
 </html>

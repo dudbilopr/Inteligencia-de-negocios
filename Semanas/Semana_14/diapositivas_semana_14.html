@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Inteligencia de Negocios - Semana 14</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+    <style>
+        :root {
+            --r-main-color: #333;
+            --r-heading-color: #003865;
+            --r-link-color: #E85C0B;
+            --unab-blue: #003865;
+            --unab-orange: #E85C0B;
+        }
+        
+        .reveal .slides { width: 90% !important; height: 90% !important; max-width: 1200px !important; margin: auto; }
+        .reveal .slide-background { background-color: #f4f6f9; }
+        
+        .split-screen { display: flex; justify-content: space-between; align-items: center; height: 100%; gap: 30px; }
+        .split-left, .split-right { width: 48%; }
+        
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
+        .grid-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15);
+            border-top: 5px solid var(--unab-blue);
+            text-align: left; transition: transform 0.3s ease;
+        }
+        .grid-card:hover { transform: translateY(-5px); }
+        
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
+        .highlight { color: var(--unab-orange); }
+        .text-left { text-align: left; }
+        .small-text { font-size: 0.7em !important; line-height: 1.2; }
+        
+        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
+        .dark-slide h1, .dark-slide h2, .dark-slide h3 { color: white !important; }
+        
+        .ai-footer { position: fixed; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 0.45em; color: #888; z-index: 1000; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- PORTADA -->
+            <section class="dark-slide" data-transition="zoom">
+                <i class="fa-solid fa-trophy" style="font-size: 4.5em; color: var(--unab-orange); margin-bottom: 20px;"></i>
+                <h1 style="margin-bottom: 10px;">Sustentación Final: Proyecto 2</h1>
+                <h3 style="font-weight: 300; opacity: 0.9;">Del Dato a la Acción Estratégica</h3>
+                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <p style="margin: 0; font-size: 0.8em; letter-spacing: 1px;">Inteligencia de Negocios - Semana 14</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.6em; opacity: 0.7; color: var(--unab-orange);">Universidad Autónoma de Bucaramanga</p>
+                </div>
+            </section>
+
+            <!-- RAE -->
+            <section data-transition="slide-in fade-out">
+                <h2><i class="fa-solid fa-bullseye" style="color: var(--unab-orange);"></i> Resultado de Aprendizaje</h2>
+                <div class="split-screen">
+                    <div class="split-left text-left">
+                        <div class="grid-card" style="border-left: 5px solid var(--unab-orange); border-top: none;">
+                            <h3 style="color: var(--unab-blue); font-size: 1.2em;">RAE Final</h3>
+                            <p style="font-size: 0.9em;">"Sustenta de manera oral y visual los hallazgos analíticos, utilizando técnicas de Storytelling para persuadir a una audiencia C-Level."</p>
+                            <p class="small-text" style="color: #666; margin-top: 15px;">La culminación del curso. Hoy probamos que los datos pueden convertirse en decisiones reales.</p>
+                        </div>
+                    </div>
+                    <div class="split-right">
+                        <i class="fa-solid fa-microphone-stand" style="font-size: 6em; color: #ccc;"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAUTAS DE SUSTENTACION -->
+            <section data-transition="slide">
+                <h2><i class="fa-solid fa-stopwatch highlight"></i> Reglas de Sustentación (Pitch)</h2>
+                <p class="small-text text-left">Imagina que entras al ascensor con el CEO. Tienes <strong>máximo 7 minutos</strong>.</p>
+                <div class="grid-layout" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="grid-card">
+                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-ban highlight"></i> Lo que NO debes hacer:</h3>
+                        <ul class="small-text text-gray-600 mt-2">
+                            <li>Explicar cómo limpiaste los nulos en Power Query.</li>
+                            <li>Mostrar el diagrama entidad-relación.</li>
+                            <li>Leer los números de la pantalla (el dashboard ya los muestra).</li>
+                        </ul>
+                    </div>
+                    <div class="grid-card">
+                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-check highlight"></i> Lo que SÍ debes hacer:</h3>
+                        <ul class="small-text text-gray-600 mt-2">
+                            <li>Empezar con el "Big Idea" de impacto.</li>
+                            <li>Usar el dashboard interactivamente (filtros) para responder a las dudas del jurado en vivo.</li>
+                            <li>Justificar el Retorno de Inversión (ROI) de tu propuesta.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TYPED.JS INTERACTIVE -->
+            <section data-transition="zoom" class="dark-slide">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+                    <i class="fa-solid fa-lightbulb" style="font-size: 2em; color: var(--unab-orange); opacity: 0.7; margin-bottom: 20px;"></i>
+                    <h2 style="font-size: 1.5em; text-align: center; line-height: 1.4;">
+                        <span id="typed-quote"></span>
+                    </h2>
+                </div>
+            </section>
+
+            <!-- REFLEXION -->
+            <section data-transition="slide" class="dark-slide">
+                <h2><i class="fa-solid fa-graduation-cap highlight"></i> Reflexión de Cierre</h2>
+                <p class="text-center" style="font-size: 1.1em; color: #ddd;">
+                    "Las herramientas (SQL, DAX, Power BI, Python) cambian y evolucionan cada año. <br><br>Pero la habilidad de encontrar <strong>valor</strong> en la ambigüedad, y de <strong>persuadir</strong> a otros con la verdad de los datos... esa habilidad es a prueba de obsolescencia."
+                </p>
+                <p class="text-center highlight mt-5" style="font-weight: bold; font-size: 1.5em;">¡Éxitos en tu carrera profesional!</p>
+            </section>
+
+        </div>
+    </div>
+
+    <div class="ai-footer">
+        * Material de Inteligencia de Negocios - Potenciado y construido con IA bajo supervisión de Dudbil Pabon - Sujeto a cambios.
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        Reveal.initialize({ controls: true, progress: true, center: true, hash: true, transition: 'slide' });
+
+        Reveal.on('slidechanged', event => {
+            if (event.currentSlide.querySelector('#typed-quote') && !window.typedInitialized) {
+                new Typed('#typed-quote', {
+                    strings: [
+                        "Un gran modelo de datos sin comunicación, es solo código.",
+                        "Una gran comunicación sin datos, es solo una opinión.",
+                        "En la intersección de ambas está la verdadera <span class='highlight'>Inteligencia de Negocios.</span>"
+                    ],
+                    typeSpeed: 40,
+                    backSpeed: 15,
+                    backDelay: 3000,
+                    loop: true,
+                    showCursor: true,
+                    cursorChar: '|'
+                });
+                window.typedInitialized = true;
+            }
+        });
+    </script>
+</body>
+</html>

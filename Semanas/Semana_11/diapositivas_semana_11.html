@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Inteligencia de Negocios - Semana 11</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js & Typed.js & Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+    <style>
+        :root {
+            --r-main-color: #333;
+            --r-heading-color: #003865;
+            --r-link-color: #E85C0B;
+            --r-link-color-hover: #c94b07;
+            --r-selection-background-color: #E85C0B;
+            --unab-blue: #003865;
+            --unab-orange: #E85C0B;
+        }
+        
+        .reveal .slides {
+            width: 90% !important;
+            height: 90% !important;
+            max-width: 1200px !important;
+            margin: auto;
+        }
+        .reveal .slide-background { background-color: #f4f6f9; }
+        
+        .split-screen {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            gap: 30px;
+        }
+        .split-left, .split-right { width: 48%; }
+        
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        .grid-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--unab-blue);
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grid-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 56, 101, 0.2);
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
+        .reveal h1 { font-size: 2.8em; }
+        .reveal h2 { font-size: 1.8em; margin-bottom: 20px; }
+        .highlight { color: var(--unab-orange); }
+        .text-left { text-align: left; }
+        .small-text { font-size: 0.7em !important; line-height: 1.2; }
+        
+        .pro-tip {
+            background: linear-gradient(135deg, #003865 0%, #005091 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            border-left: 8px solid var(--unab-orange);
+            font-size: 0.7em;
+            text-align: left;
+            margin: 20px 0;
+            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
+            transition: transform 0.3s ease;
+        }
+        .pro-tip i { color: var(--unab-orange); margin-right: 10px; font-size: 1.2em; }
+        
+        ul.styled-list li { margin-bottom: 12px; font-size: 0.8em; }
+        .icon { color: var(--unab-orange); margin-right: 15px; }
+        
+        .chart-container { 
+            position: relative; 
+            height: 350px; 
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15);
+        }
+        
+        .dark-slide {
+            background-color: var(--unab-blue) !important;
+            color: white !important;
+        }
+        .dark-slide h1, .dark-slide h2, .dark-slide h3 { color: white !important; }
+        
+        /* Modal Styles */
+        .clickable-concept {
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+        }
+        .clickable-concept:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.3) !important;
+            z-index: 10;
+        }
+        .clickable-concept::after {
+            content: '\f0a6'; /* Hand pointer icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--unab-orange);
+            color: white;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .clickable-concept:hover::after { opacity: 1; }
+
+        #concept-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 56, 101, 0.6);
+            border-left: 10px solid var(--unab-orange);
+            z-index: 2000;
+            text-align: left;
+            font-family: sans-serif;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        #concept-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 56, 101, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1999;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #888;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--unab-orange); }
+        .modal-title { color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; font-weight: bold; display: flex; align-items: center; gap: 15px;}
+        .modal-body { font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px; }
+
+        /* Footnote */
+        .ai-footer {
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.45em;
+            color: #888;
+            z-index: 1000;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- PORTADA -->
+            <section class="dark-slide" data-transition="zoom">
+                <i class="fa-solid fa-chart-pie" style="font-size: 4.5em; color: var(--unab-orange); margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(232,92,11,0.5));"></i>
+                <h1 style="margin-bottom: 10px;">Storytelling con Datos</h1>
+                <h3 style="font-weight: 300; opacity: 0.9; color: #e0e0e0 !important;">Comunicación Analítica y Narrativa Visual</h3>
+                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <p style="margin: 0; font-size: 0.8em; letter-spacing: 1px;">Inteligencia de Negocios - Semana 11</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.6em; opacity: 0.7; color: var(--unab-orange);">Universidad Autónoma de Bucaramanga</p>
+                </div>
+            </section>
+
+            <!-- RAE -->
+            <section data-transition="slide-in fade-out">
+                <h2><i class="fa-solid fa-bullseye icon"></i> Resultado de Aprendizaje</h2>
+                <div class="split-screen">
+                    <div class="split-left text-left">
+                        <div class="grid-card" style="border-left: 5px solid var(--unab-orange); border-top: none;">
+                            <h3 style="color: var(--unab-blue); font-size: 1.2em;">RAE 3.1</h3>
+                            <p style="font-size: 0.9em;">
+                                "Interpreta hallazgos a partir de visualizaciones para diferentes audiencias."
+                            </p>
+                            <p class="small-text" style="color: #666; margin-top: 15px;">
+                                Los datos puros rara vez persuaden. Transformaremos el <em>Business Intelligence</em> en una herramienta narrativa y ejecutiva basada en metodologías como <strong>Storytelling with Data</strong> de Cole Nussbaumer.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="split-right">
+                        <div style="font-size: 3em; color: #ddd; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                            <i class="fa-solid fa-database"></i>
+                            <i class="fa-solid fa-arrow-down" style="color: var(--unab-orange); font-size: 0.5em;"></i>
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTEXTO Y AUDIENCIA -->
+            <section data-transition="slide">
+                <h2><i class="fa-solid fa-users icon"></i> El Contexto y la Audiencia</h2>
+                <p class="text-left small-text">Antes de crear cualquier visualización, debemos hacernos tres preguntas fundamentales:</p>
+                
+                <div class="grid-layout">
+                    <div class="grid-card clickable-concept" onclick="openModal('¿Quién?', 'Conocer a tu audiencia es vital. ¿A quién te diriges? ¿Qué relación tienes con ellos? ¿Son tomadores de decisión (C-Level), operativos o técnicos? El nivel de detalle técnico varía drásticamente según la audiencia.', 'fa-user-tie')">
+                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-user-tie icon"></i> ¿A Quién?</h3>
+                        <p class="small-text">Tu audiencia objetivo.</p>
+                    </div>
+                    <div class="grid-card clickable-concept" onclick="openModal('¿Qué?', '¿Qué quieres que tu audiencia sepa o haga? Todo reporte de Inteligencia de Negocios debe incitar a la acción. Si los datos no generan una decisión, solo son ruido visual.', 'fa-lightbulb')">
+                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-lightbulb icon"></i> ¿Qué?</h3>
+                        <p class="small-text">La acción deseada (Call to Action).</p>
+                    </div>
+                    <div class="grid-card clickable-concept" style="grid-column: span 2;" onclick="openModal('¿Cómo?', '¿Cómo utilizarás los datos para apoyar tu punto? Aquí es donde seleccionas los KPIs adecuados y el gráfico pertinente para transmitir el Big Idea.', 'fa-chart-bar')">
+                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-chart-bar icon"></i> ¿Cómo?</h3>
+                        <p class="small-text">Los datos que respaldan tu argumento central (The Big Idea).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ELIMINAR EL DESORDEN -->
+            <section data-transition="slide">
+                <h2><i class="fa-solid fa-eraser icon"></i> Carga Cognitiva y el "Clutter"</h2>
+                <div class="split-screen">
+                    <div class="split-left text-left">
+                        <p class="small-text">
+                            La <span class="highlight">Carga Cognitiva</span> es el esfuerzo mental necesario para procesar información. Nuestro objetivo es reducirla eliminando el "Desorden" (Clutter).
+                        </p>
+                        <div class="pro-tip">
+                            <i class="fa-solid fa-scissors"></i> Principio de Gestalt: Elimina bordes gruesos, cuadrículas pesadas y colores innecesarios. Maximiza el <strong>Data-Ink Ratio</strong> (Tinta de Datos).
+                        </div>
+                    </div>
+                    <div class="split-right">
+                        <div class="chart-container">
+                            <canvas id="clutterChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TYPED.JS INTERACTIVE -->
+            <section data-transition="zoom" class="dark-slide">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+                    <i class="fa-solid fa-quote-left" style="font-size: 2em; color: var(--unab-orange); opacity: 0.7; margin-bottom: 20px;"></i>
+                    <h2 style="font-size: 1.5em; text-align: center; line-height: 1.4;">
+                        <span id="typed-quote"></span>
+                    </h2>
+                </div>
+            </section>
+
+            <!-- GLOSARIO -->
+            <section data-transition="slide">
+                <h2><i class="fa-solid fa-book icon"></i> Glosario Clave</h2>
+                <div class="grid-layout">
+                    <div class="grid-card">
+                        <h3 style="font-size: 1em; color: var(--unab-blue);">Exploratorio vs. Explicativo</h3>
+                        <p class="small-text"><strong>Exploratorio:</strong> Lo que haces para encontrar la historia en los datos (ej. buscar perlas en las ostras).<br><br><strong>Explicativo:</strong> Lo que presentas a la audiencia (mostrar solo las perlas encontradas).</p>
+                    </div>
+                    <div class="grid-card">
+                        <h3 style="font-size: 1em; color: var(--unab-blue);">Atributos Preatentivos</h3>
+                        <p class="small-text">Elementos visuales (color, tamaño, forma) que nuestro cerebro procesa inconscientemente en milisegundos. Usados para dirigir la atención rápidamente en un Dashboard.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONCLUSIONES -->
+            <section data-transition="slide" class="dark-slide">
+                <h2><i class="fa-solid fa-flag-checkered highlight"></i> Conclusiones</h2>
+                <ul class="styled-list" style="color: #eee; font-size: 0.9em; line-height: 1.5;">
+                    <li><strong class="highlight">1.</strong> Los dashboards no deben ser un "volcado de datos"; deben contar una historia con un principio, medio y final (llamado a la acción).</li>
+                    <li><strong class="highlight">2.</strong> Conoce a tu audiencia: Un gerente de marketing y un ingeniero de datos no consumen la misma visualización.</li>
+                    <li><strong class="highlight">3.</strong> Elimina sistemáticamente el desorden (clutter) para reducir la carga cognitiva del usuario final.</li>
+                </ul>
+            </section>
+
+            <!-- BIBLIOGRAFIA -->
+            <section data-transition="slide">
+                <h2><i class="fa-solid fa-book-open icon"></i> Bibliografía</h2>
+                <div class="grid-card text-left" style="margin-top: 30px;">
+                    <ul class="styled-list" style="margin: 0; padding-left: 20px;">
+                        <li><strong>Nussbaumer Knaflic, C.</strong> (2015). <em>Storytelling with Data: A Data Visualization Guide for Business Professionals</em>. Wiley.</li>
+                        <li><strong>UNAB</strong> (2026). Syllabus Oficial - Curso de Inteligencia de Negocios. (Dudbil Pabon).</li>
+                        <li>Tufte, E. R. (2001). <em>The Visual Display of Quantitative Information</em>. Graphics Press.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Modales para Conceptos -->
+    <div id="concept-modal-overlay" onclick="closeModal()"></div>
+    <div id="concept-modal">
+        <i class="fa-solid fa-times modal-close" onclick="closeModal()"></i>
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-body" id="modal-body"></div>
+    </div>
+
+    <div class="ai-footer">
+        * Material de Inteligencia de Negocios - Potenciado y construido con IA bajo supervisión de Dudbil Pabon - Sujeto a cambios.
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        // Inicializar Reveal.js
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+            transition: 'slide'
+        });
+
+        // Lógica de Modales
+        function openModal(title, text, iconClass) {
+            document.getElementById('modal-title').innerHTML = `<i class="fa-solid ${iconClass}"></i> ${title}`;
+            document.getElementById('modal-body').innerHTML = text;
+            document.getElementById('concept-modal-overlay').style.display = 'block';
+            document.getElementById('concept-modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('concept-modal-overlay').style.display = 'none';
+            document.getElementById('concept-modal').style.display = 'none';
+        }
+
+        // Animación Typed.js en la diapositiva correspondiente
+        Reveal.on('slidechanged', event => {
+            if (event.currentSlide.querySelector('#typed-quote') && !window.typedInitialized) {
+                new Typed('#typed-quote', {
+                    strings: [
+                        "No asumas que dos personas miran los mismos datos y llegan a la misma conclusión.",
+                        "Si no tienes el tiempo para conocer a tu audiencia, ¿por qué deberían tener el tiempo para ver tus datos?",
+                        "Hay una historia en tus datos. Pero las herramientas no saben cuál es. <span class='highlight'>Tú eres el contador de historias.</span>"
+                    ],
+                    typeSpeed: 40,
+                    backSpeed: 15,
+                    backDelay: 3000,
+                    loop: true,
+                    showCursor: true,
+                    cursorChar: '|'
+                });
+                window.typedInitialized = true;
+            }
+        });
+
+        // Gráfico Demostrativo (Clutter vs Clean)
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('clutterChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    datasets: [{
+                        label: 'Ventas 2026',
+                        data: [120, 150, 180, 250],
+                        backgroundColor: ['#b3c6d6', '#b3c6d6', '#b3c6d6', '#E85C0B'],
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Destacando el dato clave (Data-Ink)', color: '#003865', font: {size: 14} }
+                    },
+                    scales: {
+                        y: { display: false }, // Eliminando el eje Y (clutter)
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

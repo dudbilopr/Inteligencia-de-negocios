@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio - Semana 11</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#003865', secondary: '#E85C0B' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
+    
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-primary text-white p-8">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 bg-white/20 rounded-full flex justify-center items-center">
+                    <i class="fas fa-book-open text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">Laboratorio: Narrativa Visual y Audiencia</h1>
+                    <p class="text-blue-200 text-sm">Semana 11 - Inteligencia de Negocios</p>
+                </div>
+            </div>
+            <p class="opacity-90 text-sm">Convierte un descubrimiento analítico en una historia persuasiva (Storytelling with Data).</p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 space-y-10">
+            
+            <!-- Caso de Estudio -->
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-bullhorn"></i></div>
+                    <h2 class="text-xl font-bold text-primary">Reto de Práctica Autónoma: La Caída del Producto X</h2>
+                </div>
+                
+                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-sm text-gray-700 mb-4 shadow-inner relative">
+                    <p class="mb-4"><strong>Situación:</strong> Trabajas en el equipo de analítica de una empresa de tecnología. Has estado explorando el dataset de ventas del último trimestre y descubriste algo alarmante: las ventas del "Producto X" (el antiguo producto estrella) han caído un 45% en los últimos dos meses, mientras que las quejas de servicio al cliente sobre este producto se han triplicado en el mismo periodo.</p>
+                    <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg"><i class="fas fa-exclamation-triangle mr-1"></i> El Problema</div>
+                    <p class="mt-4 italic">"Tienes una reunión de 10 minutos con la Junta Directiva (C-Level) mañana por la mañana. Tienes que convencerlos de asignar presupuesto urgente para revisar la calidad del producto, antes de que afecte la reputación general de la marca."</p>
+                </div>
+            </section>
+
+            <!-- Instrucciones -->
+            <section>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-pencil-ruler"></i></div>
+                    <h2 class="text-xl font-bold text-primary">Metodología de Preparación</h2>
+                </div>
+                
+                <ol class="space-y-6 mt-6">
+                    <!-- Paso 1 -->
+                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
+                        <strong class="text-primary text-lg block mb-2">1. Análisis de Audiencia (¿A quién?)</strong>
+                        <p class="text-sm text-gray-600 mb-4">La junta directiva no tiene tiempo para ver todo tu proceso de limpieza de datos ni el código DAX.</p>
+                        <div class="bg-indigo-50 p-4 rounded border border-indigo-200 mb-4 text-sm text-gray-800">
+                            <strong>Acción:</strong> Escribe en tu libreta las características de esta audiencia. ¿Qué les importa? (Rentabilidad, reputación, riesgo). ¿Tienen perfil técnico o financiero?
+                        </div>
+                    </li>
+                    
+                    <!-- Paso 2 -->
+                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-orange-500"></div>
+                        <strong class="text-primary text-lg block mb-2">2. El "Big Idea" (¿Qué?)</strong>
+                        <p class="text-sm text-gray-600 mb-4">Resume tu punto central en <strong>una sola oración</strong> completa que articule el problema y la acción requerida.</p>
+                        <div class="bg-orange-50 p-4 rounded border border-orange-200 mb-4 text-sm text-gray-800">
+                            <strong>Acción:</strong> Redacta tu "Big Idea". (Ejemplo <em>incorrecto</em>: "Ventas del Producto X". Ejemplo <em>correcto</em>: "Debemos destinar $50k al departamento de calidad para detener la caída del 45% en ventas del Producto X, generada por defectos de fabricación").
+                        </div>
+                    </li>
+                    
+                    <!-- Paso 3 -->
+                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-green-500"></div>
+                        <strong class="text-primary text-lg block mb-2">3. Selección Visual (¿Cómo?)</strong>
+                        <p class="text-sm text-gray-600 mb-4">No uses un gráfico circular para mostrar una tendencia en el tiempo. Selecciona la visualización óptima y aplica el principio de Gestalt.</p>
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200 text-sm">
+                            <ul class="list-disc pl-5 space-y-2 text-gray-800">
+                                <li><strong>Acción:</strong> Dibuja en papel (storyboarding) un gráfico de líneas superpuestas: una línea para "Ventas" bajando y otra para "Quejas" subiendo.</li>
+                                <li><strong>Aplicando Atributos Preatentivos:</strong> Haz todo el gráfico en color gris tenue, <strong>excepto</strong> los últimos dos meses de las líneas, los cuales debes pintar de rojo intenso (Ventas) y naranja (Quejas) para forzar la mirada de la junta hacia la crisis.</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+            
+            <!-- Entregable -->
+            <section class="mt-8 border-t border-gray-200 pt-8">
+                <h3 class="text-lg font-bold text-primary mb-3"><i class="fas fa-file-alt mr-2"></i> Entregable para Revisión (Proyecto 2)</h3>
+                <p class="text-sm text-gray-600">
+                    Abre tu proyecto de Power BI actual (Proyecto 2). Selecciona UNA (1) visualización que hayas construido. Aplica el proceso inverso: elimina los bordes, quita las líneas de cuadrícula, usa gris para los datos de contexto y un color institucional (ej. Naranja) solo para resaltar el KPI principal. Trae el 'Antes' y el 'Después' a la próxima tutoría.
+                </p>
+            </section>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-100 p-4 text-center text-xs text-gray-500 border-t border-gray-200">
+            Curso de Inteligencia de Negocios - Universidad Autónoma de Bucaramanga<br>
+            Construido bajo parámetros de Storytelling with Data (Nussbaumer, 2015).
+        </div>
+    </div>
+
+</body>
+</html>
