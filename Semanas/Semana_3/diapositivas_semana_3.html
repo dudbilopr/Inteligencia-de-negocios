@@ -10,8 +10,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
     
-    <!-- Tailwind CSS (Typography & Layouts) -->
+    <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgDark: '#0F172A',
+                        brandBlue: '#0284C7',
+                        brandOrange: '#F97316',
+                        brandGreen: '#10B981',
+                    }
+                }
+            }
+        }
+    </script>
     
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,42 +38,38 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        :root {
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
+        .reveal .slides { width: 100% !important; margin: auto; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { text-transform: none; font-weight: 800; }
+        .reveal p, .reveal li { font-size: 0.9em; line-height: 1.5; }
         
-        .reveal .slides { width: 95% !important; max-width: 1400px !important; margin: auto; }
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 800; }
-        .reveal p, .reveal li { font-size: 0.9em; }
-        
-        .highlight-text { color: var(--unab-orange); position: relative; display: inline-block; }
-        .highlight-text::after {
-            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
-            background: var(--unab-orange); opacity: 0.3; z-index: -1; border-radius: 4px;
-        }
+        .highlight-text { color: #F97316; }
 
         /* Glassmorphism */
-        .box-glass {
+        .glassmorphism {
             background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15); border-left: 6px solid var(--unab-orange);
-            margin-bottom: 20px; text-align: left;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255,255,255,0.2);
         }
-        .dark-slide .box-glass { background: rgba(0, 0, 0, 0.6); color: white; border-left-color: var(--unab-orange); }
-        .dark-slide h2 { color: white; }
+        .dark-glassmorphism {
+            background: rgba(15, 23, 42, 0.7); padding: 30px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+        }
 
         /* Dark Slides */
-        .dark-slide { background: linear-gradient(135deg, #001f3f 0%, #003865 100%) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h3, .dark-slide p { color: white !important; }
+        .dark-slide { background: #0F172A !important; color: white !important; }
+        .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p, .dark-slide li { color: white !important; }
 
-        .mermaid { background: white; padding: 20px; border-radius: 12px; font-size: 0.7em; }
+        .mermaid { background: white; padding: 20px; border-radius: 12px; font-size: 0.75em; color: black !important; }
+        .mermaid * { color: black !important; }
         
         /* Table Animation */
-        .table-anim td { padding: 15px; border-bottom: 1px solid #e2e8f0; }
-        .table-anim th { background: #003865; color: white; padding: 15px; }
+        .table-anim td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
+        .table-anim th { background: #0284C7; color: white; padding: 12px; }
         
-        /* Fragment highlighting */
-        .reveal .fragment.highlight-current-green.current-fragment { color: #22c55e; font-weight: bold; }
+        .footer-link { position: absolute; bottom: 5%; right: 5%; font-size: 0.5em; color: #94a3b8; }
+        
+        /* Layout Scroll Fix */
+        .scrollable-card { max-height: 82vh; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -68,360 +78,371 @@
 
             <!-- SLIDE 1: Portada -->
             <section data-transition="zoom" class="dark-slide">
-                <div class="flex flex-col items-center justify-center h-full">
-                    <i class="fa-solid fa-database text-8xl mb-8" style="color: #E85C0B; filter: drop-shadow(0 0 20px rgba(232,92,11,0.8));"></i>
-                    <h1 class="text-7xl font-extrabold mb-4" style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">
-                        Inteligencia de <span class="highlight-text">Negocios</span>
-                    </h1>
-                    <h3 class="text-3xl text-gray-200 mb-8">Semana 3: DAX Basics y Arquitectura Power Query</h3>
+                <div class="flex flex-col items-center justify-center h-[90vh]">
+                    <h1 class="text-6xl font-extrabold mb-6 text-center">Inteligencia de Negocios: <br><span class="highlight-text">Ingesta ETL y Modelado Analítico</span></h1>
+                    <h3 class="text-3xl text-gray-300 mb-10 text-center">Semana 3: Power Query (Lenguaje M) y Motor DAX (VertiPaq)</h3>
                     
-                    <div class="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 mt-8">
-                        <p class="m-0 text-sm font-semibold tracking-wider uppercase text-blue-200">
-                            <i class="fas fa-microchip mr-2"></i> Ingeniería de Datos & Modelado Dimensional
-                        </p>
+                    <div class="flex gap-4 mt-8">
+                        <span class="bg-brandBlue text-white px-5 py-2 rounded-full font-bold shadow-lg"><i class="fas fa-university mr-2"></i>Universidad Autónoma de Bucaramanga</span>
+                        <span class="bg-brandOrange text-white px-5 py-2 rounded-full font-bold shadow-lg"><i class="fas fa-calendar mr-2"></i>Asignatura BI</span>
                     </div>
-                    <p class="mt-8 text-sm text-gray-400">Universidad Autónoma de Bucaramanga</p>
                 </div>
             </section>
             
-            <!-- SLIDE 2: RAE -->
-            <section data-transition="slide">
-                <h2 class="text-left mb-10"><i class="fa-solid fa-bullseye text-orange-500 mr-4"></i>Resultados de Aprendizaje (RAE)</h2>
-                <div class="grid md:grid-cols-2 gap-8 mt-10">
-                    <div class="box-glass border-l-8 border-green-500">
-                        <div class="flex items-center mb-6">
-                            <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded uppercase tracking-wider mr-3">Objetivo 1</span>
-                            <h3 class="text-2xl text-green-700 m-0"><i class="fas fa-filter mr-2"></i>Power Query & ETL</h3>
-                        </div>
-                        <p class="text-gray-700 leading-relaxed text-xl">Ejecutar la limpieza avanzada de datos dominando el <strong>Lenguaje M</strong> y optimizando el rendimiento general mediante la técnica de <strong>Query Folding</strong>.</p>
+            <!-- SLIDE 2: Historia y Origen -->
+            <section data-transition="slide" class="bg-gray-50">
+                <h2 class="text-left mb-10 text-brandBlue"><i class="fas fa-history text-brandOrange mr-4"></i>Historia y Origen de las Herramientas</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 scrollable-card text-left pb-10">
+                    <div class="glassmorphism border-t-8 border-[#217346]">
+                        <h3 class="text-2xl text-[#217346] font-bold mb-4"><i class="fas fa-cogs mr-2"></i>Power Query (2013)</h3>
+                        <p class="text-gray-700">Nació bajo el nombre código <em>"Data Explorer"</em> para democratizar el ETL en Excel sin requerir código SQL complejo ni intervención directa de IT.</p>
                     </div>
                     
-                    <div class="box-glass border-l-8 border-blue-600">
-                        <div class="flex items-center mb-6">
-                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded uppercase tracking-wider mr-3">Objetivo 2</span>
-                            <h3 class="text-2xl text-blue-700 m-0"><i class="fas fa-calculator mr-2"></i>DAX & Engine</h3>
-                        </div>
-                        <p class="text-gray-700 leading-relaxed text-xl">Diferenciar arquitectónicamente entre <strong>Contexto de Fila</strong> (Row Context) y <strong>Contexto de Filtro</strong> (Filter Context) para el desarrollo preciso de métricas analíticas.</p>
+                    <div class="glassmorphism border-t-8 border-brandBlue">
+                        <h3 class="text-2xl text-brandBlue font-bold mb-4"><i class="fas fa-database mr-2"></i>VertiPaq Engine (2010)</h3>
+                        <p class="text-gray-700">Diseñado por Microsoft para SQL Server Analysis Services (SSAS) e integrado inicialmente en PowerPivot. Permite una ultra compresión en memoria.</p>
+                    </div>
+                    
+                    <div class="glassmorphism border-t-8 border-brandOrange">
+                        <h3 class="text-2xl text-brandOrange font-bold mb-4"><i class="fas fa-calculator mr-2"></i>DAX (2010)</h3>
+                        <p class="text-gray-700">Lenguaje basado en expresiones de Excel creado específicamente para operar sobre matrices relacionales en memoria, potenciando PowerPivot y luego Power BI.</p>
                     </div>
                 </div>
+                
+                <div class="bg-brandBlue text-white p-6 rounded-xl shadow-lg text-left mt-4 mx-auto w-11/12 max-w-4xl relative z-10">
+                    <h4 class="font-bold text-xl mb-2 text-brandOrange"><i class="fas fa-question-circle mr-2"></i>¿Por qué se usan?</h4>
+                    <p class="m-0 text-lg">Para pasar de procesos manuales propensos al error (Copiar y Pegar) a pipelines de datos 100% automatizados, comprimidos e instantáneos.</p>
+                </div>
+                <div class="footer-link"><a href="https://learn.microsoft.com/power-bi/transform-model/" target="_blank">Referencia: learn.microsoft.com/power-bi/transform-model/</a></div>
             </section>
 
-            <!-- SLIDE 3: Desmitificando Power Query -->
+            <!-- SLIDE 3: Ubicación y Configuración -->
             <section data-transition="fade">
-                <h2 class="text-left mb-8">Desmitificando <span class="highlight-text">Power Query</span></h2>
-                <p class="text-left text-xl text-gray-600 mb-8 border-b pb-4">¿Es un software externo? No. Es un motor ETL 100% integrado en la suite de Microsoft.</p>
+                <h2 class="text-left mb-8 text-brandBlue"><i class="fas fa-search-location text-brandOrange mr-4"></i>Ubicación & Configuración Inicial</h2>
                 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-green-50 p-8 rounded-xl border-l-8 border-[#217346] shadow-md text-left">
-                        <h3 class="text-3xl text-[#217346] mb-4"><i class="fa-solid fa-file-excel mr-3"></i>Microsoft Excel</h3>
-                        <p class="text-lg text-gray-700">Preinstalado desde la versión 2016. Se accede desde la pestaña <strong>Datos > Obtener Datos</strong>. Todo el código M escrito aquí es transportable.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 scrollable-card pb-10">
+                    <div class="space-y-6 text-left">
+                        <div class="glassmorphism border-l-8 border-[#217346]">
+                            <h3 class="text-2xl font-bold mb-2 text-[#217346]"><i class="fas fa-file-excel mr-2"></i>En Microsoft Excel</h3>
+                            <p class="text-gray-700">Nativo desde Excel 2016. Pestaña <strong>Datos > Obtener Datos</strong>.</p>
+                        </div>
+                        <div class="glassmorphism border-l-8 border-[#F6D155]">
+                            <h3 class="text-2xl font-bold mb-2 text-[#F6D155]"><i class="fas fa-chart-bar mr-2"></i>En Power BI Desktop</h3>
+                            <p class="text-gray-700">Botón Inicio > <strong>Transformar Datos</strong>.</p>
+                        </div>
                     </div>
                     
-                    <div class="bg-orange-50 p-8 rounded-xl border-l-8 border-[#f59e0b] shadow-md text-left">
-                        <h3 class="text-3xl text-[#f59e0b] mb-4"><i class="fa-solid fa-chart-simple mr-3"></i>Power BI Desktop</h3>
-                        <p class="text-lg text-gray-700">Es el motor de ingesta predeterminado. Se lanza haciendo clic en el botón <strong>Transformar Datos</strong> (Pestaña Inicio), abriendo un editor secundario independiente.</p>
+                    <div class="bg-gray-100 p-8 rounded-xl shadow-inner text-left border border-gray-300">
+                        <h4 class="text-2xl font-bold mb-4 text-brandBlue"><i class="fas fa-file-csv text-brandOrange mr-2"></i>Caso Real: Ventas_Retail_Sucio.csv</h4>
+                        <p class="mb-4">Para importar correctamente este archivo de +5,500 filas delimitado por punto y coma (<code>;</code>):</p>
+                        <div class="bg-brandOrange/20 border-l-4 border-brandOrange p-4 text-brandBlue font-bold rounded">
+                            <i class="fas fa-lightbulb text-brandOrange mr-2"></i>Tip de Alto Nivel:
+                            <span class="font-normal block mt-2">Asegúrate de cambiar la detección de origen a <strong>'Basado en el dataset completo'</strong> en lugar de las primeras 200 filas para evitar tipos de datos erróneos en columnas sucias.</span>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="mt-8 bg-blue-900 text-white p-4 rounded-lg text-center shadow-lg transform transition hover:scale-105">
-                    <p class="text-xl m-0 font-bold"><i class="fas fa-lightbulb text-yellow-400 mr-2"></i> Consejo Key: El motor de transformación M es 100% idéntico y portable entre Excel y Power BI.</p>
                 </div>
             </section>
 
             <!-- SLIDE 4: Arquitectura VertiPaq -->
             <section data-transition="convex">
-                <h2 class="text-left mb-8">Almacenamiento Columnar vs. Fila: <span class="highlight-text">VertiPaq</span></h2>
-                <div class="grid md:grid-cols-2 gap-10 items-center">
+                <h2 class="text-left mb-6 text-brandBlue">Arquitectura VertiPaq: Columnar vs Fila</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full scrollable-card pb-10 items-center">
                     <div class="text-left space-y-6">
-                        <div class="box-glass p-6">
-                            <h4 class="text-2xl text-[#003865] mb-2"><i class="fas fa-compress-arrows-alt text-orange-500 mr-2"></i>Compresión de Diccionarios</h4>
-                            <p class="text-lg">Power BI almacena la información por <strong>columnas</strong> en lugar de filas. Si tienes 1 millón de filas pero solo 3 países distintos, el motor solo guarda 3 valores únicos en memoria RAM y los indexa.</p>
+                        <div class="glassmorphism bg-brandBlue text-white">
+                            <h4 class="text-2xl font-bold mb-4 text-brandOrange"><i class="fas fa-microchip mr-2"></i>¿Por qué se usa?</h4>
+                            <p class="text-lg">VertiPaq comprime columnas creando diccionarios de valores únicos. Permite consultar millones de registros en milisegundos usando <strong>solo memoria RAM</strong>.</p>
                         </div>
-                        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded text-red-900 shadow-sm">
-                            <p class="font-bold m-0"><i class="fas fa-exclamation-triangle mr-2"></i> Regla de Oro:</p>
-                            <p class="text-sm m-0">"Elimina las columnas innecesarias antes de preocuparte por la cantidad de filas."</p>
+                        
+                        <div class="bg-brandGreen/20 border-l-4 border-brandGreen p-6 rounded text-gray-800">
+                            <h4 class="font-bold text-brandGreen text-xl mb-2"><i class="fas fa-star mr-2"></i>Tip de Alto Nivel (Regla de Oro)</h4>
+                            <p class="italic">"Eliminar columnas innecesarias o de alta cardinalidad (como Transaction_ID) ahorra hasta un 80% más memoria RAM que eliminar miles de filas."</p>
                         </div>
                     </div>
                     
-                    <div class="mermaid shadow-2xl">
-                        graph TD
-                            A[Base de Datos SQL / CSV] -->|Power Query ETL| B(Motor In-Memory VertiPaq)
-                            B -->|Compresión Columnar xVelocity| C{{Memoria RAM Local}}
-                            C -->|Motor Analítico DAX| D[Dashboards Ultrarrápidos]
-                            
-                            style A fill:#f1f5f9,stroke:#94a3b8
-                            style B fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
-                            style C fill:#fef3c7,stroke:#d97706
-                            style D fill:#dcfce3,stroke:#16a34a,stroke-width:3px
+                    <div class="flex flex-col gap-4">
+                        <div class="glassmorphism w-full h-48 relative">
+                            <canvas id="ramChart"></canvas>
+                        </div>
+                        <div class="mermaid bg-white p-4 rounded-xl shadow border border-gray-200">
+                            graph LR
+                                A[CSV] -->|Carga ETL| B(VertiPaq Engine)
+                                B -->|Diccionario Único| C{{Memoria RAM}}
+                                C -->|DAX| D[Reporte Visual]
+                                style B fill:#0284C7,color:#fff
+                                style C fill:#F97316,color:#fff
+                        </div>
                     </div>
                 </div>
+                <div class="footer-link"><a href="https://www.sqlbi.com/articles/vertipaq-an-overview/" target="_blank">Referencia: sqlbi.com/articles/vertipaq-an-overview/</a></div>
             </section>
 
             <!-- SLIDE 5: Query Folding -->
-            <section data-transition="slide">
-                <h2 class="text-left mb-8">Query Folding: Delegando la Carga al Servidor Origen</h2>
-                <p class="text-left text-xl text-gray-600 mb-10">Es la capacidad de traducir gráficamente tus pasos de Power Query en una consulta <strong>SQL nativa</strong> que se ejecuta en el servidor origen (ej. SQL Server) y no en tu memoria RAM local.</p>
-                
-                <div class="flex flex-col space-y-4">
-                    <div class="bg-white p-6 rounded-xl border-l-8 border-green-500 shadow-md flex items-center gap-6 fragment fade-up">
-                        <div class="bg-green-100 p-4 rounded-full"><i class="fas fa-database text-3xl text-green-600"></i></div>
-                        <div class="text-left">
-                            <h3 class="text-2xl font-bold text-green-700 m-0">Paso 1: Filtro Soportado (SQL)</h3>
-                            <p class="text-lg m-0 text-gray-600">Filtramos por "Año 2026". El plegado está ACTIVO. El servidor SQL hace el trabajo.</p>
+            <section data-transition="slide" class="bg-gray-50">
+                <h2 class="text-left mb-8 text-brandBlue">Query Folding (Plegado de Consultas)</h2>
+                <div class="scrollable-card px-2 pb-10">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 text-left mb-8">
+                        <h4 class="text-xl font-bold text-brandBlue mb-2"><i class="fas fa-project-diagram text-brandOrange mr-2"></i>Concepto y Razón de Uso</h4>
+                        <p class="text-lg text-gray-700">Traduce automáticamente los pasos de Power Query a instrucciones SQL nativas. Se usa para <strong>transferir el trabajo pesado al servidor motor de BD</strong>, evitando saturar la memoria local de la máquina del analista.</p>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4 relative">
+                        <div class="absolute top-1/2 left-0 w-full h-2 bg-gray-300 -z-10 hidden md:block"></div>
+                        
+                        <div class="bg-white p-6 rounded-xl border-t-8 border-brandGreen shadow-xl w-full md:w-1/3 text-center">
+                            <div class="bg-brandGreen text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl"><i class="fas fa-check"></i></div>
+                            <h4 class="font-bold text-lg">Paso 1: Filtrar Filas</h4>
+                            <span class="bg-brandGreen/20 text-brandGreen font-bold px-3 py-1 rounded text-xs">Plegado Activo</span>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-xl border-t-8 border-brandGreen shadow-xl w-full md:w-1/3 text-center">
+                            <div class="bg-brandGreen text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl"><i class="fas fa-check"></i></div>
+                            <h4 class="font-bold text-lg">Paso 2: Eliminar Columna</h4>
+                            <span class="bg-brandGreen/20 text-brandGreen font-bold px-3 py-1 rounded text-xs">Plegado Activo</span>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-xl border-t-8 border-red-500 shadow-xl w-full md:w-1/3 text-center">
+                            <div class="bg-red-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl"><i class="fas fa-times"></i></div>
+                            <h4 class="font-bold text-lg">Paso 3: Script Python</h4>
+                            <span class="bg-red-100 text-red-600 font-bold px-3 py-1 rounded text-xs">Plegado ROTO</span>
                         </div>
                     </div>
                     
-                    <div class="bg-white p-6 rounded-xl border-l-8 border-red-500 shadow-md flex items-center gap-6 fragment fade-up">
-                        <div class="bg-red-100 p-4 rounded-full"><i class="fas fa-python text-3xl text-red-600"></i></div>
-                        <div class="text-left">
-                            <h3 class="text-2xl font-bold text-red-700 m-0">Paso 2: Transformación No Soportada</h3>
-                            <p class="text-lg m-0 text-gray-600">Ejecutamos un script de Python. El plegado se <strong>ROMPE</strong> aquí permanentemente.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white p-6 rounded-xl border-l-8 border-orange-500 shadow-md flex items-center gap-6 fragment fade-up">
-                        <div class="bg-orange-100 p-4 rounded-full"><i class="fas fa-laptop-medical text-3xl text-orange-600"></i></div>
-                        <div class="text-left">
-                            <h3 class="text-2xl font-bold text-orange-700 m-0">Paso 3: Cuello de Botella Local</h3>
-                            <p class="text-lg m-0 text-gray-600">Todo el millón de filas se descarga en crudo a la RAM de tu laptop para procesarse localmente.</p>
-                        </div>
+                    <div class="mt-8 bg-brandBlue/10 border-l-4 border-brandBlue p-6 rounded text-left">
+                        <p class="font-bold text-brandBlue text-lg m-0"><i class="fas fa-lightbulb text-brandOrange mr-2"></i>Tip de Alto Nivel:</p>
+                        <p class="m-0 mt-2 text-gray-800 font-medium">"Aplica los filtros de fecha/ciudad y eliminación de columnas en los PRIMEROS pasos del script M para no romper el folding tempranamente".</p>
                     </div>
                 </div>
-                
-                <p class="fragment fade-in text-xl font-bold text-blue-800 bg-blue-100 p-3 rounded mt-6"><i class="fas fa-lightbulb text-yellow-500"></i> Tip de Performance: Filtra, agrupa y elimina columnas al INICIO de tu script M.</p>
             </section>
 
-            <!-- SLIDE 6: Anatomía Lenguaje M -->
-            <section data-transition="convex" class="dark-slide">
-                <h2 class="text-left mb-8">Anatomía Estructurada del Lenguaje M</h2>
-                <div class="grid md:grid-cols-12 gap-8">
-                    <div class="col-span-5 text-left space-y-6">
-                        <div class="box-glass p-5 border-l-4 border-blue-400">
-                            <h4 class="text-xl text-blue-200 m-0"><i class="fas fa-code mr-2"></i>Paradigma Funcional</h4>
-                            <p class="text-sm mt-2 text-gray-300">Cada paso es una variable inmutable que referencia a la variable del paso inmediatamente anterior.</p>
-                        </div>
-                        <div class="box-glass p-5 border-l-4 border-pink-400 fragment fade-up">
-                            <h4 class="text-xl text-pink-200 m-0"><i class="fas fa-font mr-2"></i>Case-Sensitive</h4>
-                            <p class="text-sm mt-2 text-gray-300">M diferencia entre mayúsculas y minúsculas de manera estricta. <code>Table</code> no es lo mismo que <code>table</code>.</p>
-                        </div>
-                        <div class="box-glass p-5 border-l-4 border-green-400 fragment fade-up">
-                            <h4 class="text-xl text-green-200 m-0"><i class="fas fa-box-open mr-2"></i>Bloque <code>let ... in</code></h4>
-                            <p class="text-sm mt-2 text-gray-300"><code>let</code> define las variables y pasos lógicos. <code>in</code> define qué variable (paso) se devolverá finalmente como resultado de la consulta.</p>
+            <!-- SLIDE 6: Anatomía M -->
+            <section data-transition="slide" class="dark-slide">
+                <h2 class="text-left mb-6 text-white">Anatomía del Lenguaje M (Caso Real)</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 scrollable-card pb-10">
+                    <div class="col-span-12 md:col-span-5 text-left space-y-6">
+                        <div class="dark-glassmorphism">
+                            <h3 class="text-2xl font-bold text-brandOrange mb-4"><i class="fas fa-cube mr-2"></i>El Bloque <code>let ... in</code></h3>
+                            <p class="text-gray-300">Cada paso en M se declara como un identificador inmutable. El paso siguiente referencia al nombre del paso anterior.</p>
+                            <ul class="text-gray-300 list-disc pl-5 mt-4 space-y-2">
+                                <li><code>let</code>: Define las variables/pasos de transformación.</li>
+                                <li><code>in</code>: Declara cuál paso se entregará como resultado final de la tabla.</li>
+                                <li>M es estrictamente <em>Case-Sensitive</em>.</li>
+                            </ul>
                         </div>
                     </div>
                     
-                    <div class="col-span-7 bg-[#282c34] rounded-xl shadow-2xl p-6 text-left overflow-hidden border border-gray-700">
-                        <pre><code class="language-fsharp text-sm leading-relaxed" style="background: transparent;">let
-    <span class="fragment highlight-current-green">Origen = Csv.Document(File.Contents("Datos.csv"),[Delimiter=";"]),</span>
+                    <div class="col-span-12 md:col-span-7 bg-[#1E1E1E] rounded-xl shadow-2xl p-6 text-left border border-gray-700 overflow-x-auto">
+                        <p class="text-gray-400 text-sm font-mono mb-2">// Limpieza de Ventas_Retail_Sucio.csv</p>
+                        <pre><code class="language-fsharp text-sm leading-relaxed bg-transparent p-0">let
+    Origen = Csv.Document(File.Contents("Ventas_Retail_Sucio.csv"), [Delimiter=";", Encoding=65001]),
     
-    <span class="fragment highlight-current-green">Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),</span>
+    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
     
-    <span class="fragment highlight-current-green">TiposCambiados = Table.TransformColumnTypes(
-        Encabezados,
-        {{"Unidades", Int64.Type}, {"Precio", type number}}
-    ),</span>
+    TextoLimpio = Table.TransformColumns(Encabezados, {{"Ciudad_Origen", Text.Trim, type text}}),
     
-    <span class="fragment highlight-current-green">LimpiarTexto = Table.TransformColumns(
-        TiposCambiados,
-        {{"Ciudad", Text.Trim, type text}}
-    )</span>
+    ReemplazoBGA = Table.ReplaceValue(TextoLimpio, "BGA", "Bucaramanga", Replacer.ReplaceText, {"Ciudad_Origen"})
 in
-    <span class="fragment highlight-current-green">LimpiarTexto</span></code></pre>
+    ReemplazoBGA</code></pre>
                     </div>
                 </div>
+                <div class="footer-link"><a href="https://learn.microsoft.com/powerquery-m/" target="_blank">Referencia: learn.microsoft.com/powerquery-m/</a></div>
             </section>
 
             <!-- SLIDE 7: Contextos DAX -->
-            <section data-transition="slide">
-                <h2 class="text-left mb-10">El Corazón de DAX: <span class="highlight-text">Contextos de Evaluación</span></h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Row Context -->
-                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 transform transition hover:-translate-y-2">
-                        <div class="bg-blue-600 text-white p-6 text-left">
-                            <h3 class="text-3xl m-0"><i class="fas fa-list-ol mr-3"></i>Contexto de Fila</h3>
-                            <p class="text-blue-100 m-0 mt-2">Row Context (La Capacidad de Iterar)</p>
+            <section data-transition="slide" class="bg-gray-50">
+                <h2 class="text-left mb-8 text-brandBlue">DAX: Contexto de Fila vs Contexto de Filtro</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 scrollable-card pb-10">
+                    <div class="glassmorphism border-t-8 border-brandBlue text-left">
+                        <div class="flex items-center mb-6">
+                            <i class="fas fa-list-ol text-4xl text-brandBlue mr-4"></i>
+                            <h3 class="text-3xl font-bold text-brandBlue m-0">Row Context</h3>
                         </div>
-                        <div class="p-8 text-left space-y-4">
-                            <p class="text-gray-700 text-lg">Es la conciencia que tiene DAX de <strong>la fila actual</strong> en una tabla durante una iteración celda a celda.</p>
-                            <ul class="text-gray-600 list-disc pl-5 space-y-2">
-                                <li>Se crea automáticamente al agregar <strong>Columnas Calculadas</strong>.</li>
-                                <li>Se invoca manualmente al usar funciones que terminan en X (<code>SUMX</code>, <code>FILTER</code>).</li>
-                                <li><strong class="text-red-500">NO</strong> filtra datos automáticamente por relaciones.</li>
-                            </ul>
-                        </div>
+                        <p class="text-gray-700 font-bold mb-4 uppercase tracking-wider text-sm">Contexto de Fila</p>
+                        <p class="text-gray-700 text-lg mb-4">La conciencia de <em>"en qué fila estoy actualmente"</em> iterando tabla por tabla.</p>
+                        <ul class="text-gray-600 list-disc pl-5 space-y-2">
+                            <li>Existe automáticamente en <strong>Columnas Calculadas</strong>.</li>
+                            <li>Generado manualmente por <strong>Iteradores</strong> (ej. <code>SUMX</code>).</li>
+                            <li><span class="font-bold text-red-500">Diferencia Clave:</span> Sabe qué fila evalúa, pero NO calcula subtotales o totales globales basados en el lienzo visual.</li>
+                        </ul>
                     </div>
                     
-                    <!-- Filter Context -->
-                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 transform transition hover:-translate-y-2">
-                        <div class="bg-pink-600 text-white p-6 text-left">
-                            <h3 class="text-3xl m-0"><i class="fas fa-filter mr-3"></i>Contexto de Filtro</h3>
-                            <p class="text-pink-100 m-0 mt-2">Filter Context (El Entorno Visual)</p>
+                    <div class="glassmorphism border-t-8 border-brandOrange text-left">
+                        <div class="flex items-center mb-6">
+                            <i class="fas fa-filter text-4xl text-brandOrange mr-4"></i>
+                            <h3 class="text-3xl font-bold text-brandOrange m-0">Filter Context</h3>
                         </div>
-                        <div class="p-8 text-left space-y-4">
-                            <p class="text-gray-700 text-lg">Es el <strong>conjunto de filtros</strong> aplicados externamente a los datos antes de realizar el cálculo analítico.</p>
-                            <ul class="text-gray-600 list-disc pl-5 space-y-2">
-                                <li>Se genera mediante Ejes, Slicers, cruces (clics) en gráficos o la función <code>CALCULATE</code>.</li>
-                                <li>Aplica obligatoriamente sobre todas las <strong>Medidas</strong> (Measures).</li>
-                                <li>Se propaga a través de las relaciones del modelo.</li>
-                            </ul>
-                        </div>
+                        <p class="text-gray-700 font-bold mb-4 uppercase tracking-wider text-sm">Contexto de Filtro</p>
+                        <p class="text-gray-700 text-lg mb-4">El conjunto de filtros aplicados externamente a los datos subyacentes.</p>
+                        <ul class="text-gray-600 list-disc pl-5 space-y-2">
+                            <li>Determinado por los filtros activos en la interfaz (Slicers, Clics, Matrices).</li>
+                            <li>Aplica siempre sobre las <strong>Medidas (Measures)</strong>.</li>
+                            <li><span class="font-bold text-red-500">Diferencia Clave:</span> Restringe la tabla origen de datos ANTES de que DAX realice cualquier operación agregada.</li>
+                        </ul>
                     </div>
                 </div>
             </section>
 
             <!-- SLIDE 8: Agregadores vs Iteradores -->
             <section data-transition="slide">
-                <h2 class="text-left mb-6">Agregadores (<code>SUM</code>) vs. Iteradores (<code>SUMX</code>)</h2>
+                <h2 class="text-left mb-6 text-brandBlue">Agregadores (<code>SUM</code>) vs Iteradores (<code>SUMX</code>)</h2>
                 
-                <div class="grid md:grid-cols-2 gap-6 mb-8">
-                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded text-left shadow-sm">
-                        <p class="text-red-700 font-bold m-0 mb-2"><i class="fas fa-times-circle mr-2"></i> Error (Agregador)</p>
-                        <code class="text-sm bg-white p-2 rounded block">Ventas_Err = SUM(Tabla[Cant] * Tabla[Precio])</code>
-                        <p class="text-xs mt-2 text-red-600">SUM no tiene contexto de fila, no puede iterar para multiplicar.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 scrollable-card px-2">
+                    <div class="bg-red-50 p-4 border-l-4 border-red-500 rounded text-left">
+                        <p class="text-red-700 font-bold m-0"><i class="fas fa-times-circle mr-2"></i>Error de Sintaxis (SUM)</p>
+                        <code class="block mt-2 text-sm bg-white p-2 rounded">Tot = SUM(Unidades_Vendidas * Precio_Unitario_USD)</code>
+                        <p class="text-sm mt-2 text-red-600">SUM exige UNA sola columna. No puede multiplicar fila por fila porque carece de Contexto de Fila.</p>
                     </div>
-                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded text-left shadow-sm">
-                        <p class="text-green-700 font-bold m-0 mb-2"><i class="fas fa-check-circle mr-2"></i> Solución (Iterador)</p>
-                        <code class="text-sm bg-white p-2 rounded block">Ventas_Ok = SUMX(Tabla, Tabla[Cant] * Tabla[Precio])</code>
-                        <p class="text-xs mt-2 text-green-600">SUMX crea un contexto de fila en memoria RAM.</p>
+                    
+                    <div class="bg-green-50 p-4 border-l-4 border-green-500 rounded text-left">
+                        <p class="text-green-700 font-bold m-0"><i class="fas fa-check-circle mr-2"></i>Correcto (SUMX)</p>
+                        <code class="block mt-2 text-sm bg-white p-2 rounded">Tot = SUMX(Fact_Ventas, Unidades_Vendidas * Precio)</code>
+                        <p class="text-sm mt-2 text-green-700">SUMX abre un Contexto de Fila temporal en memoria RAM.</p>
                     </div>
                 </div>
-
-                <!-- Simulación animada -->
+                
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                    <h4 class="text-xl text-[#003865] mb-4 text-left"><i class="fas fa-microchip mr-2 text-orange-500"></i> Simulación en Memoria RAM (SUMX)</h4>
-                    <table class="w-full text-left text-lg table-anim rounded-lg overflow-hidden">
+                    <table class="w-full text-left text-lg table-anim">
                         <thead>
                             <tr>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Precio ($)</th>
-                                <th class="bg-orange-500">Memoria Temporal (Cant * Precio)</th>
+                                <th>Transacción</th>
+                                <th>Unidades_Vendidas</th>
+                                <th>Precio_Unitario_USD</th>
+                                <th class="bg-brandOrange">Memoria RAM Temporal (SUMX)</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="fragment">
-                                <td>Laptop</td>
-                                <td>2</td>
-                                <td>10</td>
-                                <td class="font-bold text-orange-600">20</td>
-                            </tr>
-                            <tr class="fragment">
-                                <td>Mouse</td>
-                                <td>3</td>
-                                <td>5</td>
-                                <td class="font-bold text-orange-600">15</td>
-                            </tr>
-                            <tr class="fragment">
-                                <td>Teclado</td>
-                                <td>1</td>
-                                <td>20</td>
-                                <td class="font-bold text-orange-600">20</td>
-                            </tr>
+                        <tbody class="text-gray-800">
+                            <tr class="fragment fade-in"><td>Tx01</td><td>62</td><td>1322.09</td><td class="font-bold text-brandOrange">81,969.58</td></tr>
+                            <tr class="fragment fade-in"><td>Tx02</td><td>15</td><td>250.00</td><td class="font-bold text-brandOrange">3,750.00</td></tr>
+                            <tr class="fragment fade-in"><td>Tx03</td><td>100</td><td>10.50</td><td class="font-bold text-brandOrange">1,050.00</td></tr>
                         </tbody>
                         <tfoot>
-                            <tr class="fragment bg-gray-100 font-bold text-2xl">
-                                <td colspan="3" class="text-right text-[#003865]">Agregación Final (SUMX):</td>
-                                <td class="text-green-600">55</td>
+                            <tr class="fragment fade-in bg-gray-100 font-bold">
+                                <td colspan="3" class="text-right">Suma Final:</td>
+                                <td class="text-brandGreen">86,769.58</td>
                             </tr>
                         </tfoot>
                     </table>
+                </div>
+                
+                <div class="mt-4 bg-brandBlue text-white p-4 rounded text-left fragment fade-in">
+                    <p class="m-0 text-sm font-bold"><i class="fas fa-lightbulb text-yellow-400 mr-2"></i>Tip de Alto Nivel: Usa SUM para columnas únicas precalculadas; usa SUMX solo cuando requieras multiplicaciones o lógicas dinámicas multi-columna.</p>
                 </div>
             </section>
 
             <!-- SLIDE 9: CALCULATE -->
             <section data-transition="convex" class="dark-slide">
-                <h2 class="text-left mb-10"><span class="highlight-text">CALCULATE</span> & Transición de Contexto</h2>
+                <h2 class="text-left mb-8 text-white"><code>CALCULATE</code> & Transición de Contexto</h2>
                 
-                <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Caso 1 -->
-                    <div class="bg-[#1e293b] p-8 rounded-xl border-l-4 border-blue-400 text-left relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-4 opacity-20"><i class="fas fa-eraser text-6xl text-blue-400"></i></div>
-                        <h3 class="text-2xl text-blue-300 mb-4 z-10 relative">1. Sobrescribir Filtros</h3>
-                        <p class="text-gray-300 text-lg mb-6 z-10 relative">CALCULATE es la <strong>única función</strong> capaz de alterar el contexto de filtro externo provisto por un usuario (Slicers/Visuales).</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 scrollable-card pb-10">
+                    <div class="dark-glassmorphism text-left space-y-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-brandOrange mb-2">Caso 1: Modificar Filtros</h3>
+                            <p class="text-sm text-gray-300">Alterar programáticamente el Contexto de Filtro ignorando el lienzo visual.</p>
+                            <pre><code class="language-dax text-xs p-2 rounded mt-2">Ventas_Bogota = 
+CALCULATE(
+    [Total Ventas], 
+    Dim_Geografia[Ciudad] = "Bogotá"
+)</code></pre>
+                        </div>
                         
-                        <div class="bg-black/50 p-4 rounded-lg z-10 relative font-mono text-sm">
-                            <span class="text-pink-400">CALCULATE</span>(<br>
-                            &nbsp;&nbsp;<span class="text-blue-300">[Total_Ventas]</span>, <br>
-                            &nbsp;&nbsp;<span class="text-green-400">Dim_Geografia[Ciudad] = "Bogotá"</span><br>
-                            )
+                        <div>
+                            <h3 class="text-2xl font-bold text-brandOrange mb-2">Caso 2: Transición de Contexto</h3>
+                            <p class="text-sm text-gray-300">Al invocar una <code>[Medida]</code> dentro de una Columna Calculada (Row Context), DAX automáticamente envuelve la medida en un CALCULATE invisible, transformando la fila en un filtro equivalente.</p>
                         </div>
                     </div>
                     
-                    <!-- Caso 2 -->
-                    <div class="bg-[#1e293b] p-8 rounded-xl border-l-4 border-orange-400 text-left relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-4 opacity-20"><i class="fas fa-magic text-6xl text-orange-400"></i></div>
-                        <h3 class="text-2xl text-orange-300 mb-4 z-10 relative">2. Transición de Contexto</h3>
-                        <p class="text-gray-300 text-lg mb-6 z-10 relative">Al invocar una <code>[Medida]</code> dentro de un contexto de fila, DAX automáticamente envuelve la medida en un <code>CALCULATE()</code> invisible.</p>
-                        
-                        <div class="mermaid bg-black/50 p-2 rounded-lg z-10 relative border-none">
-                            graph LR
-                                A[Row Context] -->|CALCULATE Invisible| B[Filter Context]
-                                style A fill:#3b82f6,color:white
-                                style B fill:#ec4899,color:white
+                    <div class="flex items-center justify-center bg-white p-4 rounded-xl shadow-xl">
+                        <div class="mermaid text-center">
+                            graph TD
+                                A[Row Context <br>Columna Calculada] -->|Invocación de Medida| B(CALCULATE Invisible)
+                                B -->|Transición Automática| C[Filter Context]
+                                C -->|Evaluación| D[Resultado de Medida para Fila Actual]
+                                
+                                style A fill:#0284C7,stroke:#fff,color:#fff
+                                style B fill:#F97316,stroke:#fff,color:#fff
+                                style C fill:#10B981,stroke:#fff,color:#fff
                         </div>
+                    </div>
+                </div>
+                <div class="footer-link"><a href="https://www.sqlbi.com/articles/understanding-context-transition/" target="_blank">Referencia: sqlbi.com/articles/understanding-context-transition/</a></div>
+            </section>
+
+            <!-- SLIDE 10: Reto Limpieza -->
+            <section data-transition="slide" class="bg-gray-50">
+                <h2 class="text-left mb-6 text-brandBlue">Reto ETL: Limpiando <code>Ventas_Retail_Sucio.csv</code></h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 scrollable-card pb-10 text-left">
+                    <div class="glassmorphism border-t-4 border-red-500">
+                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-exclamation-circle text-red-500 mr-2"></i>Columna: Precio_Unitario_USD</h4>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Problema:</strong> 190 filas usan coma europea como decimal (Ej. 1322,09 en lugar de 1322.09), rompiendo el tipado.</p>
+                        <p class="text-sm font-mono bg-gray-100 p-2 rounded text-brandBlue">Acción: Reemplazar valores (,) por (.) y re-tipar.</p>
+                    </div>
+                    
+                    <div class="glassmorphism border-t-4 border-red-500">
+                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-exclamation-circle text-red-500 mr-2"></i>Columna: Unidades_Vendidas</h4>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Problema:</strong> 99 valores capturados en negativo debido a errores de sistema en devoluciones.</p>
+                        <p class="text-sm font-mono bg-gray-100 p-2 rounded text-brandBlue">Acción M: Aplicar función <span class="font-bold">Number.Abs</span> (Valor Absoluto).</p>
+                    </div>
+                    
+                    <div class="glassmorphism border-t-4 border-red-500">
+                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-exclamation-circle text-red-500 mr-2"></i>Columna: Descuento_Aplicado</h4>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Problema:</strong> 89 valores dicen el texto "N/A", lo que impide convertir la columna a Porcentaje.</p>
+                        <p class="text-sm font-mono bg-gray-100 p-2 rounded text-brandBlue">Acción M: Reemplazar "N/A" con null y tipar Porcentaje.</p>
+                    </div>
+                    
+                    <div class="glassmorphism border-t-4 border-red-500">
+                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-exclamation-circle text-red-500 mr-2"></i>Columna: Cliente_Nombre</h4>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Problema:</strong> Duplicidad semántica: "Acme SAS", "Acme sas ", "Bio-Health", "Bio Health".</p>
+                        <p class="text-sm font-mono bg-gray-100 p-2 rounded text-brandBlue">Acción M: Limpiar espacios (Text.Trim), Poner en mayúsculas cada palabra (Text.Proper) y reemplazar sintaxis.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- SLIDE 10: Taller ETL -->
-            <section data-transition="slide">
-                <h2 class="text-left mb-6">Pipeline de Limpieza: Taller ETL</h2>
-                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-200 shadow-xl">
-                    <div class="flex items-center gap-6 mb-8 border-b pb-6 border-gray-300">
-                        <div class="bg-orange-100 p-4 rounded-xl"><i class="fas fa-file-csv text-4xl text-orange-600"></i></div>
-                        <div class="text-left">
-                            <h3 class="text-3xl font-bold text-[#003865] m-0">Ventas_Retail_Sucio.csv</h3>
-                            <p class="text-gray-600 text-lg m-0 mt-2">Dataset inyectado con +5,500 anomalías de negocio (Data Corruption).</p>
-                        </div>
-                    </div>
-                    
-                    <div class="grid md:grid-cols-2 gap-6 text-left">
-                        <div class="space-y-4">
-                            <h4 class="text-xl text-[#003865] font-bold"><i class="fas fa-bug text-red-500 mr-2"></i>Anomalías a resolver:</h4>
-                            <ul class="space-y-3">
-                                <li class="flex items-center text-gray-700 bg-white p-3 rounded shadow-sm border border-gray-100"><i class="fas fa-check-circle text-gray-300 mr-3"></i> Fechas nulas (Null values).</li>
-                                <li class="flex items-center text-gray-700 bg-white p-3 rounded shadow-sm border border-gray-100"><i class="fas fa-check-circle text-gray-300 mr-3"></i> Ortografía inconsistente (ej. " Bogo-ta").</li>
-                                <li class="flex items-center text-gray-700 bg-white p-3 rounded shadow-sm border border-gray-100"><i class="fas fa-check-circle text-gray-300 mr-3"></i> Valores numéricos negativos en ventas.</li>
-                                <li class="flex items-center text-gray-700 bg-white p-3 rounded shadow-sm border border-gray-100"><i class="fas fa-check-circle text-gray-300 mr-3"></i> Separadores decimales europeos (Comas).</li>
-                            </ul>
-                        </div>
-                        <div class="space-y-4">
-                            <h4 class="text-xl text-[#003865] font-bold"><i class="fas fa-wrench text-blue-500 mr-2"></i>Herramientas M:</h4>
-                            <div class="flex flex-wrap gap-3">
-                                <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded font-mono text-sm border border-blue-200">Text.Trim</span>
-                                <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded font-mono text-sm border border-blue-200">Text.Proper</span>
-                                <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded font-mono text-sm border border-blue-200">Table.ReplaceValue</span>
-                                <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded font-mono text-sm border border-blue-200">Number.Abs</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SLIDE 11: Reto Arquitectónico -->
+            <!-- SLIDE 11: Star Schema -->
             <section data-transition="zoom" class="dark-slide">
-                <h2 class="text-left mb-6">Reto Arquitectónico: <span class="highlight-text">Star Schema</span></h2>
-                <p class="text-left text-lg text-gray-300 mb-8">El estudiante debe usar <strong>ingeniería inversa</strong> para romper la tabla plana monolítica y crear dimensiones catálogas únicas mediante la eliminación de duplicados en M.</p>
+                <h2 class="text-left mb-6 text-brandOrange">Reto Arquitectónico: Transformación a Modelo en Estrella</h2>
                 
-                <div class="mermaid bg-white p-6 rounded-xl shadow-2xl">
-                    erDiagram
-                        Dim_Clientes ||--o{ Fact_Ventas : filtra
-                        Dim_Geografia ||--o{ Fact_Ventas : filtra
-                        
-                        Dim_Clientes {
-                            string Cliente_Nombre PK "Único (Sin Duplicados)"
-                        }
-                        Dim_Geografia {
-                            string Ciudad_Origen PK "Único (Sin Duplicados)"
-                        }
-                        Fact_Ventas {
-                            string Transaction_ID PK
-                            string Cliente_Nombre FK
-                            string Ciudad_Origen FK
-                            int Unidades_Vendidas
-                            float Precio_Unitario_USD
-                        }
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 scrollable-card pb-10 items-center">
+                    <div class="col-span-12 md:col-span-4 text-left space-y-4">
+                        <div class="dark-glassmorphism">
+                            <h4 class="font-bold text-brandBlue mb-4 text-xl">Ingeniería Inversa ETL:</h4>
+                            <ol class="list-decimal pl-5 space-y-3 text-sm">
+                                <li>Duplicar consulta plana de ventas.</li>
+                                <li>Filtrar columnas manteniendo solo ID y Descripción.</li>
+                                <li><strong>Eliminar Duplicados</strong> (Table.Distinct).</li>
+                                <li>Generar Catálogos: <code>Dim_Clientes</code> y <code>Dim_Geografia</code>.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="col-span-12 md:col-span-8 bg-white p-6 rounded-xl shadow-xl">
+                        <div class="mermaid text-center">
+                            erDiagram
+                                Dim_Clientes ||--o{ Fact_Ventas : filtra
+                                Dim_Geografia ||--o{ Fact_Ventas : filtra
+                                
+                                Dim_Clientes {
+                                    string Cliente_ID PK "Único (Sin Duplicados)"
+                                    string Cliente_Nombre
+                                }
+                                Dim_Geografia {
+                                    string Ciudad_Origen PK "Único (Sin Duplicados)"
+                                    string Departamento
+                                }
+                                Fact_Ventas {
+                                    string Transaction_ID PK
+                                    string Cliente_ID FK
+                                    string Ciudad_Origen FK
+                                    int Unidades_Vendidas
+                                    float Precio_Unitario_USD
+                                }
+                        </div>
+                    </div>
                 </div>
+                <div class="footer-link"><a href="#" target="_blank">Bibliografía: Business Intelligence, Analytics, and Data Science (Sharda et al.) & Storytelling with Data (Knaflic).</a></div>
             </section>
 
         </div>
@@ -432,13 +453,17 @@ in
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     
     <script>
-        // Inicializar Reveal.js
+        // Inicialización Estricta según requerimiento
         Reveal.initialize({
+            width: 1920,
+            height: 1080,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 1.5,
+            center: false,
+            slideNumber: 'c/t',
             hash: true,
-            transition: 'slide',
-            center: true,
-            progress: true,
-            slideNumber: 'c/t'
+            transition: 'slide'
         });
 
         // Inicializar Mermaid
@@ -446,6 +471,37 @@ in
         
         // Inicializar Highlight.js
         hljs.highlightAll();
+
+        // Inicializar Chart.js Dummy simulando Memory
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(() => {
+                const ctx = document.getElementById('ramChart');
+                if(ctx) {
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Almacenamiento Fila (Tradicional)', 'Almacenamiento Columnar (VertiPaq)'],
+                            datasets: [{
+                                label: 'Consumo de Memoria RAM (MB)',
+                                data: [850, 150],
+                                backgroundColor: ['#ef4444', '#10B981'],
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                }
+            }, 1000);
+        });
     </script>
 </body>
 </html>
