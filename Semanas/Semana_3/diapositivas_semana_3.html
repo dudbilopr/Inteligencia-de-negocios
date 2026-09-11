@@ -3,281 +3,196 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
     <title>Inteligencia de Negocios - Semana 3</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
     <style>
         :root {
-            --r-main-color: #333;
             --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
             --unab-blue: #003865;
             --unab-orange: #E85C0B;
         }
-        
-        .reveal .slides {
-            width: 95% !important;
-            height: 95% !important;
-            max-width: 1300px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 30px;
-            margin-top: 25px;
-        }
-        
-        .box-glass {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .box-glass:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 45px rgba(0, 56, 101, 0.2);
-        }
-        
+        .reveal .slides { width: 95% !important; max-width: 1400px !important; margin: auto; }
         .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 800; }
-        .reveal h1 { font-size: 3.2em; }
-        .reveal h2 { font-size: 2.2em; margin-bottom: 20px; }
         .highlight { color: var(--unab-orange); position: relative; display: inline-block; }
         .highlight::after {
             content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
             background: var(--unab-orange); opacity: 0.3; z-index: -1; border-radius: 4px;
         }
-        
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.75em !important; line-height: 1.4; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #002240 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.8em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 12px; font-size: 1.4em; }
-        
         .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
         .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p { color: white !important; }
         
-        /* Modal Glassmorphism */
-        .clickable-concept { cursor: pointer; position: relative; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -15px; right: -15px; background: var(--unab-orange); color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; box-shadow: 0 5px 15px rgba(232,92,11,0.4); opacity: 0; transition: opacity 0.3s;
+        .box-glass {
+            background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15); border-left: 6px solid var(--unab-orange);
+            margin-bottom: 20px; text-align: left;
         }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%);
-            width: 85%; max-width: 700px; background: rgba(255, 255, 255, 0.98); padding: 40px;
-            border-radius: 20px; box-shadow: 0 40px 80px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-        }
-        #concept-modal.show { opacity: 1; transform: translate(-50%, -50%); }
-        @keyframes popIn { 0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
         
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.85); backdrop-filter: blur(8px); z-index: 1999;
-            animation: fadeIn 0.3s ease forwards; opacity: 0;
+        .code-block {
+            background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 8px; font-family: monospace;
+            font-size: 0.8em; text-align: left; overflow-x: auto; border-left: 5px solid #4CAF50;
         }
-        #concept-modal-overlay.show { opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; font-size: 1.8em; color: #888; transition: color 0.2s; }
-        .modal-close:hover { color: var(--unab-orange); }
         
-        #typed-container {
-            background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px; font-family: monospace;
-            color: #00ff00; margin-bottom: 20px; display: inline-block; border-left: 4px solid #00ff00; font-size: 0.6em;
-        }
+        .text-left { text-align: left; }
+        .flex-container { display: flex; gap: 30px; align-items: stretch; margin-top: 30px;}
+        .flex-item { flex: 1; }
+        
+        .mermaid { font-size: 0.7em; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
-    
-    <!-- Modal Interactivo -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
-        <h2 style="color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; display: flex; align-items: center; gap: 15px;">
-            <i id="modal-icon" class="fa-solid fa-lightbulb" style="color: var(--unab-orange);"></i> 
-            <span id="modal-title">Título</span>
-        </h2>
-        <p id="modal-text" style="font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px;">Texto explicativo</p>
-        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
-            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Implementación Práctica:</h4>
-            <code id="modal-example-text" style="font-size: 0.9em; background: #fff; padding: 10px; display: block; border-radius: 5px; color: #d946ef; font-weight: bold;">Ejemplo</code>
-        </div>
-    </div>
-
     <div class="reveal">
         <div class="slides">
 
             <!-- 1. Portada -->
             <section data-transition="zoom" class="dark-slide">
-                <div id="typed-container"><span id="typed-output"></span></div>
-                <br>
-                <i class="fa-solid fa-database" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
+                <i class="fa-solid fa-database" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px;"></i>
                 <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Semana 3: DAX Basics y Power Query</h3>
+                <h3>Semana 3: DAX Basics y Arquitectura Power Query</h3>
                 <br>
-                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
+                <p><small>Ingeniería de Datos y Modelado Dimensional</small></p>
             </section>
             
             <!-- 2. RAE -->
             <section data-transition="slide">
-                <h2 class="text-left" style="color: #003865;"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
-                <div class="box-glass text-left" style="border-top: 6px solid #003865; margin-top: 30px; padding: 40px;">
-                    <h3 style="color: #003865; margin-bottom: 20px;">Meta Analítica</h3>
-                    <p style="font-size: 1.2em; color: #333; line-height: 1.6;">
-                        <i class="fa-solid fa-check-double text-green-600" style="color: #E85C0B; margin-right: 15px;"></i>
-                        Implementar transformaciones avanzadas en Power Query y crear medidas básicas en DAX utilizando un modelo relacional.
+                <h2 class="text-left"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
+                <div class="box-glass text-left">
+                    <h3 style="color: #003865;">Meta Analítica Semanal</h3>
+                    <p style="font-size: 1.1em; color: #333; line-height: 1.6;">
+                        <i class="fa-solid fa-check text-green-600"></i> Dominar la limpieza avanzada de datos utilizando el lenguaje M en Power Query, comprendiendo el concepto de Query Folding.<br><br>
+                        <i class="fa-solid fa-check text-green-600"></i> Diferenciar arquitectónicamente entre Contexto de Fila y Contexto de Filtro en DAX para la creación de Medidas base.
                     </p>
                 </div>
             </section>
 
-            <!-- 3. Conceptos Estructurales -->
+            <!-- 3. Arquitectura VertiPaq -->
             <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-cubes-stacked" style="color: #E85C0B;"></i> Conceptos Analíticos Clave</h2>
-                <div class="split-layout">
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('M, el lenguaje de Power Query', 'fa-code', 'Lenguaje funcional utilizado para transformar, filtrar y limpiar datos (ETL) antes de ser cargados al modelo. Es case-sensitive.', 'Table.AddColumn(Origen, "Ganancia", each [Ventas] - [Costos])')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865;"><i class="fa-solid fa-code"></i> M, el lenguaje de Power Query</h3>
-                        <p class="small-text" style="margin-top: 20px;">Lenguaje funcional utilizado para transformar, filtrar y limpiar datos (ETL) antes de ser cargados al modelo. Es case-sensitive.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #E85C0B; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
+                <h2>El Motor In-Memory: <span class="highlight">VertiPaq</span></h2>
+                <div class="flex-container">
+                    <div class="flex-item box-glass">
+                        <h4>¿Cómo almacena los datos Power BI?</h4>
+                        <p style="font-size: 0.8em; line-height: 1.5;">Power BI no es un visor de Excel. Utiliza el motor VertiPaq (xVelocity), una base de datos columnar en memoria. Almacena columnas en lugar de filas, comprimiendo drásticamente diccionarios de datos repetidos.</p>
+                        <p style="font-size: 0.8em; line-height: 1.5; color: #d946ef; font-weight: bold;">Regla de Oro: ¡Reduce las columnas, no te preocupes tanto por las filas!</p>
                     </div>
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Contexto de Evaluación (DAX)', 'fa-filter', 'El corazón de DAX. Determina qué filas de la base de datos están 'activas' al calcular una fórmula. Se divide en Contexto de Fila (iteración) y Contexto de Filtro (segmentación).', 'Al poner una medida en una matriz por 'Año', DAX filtra dinámicamente la tabla de ventas para ese año antes de sumar.')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-filter"></i> Contexto de Evaluación (DAX)</h3>
-                        <p class="small-text" style="margin-top: 20px;">El corazón de DAX. Determina qué filas de la base de datos están 'activas' al calcular una fórmula. Se divide en Contexto de Fila (iteración) y Contexto de Filtro (segmentación).</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #003865; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
+                    <div class="flex-item mermaid">
+                        graph TD
+                            A[Datos Crudos] -->|ETL Power Query| B(Motor VertiPaq)
+                            B -->|Compresión Columnar| C{{Memoria RAM}}
+                            C -->|Motor DAX| D[Visualizaciones Rápidas]
                     </div>
                 </div>
             </section>
 
-            <!-- 4. Discusión Profunda Inyectada -->
+            <!-- 4. Query Folding -->
+            <section>
+                <h2 class="text-left">El Poder del <span class="highlight">Query Folding</span></h2>
+                <div class="box-glass">
+                    <p style="font-size: 0.9em;"><strong>Query Folding (Plegado de Consultas):</strong> Es la capacidad de Power Query de traducir las transformaciones gráficas (Lenguaje M) en una única sentencia SQL (o lenguaje nativo) y enviarla de regreso al servidor de origen (ej. SQL Server) para que éste haga el trabajo pesado.</p>
+                </div>
+                <div class="flex-container">
+                    <div class="flex-item box-glass" style="border-left-color: #ef4444;">
+                        <h4><i class="fa-solid fa-triangle-exclamation"></i> Romper el Folding</h4>
+                        <p style="font-size: 0.75em;">Si agregas un paso de Transformación no compatible (ej. un script de Python o una lógica IF muy compleja en M), el plegado se rompe. Desde ese paso en adelante, Power Query descargará todos los datos en crudo y forzará a la memoria RAM local de tu PC a procesar el ETL (Cuello de botella catastrófico).</p>
+                    </div>
+                    <div class="flex-item box-glass" style="border-left-color: #22c55e;">
+                        <h4><i class="fa-solid fa-check"></i> Buenas Prácticas</h4>
+                        <p style="font-size: 0.75em;">Mantén los filtros (Filas filtradas), eliminaciones de columnas y agrupaciones (Group By) al <strong>INICIO</strong> de tu script de Power Query para garantizar que se deleguen a la base de datos origen.</p>
+                    </div>
+                </div>
+            </section>
             
-        <section>
-            <h2>Profundización: Columnas Calculadas vs Medidas</h2>
-            <div class="split-layout">
-                <div class="box-glass text-left" style="border-left: 5px solid #003865;">
-                    <h4 style="color: #003865;"><i class="fa-solid fa-table"></i> Columnas Calculadas</h4>
-                    <p class="small-text">Se calculan fila por fila en el momento en que se actualizan los datos (Contexto de Fila). Aumentan el tamaño del archivo (.pbix) y consumen memoria RAM estática. Útiles para agrupar o crear nuevas categorías para segmentar (e.g., 'Rango de Edad').</p>
-                </div>
-                <div class="box-glass text-left" style="border-left: 5px solid #E85C0B;">
-                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-calculator"></i> Medidas (Measures)</h4>
-                    <p class="small-text">Se calculan en tiempo real según los filtros activos en el dashboard (Contexto de Filtro). No consumen memoria RAM de almacenamiento físico, sino capacidad de procesamiento (CPU) al interactuar. Son obligatorias para métricas analíticas (e.g., Margen Neto, Ventas YTD).</p>
-                </div>
-            </div>
-        </section>
-        
-
-            <!-- 5. Taller Práctico -->
+            <!-- 5. Lenguaje M Deep Dive -->
             <section data-transition="slide" class="dark-slide">
-                <i class="fa-solid fa-laptop-code" style="font-size: 5em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1 style="color: white !important;">Taller Aplicado</h1>
-                <p style="font-size: 1.2em;">Migración de entorno teórico a plataforma práctica.</p>
-                <div class="box-glass" style="background: rgba(255,255,255,0.1); margin: 30px auto; max-width: 80%; text-align: center; border: 1px solid rgba(255,255,255,0.2);">
-                    <h4 style="color: white; margin-top: 0;">Flujo Técnico a ejecutar:</h4>
-                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 3</span>
+                <h2>Disección del Lenguaje M (Power Query)</h2>
+                <p style="font-size: 0.8em;">M es un lenguaje funcional, fuertemente tipado y *Case-Sensitive* (distingue mayúsculas y minúsculas). Su estructura se basa en bloques <code>let</code> e <code>in</code>.</p>
+                <div class="code-block">
+let
+    // 1. Conexión a la fuente
+    Origen = Csv.Document(File.Contents("C:\Datos\Ventas_Retail_Sucio.csv"),[Delimiter=";", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+    // 2. Promover encabezados
+    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+    // 3. Tipado fuerte
+    TiposCambiados = Table.TransformColumnTypes(Encabezados,{{"Unidades_Vendidas", Int64.Type}, {"Precio_Unitario_USD", type number}}),
+    // 4. Limpieza de strings
+    LimpiarCiudad = Table.TransformColumns(TiposCambiados,{{"Ciudad_Origen", Text.Trim, type text}})
+in
+    LimpiarCiudad
                 </div>
             </section>
 
-            <!-- 6. Glosario y Bibliografía -->
+            <!-- 6. DAX - Contexto de Evaluación -->
+            <section data-transition="zoom">
+                <h2>El Motor de Cálculo: <span class="highlight">DAX</span></h2>
+                <div class="box-glass">
+                    <h3 style="color: #003865;">Contextos de Evaluación (El Corazón de DAX)</h3>
+                    <p style="font-size: 0.9em;">A diferencia de Excel donde apuntas a una celda específica (A1), DAX opera sobre tablas y columnas enteras. DAX evalúa las fórmulas basándose en el <strong>entorno</strong> en el que se colocan. Este entorno se divide en dos:</p>
+                </div>
+                <div class="flex-container">
+                    <div class="flex-item box-glass" style="background-color: #f1f5f9; border-left-color: #3b82f6;">
+                        <h4 style="color: #3b82f6;"><i class="fa-solid fa-list"></i> Contexto de Fila (Row Context)</h4>
+                        <p style="font-size: 0.7em;">La capacidad de iterar. Sabe en qué fila exacta de la tabla se encuentra en este momento. Ocurre automáticamente al crear <strong>Columnas Calculadas</strong> o al usar funciones iteradoras (las que terminan en X, como <code>SUMX</code>).</p>
+                    </div>
+                    <div class="flex-item box-glass" style="background-color: #fdf2f8; border-left-color: #ec4899;">
+                        <h4 style="color: #ec4899;"><i class="fa-solid fa-filter"></i> Contexto de Filtro (Filter Context)</h4>
+                        <p style="font-size: 0.7em;">El conjunto de filtros aplicados por la interfaz de usuario. Cada etiqueta en un eje X, cada Slicer, cada clic en un gráfico, reduce la tabla en la memoria VertiPaq antes de calcular una <strong>Medida (Measure)</strong>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. SUM vs SUMX -->
+            <section>
+                <h2>Iteradores vs Agregadores</h2>
+                <div class="code-block" style="border-left-color: #ef4444; margin-bottom: 20px;">
+                    // ERROR COMÚN (Agregador)
+                    Ventas_Error = SUM(Ventas[Cantidad] * Ventas[Precio]) // ESTO DA ERROR EN DAX
+                </div>
+                <div class="code-block" style="border-left-color: #22c55e;">
+                    // SOLUCIÓN: ITERADOR (SUMX)
+                    Ventas_Correctas = SUMX(
+                        Ventas, // Tabla a iterar
+                        Ventas[Cantidad] * Ventas[Precio] // Expresión evaluada fila por fila
+                    )
+                </div>
+                <div class="box-glass" style="margin-top: 20px;">
+                    <p style="font-size: 0.8em;"><code>SUM</code> solo puede tomar una columna preexistente. <code>SUMX</code> inyecta un <strong>Contexto de Fila</strong> dinámico, recorriendo la tabla <code>Ventas</code>, multiplicando cantidad por precio, guardando el resultado temporal en memoria, y finalmente sumando todo.</p>
+                </div>
+            </section>
+            
+            <!-- 8. Transición de Contexto -->
+            <section data-transition="slide" class="dark-slide">
+                <h2>El Misterio de CALCULATE</h2>
+                <p style="font-size: 1.1em;">La función más compleja e importante de DAX.</p>
+                <div class="box-glass" style="background: rgba(255,255,255,0.1); border-left-color: #10b981; color: white;">
+                    <h3 style="color: #10b981;">1. Sobrescribir Filtros</h3>
+                    <p style="font-size: 0.8em;">Permite ignorar o modificar el Contexto de Filtro externo.<br>
+                    <code>Ventas_Bogota = CALCULATE([Total_Ventas], Dim_Geografia[Ciudad] = "Bogotá")</code></p>
+                </div>
+                <div class="box-glass" style="background: rgba(255,255,255,0.1); border-left-color: #f59e0b; color: white;">
+                    <h3 style="color: #f59e0b;">2. Transición de Contexto</h3>
+                    <p style="font-size: 0.8em;">Cuando se invoca una <code>[Medida]</code> dentro de una Columna Calculada (que tiene un Contexto de Fila), <code>CALCULATE</code> (que se envuelve invisiblemente alrededor de toda Medida) transforma ese Contexto de Fila en un Contexto de Filtro equivalente. ¡Magia analítica!</p>
+                </div>
+            </section>
+
+            <!-- 9. Taller Práctico -->
             <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-book-open"></i> Referencias Bibliográficas</h2>
-                <div class="box-glass text-left" style="border-top: 5px solid #003865;">
-                    <ul style="font-size: 0.8em; line-height: 1.8; color: #444;">
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Sharda, R., Delen, D., & Turban, E. (2020). <strong>Business Intelligence, Analytics, and Data Science: A Managerial Perspective.</strong> 4th Edition. Pearson.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Ferrari, A., & Russo, M. (2019). <strong>The Definitive Guide to DAX: Business intelligence for Microsoft Power BI.</strong> Microsoft Press.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Knaflic, C. N. (2015). <strong>Storytelling with Data: A Data Visualization Guide for Business Professionals.</strong> Wiley.</li>
-                    </ul>
+                <i class="fa-solid fa-laptop-code" style="font-size: 5em; color: #E85C0B; margin-bottom: 20px;"></i>
+                <h2>Taller: Limpieza de Base de Datos</h2>
+                <div class="box-glass" style="text-align: center;">
+                    <h4 style="color: #003865;">El Archivo: Ventas_Retail_Sucio.csv</h4>
+                    <p style="font-size: 0.9em; margin-bottom: 20px;">Para el laboratorio, he inyectado errores humanos reales en un dataset de 5,500 registros: Nulos, textos con espacios extra, mayúsculas inconsistentes, comas europeas en monedas y transacciones negativas.</p>
+                    <span style="background: var(--unab-orange); color: white; padding: 10px 20px; border-radius: 30px; font-weight: bold; text-transform: uppercase;">ABRIR GUÍA DE LABORATORIO 3</span>
                 </div>
             </section>
-
         </div>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
     <script>
-        Reveal.initialize({
-            hash: true,
-            transition: 'slide',
-            controlsTutorial: false,
-            center: true,
-            progress: true,
-            slideNumber: 'c/t'
-        });
-
+        Reveal.initialize({ hash: true, transition: 'slide', center: true });
         mermaid.initialize({ startOnLoad: true, theme: 'default' });
-
-        // Typed.js para efecto hacker corporativo
-        new Typed('#typed-output', {
-            strings: [
-                '> ESTABLECIENDO CONEXIÓN SEGURA...',
-                '> CARGANDO DATOS MASIVOS (ETL)...',
-                '> OPTIMIZANDO MODELO DIMENSIONAL...',
-                '> PROTOCOLO DE INTELIGENCIA DE NEGOCIOS: ACTIVO'
-            ],
-            typeSpeed: 30,
-            backSpeed: 10,
-            backDelay: 1500,
-            loop: true,
-            showCursor: true,
-            cursorChar: '_'
-        });
-
-        function openModal(title, iconClass, text, example) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-icon').className = 'fa-solid ' + iconClass;
-            document.getElementById('modal-text').innerText = text;
-            document.getElementById('modal-example-text').innerHTML = example;
-            
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('concept-modal-overlay').classList.add('show');
-                document.getElementById('concept-modal').classList.add('show');
-            }, 10);
-        }
-
-        function closeModal() {
-            document.getElementById('concept-modal').classList.remove('show');
-            document.getElementById('concept-modal-overlay').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('concept-modal').style.display = 'none';
-                document.getElementById('concept-modal-overlay').style.display = 'none';
-            }, 400);
-        }
     </script>
 </body>
 </html>

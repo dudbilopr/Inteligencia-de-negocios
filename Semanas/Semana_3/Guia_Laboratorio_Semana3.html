@@ -3,115 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 3 - DAX Basics y Power Query</title>
+    <title>Laboratorio Semana 3 - ETL Riguroso</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B', dark: '#0f172a' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
+                extend: { colors: { primary: '#003865', secondary: '#E85C0B' }, fontFamily: { sans: ['Inter', 'sans-serif'] } }
             }
         }
     </script>
-    <style>
-        body { background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.08); }
-    </style>
+    <style>body { background-color: #f8fafc; }</style>
 </head>
 <body class="text-gray-800 antialiased p-4 md:p-8">
-    
     <div class="max-w-5xl mx-auto space-y-8">
-        
         <!-- Header -->
-        <div class="bg-gradient-to-br from-primary to-[#002240] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
-            <!-- Deco -->
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            
-            <div class="relative z-10">
-                <div class="flex items-center gap-5 mb-6">
-                    <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-database text-3xl text-secondary"></i>
-                    </div>
-                    <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 3</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Transformación de Datos y Primeras Medidas</h1>
-                    </div>
-                </div>
-                <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> En esta práctica, simularemos un entorno empresarial real donde recibiremos datos caóticos de ventas de múltiples sucursales. Tu labor es limpiar y estructurar los datos usando Power Query (Lenguaje M) y crear las medidas fundacionales (Revenue, Cost, Margin) utilizando DAX.</p>
-                </div>
+        <div class="bg-primary rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-4">Laboratorio Semana 3: Ingeniería de Datos (ETL)</h1>
+            <div class="bg-white/10 rounded-xl p-5 border border-white/20">
+                <p class="text-blue-100"><i class="fas fa-file-csv text-secondary mr-2"></i><strong>Archivo Objetivo:</strong> <code>Datos/Ventas_Retail_Sucio.csv</code></p>
+                <p class="text-blue-100 mt-2 text-sm">Este archivo contiene +5,000 registros con corrupción de datos intencional. Tu labor es construir un pipeline de limpieza estandarizado antes de que los datos toquen el modelo dimensional.</p>
             </div>
         </div>
 
-        <!-- Metodologia Paso a Paso -->
-        <div class="glass-card rounded-2xl p-8 md:p-12">
-            <h2 class="text-2xl font-bold text-primary mb-10 flex items-center gap-3 border-b border-gray-200 pb-4">
-                <i class="fas fa-layer-group text-secondary"></i> Flujo de Implementación Técnica
-            </h2>
+        <!-- Flujo -->
+        <div class="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-100">
+            <h2 class="text-2xl font-bold text-primary mb-8 border-b pb-4"><i class="fas fa-layer-group text-secondary"></i> Pipeline de Transformación (Power Query)</h2>
             
-            <div class="mt-8">
+            <div class="space-y-8 pl-4 border-l-2 border-primary/20">
                 
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    1
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Limpieza y Estandarización en Power Query</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Importar el dataset de ventas. Identificar y eliminar duplicados. Rellenar valores nulos (Fill Down) y usar columnas condicionales para normalizar los nombres de las ciudades y corregir errores tipográficos en las categorías de productos.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    2
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Modelado Dimensional</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Cargar las tablas limpias a Power BI. Establecer relaciones 1 a muchos (1:*) entre la tabla de Ventas (Hechos) y las tablas de Clientes y Productos (Dimensiones). Ocultar las llaves foráneas para no confundir al usuario final.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    3
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Creación del Framework DAX</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear una tabla vacía dedicada a 'Métricas_Base'. Construir las siguientes medidas DAX usando iteradores seguros: <br><code>Total_Ventas = SUMX(Ventas, Ventas[Cantidad] * Ventas[Precio_Unitario])</code><br><code>Margen_Porcentual = DIVIDE([Total_Ventas] - [Costo_Total], [Total_Ventas], 0)</code></p>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <!-- Reto de Práctica Autónoma -->
-        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl border-l-8 border-secondary relative overflow-hidden transform transition hover:scale-[1.01] duration-300">
-            <div class="absolute top-0 right-0 p-8 opacity-10">
-                <i class="fas fa-rocket text-8xl"></i>
-            </div>
-            <div class="relative z-10">
-                <div class="inline-block bg-secondary text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4 shadow-lg">
-                    Actividad Autónoma
-                </div>
-                <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                    <i class="fas fa-brain text-secondary"></i> Reto Arquitectónico Avanzado
-                </h2>
-                <div class="bg-white/10 rounded-xl p-6 border border-white/10">
-                    <p class="text-gray-300 text-lg leading-relaxed">
-                        Construir una columna condicional en Power Query que clasifique el nivel de ingresos de los clientes basado en su salario, y luego crear una medida en DAX que calcule el % de participación de cada segmento sobre las ventas totales.
+                <div class="relative pl-8">
+                    <div class="absolute -left-[25px] top-0 w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">1</div>
+                    <h3 class="text-xl font-bold text-primary mb-2">Importación y Detección de Errores</h3>
+                    <p class="text-gray-600 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        Carga el archivo <code>Ventas_Retail_Sucio.csv</code>. Ve a la pestaña 'Vista' en Power Query y activa 'Calidad de Columnas'. Notarás que la columna <strong>Fecha_Venta</strong> tiene formatos de fecha nulos y mixtos.
                     </p>
                 </div>
-                
-                <div class="mt-8 bg-blue-900/40 border border-blue-500/30 rounded-lg p-5 flex gap-4">
-                    <i class="fas fa-circle-info text-blue-400 text-xl mt-1"></i>
-                    <p class="text-sm text-blue-200">
-                        <strong>Criterio de Evaluación Institucional:</strong> Este reto exige aplicar la documentación oficial, foros de la comunidad técnica y fundamentos teóricos de la clase magistral. Asegúrate de comentar y estructurar bien tu código DAX o M para sustentarlo en la revisión.
+
+                <div class="relative pl-8">
+                    <div class="absolute -left-[25px] top-0 w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">2</div>
+                    <h3 class="text-xl font-bold text-primary mb-2">Estandarización Textual Avanzada</h3>
+                    <p class="text-gray-600 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        Las columnas de Ciudad y Categoría tienen espacios extra (ej. " Servicios ") y mayúsculas inconsistentes (ej. "bogota"). <br>
+                        <strong>Acción:</strong> Selecciona ambas columnas > Transformar > Formato > Recortar (Trim). Luego, Formato > Poner en Mayúscula cada Palabra (Capitalize Each Word). Reemplaza valores problemáticos como "Bogo-ta" a mano usando 'Reemplazar los valores'.
                     </p>
                 </div>
+
+                <div class="relative pl-8">
+                    <div class="absolute -left-[25px] top-0 w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">3</div>
+                    <h3 class="text-xl font-bold text-primary mb-2">Corrección de Anomalías Numéricas</h3>
+                    <p class="text-gray-600 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        La columna <strong>Precio_Unitario_USD</strong> tiene valores con comas estilo europeo y <strong>Unidades_Vendidas</strong> contiene errores negativos.<br>
+                        <strong>Acción:</strong> Cambia temporalmente la columna de precios a texto, reemplaza ',' por '.' y conviértela a Número Decimal. Para las unidades, usa <code>Transformar > Extraer > Valor Absoluto</code>. Filtra las fechas nulas o los descuentos "N/A".
+                    </p>
+                </div>
+
             </div>
         </div>
 
+        <!-- Reto Autonomo -->
+        <div class="bg-gray-900 rounded-2xl p-10 text-white shadow-xl border-l-8 border-secondary">
+            <h2 class="text-2xl font-bold mb-4"><i class="fas fa-brain text-secondary"></i> Reto Arquitectónico Autónomo</h2>
+            <div class="bg-white/10 p-6 rounded-lg">
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Ahora que la tabla plana central está limpia, tienes un monolito. En BI, eso destruye el rendimiento. Debes aplicar ingeniería inversa para construir un Star Schema:
+                </p>
+                <ol class="list-decimal list-inside space-y-2 text-blue-200">
+                    <li>Duplica la consulta original 2 veces.</li>
+                    <li>Nombra la primera como <code>Dim_Clientes</code> y la segunda como <code>Dim_Geografia</code>.</li>
+                    <li>En cada una, mantén solo las columnas relevantes (Ej. en Dim_Geografia solo deja 'Ciudad_Origen').</li>
+                    <li>¡Elimina duplicados! Transforma esas consultas en catálogos dimensionales únicos y luego conéctalos en el modelo de datos a la tabla de Hechos (Fact_Ventas).</li>
+                </ol>
+            </div>
+        </div>
     </div>
 </body>
 </html>
