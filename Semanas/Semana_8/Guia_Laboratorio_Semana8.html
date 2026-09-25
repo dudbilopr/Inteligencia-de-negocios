@@ -3,111 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 8 - Gobernanza y Row-Level Security (RLS)</title>
+    <title>Laboratorio Semana 8 - Arquitectura, Fundamentos DAX y RLS | Adventure Works</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B', dark: '#0f172a' },
+                    colors: { primary: '#003865', secondary: '#E85C0B', dark: '#0f172a', surface: '#f8fafc' },
                     fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.08); }
+        body { background-color: #f1f5f9; }
+        .glass-card { background: rgba(255, 255, 255, 1); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.05); }
+        .code-block { font-family: 'Consolas', monospace; background-color: #1e293b; color: #e2e8f0; padding: 20px; border-radius: 8px; font-size: 0.9em; margin: 15px 0; overflow-x: auto; border-left: 4px solid #E85C0B; line-height: 1.5; }
+        .dax-keyword { color: #c678dd; font-weight: bold; }
+        .dax-function { color: #61afef; }
+        .dax-string { color: #98c379; }
+        .dax-comment { color: #5c6370; font-style: italic; }
+        
+        .table-custom { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
+        .table-custom th { background-color: #003865; color: white; padding: 12px; text-align: left; }
+        .table-custom td { padding: 10px; border-bottom: 1px solid #e2e8f0; }
+        .table-custom tr:nth-child(even) { background-color: #f8fafc; }
+        
+        .step-number { width: 35px; height: 35px; min-width: 35px; background: #E85C0B; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2em; box-shadow: 0 4px 10px rgba(232, 92, 11, 0.3); }
+        .theory-badge { background: #003865; color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;}
     </style>
 </head>
 <body class="text-gray-800 antialiased p-4 md:p-8">
     
-    <div class="max-w-5xl mx-auto space-y-8">
+    <div class="max-w-6xl mx-auto space-y-8">
         
         <!-- Header -->
-        <div class="bg-gradient-to-br from-primary to-[#002240] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
-            <!-- Deco -->
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+        <div class="bg-gradient-to-br from-primary to-[#001a33] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-20 -top-20 w-80 h-80 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
             
-            <div class="relative z-10">
-                <div class="flex items-center gap-5 mb-6">
-                    <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-shield-halved text-3xl text-secondary"></i>
-                    </div>
-                    <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 8</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Implementación de Seguridad Avanzada</h1>
-                    </div>
+            <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div>
+                    <p class="text-secondary font-bold tracking-wider text-sm mb-2 uppercase flex items-center gap-2"><i class="fas fa-layer-group"></i> Laboratorio Oficial • Semana 8</p>
+                    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4">Arquitectura, Fundamentos DAX y Seguridad Dinámica</h1>
+                    <p class="text-blue-100 text-lg max-w-3xl">Desde la teoría estructural del lenguaje Data Analysis Expressions (DAX) hasta la implementación corporativa de Row-Level Security (RLS) en el modelo Adventure Works.</p>
                 </div>
-                <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> Escenario: Has construido el reporte corporativo de ventas globales. Legal te ha advertido que el Gerente de Colombia NO puede ver los salarios ni las ventas del Gerente de México. Deberás implementar RLS dinámico utilizando el UPN de Office 365 de los usuarios.</p>
+                <div class="hidden md:block">
+                    <i class="fas fa-database text-8xl text-white/10"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Metodologia Paso a Paso -->
+        <!-- SECCIÓN NUEVA: FUNDAMENTOS TEÓRICOS DE DAX (Basado en el documento pero totalmente redactado para la UNAB) -->
+        <div class="glass-card rounded-2xl p-8 md:p-12 border-l-8 border-primary">
+            <div class="flex items-center justify-between border-b border-gray-200 pb-4 mb-6">
+                <h2 class="text-2xl font-bold text-primary flex items-center gap-3">
+                    <i class="fas fa-book-open text-secondary"></i> Fundamentos Teóricos de DAX
+                </h2>
+                <span class="theory-badge">Módulo Conceptual</span>
+            </div>
+            
+            <p class="mb-6 text-gray-700 leading-relaxed">
+                Antes de modelar, es imperativo dominar el motor analítico de Power BI: <strong>Data Analysis Expressions (DAX)</strong>. A diferencia del código secuencial, DAX es un lenguaje funcional y dinámico diseñado para manejar bases de datos relacionales a través de contextos de filtro.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-gray-50 border border-gray-200 p-5 rounded-lg">
+                    <h3 class="font-bold text-primary mb-2"><i class="fas fa-table text-secondary mr-2"></i> 1. Tablas Calculadas</h3>
+                    <p class="text-sm text-gray-600">Almacenan datos en RAM (aumentan el tamaño del modelo). Son vitales para <strong>Tablas de Fechas</strong> exclusivas, <strong>Dimensiones de Rol</strong> (ej. Fecha Envío vs Fecha Orden para evitar relaciones inactivas ambivalentes) y simulaciones de <strong>Análisis de Hipótesis (What-If)</strong>.</p>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 p-5 rounded-lg">
+                    <h3 class="font-bold text-primary mb-2"><i class="fas fa-columns text-secondary mr-2"></i> 2. Columnas Calculadas</h3>
+                    <p class="text-sm text-gray-600">Se evalúan <em>fila por fila</em> en tiempo de actualización (Refresh). Utilizan RAM estática. Úsalas únicamente para categorizar o segmentar ejes, no para agregaciones numéricas, ya que degradan el rendimiento computacional.</p>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 p-5 rounded-lg">
+                    <h3 class="font-bold text-primary mb-2"><i class="fas fa-calculator text-secondary mr-2"></i> 3. Medidas (Explícitas)</h3>
+                    <p class="text-sm text-gray-600">Se calculan en <em>tiempo de consulta</em> (on-the-fly) utilizando la CPU. Resumen métricas bajo un contexto dinámico (filtros de usuario). A diferencia de las <em>medidas implícitas</em> (símbolo $\Sigma$), las explícitas aseguran gobierno y reutilización.</p>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-primary mt-8 mb-4">Sintaxis, Buenas Prácticas y Variables (VAR)</h3>
+            <div class="bg-blue-50/50 p-6 rounded-lg border border-blue-100 mb-6">
+                <ul class="list-disc ml-5 space-y-3 text-sm text-gray-700">
+                    <li><strong>Nomenclatura Estricta:</strong> Los nombres de tablas con espacios deben ir entre comillas simples (<code>'Sales Territory'</code>). Las columnas siempre en corchetes e idealmente precedidas por su tabla (<code>'Sales'[Unit Price]</code>). Las medidas <strong>solo</strong> llevan corchetes (<code>[Total Ventas]</code>), jamás el nombre de la tabla, pues son agnósticas.</li>
+                    <li><strong>Indentación y Espacios:</strong> DAX ignora los espacios en blanco. Usa <code>Shift + Enter</code> y tabulaciones para jerarquizar el código. El formato es obligatorio para el mantenimiento corporativo.</li>
+                    <li><strong>Rendimiento con Variables:</strong> En cálculos anidados, usa <code>VAR</code> y <code>RETURN</code>. Las variables almacenan resultados temporales evaluándolos <strong>una sola vez</strong>, acelerando drásticamente la consulta en vez de recalcular iteraciones (como sucede al usar <code>EARLIER</code> o múltiples <code>CALCULATE</code> redundantes).</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-bold text-primary mt-8 mb-4">Tipado de Datos, <code>BLANK</code> y Operadores Estratégicos</h3>
+            <p class="text-sm text-gray-700 mb-4">DAX posee inferencia implícita de tipos (Entero, Decimal Real 64-bits, Booleano, Cadena). Sin embargo, la gestión de la "ausencia de valor" (<code>BLANK</code>) es una trampa común de arquitectura.</p>
+            
+            <table class="table-custom mb-6">
+                <thead>
+                    <tr><th class="w-1/3">Concepto Crítico</th><th>Implementación en DAX</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Igualdad vs Identidad</strong></td><td>El operador <code>=</code> asume que <code>BLANK</code> y Cero (0) son iguales. Para seguridad financiera, si buscas un cero estricto, debes usar el operador estricto <code>==</code>.</td></tr>
+                    <tr><td><strong>Gestión de División</strong></td><td>Jamás uses el operador <code>/</code> si el denominador proviene de un cálculo volátil. Usa la función <code>DIVIDE(Numerador, Denominador, [Alternativa])</code>, la cual previene los costosos errores de "División por Cero" interceptando los <code>BLANK</code> a nivel de motor.</td></tr>
+                    <tr><td><strong>Recuento de Entidades</strong></td><td>Para KPIs como "Base de Clientes Activos", no uses <code>COUNT</code>. Debes aislar los duplicados usando <code>DISTINCTCOUNT</code>.</td></tr>
+                    <tr><td><strong>Operadores Lógicos (IN)</strong></td><td>Para múltiples filtros OR (ej. País es Chile, Perú o Colombia), evita anidar <code>||</code>. Usa <code>Columna IN {"Chile", "Perú", "Colombia"}</code> para consultas limpias y rápidas.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 1. Entendimiento del Negocio y Datos -->
         <div class="glass-card rounded-2xl p-8 md:p-12">
-            <h2 class="text-2xl font-bold text-primary mb-10 flex items-center gap-3 border-b border-gray-200 pb-4">
-                <i class="fas fa-layer-group text-secondary"></i> Flujo de Implementación Técnica
-            </h2>
+            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
+                <div class="step-number">1</div>
+                <h2 class="text-2xl font-bold text-primary">Contexto del Negocio y Diccionario de Datos</h2>
+            </div>
             
-            <div class="mt-8">
-                
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    1
+            <p class="mb-6 leading-relaxed text-gray-700">
+                <strong>Adventure Works</strong> es una compañía multinacional de manufactura de bicicletas. Sus ventas ocurren a través de dos canales principales: <strong>Internet</strong> (venta directa) y <strong>Resellers</strong> (distribuidores). Nuestro objetivo técnico es modelar sus CSVs en estrella e instanciar métricas DAX gobernadas.
+            </p>
+
+            <h3 class="text-lg font-bold text-primary mt-8 mb-4"><i class="fas fa-download text-secondary mr-2"></i> Repositorio de Archivos (Enlaces de Descarga)</h3>
+            <p class="text-sm text-gray-500 mb-4">Obtén los insumos base desde el repositorio de la clase (<code>Semanas/Semana_8/Datos/</code>):</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <div class="border border-gray-200 p-4 rounded-lg bg-gray-50"><strong>Hechos (Fact Table):</strong> <br><a href="Datos/Sales.csv" class="text-secondary hover:underline font-medium"><i class="fas fa-file-csv mr-1"></i> Sales.csv</a> (11 MB) - Grano transaccional por línea de pedido.</div>
+                <div class="border border-gray-200 p-4 rounded-lg bg-gray-50"><strong>Hechos (Puente):</strong> <br><a href="Datos/Sales Order.csv" class="text-secondary hover:underline font-medium"><i class="fas fa-file-csv mr-1"></i> Sales Order.csv</a> - Identificador del canal comercial.</div>
+                <div class="border border-gray-200 p-4 rounded-lg bg-gray-50"><strong>Dimensiones Base:</strong> <br>
+                    <a href="Datos/Date.csv" class="text-blue-600 hover:underline"><i class="fas fa-calendar mr-1"></i> Date.csv</a>, 
+                    <a href="Datos/Product.csv" class="text-blue-600 hover:underline"><i class="fas fa-box mr-1"></i> Product.csv</a>, 
+                    <a href="Datos/Customer.csv" class="text-blue-600 hover:underline"><i class="fas fa-users mr-1"></i> Customer.csv</a>
                 </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Configuración de RLS Estático</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Ingresar a 'Administrar Roles' en PBI Desktop. Crear el rol 'Gerente Norte'. Aplicar el filtro DAX en la tabla Dim_Tiendas: `[Region] = "Norte"`. Utilizar la herramienta 'Ver como' para validar la restricción visual.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    2
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Tabla Puente de Seguridad (RLS Dinámico)</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Importar una tabla de mapeo (UserSecurity) que conecte el Email corporativo con el ID de Región. Establecer una relación bidireccional filtrada por seguridad hacia la tabla dimensional.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    3
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Implementación de Función UPN</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear un rol dinámico llamado 'DynamicUser' con el filtro: `UserSecurity[Email] = USERPRINCIPALNAME()`. Demostrar en DAX Studio o PBI Desktop simulando ingresos de diferentes correos electrónicos.</p>
+                <div class="border border-gray-200 p-4 rounded-lg bg-gray-50"><strong>Dimensiones Geográficas:</strong> <br>
+                    <a href="Datos/Sales Territory.csv" class="text-blue-600 hover:underline"><i class="fas fa-globe mr-1"></i> Sales Territory.csv</a>, 
+                    <a href="Datos/Reseller.csv" class="text-blue-600 hover:underline"><i class="fas fa-store mr-1"></i> Reseller.csv</a>
                 </div>
             </div>
+
+            <h3 class="text-lg font-bold text-primary mb-3">Diccionario de Hechos (Sales.csv)</h3>
+            <table class="table-custom">
+                <thead>
+                    <tr><th>Columna</th><th>Tipo de Dato</th><th>Descripción Semántica</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>SalesOrderLineKey</strong></td><td>Texto/Entero</td><td>Llave primaria subrogada de la línea de factura.</td></tr>
+                    <tr><td><strong>ProductKey, CustomerKey, ResellerKey, SalesTerritoryKey</strong></td><td>Entero</td><td>Llaves foráneas (Foreign Keys) para propagación de filtros.</td></tr>
+                    <tr><td><strong>OrderDateKey, DueDateKey, ShipDateKey</strong></td><td>Entero (YYYYMMDD)</td><td>Múltiples fechas. <em>OrderDateKey</em> fungirá como relación activa (Dimensiones de Rol).</td></tr>
+                    <tr><td><strong>Order Quantity, Unit Price, Sales Amount</strong></td><td>Decimal/Entero</td><td>Variables cuantitativas de facturación (Precio, Volúmen e Ingreso Bruto).</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 2. Modelado Dimensional -->
+        <div class="glass-card rounded-2xl p-8 md:p-12">
+            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
+                <div class="step-number">2</div>
+                <h2 class="text-2xl font-bold text-primary">Modelado Relacional (Esquema en Estrella)</h2>
+            </div>
+            
+            <p class="mb-4 text-gray-700">En Power BI, importa los CSVs (limpiando tipos de datos numéricos). La tabla <strong>Sales</strong> es el pivote central. Procede con el ensamblaje topológico:</p>
+            
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-6">
+                <h4 class="font-bold text-primary mb-2"><i class="fas fa-link"></i> Tabla de Conexiones Exactas</h4>
+                <ul class="space-y-2 text-sm text-gray-700">
+                    <li><i class="fas fa-check text-green-600 w-5"></i> <strong>Sales [OrderDateKey]</strong>  <i class="fas fa-arrow-right text-gray-400 mx-2"></i>  <strong>Date [DateKey]</strong> <em>(Activa, 1 a Varios)</em></li>
+                    <li><i class="fas fa-check text-green-600 w-5"></i> <strong>Sales [ProductKey]</strong>  <i class="fas fa-arrow-right text-gray-400 mx-2"></i>  <strong>Product [ProductKey]</strong> <em>(Activa, 1 a Varios)</em></li>
+                    <li><i class="fas fa-check text-green-600 w-5"></i> <strong>Sales [CustomerKey]</strong>  <i class="fas fa-arrow-right text-gray-400 mx-2"></i>  <strong>Customer [CustomerKey]</strong> <em>(Activa, 1 a Varios)</em></li>
+                    <li><i class="fas fa-check text-green-600 w-5"></i> <strong>Sales [ResellerKey]</strong>  <i class="fas fa-arrow-right text-gray-400 mx-2"></i>  <strong>Reseller [ResellerKey]</strong> <em>(Activa, 1 a Varios)</em></li>
+                    <li><i class="fas fa-check text-green-600 w-5"></i> <strong>Sales [SalesTerritoryKey]</strong>  <i class="fas fa-arrow-right text-gray-400 mx-2"></i>  <strong>Sales Territory [SalesTerritoryKey]</strong> <em>(Activa, 1 a Varios)</em></li>
+                    <li><i class="fas fa-check text-green-600 w-5"></i> <strong>Sales [SalesOrderLineKey]</strong>  <i class="fas fa-arrow-right text-gray-400 mx-2"></i>  <strong>Sales Order [SalesOrderLineKey]</strong> <em>(Activa, 1 a 1, Dirección Bidireccional)</em></li>
+                </ul>
+            </div>
+            <p class="text-red-600 font-bold text-sm"><i class="fas fa-exclamation-triangle"></i> IMPORTANTE: Ve a las propiedades de la tabla `Date` y marca la opción "Marcar como tabla de fechas". Sin esto, las funciones de Inteligencia de Tiempo DAX colapsarán.</p>
+        </div>
+
+        <!-- 3. Operaciones DAX -->
+        <div class="glass-card rounded-2xl p-8 md:p-12">
+            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
+                <div class="step-number">3</div>
+                <h2 class="text-2xl font-bold text-primary">Implementación de Medidas (DAX)</h2>
+            </div>
+            
+            <p class="mb-4 text-gray-700">Aplicando los conceptos del módulo teórico, crea una tabla contenedora <code>_Medidas</code> e implementa los siguientes scripts respetando la indentación.</p>
+
+            <h3 class="text-lg font-bold text-primary mt-6">A. Agregaciones Base (Uso Seguro de DIVIDE y DISTINCTCOUNT)</h3>
+            <div class="code-block">
+Total Ventas = <span class="dax-function">SUM</span>('Sales'[Sales Amount])
+
+Total Costo = <span class="dax-function">SUM</span>('Sales'[Total Product Cost])
+
+Margen Bruto = [Total Ventas] - [Total Costo]
+
+<span class="dax-comment">// Prevención implícita contra la división por cero</span>
+% Margen = <span class="dax-function">DIVIDE</span>([Margen Bruto], [Total Ventas], 0)
+
+<span class="dax-comment">// Recuento único, filtrando clientes repetidos</span>
+Total Clientes Activos = <span class="dax-function">DISTINCTCOUNT</span>('Sales'[CustomerKey])
+            </div>
+
+            <h3 class="text-lg font-bold text-primary mt-6">B. Filtrado Avanzado (CALCULATE & Operadores IN)</h3>
+            <p class="text-sm text-gray-600 mb-2">Usamos <code>CALCULATE</code> para sobrescribir el contexto de filtro nativo del visual.</p>
+            <div class="code-block">
+Ventas Internet = 
+<span class="dax-function">CALCULATE</span>(
+    [Total Ventas],
+    'Sales Order'[Channel] = <span class="dax-string">"Internet"</span>
+)
+
+<span class="dax-comment">// Uso del operador de conjunto IN para agrupar geografías</span>
+Ventas Pacífico = 
+<span class="dax-function">CALCULATE</span>(
+    [Total Ventas],
+    'Sales Territory'[Group] <span class="dax-keyword">IN</span> {<span class="dax-string">"Pacific"</span>, <span class="dax-string">"Australia"</span>}
+)
+            </div>
+
+            <h3 class="text-lg font-bold text-primary mt-6">C. Rendimiento Extremo: Inteligencia de Tiempo usando Variables (VAR)</h3>
+            <p class="text-sm text-gray-600 mb-2">Para calcular el crecimiento interanual (YoY), almacenaremos las métricas temporales en RAM (Variables) para no recalcular la fórmula múltipes veces.</p>
+            <div class="code-block">
+Crecimiento YoY % =
+<span class="dax-keyword">VAR</span> IngresosAñoAnterior = 
+    <span class="dax-function">CALCULATE</span>(
+        [Total Ventas],
+        <span class="dax-function">SAMEPERIODLASTYEAR</span>('Date'[Date])
+    )
+<span class="dax-keyword">RETURN</span>
+    <span class="dax-function">DIVIDE</span>(
+        [Total Ventas] - IngresosAñoAnterior,
+        IngresosAñoAnterior
+    )
             </div>
         </div>
 
-        <!-- Reto de Práctica Autónoma -->
-        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl border-l-8 border-secondary relative overflow-hidden transform transition hover:scale-[1.01] duration-300">
-            <div class="absolute top-0 right-0 p-8 opacity-10">
-                <i class="fas fa-rocket text-8xl"></i>
+        <!-- 4. Gobernanza y RLS -->
+        <div class="glass-card rounded-2xl p-8 md:p-12 border-t-8 border-primary">
+            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
+                <div class="step-number">4</div>
+                <h2 class="text-2xl font-bold text-primary">Gobernanza de Datos (Row-Level Security)</h2>
             </div>
+            
+            <p class="mb-4 text-gray-700">Por lineamientos corporativos, debemos blindar el modelo. En lugar de crear un reporte aislado para cada país, unificaremos la gobernanza en el modelo subyacente.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <!-- RLS Estático -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-bold text-primary mb-3"><i class="fas fa-lock text-gray-400"></i> Nivel 1: RLS Estático</h3>
+                    <p class="text-sm text-gray-600 mb-4">Se inyectan condiciones DAX fijas.</p>
+                    <ol class="list-decimal ml-5 space-y-2 text-sm text-gray-700 mb-4">
+                        <li><strong>Modelado</strong> > <strong>Administrar roles</strong>.</li>
+                        <li>Crea el rol <code>Directiva_Europa</code>.</li>
+                        <li>Filtra la tabla <code>Sales Territory</code> con DAX estricto: <br> <code class="bg-gray-100 p-1 rounded font-bold">[Group] == "Europe"</code></li>
+                        <li>Prueba desde la opción "Ver como...", simulando la vista directiva.</li>
+                    </ol>
+                </div>
+
+                <!-- RLS Dinámico -->
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-bold text-primary mb-3"><i class="fas fa-user-shield text-secondary"></i> Nivel 2: RLS Dinámico</h3>
+                    <p class="text-sm text-gray-600 mb-4">Escalabilidad global usando credenciales UPN de Microsoft 365.</p>
+                    <ol class="list-decimal ml-5 space-y-2 text-sm text-gray-700 mb-4">
+                        <li>Crea una tabla en Power BI <code>UserSecurity</code> con las columnas <code>Email</code> y <code>TerritoryGroup</code>. Agrega tu correo real.</li>
+                        <li>Relaciona <code>UserSecurity[TerritoryGroup]</code> y <code>Sales Territory[Group]</code>. <strong>Crítico: Flujo de filtro Bidireccional</strong> y aplica seguridad cruzada.</li>
+                        <li>Crea el rol <code>Seguridad_Dinamica</code> aplicando en la tabla de usuarios: <br><code class="bg-white border p-1 rounded font-bold">[Email] = USERPRINCIPALNAME()</code></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reto Final -->
+        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
             <div class="relative z-10">
                 <div class="inline-block bg-secondary text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4 shadow-lg">
-                    Actividad Autónoma
+                    Actividad Autónoma Evaluativa
                 </div>
                 <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                    <i class="fas fa-brain text-secondary"></i> Reto Arquitectónico Avanzado
+                    <i class="fas fa-trophy text-secondary"></i> Consolidación y Dashboarding
                 </h2>
                 <div class="bg-white/10 rounded-xl p-6 border border-white/10">
-                    <p class="text-gray-300 text-lg leading-relaxed">
-                        Implementar un modelo de seguridad jerárquica (Parent-Child) utilizando las funciones PATH, PATHCONTAINS y USERPRINCIPALNAME() de DAX, permitiendo que un Director Regional vea todos los países bajo su mando, mientras que un Country Manager vea solo su país.
+                    <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                        La meta final es entregar un artefacto visual que demuestre tus competencias en Arquitectura DAX y Seguridad:
                     </p>
-                </div>
-                
-                <div class="mt-8 bg-blue-900/40 border border-blue-500/30 rounded-lg p-5 flex gap-4">
-                    <i class="fas fa-circle-info text-blue-400 text-xl mt-1"></i>
-                    <p class="text-sm text-blue-200">
-                        <strong>Criterio de Evaluación Institucional:</strong> Este reto exige aplicar la documentación oficial, foros de la comunidad técnica y fundamentos teóricos de la clase magistral. Asegúrate de comentar y estructurar bien tu código DAX o M para sustentarlo en la revisión.
-                    </p>
+                    <ul class="list-disc ml-6 text-gray-300 space-y-2">
+                        <li><strong>Panel KPI:</strong> Muestra Tarjetas para <code>Total Ventas</code>, <code>Total Clientes Activos</code> y <code>Crecimiento YoY %</code>.</li>
+                        <li><strong>Análisis Contextual:</strong> Gráfico de Anillo comparando <code>Ventas Internet</code> vs <code>Ventas Reseller</code>.</li>
+                        <li><strong>Auditoría de Gobernanza:</strong> Toma una captura final del dashboard aplicando el <strong>Rol Dinámico</strong>. El visual debe evidenciar que los continentes prohibidos han desaparecido de la interfaz de forma paramétrica.</li>
+                    </ul>
                 </div>
             </div>
         </div>

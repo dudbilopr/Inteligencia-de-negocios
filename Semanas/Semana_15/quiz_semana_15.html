@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad EMI - Semana 15</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --unab-blue: #003865;
+            --unab-orange: #E85C0B;
+            --light-bg: #f4f6f9;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .quiz-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 56, 101, 0.1);
+            max-width: 800px;
+            width: 100%;
+            border-top: 6px solid var(--unab-orange);
+        }
+        h1 {
+            color: var(--unab-blue);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .question-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+        .question-block:hover {
+            border-color: var(--unab-blue);
+        }
+        .question-text {
+            font-weight: bold;
+            color: var(--unab-blue);
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+        .option-item {
+            margin-bottom: 10px;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+            transition: background-color 0.2s;
+        }
+        .option-label:hover {
+            background-color: #e9ecef;
+        }
+        input[type="radio"] {
+            margin-right: 15px;
+            accent-color: var(--unab-orange);
+        }
+        .submit-btn {
+            background-color: var(--unab-blue);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: var(--unab-orange);
+        }
+        #result-container {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        .correct-ans {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect-ans {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .feedback-text {
+            font-size: 0.85em;
+            color: #555;
+            margin-top: 8px;
+            display: none;
+            padding-left: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <h1><i class="fa-solid fa-language" style="color: var(--unab-orange);"></i> EMI Warm-Up Quiz</h1>
+        <div class="subtitle">Week 15: The Future of BI & Generative AI</div>
+
+        <p style="text-align: center; margin-bottom: 30px;">
+            Before we dive into our final class, test your knowledge on the modern trends of Business Intelligence. Select the best answer for each question.
+        </p>
+
+        <form id="quiz-form">
+            <!-- Question 1 -->
+            <div class="question-block">
+                <div class="question-text">1. What does AutoML stand for in the context of modern data platforms?</div>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="A"> A. Automatic Modeling Logic
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="B"> B. Automated Machine Learning
+                        </label>
+                        <div class="feedback-text" id="fb-q1-B">Correct! AutoML automates the process of applying machine learning models to real-world problems.</div>
+                    </li>
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="C"> C. Advanced Mathematics Language
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-block">
+                <div class="question-text">2. How does Generative AI (like Copilot) primarily assist a BI Analyst today?</div>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="A"> A. By replacing the need for a well-structured dimensional model.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="B"> B. By writing complex DAX queries and generating narrative summaries via natural language prompts.
+                        </label>
+                        <div class="feedback-text" id="fb-q2-B">Correct! AI assists by accelerating code writing and generating natural language insights, but still requires a solid data foundation.</div>
+                    </li>
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="C"> C. By making critical strategic decisions without human intervention.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-block">
+                <div class="question-text">3. According to modern BI trends, what will become the most valuable skill for a Data Analyst in the future?</div>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="A"> A. Memorizing thousands of DAX and SQL syntax rules.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="B"> B. Creating manual static reports in Excel.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="C"> C. Critical thinking and knowing exactly what questions to ask the data.
+                        </label>
+                        <div class="feedback-text" id="fb-q3-C">Correct! As machines write the code, human critical thinking and context understanding become the paramount skills.</div>
+                    </li>
+                </ul>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="evaluateQuiz()">Submit Answers</button>
+        </form>
+
+        <div id="result-container"></div>
+    </div>
+
+    <script>
+        function evaluateQuiz() {
+            let score = 0;
+            const totalQuestions = 3;
+            
+            const answers = {
+                q1: 'B',
+                q2: 'B',
+                q3: 'C'
+            };
+
+            const form = document.getElementById('quiz-form');
+            const data = new FormData(form);
+            
+            // Reset feedback
+            document.querySelectorAll('.feedback-text').forEach(el => el.style.display = 'none');
+
+            let allAnswered = true;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const userAns = data.get('q' + i);
+                if (!userAns) {
+                    allAnswered = false;
+                    break;
+                }
+                if (userAns === answers['q' + i]) {
+                    score++;
+                    document.getElementById('fb-q' + i + '-' + userAns).style.display = 'block';
+                    document.getElementById('fb-q' + i + '-' + userAns).style.color = '#155724';
+                }
+            }
+
+            const resultContainer = document.getElementById('result-container');
+            
+            if (!allAnswered) {
+                resultContainer.style.display = 'block';
+                resultContainer.className = 'incorrect-ans';
+                resultContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Please answer all questions before submitting.';
+                return;
+            }
+
+            resultContainer.style.display = 'block';
+            if (score === totalQuestions) {
+                resultContainer.className = 'correct-ans';
+                resultContainer.innerHTML = '<i class="fa-solid fa-check-circle"></i> Excellent! You got ' + score + ' out of ' + totalQuestions + ' correct. You are ready for the final class!';
+            } else {
+                resultContainer.className = 'incorrect-ans';
+                resultContainer.innerHTML = '<i class="fa-solid fa-times-circle"></i> You got ' + score + ' out of ' + totalQuestions + ' correct. Review the questions and try again.';
+            }
+        }
+    </script>
+</body>
+</html>

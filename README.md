@@ -91,6 +91,13 @@ Desarrollar la capacidad de transformar datos en información útil para la toma
   - [Rúbrica Final](Semanas/Semana_14/Guia_Laboratorio_Semana14.html)
   - [Actividad EMI (Inglés) - Data Storytelling](Semanas/Semana_14/quiz_semana_14.html)
 
+### Unidad 5: El Futuro del Análisis de Datos
+
+- **[Semana 15: El Futuro del BI (IA y Machine Learning)](Semanas/Semana_15/)**
+  - [Presentación Interactiva HTML](Semanas/Semana_15/diapositivas_semana_15.html)
+  - [Actividad EMI (Inglés) - Warm Up Quiz](Semanas/Semana_15/quiz_semana_15.html)
+  - [Colab Guiado - Introducción a Machine Learning](Semanas/Semana_15/Colab_Guiado_Semana15.ipynb)
+
 ---
 
 *Nota para el estudiante: Asegúrate de clonar o descargar este repositorio para tener acceso a los recursos y archivos requeridos durante las sesiones de taller.*

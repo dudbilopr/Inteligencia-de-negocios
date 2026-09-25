@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Inteligencia de Negocios - Semana 15</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+    <style>
+        :root {
+            --r-main-color: #333;
+            --r-heading-color: #003865;
+            --r-link-color: #E85C0B;
+            --unab-blue: #003865;
+            --unab-orange: #E85C0B;
+        }
+        
+        .reveal .slides { width: 90% !important; height: 90% !important; max-width: 1200px !important; margin: auto; }
+        .reveal .slide-background { background-color: #f4f6f9; }
+        
+        .split-screen { display: flex; justify-content: space-between; align-items: center; height: 100%; gap: 30px; }
+        .split-left, .split-right { width: 48%; }
+        
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
+        .grid-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15);
+            border-top: 5px solid var(--unab-blue);
+            text-align: left; transition: transform 0.3s ease;
+        }
+        .grid-card:hover { transform: translateY(-5px); }
+        
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
+        .highlight { color: var(--unab-orange); }
+        .text-left { text-align: left; }
+        .small-text { font-size: 0.7em !important; line-height: 1.2; }
+        
+        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
+        .dark-slide h1, .dark-slide h2, .dark-slide h3 { color: white !important; }
+        
+        .ai-footer { position: fixed; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 0.45em; color: #888; z-index: 1000; font-family: monospace; }
+        
+        .concept-modal {
+            display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; color: #333; padding: 30px; border-radius: 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            z-index: 2000; width: 80%; max-width: 600px; border-top: 5px solid var(--unab-orange);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- PORTADA -->
+            <section class="dark-slide" data-transition="zoom">
+                <i class="fa-solid fa-microchip" style="font-size: 4.5em; color: var(--unab-orange); margin-bottom: 20px;"></i>
+                <h1 style="margin-bottom: 10px;">El Futuro del BI</h1>
+                <h3 style="font-weight: 300; opacity: 0.9;">Inteligencia Artificial y Machine Learning en Análisis de Datos</h3>
+                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <p style="margin: 0; font-size: 0.8em; letter-spacing: 1px;">Inteligencia de Negocios - Semana 15</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.6em; opacity: 0.7; color: var(--unab-orange);">Universidad Autónoma de Bucaramanga</p>
+                </div>
+            </section>
+
+            <!-- INTRODUCCIÓN -->
+            <section data-transition="slide">
+                <h2><i class="fa-solid fa-hourglass-half highlight"></i> Introducción</h2>
+                <div class="split-screen">
+                    <div class="split-left text-left">
+                        <p class="small-text">El Análisis de Datos está atravesando una transformación radical gracias a la Inteligencia Artificial Generativa. Las habilidades de un Analista de Negocios ya no se limitan a la creación de modelos relacionales estáticos, sino a la interacción y orquestación de modelos predictivos y lenguajes naturales.</p>
+                        <p class="small-text">Hoy exploraremos cómo los Copilots, el AutoML y el Procesamiento de Lenguaje Natural (NLP) están redefiniendo el Business Intelligence.</p>
+                    </div>
+                    <div class="split-right">
+                        <div class="grid-card" style="border-left: 5px solid var(--unab-orange); border-top: none;">
+                            <h3 style="color: var(--unab-blue); font-size: 1.1em;"><i class="fa-solid fa-quote-left highlight"></i></h3>
+                            <p style="font-size: 0.85em; font-style: italic;">"La IA no reemplazará a los analistas de datos, pero los analistas que usen IA reemplazarán a los que no la usen."</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RAE -->
+            <section data-transition="slide-in fade-out">
+                <h2><i class="fa-solid fa-bullseye" style="color: var(--unab-orange);"></i> Resultado de Aprendizaje</h2>
+                <div class="split-screen">
+                    <div class="split-left text-left">
+                        <div class="grid-card" style="border-left: 5px solid var(--unab-blue); border-top: none;">
+                            <h3 style="color: var(--unab-blue); font-size: 1.2em;">RAE de la Sesión</h3>
+                            <p style="font-size: 0.9em;">"Comprende e integra conceptos fundamentales de Inteligencia Artificial y Machine Learning dentro de los ecosistemas modernos de Inteligencia de Negocios, evaluando su impacto en la automatización analítica."</p>
+                        </div>
+                    </div>
+                    <div class="split-right">
+                        <i class="fa-solid fa-brain" style="font-size: 6em; color: #ccc;"></i>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- GLOSARIO -->
+            <section data-transition="slide">
+                <h2><i class="fa-solid fa-book highlight"></i> Glosario Fundamental</h2>
+                <div class="grid-layout">
+                    <div class="grid-card" onclick="document.getElementById('modal1').style.display='block'" style="cursor: pointer;">
+                        <h3 style="font-size: 1em; color: var(--unab-blue);"><i class="fa-solid fa-robot highlight"></i> AutoML (Automated Machine Learning)</h3>
+                        <p class="small-text text-gray-600 mt-2">Automatización del proceso de aplicar modelos de aprendizaje automático a los datos reales.</p>
+                        <p class="small-text" style="color: var(--unab-orange); font-weight: bold; text-align: right;">Clic para expandir <i class="fa-solid fa-arrow-right"></i></p>
+                    </div>
+                    <div class="grid-card" onclick="document.getElementById('modal2').style.display='block'" style="cursor: pointer;">
+                        <h3 style="font-size: 1em; color: var(--unab-blue);"><i class="fa-solid fa-comments highlight"></i> NLP / Generative AI en BI</h3>
+                        <p class="small-text text-gray-600 mt-2">Consultar bases de datos y generar reportes usando lenguaje natural en lugar de código.</p>
+                        <p class="small-text" style="color: var(--unab-orange); font-weight: bold; text-align: right;">Clic para expandir <i class="fa-solid fa-arrow-right"></i></p>
+                    </div>
+                </div>
+
+                <!-- Modales de Glosario -->
+                <div id="modal1" class="concept-modal">
+                    <h3 style="color: var(--unab-blue);">AutoML en Power BI</h3>
+                    <p style="font-size: 0.8em; text-align: left;">Permite a los analistas de negocio entrenar, validar y predecir resultados (como clasificación binaria o regresión) sin escribir código complejo en Python o R, utilizando los flujos de datos (Dataflows) en la nube.</p>
+                    <button onclick="document.getElementById('modal1').style.display='none'" style="background: var(--unab-blue); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px;">Cerrar</button>
+                </div>
+                
+                <div id="modal2" class="concept-modal">
+                    <h3 style="color: var(--unab-blue);">Generative AI (Copilot)</h3>
+                    <p style="font-size: 0.8em; text-align: left;">Herramientas como Microsoft Copilot pueden redactar fórmulas DAX complejas, sugerir narrativas automáticas para describir variaciones en las ventas, y construir visualizaciones a partir de prompts.</p>
+                    <button onclick="document.getElementById('modal2').style.display='none'" style="background: var(--unab-blue); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px;">Cerrar</button>
+                </div>
+            </section>
+
+            <!-- TYPED.JS INTERACTIVE -->
+            <section data-transition="zoom" class="dark-slide">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+                    <i class="fa-solid fa-server" style="font-size: 2em; color: var(--unab-orange); opacity: 0.7; margin-bottom: 20px;"></i>
+                    <h2 style="font-size: 1.5em; text-align: center; line-height: 1.4;">
+                        <span id="typed-ai-trend"></span>
+                    </h2>
+                </div>
+            </section>
+
+            <!-- EL ROL DEL ANALISTA -->
+            <section data-transition="slide">
+                <h2><i class="fa-solid fa-user-tie highlight"></i> Evolución del Rol</h2>
+                <p class="small-text text-left">El analista pasará de ser un "creador de reportes" a un "curador de datos e IA".</p>
+                <div class="grid-layout" style="grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                    <div class="grid-card">
+                        <h3 style="font-size: 1em; color: var(--unab-blue);">Antes</h3>
+                        <p class="small-text mt-2">- Extracción manual (SQL).<br>- Modelado lento.<br>- Fórmulas DAX densas.<br>- Análisis descriptivo (¿Qué pasó?).</p>
+                    </div>
+                    <div class="grid-card" style="background: var(--unab-blue); color: white;">
+                        <h3 style="font-size: 1em; color: white; text-align: center;"><i class="fa-solid fa-arrow-right-arrow-left"></i></h3>
+                        <p class="small-text mt-2" style="text-align: center; color: #ccc;">Transición actual potenciada por IA Generativa.</p>
+                    </div>
+                    <div class="grid-card" style="border-top: 5px solid var(--unab-orange);">
+                        <h3 style="font-size: 1em; color: var(--unab-orange);">Futuro Inmediato</h3>
+                        <p class="small-text mt-2">- Generación DAX asistida.<br>- Q&A en lenguaje natural.<br>- AutoML predictivo.<br>- Análisis prescriptivo (¿Qué hacer?).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONCLUSIONES -->
+            <section data-transition="slide-in fade-out">
+                <h2><i class="fa-solid fa-flag-checkered highlight"></i> Conclusiones</h2>
+                <div class="grid-card" style="border-left: 5px solid var(--unab-blue); border-top: none;">
+                    <ul class="small-text text-left">
+                        <li style="margin-bottom: 10px;">La Inteligencia Artificial no elimina la necesidad de modelado dimensional; por el contrario, los modelos IA como Copilot requieren de un modelo en estrella perfecto y gobernado para funcionar correctamente.</li>
+                        <li style="margin-bottom: 10px;">Las habilidades de pensamiento crítico e interpretación de negocio son el verdadero diferencial humano que la IA no puede replicar.</li>
+                        <li>El futuro del BI es predictivo, democratizado (Self-Service) y gobernado centralmente.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- BIBLIOGRAFÍA -->
+            <section data-transition="slide">
+                <h2><i class="fa-solid fa-book-open highlight"></i> Bibliografía</h2>
+                <div class="grid-card">
+                    <ul class="small-text text-left">
+                        <li style="margin-bottom: 10px;">Sharda, R., Delen, D., & Turban, E. (2020). <em>Analytics, Data Science, & Artificial Intelligence: Systems for Decision Support</em>. Pearson.</li>
+                        <li style="margin-bottom: 10px;">Microsoft Learn. (2024). <em>Integrate Azure Machine Learning in Power BI</em>. Documentación oficial.</li>
+                        <li>Knaflic, C. N. (2015). <em>Storytelling with Data: A Data Visualization Guide for Business Professionals</em>. Wiley.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- CIERRE FINAL DEL CURSO -->
+            <section data-transition="zoom" class="dark-slide">
+                <h2><i class="fa-solid fa-rocket highlight"></i> Fin del Curso</h2>
+                <p class="text-center" style="font-size: 1.1em; color: #ddd; margin-top: 30px;">
+                    Han completado el viaje desde los datos crudos hasta las decisiones estratégicas.
+                </p>
+                <p class="text-center highlight mt-5" style="font-weight: bold; font-size: 1.5em;">¡Sigan transformando el mundo con datos!</p>
+            </section>
+
+        </div>
+    </div>
+
+    <div class="ai-footer">
+        * Material de Inteligencia de Negocios - Potenciado y construido con IA bajo supervisión de Dudbil Pabon - Sujeto a cambios.
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        Reveal.initialize({ controls: true, progress: true, center: true, hash: true, transition: 'slide' });
+
+        Reveal.on('slidechanged', event => {
+            if (event.currentSlide.querySelector('#typed-ai-trend') && !window.typedAIInitialized) {
+                new Typed('#typed-ai-trend', {
+                    strings: [
+                        "El código será escrito por máquinas...",
+                        "Las preguntas serán formuladas por humanos...",
+                        "El valor residirá en saber <span class='highlight'>qué preguntar.</span>"
+                    ],
+                    typeSpeed: 40,
+                    backSpeed: 15,
+                    backDelay: 3000,
+                    loop: true,
+                    showCursor: true,
+                    cursorChar: '|'
+                });
+                window.typedAIInitialized = true;
+            }
+        });
+    </script>
+</body>
+</html>
