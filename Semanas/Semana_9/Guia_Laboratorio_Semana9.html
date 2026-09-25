@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 9 - Analítica Avanzada (Clustering y Forecasting)</title>
+    <title>Laboratorio Semana 9 - Proyecto Integrador (HR & Sales Analytics)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -20,6 +20,12 @@
     <style>
         body { background-color: #f8fafc; }
         .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.08); }
+        .step-number { width: 40px; height: 40px; border-radius: 50%; background: #003865; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; }
+        .code-block { background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 0.75rem; font-family: monospace; font-size: 0.9rem; overflow-x: auto; margin: 1rem 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .dax-keyword { color: #c678dd; } /* Morado */
+        .dax-function { color: #61afef; } /* Azul */
+        .dax-string { color: #98c379; } /* Verde */
+        .dax-comment { color: #5c6370; font-style: italic; } /* Gris */
     </style>
 </head>
 <body class="text-gray-800 antialiased p-4 md:p-8">
@@ -34,80 +40,160 @@
             <div class="relative z-10">
                 <div class="flex items-center gap-5 mb-6">
                     <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-brain text-3xl text-secondary"></i>
+                        <i class="fas fa-users-gear text-3xl text-secondary"></i>
                     </div>
                     <div>
                         <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 9</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Forecasting Predictivo y Segmentación de Clientes</h1>
+                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Proyecto Integrador: HR Analytics & Rendimiento de Ventas</h1>
                     </div>
                 </div>
-                <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> La empresa tiene toneladas de datos pero poca estrategia proactiva. Vamos a utilizar el motor de Machine Learning embebido de la plataforma para predecir las ventas del próximo Black Friday y segmentar la base de usuarios en clusters para campañas dirigidas.</p>
-                </div>
             </div>
         </div>
 
-        <!-- Metodologia Paso a Paso -->
-        <div class="glass-card rounded-2xl p-8 md:p-12">
-            <h2 class="text-2xl font-bold text-primary mb-10 flex items-center gap-3 border-b border-gray-200 pb-4">
-                <i class="fas fa-layer-group text-secondary"></i> Flujo de Implementación Técnica
+        <!-- 1. El Problema de Negocio -->
+        <div class="glass-card rounded-2xl p-8 md:p-12 border-l-8 border-secondary">
+            <h2 class="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
+                <i class="fas fa-briefcase text-secondary"></i> 1. El Problema de Negocio (Business Case)
             </h2>
-            
-            <div class="mt-8">
-                
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    1
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Implementación de Pronósticos (Forecasting)</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Generar un gráfico de líneas limpio de 'Ventas Históricas por Día'. Activar la pestaña 'Análisis' > Pronóstico. Configurar: 30 puntos a futuro, detectar estacionalidad (7 puntos/días) e intervalo de confianza del 95%.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    2
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Ejecución de Clustering Automático</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear un gráfico de dispersión enfrentando 'Frecuencia de Compra' vs 'Valor de Vida del Cliente (CLV)'. Activar la función 'Buscar Clústeres automáticamente'. Interpretar y renombrar los grupos generados (Ej. VIPs, Fugaces).</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    3
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Análisis de Influenciadores Clave (Key Influencers)</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Insertar el visual de Influenciadores Clave. Analizar la métrica 'Margen de Beneficio' y parametrizarla con todas las dimensiones disponibles para que la IA determine qué factor impacta más severamente la rentabilidad.</p>
-                </div>
-            </div>
+            <div class="bg-blue-50 border border-blue-200 p-6 rounded-xl text-gray-700 leading-relaxed mb-6">
+                <p class="mb-4"><strong>El Escenario:</strong> Eres el Consultor de BI Senior contratado por la junta directiva de <em>Adventure Works</em>. Recientemente, el Vicepresidente de Ventas y el Director de Recursos Humanos (HR) han tenido una reunión de emergencia.</p>
+                <p class="mb-4"><strong>El Problema:</strong> Están notando una <strong>alta rotación de personal (Attrition)</strong> en su fuerza de ventas. Los representantes comerciales están renunciando, y no saben si es por exceso de trabajo, por falta de alcance en sus cuotas de ventas, o por bajas comisiones.</p>
+                <p><strong>Tu Misión:</strong> Construir una solución analítica de extremo a extremo que conecte el mundo de los Recursos Humanos (Desempeño, Retención) con el mundo Financiero (Ventas, Cuotas, Comisiones) para encontrar correlaciones y presentar un reporte gerencial que cuente esta historia de forma didáctica.</p>
             </div>
         </div>
 
-        <!-- Reto de Práctica Autónoma -->
-        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl border-l-8 border-secondary relative overflow-hidden transform transition hover:scale-[1.01] duration-300">
-            <div class="absolute top-0 right-0 p-8 opacity-10">
-                <i class="fas fa-rocket text-8xl"></i>
+        <!-- 2. Arquitectura de Datos -->
+        <div class="glass-card rounded-2xl p-8 md:p-12 border-t-8 border-primary">
+            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
+                <div class="step-number">2</div>
+                <h2 class="text-2xl font-bold text-primary">Arquitectura y Modelado de Datos</h2>
             </div>
+            
+            <p class="mb-4 text-gray-700">Para resolver este enigma, necesitamos un modelo en estrella que una los empleados con sus resultados. Usaremos la base de datos <code>AdventureWorksDW</code>.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                <!-- Dimensión Empleado -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                    <h3 class="text-lg font-bold text-primary mb-3"><i class="fas fa-id-badge text-secondary"></i> Dim_Employee (Recursos Humanos)</h3>
+                    <ul class="list-disc ml-5 text-sm text-gray-600 space-y-2">
+                        <li><strong>Contiene:</strong> <code>EmployeeKey</code>, <code>FirstName</code>, <code>Title</code>, <code>HireDate</code>, <code>Status</code>.</li>
+                        <li><strong>Ingeniería de Datos (ETL):</strong> En Power Query, crea una columna condicional llamada <code>Attrition</code>. Si el <code>Status</code> es NULL o "Inactivo", Attrition = "Yes", de lo contrario "No".</li>
+                    </ul>
+                </div>
+
+                <!-- Hechos de Ventas/Cuotas -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                    <h3 class="text-lg font-bold text-primary mb-3"><i class="fas fa-coins text-secondary"></i> Fact_SalesQuota & Fact_ResellerSales</h3>
+                    <ul class="list-disc ml-5 text-sm text-gray-600 space-y-2">
+                        <li><strong>Contiene:</strong> <code>SalesAmountQuota</code>, <code>SalesAmount</code>.</li>
+                        <li><strong>Relación:</strong> Conecta <code>Dim_Employee[EmployeeKey]</code> con <code>Fact_SalesQuota[EmployeeKey]</code>. <span class="text-red-500 font-bold">¡Cuidado!</span> Una cuota de ventas ocurre en una fecha, asegúrate de conectar <code>Fact_SalesQuota[DateKey]</code> a tu <code>Dim_Date</code>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Motor Analítico DAX -->
+        <div class="glass-card rounded-2xl p-8 md:p-12">
+            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
+                <div class="step-number">3</div>
+                <h2 class="text-2xl font-bold text-primary">Motor Analítico (DAX Avanzado)</h2>
+            </div>
+            
+            <p class="text-sm text-gray-600 mb-6">Un buen analista no solo suma datos, construye métricas de negocio. Implementa las siguientes medidas en una tabla <code>_MedidasHR</code>.</p>
+
+            <!-- DAX HR -->
+            <h3 class="text-lg font-bold text-primary mt-6">A. Métricas de Retención (HR Analytics)</h3>
+            <div class="code-block">
+<span class="dax-comment">// 1. Conteo total de plantilla histórica</span>
+Total Plantilla = <span class="dax-function">COUNTROWS</span>('Dim_Employee')
+
+<span class="dax-comment">// 2. Empleados que se han ido (Attrition = Yes)</span>
+Empleados Fugados = 
+<span class="dax-function">CALCULATE</span>(
+    [Total Plantilla], 
+    'Dim_Employee'[Attrition] = <span class="dax-string">"Yes"</span>
+)
+
+<span class="dax-comment">// 3. Tasa de Rotación Crítica (%)</span>
+% Rotación (Attrition Rate) = 
+<span class="dax-function">DIVIDE</span>([Empleados Fugados], [Total Plantilla], 0)
+            </div>
+
+            <!-- DAX Ventas -->
+            <h3 class="text-lg font-bold text-primary mt-6">B. Métricas de Rendimiento (Sales Performance)</h3>
+            <p class="text-sm text-gray-600 mb-2">Evaluaremos si el vendedor está logrando la meta que se le impuso.</p>
+            <div class="code-block">
+<span class="dax-comment">// 4. Total de ventas logradas por el vendedor</span>
+Total Ventas Representante = <span class="dax-function">SUM</span>('Fact_ResellerSales'[SalesAmount])
+
+<span class="dax-comment">// 5. Meta/Cuota exigida por la directiva</span>
+Total Cuota Exigida = <span class="dax-function">SUM</span>('Fact_SalesQuota'[SalesAmountQuota])
+
+<span class="dax-comment">// 6. Porcentaje de Cumplimiento de Meta (% Quota Attainment)</span>
+% Cumplimiento Cuota = 
+<span class="dax-keyword">VAR</span> Cumplimiento = <span class="dax-function">DIVIDE</span>([Total Ventas Representante], [Total Cuota Exigida], 0)
+<span class="dax-keyword">RETURN</span> Cumplimiento
+            </div>
+        </div>
+
+        <!-- 4. Construcción del Dashboard y Storytelling -->
+        <div class="glass-card rounded-2xl p-8 md:p-12 border-l-8 border-secondary">
+            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
+                <div class="step-number">4</div>
+                <h2 class="text-2xl font-bold text-primary">Diseño del Dashboard y Storytelling</h2>
+            </div>
+            
+            <p class="mb-4 text-gray-700">El reporte final no debe ser una "sopa de números". Debe contar una historia. Configura el lienzo en Power BI con los siguientes cuadrantes:</p>
+
+            <div class="space-y-4">
+                <div class="flex gap-4 items-start">
+                    <i class="fas fa-layer-group text-secondary mt-1 text-xl"></i>
+                    <div>
+                        <h4 class="font-bold text-primary">Cabecera Ejecutiva (Top)</h4>
+                        <p class="text-sm text-gray-600">Tarjetas (Cards) mostrando el panorama general: <code>Total Plantilla</code>, <code>% Rotación</code>, y <code>% Cumplimiento Global de Cuotas</code>.</p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 items-start">
+                    <i class="fas fa-chart-scatter text-secondary mt-1 text-xl"></i>
+                    <div>
+                        <h4 class="font-bold text-primary">Cuadrante Analítico (Dispersión) - ¡LA JOYA DE LA CORONA!</h4>
+                        <p class="text-sm text-gray-600">Crea un <strong>Gráfico de Dispersión (Scatter Plot)</strong>. <br>
+                        <strong>Eje X:</strong> <code>Total Cuota Exigida</code> <br>
+                        <strong>Eje Y:</strong> <code>Total Ventas Representante</code> <br>
+                        <strong>Detalle/Leyenda:</strong> <code>FirstName</code> (Nombre del empleado) <br>
+                        <em>Explicación Didáctica:</em> Este gráfico mostrará una diagonal. Los puntos por encima de la línea diagonal son vendedores estrella que superan la meta. Los que están por debajo están quemados o no rinden. Pon en la "Leyenda" la variable <code>Attrition</code> para pintar de rojo los que ya renunciaron. ¡Te darás cuenta visualmente si renunciaron porque sus cuotas eran imposibles!</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 items-start">
+                    <i class="fas fa-table text-secondary mt-1 text-xl"></i>
+                    <div>
+                        <h4 class="font-bold text-primary">Ranking de Rendimiento (Tabla Matriz)</h4>
+                        <p class="text-sm text-gray-600">Una tabla con las columnas: <code>Nombre Empleado</code>, <code>Puesto (Title)</code>, <code>Total Ventas</code>, <code>% Cumplimiento</code>. Aplica Formato Condicional: Si el <code>% Cumplimiento</code> es menor a 80%, pintar la celda de rojo pálido.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reto Final Evaluativo -->
+        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden mt-10">
             <div class="relative z-10">
                 <div class="inline-block bg-secondary text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4 shadow-lg">
-                    Actividad Autónoma
+                    Actividad Autónoma Evaluativa
                 </div>
                 <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                    <i class="fas fa-brain text-secondary"></i> Reto Arquitectónico Avanzado
+                    <i class="fas fa-trophy text-secondary"></i> El Veredicto Final del Consultor
                 </h2>
                 <div class="bg-white/10 rounded-xl p-6 border border-white/10">
-                    <p class="text-gray-300 text-lg leading-relaxed">
-                        Descargar y analizar la tabla de matriz de transición temporal de clústeres. Crear un algoritmo visual (Sankey Diagram) para identificar si los clientes 'VIPs' del año pasado se han convertido en 'Dormidos' este año, evaluando el desempeño de fidelización.
+                    <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                        Tu trabajo como consultor no termina haciendo gráficos; tu valor real es <strong>interpretar los datos</strong>. En un cuadro de texto dentro de tu Dashboard, o en un archivo adjunto, responde a la directiva de Adventure Works:
                     </p>
-                </div>
-                
-                <div class="mt-8 bg-blue-900/40 border border-blue-500/30 rounded-lg p-5 flex gap-4">
-                    <i class="fas fa-circle-info text-blue-400 text-xl mt-1"></i>
-                    <p class="text-sm text-blue-200">
-                        <strong>Criterio de Evaluación Institucional:</strong> Este reto exige aplicar la documentación oficial, foros de la comunidad técnica y fundamentos teóricos de la clase magistral. Asegúrate de comentar y estructurar bien tu código DAX o M para sustentarlo en la revisión.
-                    </p>
+                    <ul class="list-disc ml-6 text-gray-300 space-y-2 font-medium">
+                        <li>¿Existe una correlación visible entre los empleados que renunciaron (Attrition = Yes) y un bajo porcentaje de cumplimiento de cuotas?</li>
+                        <li>¿Qué territorio de ventas tiene el peor desempeño en retención de talento? (Filtra tu reporte por territorio para averiguarlo).</li>
+                        <li>¿Recomendarías bajar las cuotas de ventas o despedir al gerente del territorio con peor desempeño? Fundamenta tu respuesta.</li>
+                    </ul>
                 </div>
             </div>
         </div>

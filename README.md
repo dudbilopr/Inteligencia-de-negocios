@@ -59,7 +59,7 @@ Desarrollar la capacidad de transformar datos en información útil para la toma
   - [Actividad EMI - Warm Up](Semanas/Semana_8/quiz_semana_8.html)
   - [Reto / Práctica Autónoma](Semanas/Semana_8/Guia_Laboratorio_Semana8.html)
 
-- **[Semana 9: Optimización VertiPaq](Semanas/Semana_9/)**
+- **[Semana 9: Proyecto Integrador - HR Analytics & Sales Performance](Semanas/Semana_9/)**
   - [Presentación Interactiva HTML](Semanas/Semana_9/diapositivas_semana_9.html)
   - [Actividad EMI - Warm Up](Semanas/Semana_9/quiz_semana_9.html)
   - [Reto / Práctica Autónoma](Semanas/Semana_9/Guia_Laboratorio_Semana9.html)
