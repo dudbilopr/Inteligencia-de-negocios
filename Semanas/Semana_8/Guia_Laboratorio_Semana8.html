@@ -266,6 +266,59 @@ Crecimiento YoY % =
             </div>
         </div>
 
+        <!-- 5. Construcción del Dashboard -->
+        <div class="glass-card rounded-2xl p-8 md:p-12 border-t-8 border-secondary mt-8 mb-8">
+            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
+                <div class="step-number">5</div>
+                <h2 class="text-2xl font-bold text-primary">Construcción del Dashboard Ejecutivo</h2>
+            </div>
+            
+            <p class="mb-4 text-gray-700">Ya tenemos el modelo dimensional, las medidas DAX en RAM y la Gobernanza lista. Ahora ensamblaremos la Interfaz Gráfica (UI) para la toma de decisiones. Nuestro objetivo es llegar a un acabado moderno (Dark Mode, UI Premium) similar a la siguiente arquitectura de referencia:</p>
+
+            <div class="my-8 rounded-xl overflow-hidden shadow-2xl border border-gray-200">
+                <img src="img/dashboard_mockup.jpg" alt="Adventure Works Premium Dashboard" class="w-full h-auto object-cover">
+            </div>
+
+            <h3 class="text-xl font-bold text-primary mb-4">Guía de Ensamblaje Visual en Power BI</h3>
+            <div class="space-y-6">
+                <!-- Paso 1: Fondo -->
+                <div class="flex gap-4">
+                    <div class="text-secondary mt-1"><i class="fas fa-paint-roller text-xl"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800">1. Configuración del Lienzo (Canvas)</h4>
+                        <p class="text-sm text-gray-600">Haz clic en el fondo blanco del reporte. Ve al panel de formato (Pincel) > <strong>Fondo del lienzo</strong>. Cambia el color a un tono oscuro (Ej. <code>#0f172a</code>) y baja la transparencia al 0%. Aplica el mismo color en <strong>Fondo de pantalla</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Paso 2: KPIs -->
+                <div class="flex gap-4">
+                    <div class="text-secondary mt-1"><i class="fas fa-grip-horizontal text-xl"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800">2. Tarjetas KPI Superiores</h4>
+                        <p class="text-sm text-gray-600">Inserta visuales de tipo <strong>Tarjeta (Card)</strong>. Arrastra las medidas que creamos: <code>[Total Ventas]</code>, <code>[% Margen]</code> y <code>[Crecimiento YoY %]</code>. En formato de la tarjeta, desactiva el fondo, cambia el valor del globo a blanco y el título a gris claro.</p>
+                    </div>
+                </div>
+
+                <!-- Paso 3: Gráficos de Barras -->
+                <div class="flex gap-4">
+                    <div class="text-secondary mt-1"><i class="fas fa-chart-column text-xl"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800">3. Comparativa de Canales (Barras Agrupadas)</h4>
+                        <p class="text-sm text-gray-600">Selecciona el visual de Barras. En el <strong>Eje X</strong> arrastra <code>Product[Category]</code>. En el <strong>Eje Y</strong> arrastra <code>[Total Ventas]</code>. En la sección <strong>Leyenda</strong> arrastra <code>'Sales Order'[Channel]</code>. Apaga el fondo, pon las fuentes en blanco y usa verde y azul neón para las barras.</p>
+                    </div>
+                </div>
+
+                <!-- Paso 4: Gráfico de Líneas -->
+                <div class="flex gap-4">
+                    <div class="text-secondary mt-1"><i class="fas fa-chart-line text-xl"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800">4. Tendencia Histórica (Gráfico de Líneas)</h4>
+                        <p class="text-sm text-gray-600">Inserta un Gráfico de Líneas. En el <strong>Eje X</strong> pon <code>Date[Month]</code>. En el <strong>Eje Y</strong> arrastra <code>[Total Ventas]</code> y <code>[Ventas LY]</code>. En formato > "Líneas", cambia el estilo de la línea de <code>Ventas LY</code> a "Punteada" para dar el efecto de comparación histórica y enciende los marcadores.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Reto Final -->
         <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
             <div class="relative z-10">
