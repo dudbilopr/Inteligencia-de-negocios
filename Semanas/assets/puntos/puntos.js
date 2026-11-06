@@ -116,13 +116,13 @@
         if (d.compra) maxU = Math.max(maxU, c[k]); else maxD = Math.max(maxD, c[k]);
       });
       /* escalas independientes por lado: comparar forma, no cantidad */
-      var tamU = Math.min(ancho, (alto * .36) / Math.max(1, maxU)), tamD = Math.min(ancho, (alto * .6) / Math.max(1, maxD));
+      var colD = 3, tamU = Math.min(ancho, (alto * .36) / Math.max(1, maxU)), tamD = Math.min(ancho / colD, (alto * .58) / Math.max(1, Math.ceil(maxD / colD)));
       var base2 = a[1] + cab + alto * .38;
       c = {};
       D.slice().sort(function (x, y) { return x[campo] - y[campo]; }).forEach(function (d) {
         var b = Math.floor(fx(d[campo]) * bins), k = b + '_' + d.compra; c[k] = (c[k] || 0) + 1;
         var p = puntos[d.i], f = c[k] - .5;
-        p.tx = a[0] + (b + .5) * ancho; p.ty = d.compra ? base2 - 10 - f * tamU : base2 + 10 + f * tamD;
+        var n0 = c[k] - 1; p.tx = a[0] + (b + .5) * ancho + (d.compra ? 0 : ((n0 % colD) - 1) * tamD); p.ty = d.compra ? base2 - 10 - f * tamU : base2 + 10 + (Math.floor(n0 / colD) + .5) * tamD;
         p.tr = Math.max(3, (d.compra ? tamU : tamD) * .42); p.ta = 1; p.tc = d.compra;
       });
       var yEje = a[1] + a[3] - 10, marcas = campo === 'tiempo' ? [[0, '0'], [Math.log(11) / Math.log(401), '10 min'], [Math.log(61) / Math.log(401), '1 h'], [1, '6 h']] : [[LO(.01), '1 %'], [LO(.1), '10 %'], [LO(.5), '50 %'], [LO(.9), '90 %'], [LO(.99), '99 %']];

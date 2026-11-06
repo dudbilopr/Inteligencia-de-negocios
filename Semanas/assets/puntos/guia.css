@@ -43,7 +43,7 @@ pre code { background: transparent; padding: 0; color: inherit; font-size: inher
 table { border-collapse: collapse; width: 100%; margin: 10px 0 18px; font-size: 16.5px; }
 th { text-align: left; border-bottom: 2px solid var(--azul); padding: 7px 14px 7px 0; font-weight: 700; vertical-align: bottom; }
 td { border-bottom: 1px solid var(--regla); padding: 7px 14px 7px 0; vertical-align: top; }
-td.d, th.d { text-align: right; font-variant-numeric: tabular-nums; }
+td.d, th.d { text-align: right; }
 .tablon { overflow-x: auto; }
 .aviso { background: var(--papel-2); padding: 16px 20px; margin: 14px 0 18px; border-radius: 3px; }
 .aviso h3 { margin-top: 0; }

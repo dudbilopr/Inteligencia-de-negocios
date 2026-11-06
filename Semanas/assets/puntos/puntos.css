@@ -76,7 +76,7 @@ table { border-collapse: collapse; width: 100%; }
 th { text-align: left; font-weight: 700; color: var(--tinta-2); border-bottom: 2px solid var(--regla); padding: 8px 28px 10px 0; font-size: 26px; }
 td { border-bottom: 1px solid var(--regla); padding: 12px 28px 12px 0; vertical-align: top; }
 td.h { white-space: nowrap; color: var(--tinta-2); width: 150px; font-variant-numeric: tabular-nums; }
-td.d, th.d { text-align: right; font-variant-numeric: tabular-nums; }
+td.d, th.d { text-align: right; }
 tr.foco td { color: var(--acento-texto); font-weight: 700; }
 
 /* Pasos: aparecen en orden al avanzar */
