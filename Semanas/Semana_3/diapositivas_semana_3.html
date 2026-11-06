@@ -1,507 +1,367 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Inteligencia de Negocios - Semana 3</title>
-    
-    <!-- Reveal.js & Themes -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    
-    <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        bgDark: '#0F172A',
-                        brandBlue: '#0284C7',
-                        brandOrange: '#F97316',
-                        brandGreen: '#10B981',
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- FontAwesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Highlight.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
-    
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <style>
-        .reveal .slides { width: 100% !important; margin: auto; }
-        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { text-transform: none; font-weight: 800; }
-        .reveal p, .reveal li { font-size: 0.9em; line-height: 1.5; }
-        
-        .highlight-text { color: #F97316; }
-
-        /* Glassmorphism */
-        .glassmorphism {
-            background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255,255,255,0.2);
-        }
-        .dark-glassmorphism {
-            background: rgba(15, 23, 42, 0.7); padding: 30px; border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-        }
-
-        /* Dark Slides */
-        .dark-slide { background: #0F172A !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p, .dark-slide li { color: white !important; }
-
-        .mermaid { background: white; padding: 20px; border-radius: 12px; font-size: 0.75em; color: black !important; }
-        .mermaid * { color: black !important; }
-        
-        /* Table Animation */
-        .table-anim td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
-        .table-anim th { background: #0284C7; color: white; padding: 12px; }
-        
-        .footer-link { position: absolute; bottom: 5%; right: 5%; font-size: 0.5em; color: #94a3b8; }
-        
-        /* Layout Scroll Fix */
-        .scrollable-card { max-height: 82vh; overflow-y: auto; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 3 · Rayos X del dato | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<link rel="stylesheet" href="../assets/puntos/cine.css">
+<link rel="stylesheet" href="../assets/puntos/curso.css">
+<style>
+  /* Mundo: sala de rayos X. El archivo se escanea; lo que estaba oculto aparece. Dirección de arte: propuesta de Gemini, adaptada. */
+  :root { --fondo: #04161f; --fondo-2: #0a2733; --tinta: #eaf6fb; --tinta-2: #8fb6c6; --regla: rgba(143,182,198,.28); --punto: #3f7186; --compra: #ff7a1f; --acento-texto: #ffa263; --rx: #7fe6ff; }
+  #escenario::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 900px 620px at 50% 45%, #0d3342 0, transparent 70%); }
+  .rot { font: 700 24px Consolas, 'Courier New', monospace; letter-spacing: .08em; color: var(--rx); text-transform: uppercase; }
+  svg text { font-family: inherit; }
+  .t-rx { fill: var(--rx); font: 700 22px Consolas, monospace; }
+  .t-n { fill: var(--tinta); font-weight: 800; }
+  .t-s { fill: var(--tinta-2); }
+  .t-o { fill: var(--acento-texto); font-weight: 800; }
+  .film { position: absolute; background: #021018; box-shadow: inset 0 0 0 2px rgba(127,230,255,.25), 0 0 70px rgba(127,230,255,.12); }
+  .barrer { animation: barrido 5s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  @keyframes barrido { from { transform: translateX(0); } to { transform: translateX(var(--d, 700px)); } }
+  .barrery { animation: barridoy 7s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  @keyframes barridoy { from { transform: translateY(0); } to { transform: translateY(var(--d, 600px)); } }
+  /* Galgas de inspección */
+  .galgas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items: stretch; }
+  .galga { background: var(--fondo-2); clip-path: polygon(0 34px, 34px 0, 100% 0, 100% 100%, 0 100%); padding: 40px 22px 24px; display: flex; flex-direction: column; gap: 12px; border-bottom: 5px solid var(--rx); }
+  .galga .ico { font-size: 76px; color: var(--rx); }
+  .galga h3 { font-size: 38px; color: var(--tinta); }
+  .galga .p { font-size: 31px; line-height: 1.16; color: var(--tinta-2); }
+  .galga .c { font-size: 31px; line-height: 1.16; font-weight: 700; color: var(--acento-texto); margin-top: auto; }
+  /* Hoja de inspección */
+  .hoja { position: absolute; background: #f2f7f9; color: #04212d; padding: 42px 54px; box-shadow: 0 30px 80px rgba(0,0,0,.55); }
+  .hoja h3, .hoja p, .hoja li { color: #04212d; }
+  .hoja .rot { color: #0b6b83; font-size: 21px; }
+  .sello { position: absolute; border: 7px solid #e85c0b; color: #e85c0b; font: 800 44px 'Schibsted Grotesk', sans-serif; padding: 12px 24px; transform: rotate(-9deg); letter-spacing: .04em; opacity: .92; }
+  .esc.activa .sello { animation: sellar .5s cubic-bezier(.3,1.6,.5,1) calc(var(--dur) + .5s) backwards; }
+  @keyframes sellar { from { transform: rotate(-9deg) scale(2.4); opacity: 0; } }
+  /* Glosario: etiquetas de muestra */
+  .muestras { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px 18px; }
+  .muestra { border-top: 4px solid var(--rx); background: var(--fondo-2); padding: 20px 16px 24px; min-height: 300px; }
+  .muestra .ico { font-size: 54px; }
+  .muestra b { display: block; font-size: 29px; line-height: 1.08; margin: 8px 0 7px; }
+  .muestra span { font-size: 24.5px; line-height: 1.2; color: var(--tinta-2); display: block; }
+  .tira { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-block: 16px dotted var(--punto); padding: 14px 0; }
+  .tira > div { padding: 24px 22px; border-right: 3px solid var(--fondo); background: var(--fondo-2); min-height: 200px; }
+  .tira .ico { font-size: 52px; color: var(--rx); display: block; margin-bottom: 14px; }
+  .tira b { font-size: 29px; line-height: 1.1; }
+  .tira .alerta { background: #3a1c0b; }
+  .tira .alerta .ico { color: var(--acento-texto); }
+  @media (prefers-reduced-motion: reduce) { .barrer, .barrery { animation: none; } }
+</style>
 </head>
-<body>
-    <div class="reveal">
-        <div class="slides">
+<body data-cine="escaner">
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
 
-            <!-- SLIDE 1: Portada -->
-            <section data-transition="zoom" class="dark-slide">
-                <div class="flex flex-col items-center justify-center h-[90vh]">
-                    <h1 class="text-6xl font-extrabold mb-6 text-center">Inteligencia de Negocios: <br><span class="highlight-text">Ingesta ETL y Modelado Analítico</span></h1>
-                    <h3 class="text-3xl text-gray-300 mb-10 text-center">Semana 3: Power Query (Lenguaje M) y Motor DAX (VertiPaq)</h3>
-                    
-                    <div class="flex gap-4 mt-8">
-                        <span class="bg-brandBlue text-white px-5 py-2 rounded-full font-bold shadow-lg"><i class="fas fa-university mr-2"></i>Universidad Autónoma de Bucaramanga</span>
-                        <span class="bg-brandOrange text-white px-5 py-2 rounded-full font-bold shadow-lg"><i class="fas fa-calendar mr-2"></i>Asignatura BI</span>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- SLIDE 2: Historia y Origen -->
-            <section data-transition="slide" class="bg-gray-50">
-                <h2 class="text-left mb-10 text-brandBlue"><i class="fas fa-history text-brandOrange mr-4"></i>Historia y Origen de las Herramientas</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 scrollable-card text-left pb-10">
-                    <div class="glassmorphism border-t-8 border-[#217346]">
-                        <h3 class="text-2xl text-[#217346] font-bold mb-4"><i class="fas fa-cogs mr-2"></i>Power Query (2013)</h3>
-                        <p class="text-gray-700">Nació bajo el nombre código <em>"Data Explorer"</em> para democratizar el ETL en Excel sin requerir código SQL complejo ni intervención directa de IT.</p>
-                    </div>
-                    
-                    <div class="glassmorphism border-t-8 border-brandBlue">
-                        <h3 class="text-2xl text-brandBlue font-bold mb-4"><i class="fas fa-database mr-2"></i>VertiPaq Engine (2010)</h3>
-                        <p class="text-gray-700">Diseñado por Microsoft para SQL Server Analysis Services (SSAS) e integrado inicialmente en PowerPivot. Permite una ultra compresión en memoria.</p>
-                    </div>
-                    
-                    <div class="glassmorphism border-t-8 border-brandOrange">
-                        <h3 class="text-2xl text-brandOrange font-bold mb-4"><i class="fas fa-calculator mr-2"></i>DAX (2010)</h3>
-                        <p class="text-gray-700">Lenguaje basado en expresiones de Excel creado específicamente para operar sobre matrices relacionales en memoria, potenciando PowerPivot y luego Power BI.</p>
-                    </div>
-                </div>
-                
-                <div class="bg-brandBlue text-white p-6 rounded-xl shadow-lg text-left mt-4 mx-auto w-11/12 max-w-4xl relative z-10">
-                    <h4 class="font-bold text-xl mb-2 text-brandOrange"><i class="fas fa-question-circle mr-2"></i>¿Por qué se usan?</h4>
-                    <p class="m-0 text-lg">Para pasar de procesos manuales propensos al error (Copiar y Pegar) a pipelines de datos 100% automatizados, comprimidos e instantáneos.</p>
-                </div>
-                <div class="footer-link"><a href="https://learn.microsoft.com/power-bi/transform-model/" target="_blank">Referencia: learn.microsoft.com/power-bi/transform-model/</a></div>
-            </section>
+<!-- 1 Portada -->
+<section class="esc">
+  <div class="film" style="left:0;top:0;width:1600px;height:900px;overflow:hidden">
+    <svg id="radiografia" viewBox="0 0 1600 900" style="width:100%;height:100%" aria-hidden="true"></svg>
+    <div class="barrer" style="--d:1500px;position:absolute;top:0;bottom:0;left:40px;width:4px;background:#fff;box-shadow:0 0 30px 10px var(--rx)"></div>
+  </div>
+  <div style="position:absolute;left:88px;top:232px;width:1240px;padding:38px 44px;background:rgba(4,22,31,.86)">
+    <p class="rot">Rayos X del dato · Sesión 3</p>
+    <h1 style="font-size:112px;margin-top:14px">Antes de operar, <span class="acento">se diagnostica.</span></h1>
+    <p class="sec" style="font-size:27px;margin-top:18px">Inteligencia de Negocios · Dudbil Olvasada Pabón Riaño · UNAB</p>
+  </div>
+  <aside class="notas">Cada columna de puntos es una columna del archivo, y el hueco de la séptima muestra los clientes vacíos en su proporción real. Hoy no se limpia: se conecta y se averigua qué tiene. La limpieza es la sesión 4.</aside>
+</section>
 
-            <!-- SLIDE 3: Ubicación y Configuración -->
-            <section data-transition="fade">
-                <h2 class="text-left mb-8 text-brandBlue"><i class="fas fa-search-location text-brandOrange mr-4"></i>Ubicación & Configuración Inicial</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 scrollable-card pb-10">
-                    <div class="space-y-6 text-left">
-                        <div class="glassmorphism border-l-8 border-[#217346]">
-                            <h3 class="text-2xl font-bold mb-2 text-[#217346]"><i class="fas fa-file-excel mr-2"></i>En Microsoft Excel</h3>
-                            <p class="text-gray-700">Nativo desde Excel 2016. Pestaña <strong>Datos > Obtener Datos</strong>.</p>
-                        </div>
-                        <div class="glassmorphism border-l-8 border-[#F6D155]">
-                            <h3 class="text-2xl font-bold mb-2 text-[#F6D155]"><i class="fas fa-chart-bar mr-2"></i>En Power BI Desktop</h3>
-                            <p class="text-gray-700">Botón Inicio > <strong>Transformar Datos</strong>.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-gray-100 p-8 rounded-xl shadow-inner text-left border border-gray-300">
-                        <h4 class="text-2xl font-bold mb-4 text-brandBlue"><i class="fas fa-file-csv text-brandOrange mr-2"></i>Caso Real: Ventas_Retail_Sucio.csv</h4>
-                        <p class="mb-4">Para importar correctamente este archivo de +5,500 filas delimitado por punto y coma (<code>;</code>):</p>
-                        <div class="bg-brandOrange/20 border-l-4 border-brandOrange p-4 text-brandBlue font-bold rounded">
-                            <i class="fas fa-lightbulb text-brandOrange mr-2"></i>Tip de Alto Nivel:
-                            <span class="font-normal block mt-2">Asegúrate de cambiar la detección de origen a <strong>'Basado en el dataset completo'</strong> en lugar de las primeras 200 filas para evitar tipos de datos erróneos en columnas sucias.</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<!-- 2 Agenda: línea de inspección -->
+<section class="esc">
+  <p class="rot" style="position:absolute;left:88px;top:62px">Línea de inspección de hoy</p>
+  <svg id="linea" viewBox="0 0 1600 760" style="position:absolute;left:0;top:112px;width:1600px;height:760px" role="img" aria-label="Agenda como una banda con siete estaciones: Quiz 1, signos vitales, pausa, inglés, conectar, diagnosticar y cierre"></svg>
+  <aside class="notas">Quiz 1: 10 % de la nota, resultado 1.1. El enunciado y la clave están en Material_Privado/Evaluaciones. Traigan Power BI Desktop instalado y los datos de su proyecto. Ajuste los tiempos al grupo.</aside>
+</section>
 
-            <!-- SLIDE 4: Arquitectura VertiPaq -->
-            <section data-transition="convex">
-                <h2 class="text-left mb-6 text-brandBlue">Arquitectura VertiPaq: Columnar vs Fila</h2>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full scrollable-card pb-10 items-center">
-                    <div class="text-left space-y-6">
-                        <div class="glassmorphism bg-brandBlue text-white">
-                            <h4 class="text-2xl font-bold mb-4 text-brandOrange"><i class="fas fa-microchip mr-2"></i>¿Por qué se usa?</h4>
-                            <p class="text-lg">VertiPaq comprime columnas creando diccionarios de valores únicos. Permite consultar millones de registros en milisegundos usando <strong>solo memoria RAM</strong>.</p>
-                        </div>
-                        
-                        <div class="bg-brandGreen/20 border-l-4 border-brandGreen p-6 rounded text-gray-800">
-                            <h4 class="font-bold text-brandGreen text-xl mb-2"><i class="fas fa-star mr-2"></i>Tip de Alto Nivel (Regla de Oro)</h4>
-                            <p class="italic">"Eliminar columnas innecesarias o de alta cardinalidad (como Transaction_ID) ahorra hasta un 80% más memoria RAM que eliminar miles de filas."</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex flex-col gap-4">
-                        <div class="glassmorphism w-full h-48 relative">
-                            <canvas id="ramChart"></canvas>
-                        </div>
-                        <div class="mermaid bg-white p-4 rounded-xl shadow border border-gray-200">
-                            graph LR
-                                A[CSV] -->|Carga ETL| B(VertiPaq Engine)
-                                B -->|Diccionario Único| C{{Memoria RAM}}
-                                C -->|DAX| D[Reporte Visual]
-                                style B fill:#0284C7,color:#fff
-                                style C fill:#F97316,color:#fff
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-link"><a href="https://www.sqlbi.com/articles/vertipaq-an-overview/" target="_blank">Referencia: sqlbi.com/articles/vertipaq-an-overview/</a></div>
-            </section>
-
-            <!-- SLIDE 5: Query Folding -->
-            <section data-transition="slide" class="bg-gray-50">
-                <h2 class="text-left mb-8 text-brandBlue">Query Folding (Plegado de Consultas)</h2>
-                <div class="scrollable-card px-2 pb-10">
-                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 text-left mb-8">
-                        <h4 class="text-xl font-bold text-brandBlue mb-2"><i class="fas fa-project-diagram text-brandOrange mr-2"></i>Concepto y Razón de Uso</h4>
-                        <p class="text-lg text-gray-700">Traduce automáticamente los pasos de Power Query a instrucciones SQL nativas. Se usa para <strong>transferir el trabajo pesado al servidor motor de BD</strong>, evitando saturar la memoria local de la máquina del analista.</p>
-                    </div>
-                    
-                    <div class="flex flex-col md:flex-row justify-between items-center gap-4 relative">
-                        <div class="absolute top-1/2 left-0 w-full h-2 bg-gray-300 -z-10 hidden md:block"></div>
-                        
-                        <div class="bg-white p-6 rounded-xl border-t-8 border-brandGreen shadow-xl w-full md:w-1/3 text-center">
-                            <div class="bg-brandGreen text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl"><i class="fas fa-check"></i></div>
-                            <h4 class="font-bold text-lg">Paso 1: Filtrar Filas</h4>
-                            <span class="bg-brandGreen/20 text-brandGreen font-bold px-3 py-1 rounded text-xs">Plegado Activo</span>
-                        </div>
-                        
-                        <div class="bg-white p-6 rounded-xl border-t-8 border-brandGreen shadow-xl w-full md:w-1/3 text-center">
-                            <div class="bg-brandGreen text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl"><i class="fas fa-check"></i></div>
-                            <h4 class="font-bold text-lg">Paso 2: Eliminar Columna</h4>
-                            <span class="bg-brandGreen/20 text-brandGreen font-bold px-3 py-1 rounded text-xs">Plegado Activo</span>
-                        </div>
-                        
-                        <div class="bg-white p-6 rounded-xl border-t-8 border-red-500 shadow-xl w-full md:w-1/3 text-center">
-                            <div class="bg-red-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl"><i class="fas fa-times"></i></div>
-                            <h4 class="font-bold text-lg">Paso 3: Script Python</h4>
-                            <span class="bg-red-100 text-red-600 font-bold px-3 py-1 rounded text-xs">Plegado ROTO</span>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8 bg-brandBlue/10 border-l-4 border-brandBlue p-6 rounded text-left">
-                        <p class="font-bold text-brandBlue text-lg m-0"><i class="fas fa-lightbulb text-brandOrange mr-2"></i>Tip de Alto Nivel:</p>
-                        <p class="m-0 mt-2 text-gray-800 font-medium">"Aplica los filtros de fecha/ciudad y eliminación de columnas en los PRIMEROS pasos del script M para no romper el folding tempranamente".</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SLIDE 6: Anatomía M -->
-            <section data-transition="slide" class="dark-slide">
-                <h2 class="text-left mb-6 text-white">Anatomía del Lenguaje M (Caso Real)</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 scrollable-card pb-10">
-                    <div class="col-span-12 md:col-span-5 text-left space-y-6">
-                        <div class="dark-glassmorphism">
-                            <h3 class="text-2xl font-bold text-brandOrange mb-4"><i class="fas fa-cube mr-2"></i>El Bloque <code>let ... in</code></h3>
-                            <p class="text-gray-300">Cada paso en M se declara como un identificador inmutable. El paso siguiente referencia al nombre del paso anterior.</p>
-                            <ul class="text-gray-300 list-disc pl-5 mt-4 space-y-2">
-                                <li><code>let</code>: Define las variables/pasos de transformación.</li>
-                                <li><code>in</code>: Declara cuál paso se entregará como resultado final de la tabla.</li>
-                                <li>M es estrictamente <em>Case-Sensitive</em>.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="col-span-12 md:col-span-7 bg-[#1E1E1E] rounded-xl shadow-2xl p-6 text-left border border-gray-700 overflow-x-auto">
-                        <p class="text-gray-400 text-sm font-mono mb-2">// Limpieza de Ventas_Retail_Sucio.csv</p>
-                        <pre><code class="language-fsharp text-sm leading-relaxed bg-transparent p-0">let
-    Origen = Csv.Document(File.Contents("Ventas_Retail_Sucio.csv"), [Delimiter=";", Encoding=65001]),
-    
-    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
-    
-    TextoLimpio = Table.TransformColumns(Encabezados, {{"Ciudad_Origen", Text.Trim, type text}}),
-    
-    ReemplazoBGA = Table.ReplaceValue(TextoLimpio, "BGA", "Bucaramanga", Replacer.ReplaceText, {"Ciudad_Origen"})
-in
-    ReemplazoBGA</code></pre>
-                    </div>
-                </div>
-                <div class="footer-link"><a href="https://learn.microsoft.com/powerquery-m/" target="_blank">Referencia: learn.microsoft.com/powerquery-m/</a></div>
-            </section>
-
-            <!-- SLIDE 7: Contextos DAX -->
-            <section data-transition="slide" class="bg-gray-50">
-                <h2 class="text-left mb-8 text-brandBlue">DAX: Contexto de Fila vs Contexto de Filtro</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 scrollable-card pb-10">
-                    <div class="glassmorphism border-t-8 border-brandBlue text-left">
-                        <div class="flex items-center mb-6">
-                            <i class="fas fa-list-ol text-4xl text-brandBlue mr-4"></i>
-                            <h3 class="text-3xl font-bold text-brandBlue m-0">Row Context</h3>
-                        </div>
-                        <p class="text-gray-700 font-bold mb-4 uppercase tracking-wider text-sm">Contexto de Fila</p>
-                        <p class="text-gray-700 text-lg mb-4">La conciencia de <em>"en qué fila estoy actualmente"</em> iterando tabla por tabla.</p>
-                        <ul class="text-gray-600 list-disc pl-5 space-y-2">
-                            <li>Existe automáticamente en <strong>Columnas Calculadas</strong>.</li>
-                            <li>Generado manualmente por <strong>Iteradores</strong> (ej. <code>SUMX</code>).</li>
-                            <li><span class="font-bold text-red-500">Diferencia Clave:</span> Sabe qué fila evalúa, pero NO calcula subtotales o totales globales basados en el lienzo visual.</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="glassmorphism border-t-8 border-brandOrange text-left">
-                        <div class="flex items-center mb-6">
-                            <i class="fas fa-filter text-4xl text-brandOrange mr-4"></i>
-                            <h3 class="text-3xl font-bold text-brandOrange m-0">Filter Context</h3>
-                        </div>
-                        <p class="text-gray-700 font-bold mb-4 uppercase tracking-wider text-sm">Contexto de Filtro</p>
-                        <p class="text-gray-700 text-lg mb-4">El conjunto de filtros aplicados externamente a los datos subyacentes.</p>
-                        <ul class="text-gray-600 list-disc pl-5 space-y-2">
-                            <li>Determinado por los filtros activos en la interfaz (Slicers, Clics, Matrices).</li>
-                            <li>Aplica siempre sobre las <strong>Medidas (Measures)</strong>.</li>
-                            <li><span class="font-bold text-red-500">Diferencia Clave:</span> Restringe la tabla origen de datos ANTES de que DAX realice cualquier operación agregada.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SLIDE 8: Agregadores vs Iteradores -->
-            <section data-transition="slide">
-                <h2 class="text-left mb-6 text-brandBlue">Agregadores (<code>SUM</code>) vs Iteradores (<code>SUMX</code>)</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 scrollable-card px-2">
-                    <div class="bg-red-50 p-4 border-l-4 border-red-500 rounded text-left">
-                        <p class="text-red-700 font-bold m-0"><i class="fas fa-times-circle mr-2"></i>Error de Sintaxis (SUM)</p>
-                        <code class="block mt-2 text-sm bg-white p-2 rounded">Tot = SUM(Unidades_Vendidas * Precio_Unitario_USD)</code>
-                        <p class="text-sm mt-2 text-red-600">SUM exige UNA sola columna. No puede multiplicar fila por fila porque carece de Contexto de Fila.</p>
-                    </div>
-                    
-                    <div class="bg-green-50 p-4 border-l-4 border-green-500 rounded text-left">
-                        <p class="text-green-700 font-bold m-0"><i class="fas fa-check-circle mr-2"></i>Correcto (SUMX)</p>
-                        <code class="block mt-2 text-sm bg-white p-2 rounded">Tot = SUMX(Fact_Ventas, Unidades_Vendidas * Precio)</code>
-                        <p class="text-sm mt-2 text-green-700">SUMX abre un Contexto de Fila temporal en memoria RAM.</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                    <table class="w-full text-left text-lg table-anim">
-                        <thead>
-                            <tr>
-                                <th>Transacción</th>
-                                <th>Unidades_Vendidas</th>
-                                <th>Precio_Unitario_USD</th>
-                                <th class="bg-brandOrange">Memoria RAM Temporal (SUMX)</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-800">
-                            <tr class="fragment fade-in"><td>Tx01</td><td>62</td><td>1322.09</td><td class="font-bold text-brandOrange">81,969.58</td></tr>
-                            <tr class="fragment fade-in"><td>Tx02</td><td>15</td><td>250.00</td><td class="font-bold text-brandOrange">3,750.00</td></tr>
-                            <tr class="fragment fade-in"><td>Tx03</td><td>100</td><td>10.50</td><td class="font-bold text-brandOrange">1,050.00</td></tr>
-                        </tbody>
-                        <tfoot>
-                            <tr class="fragment fade-in bg-gray-100 font-bold">
-                                <td colspan="3" class="text-right">Suma Final:</td>
-                                <td class="text-brandGreen">86,769.58</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                
-                <div class="mt-4 bg-brandBlue text-white p-4 rounded text-left fragment fade-in">
-                    <p class="m-0 text-sm font-bold"><i class="fas fa-lightbulb text-yellow-400 mr-2"></i>Tip de Alto Nivel: Usa SUM para columnas únicas precalculadas; usa SUMX solo cuando requieras multiplicaciones o lógicas dinámicas multi-columna.</p>
-                </div>
-            </section>
-
-            <!-- SLIDE 9: CALCULATE -->
-            <section data-transition="convex" class="dark-slide">
-                <h2 class="text-left mb-8 text-white"><code>CALCULATE</code> & Transición de Contexto</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 scrollable-card pb-10">
-                    <div class="dark-glassmorphism text-left space-y-6">
-                        <div>
-                            <h3 class="text-2xl font-bold text-brandOrange mb-2">Caso 1: Modificar Filtros</h3>
-                            <p class="text-sm text-gray-300">Alterar programáticamente el Contexto de Filtro ignorando el lienzo visual.</p>
-                            <pre><code class="language-dax text-xs p-2 rounded mt-2">Ventas_Bogota = 
-CALCULATE(
-    [Total Ventas], 
-    Dim_Geografia[Ciudad] = "Bogotá"
-)</code></pre>
-                        </div>
-                        
-                        <div>
-                            <h3 class="text-2xl font-bold text-brandOrange mb-2">Caso 2: Transición de Contexto</h3>
-                            <p class="text-sm text-gray-300">Al invocar una <code>[Medida]</code> dentro de una Columna Calculada (Row Context), DAX automáticamente envuelve la medida en un CALCULATE invisible, transformando la fila en un filtro equivalente.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center justify-center bg-white p-4 rounded-xl shadow-xl">
-                        <div class="mermaid text-center">
-                            graph TD
-                                A[Row Context <br>Columna Calculada] -->|Invocación de Medida| B(CALCULATE Invisible)
-                                B -->|Transición Automática| C[Filter Context]
-                                C -->|Evaluación| D[Resultado de Medida para Fila Actual]
-                                
-                                style A fill:#0284C7,stroke:#fff,color:#fff
-                                style B fill:#F97316,stroke:#fff,color:#fff
-                                style C fill:#10B981,stroke:#fff,color:#fff
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-link"><a href="https://www.sqlbi.com/articles/understanding-context-transition/" target="_blank">Referencia: sqlbi.com/articles/understanding-context-transition/</a></div>
-            </section>
-
-            <!-- SLIDE 10: Reto Limpieza -->
-            <section data-transition="slide" class="bg-gray-50">
-                <h2 class="text-left mb-6 text-brandBlue">Reto ETL: Limpiando <code>Ventas_Retail_Sucio.csv</code></h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 scrollable-card pb-10 text-left">
-                    <div class="glassmorphism border-t-4 border-red-500">
-                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-exclamation-circle text-red-500 mr-2"></i>Columna: Precio_Unitario_USD</h4>
-                        <p class="text-sm text-gray-600 mb-2"><strong>Problema:</strong> 190 filas usan coma europea como decimal (Ej. 1322,09 en lugar de 1322.09), rompiendo el tipado.</p>
-                        <p class="text-sm font-mono bg-gray-100 p-2 rounded text-brandBlue">Acción: Reemplazar valores (,) por (.) y re-tipar.</p>
-                    </div>
-                    
-                    <div class="glassmorphism border-t-4 border-red-500">
-                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-exclamation-circle text-red-500 mr-2"></i>Columna: Unidades_Vendidas</h4>
-                        <p class="text-sm text-gray-600 mb-2"><strong>Problema:</strong> 99 valores capturados en negativo debido a errores de sistema en devoluciones.</p>
-                        <p class="text-sm font-mono bg-gray-100 p-2 rounded text-brandBlue">Acción M: Aplicar función <span class="font-bold">Number.Abs</span> (Valor Absoluto).</p>
-                    </div>
-                    
-                    <div class="glassmorphism border-t-4 border-red-500">
-                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-exclamation-circle text-red-500 mr-2"></i>Columna: Descuento_Aplicado</h4>
-                        <p class="text-sm text-gray-600 mb-2"><strong>Problema:</strong> 89 valores dicen el texto "N/A", lo que impide convertir la columna a Porcentaje.</p>
-                        <p class="text-sm font-mono bg-gray-100 p-2 rounded text-brandBlue">Acción M: Reemplazar "N/A" con null y tipar Porcentaje.</p>
-                    </div>
-                    
-                    <div class="glassmorphism border-t-4 border-red-500">
-                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-exclamation-circle text-red-500 mr-2"></i>Columna: Cliente_Nombre</h4>
-                        <p class="text-sm text-gray-600 mb-2"><strong>Problema:</strong> Duplicidad semántica: "Acme SAS", "Acme sas ", "Bio-Health", "Bio Health".</p>
-                        <p class="text-sm font-mono bg-gray-100 p-2 rounded text-brandBlue">Acción M: Limpiar espacios (Text.Trim), Poner en mayúsculas cada palabra (Text.Proper) y reemplazar sintaxis.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SLIDE 11: Star Schema -->
-            <section data-transition="zoom" class="dark-slide">
-                <h2 class="text-left mb-6 text-brandOrange">Reto Arquitectónico: Transformación a Modelo en Estrella</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 scrollable-card pb-10 items-center">
-                    <div class="col-span-12 md:col-span-4 text-left space-y-4">
-                        <div class="dark-glassmorphism">
-                            <h4 class="font-bold text-brandBlue mb-4 text-xl">Ingeniería Inversa ETL:</h4>
-                            <ol class="list-decimal pl-5 space-y-3 text-sm">
-                                <li>Duplicar consulta plana de ventas.</li>
-                                <li>Filtrar columnas manteniendo solo ID y Descripción.</li>
-                                <li><strong>Eliminar Duplicados</strong> (Table.Distinct).</li>
-                                <li>Generar Catálogos: <code>Dim_Clientes</code> y <code>Dim_Geografia</code>.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <div class="col-span-12 md:col-span-8 bg-white p-6 rounded-xl shadow-xl">
-                        <div class="mermaid text-center">
-                            erDiagram
-                                Dim_Clientes ||--o{ Fact_Ventas : filtra
-                                Dim_Geografia ||--o{ Fact_Ventas : filtra
-                                
-                                Dim_Clientes {
-                                    string Cliente_ID PK "Único (Sin Duplicados)"
-                                    string Cliente_Nombre
-                                }
-                                Dim_Geografia {
-                                    string Ciudad_Origen PK "Único (Sin Duplicados)"
-                                    string Departamento
-                                }
-                                Fact_Ventas {
-                                    string Transaction_ID PK
-                                    string Cliente_ID FK
-                                    string Ciudad_Origen FK
-                                    int Unidades_Vendidas
-                                    float Precio_Unitario_USD
-                                }
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-link"><a href="#" target="_blank">Bibliografía: Business Intelligence, Analytics, and Data Science (Sharda et al.) & Storytelling with Data (Knaflic).</a></div>
-            </section>
-
-        </div>
+<!-- 3 Resultado: orden de inspección -->
+<section class="esc">
+  <div class="hoja" style="left:220px;top:70px;width:1160px;height:750px">
+    <p class="rot">Orden de inspección · Resultado de aprendizaje 1.2</p>
+    <h2 style="font-size:60px;margin:14px 0 26px;color:#04212d">Conecta y transforma datos utilizando herramientas de BI como Power BI.</h2>
+    <div style="display:grid;grid-template-columns:90px 1fr;gap:22px 16px;align-items:center;border-top:3px solid #04212d;padding-top:26px">
+      <i class="ico" data-i="cable" style="font-size:66px;color:#0b6b83"></i><p style="font-size:33px">Conectas Power BI a un Excel, un CSV y una API.</p>
+      <i class="ico" data-i="scan-search" style="font-size:66px;color:#0b6b83"></i><p style="font-size:33px">Diagnosticas la calidad de un archivo con evidencia, no a ojo.</p>
+      <i class="ico" data-i="clipboard-check" style="font-size:66px;color:#0b6b83"></i><p style="font-size:33px">Entregas la ficha de diagnóstico de los datos de tu proyecto.</p>
     </div>
+    <div class="sello" style="right:46px;bottom:34px">Sesión 3</div>
+  </div>
+  <aside class="notas">Resultado textual del syllabus. El Quiz 1 evalúa además el 1.1, visto en la sesión 2.</aside>
+</section>
 
-    <!-- Scripts de inicialización -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    
-    <script>
-        // Inicialización Estricta según requerimiento
-        Reveal.initialize({
-            width: 1920,
-            height: 1080,
-            margin: 0.04,
-            minScale: 0.2,
-            maxScale: 1.5,
-            center: false,
-            slideNumber: 'c/t',
-            hash: true,
-            transition: 'slide'
-        });
+<!-- 4 La muestra engaña: perforación -->
+<section class="esc" data-cine="grua">
+  <div style="position:absolute;left:88px;top:90px;width:690px;display:flex;flex-direction:column;gap:26px">
+    <p class="rot">¿Cuántas filas no tienen cliente?</p>
+    <h2 style="font-size:62px">Power Query solo perforó la superficie</h2>
+    <p class="paso" style="font-size:34px">Lo que muestra al abrir: <b class="acento" style="font-size:60px">0,1&nbsp;%</b></p>
+    <p class="paso" style="font-size:34px">Lo que hay en todo el archivo: <b class="acento" style="font-size:60px">24,93&nbsp;%</b></p>
+    <p class="paso sec" style="font-size:29px">Por defecto perfila las primeras 1.000 filas: una sola mañana de 374 días. Cambiarlo es la primera tarea, siempre.</p>
+  </div>
+  <svg id="perfora" viewBox="0 0 700 830" style="position:absolute;left:840px;top:30px;width:700px;height:830px" role="img" aria-label="Perfil del archivo en 40 estratos: el porcentaje de clientes vacíos varía entre 9,5 y 47,4 por ciento; las primeras mil filas son una línea casi invisible arriba"></svg>
+  <p class="pie" style="max-width:720px">Cada estrato es 1/40 del archivo, en orden: la barra mide los clientes vacíos. Chen (2015), CC BY 4.0. Microsoft Learn, herramientas de perfilado.</p>
+  <aside class="notas">Pida una apuesta antes del primer paso. Primeras 1.000 filas: 1 vacío en CustomerID. Archivo completo: 135.080. Los estratos varían de 9,5 % a 47,4 %: los vacíos no están repartidos parejo. Es exactamente lo que documenta Microsoft: hay que cambiar a “todo el conjunto de datos”.</aside>
+</section>
 
-        // Inicializar Mermaid
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
-        
-        // Inicializar Highlight.js
-        hljs.highlightAll();
+<!-- 5 Tubos -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:58px;width:1400px"><h2 style="font-size:54px">Radiografía por columna: dos tienen huecos, y una es grave</h2></div>
+  <svg id="tubos" viewBox="0 0 1424 650" style="position:absolute;left:88px;top:190px;width:1424px;height:650px" role="img" aria-label="Ocho tubos, uno por columna. CustomerID tiene vacío el 24,93 por ciento; Description el 0,27 por ciento; los demás están completos"></svg>
+  <aside class="notas">La parte oscura de cada tubo es proporcional a los vacíos sobre 541.909 filas. CustomerID: 135.080 vacíos. Description: 1.454. Pregunte: ¿los tubos llenos significan que esas columnas están bien? Eso abre la siguiente escena.</aside>
+</section>
 
-        // Inicializar Chart.js Dummy simulando Memory
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(() => {
-                const ctx = document.getElementById('ramChart');
-                if(ctx) {
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Almacenamiento Fila (Tradicional)', 'Almacenamiento Columnar (VertiPaq)'],
-                            datasets: [{
-                                label: 'Consumo de Memoria RAM (MB)',
-                                data: [850, 150],
-                                backgroundColor: ['#ef4444', '#10B981'],
-                                borderRadius: 8
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false }
-                            },
-                            scales: {
-                                y: { beginAtZero: true }
-                            }
-                        }
-                    });
-                }
-            }, 1000);
-        });
-    </script>
+<!-- 6 Fracturas -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:44px;width:1400px;text-align:center"><h2 style="font-size:52px">Sin huecos no es lo mismo que sano</h2></div>
+  <svg id="fracturas" viewBox="0 0 1600 780" style="position:absolute;left:0;top:112px;width:1600px;height:780px" role="img" aria-label="Lámina del archivo con seis fracturas señaladas"></svg>
+  <aside class="notas">Revele una fractura a la vez y pregunte primero: ¿error, o dato real? 4.070 códigos distintos, 3.958 si se ignoran mayúsculas. Vuelva sobre estos hallazgos en la sesión 4 para decidir qué hacer con cada uno. Lo de las mayúsculas reaparece en el modelo, en la sesión 5.</aside>
+</section>
+
+<!-- 7 Galgas -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:50px;width:1424px"><h2 style="font-size:54px">Cinco galgas para medir cualquier archivo</h2></div>
+  <div class="galgas" style="position:absolute;left:88px;right:88px;top:170px;bottom:72px;height:auto">
+    <div class="galga paso"><i class="ico" data-i="grid-3x3"></i><h3>Completo</h3><p class="p">¿Qué falta?</p><p class="c">24,93&nbsp;% de filas sin cliente</p></div>
+    <div class="galga paso" style="margin-top:28px"><i class="ico" data-i="copy"></i><h3>Único</h3><p class="p">¿Qué se repite?</p><p class="c">5.268 filas idénticas</p></div>
+    <div class="galga paso" style="margin-top:56px"><i class="ico" data-i="ban"></i><h3>Válido</h3><p class="p">¿Qué es imposible?</p><p class="c">Precios negativos, “?” como producto</p></div>
+    <div class="galga paso" style="margin-top:28px"><i class="ico" data-i="case-sensitive"></i><h3>Consistente</h3><p class="p">¿Lo mismo se escribe igual?</p><p class="c">15056BL y 15056bl</p></div>
+    <div class="galga paso"><i class="ico" data-i="calendar-off"></i><h3>Cubre</h3><p class="p">¿Qué periodo y qué población?</p><p class="c">Un año; ningún sábado</p></div>
+  </div>
+  <aside class="notas">Lista de trabajo del curso, simplificada a partir de dimensiones de calidad de uso común. Ninguna factura cae en sábado: 0 filas. Esa ausencia no es un error, y hay que preguntarla. Lo que no pregunten ellos lo preguntará el gerente.</aside>
+</section>
+
+<!-- 8 Conexiones -->
+<section class="esc" data-cine="paneo">
+  <svg id="puerto" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Excel, CSV, API, base de datos y carpeta entran por Power Query al modelo"></svg>
+  <aside class="notas">Hoy conectamos tres de verdad: Excel (Online Retail), CSV (reseñas) y API (TRM). Para una base de datos se piden servidor, base y modo de conexión: se muestra en la guía. En la sesión 6 consultamos una base real con SQL.</aside>
+</section>
+
+<!-- 9 Importar o consultar -->
+<section class="esc" data-cine="paneo">
+  <svg id="modos" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Importar copia cajas de datos al modelo. DirectQuery envía preguntas a la fuente en cada visual"></svg>
+  <p class="pie">Microsoft Learn: DirectQuery in Power BI.</p>
+  <aside class="notas">En el curso se usa Importar. La frase “Use import by default” es de la documentación oficial. A la izquierda, las cajas viajan una vez y se quedan; a la derecha, cada visual pregunta otra vez. La actualización se trabaja en la sesión 10.</aside>
+</section>
+
+<!-- 10 Receta -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:56px;width:1424px;display:flex;flex-direction:column;gap:24px">
+    <h2 style="font-size:58px">Power Query no toca tu archivo: guarda una película de pasos</h2>
+    <div class="tira">
+      <div><i class="ico" data-i="file-spreadsheet"></i><b>Origen</b><p class="sec" style="font-size:25px;margin-top:8px">El archivo, intacto.</p></div>
+      <div><i class="ico" data-i="signpost"></i><b>Navegación</b><p class="sec" style="font-size:25px;margin-top:8px">Qué hoja.</p></div>
+      <div><i class="ico" data-i="table-2"></i><b>Encabezados</b><p class="sec" style="font-size:25px;margin-top:8px">La fila 1 da nombres.</p></div>
+      <div class="alerta"><i class="ico" data-i="triangle-alert"></i><b>Tipo cambiado</b><p class="sec" style="font-size:25px;margin-top:8px">Lo deduce solo: revísalo.</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:96px 1fr;gap:20px;align-items:center" class="paso"><i class="ico" data-i="refresh-cw" style="font-size:78px"></i><p style="font-size:36px">Si llegan datos nuevos, la película se repite. No vuelves a limpiar a mano.</p></div>
+    <div style="display:grid;grid-template-columns:96px 1fr;gap:20px;align-items:center" class="paso"><i class="ico" data-i="scan-line" style="font-size:78px"></i><p style="font-size:36px"><b>Vista:</b> calidad, distribución y perfil de columna. Abajo a la izquierda: de “1000 filas” a <b class="acento">“todo el conjunto de datos”</b>.</p></div>
+  </div>
+  <p class="pie">Microsoft Learn: What is Power Query?; Using the data profiling tools.</p>
+  <aside class="notas">Muestre esto en vivo en Power BI. “Tipo cambiado” aparece solo: hay que revisarlo, porque deduce tipos con una muestra. El nombre de los pasos depende del idioma de Power BI.</aside>
+</section>
+
+<!-- 11 EMI -->
+<section class="esc" data-cine="pagina">
+  <div class="hoja" style="left:120px;top:44px;width:1360px;height:800px;transform:rotate(-.6deg)">
+    <p class="rot">Inspection report · English immersion · 10 minutes</p>
+    <p style="font-size:52px;line-height:1.16;font-weight:700;margin:18px 0 22px">“By default, Power Query performs this data profiling over the <span style="color:#c24c06">first 1,000 rows</span> of your data.”</p>
+    <p style="font-size:21px;color:#35586a;margin-bottom:18px">Microsoft Learn, Using the data profiling tools</p>
+    <div style="display:grid;grid-template-columns:70px 1fr;gap:18px 14px;align-items:center;border-top:3px solid #04212d;padding-top:20px">
+      <i class="ico paso" data-i="circle-help" style="font-size:52px;color:#0b6b83"></i><p class="paso" style="font-size:35px">In one English sentence: why is this a risk in our file?</p>
+      <i class="ico paso" data-i="list-checks" style="font-size:52px;color:#0b6b83"></i><p class="paso" style="font-size:35px">“Valid, Error, Empty.” Give an example of each from Online Retail.</p>
+      <i class="ico paso" data-i="languages" style="font-size:52px;color:#0b6b83"></i><p class="paso" style="font-size:35px">Tell your partner about your project's data: source, period, one problem.</p>
+    </div>
+    <p class="paso" style="font-size:26px;margin-top:22px;color:#35586a"><b>Words:</b> missing value · duplicate · data type · to load · to refresh · <a style="color:#0b6b83" href="https://learn.microsoft.com/en-us/power-query/data-profiling-tools" target="_blank" rel="noopener">read the full page</a></p>
+  </div>
+  <aside class="notas">Cita textual de Microsoft Learn. Cinco minutos en parejas y cinco en plenaria, solo en inglés. La actividad EMI de la sesión está en la pestaña Juego Didáctico del aplicativo.</aside>
+</section>
+
+<!-- 12 Taller: orden de trabajo -->
+<section class="esc">
+  <svg id="orden" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Cuatro estaciones del taller, de conectar al diagnóstico del proyecto"></svg>
+  <a class="boton" href="Guia_Laboratorio_Semana3.html" target="_blank" rel="noopener" style="position:absolute;left:88px;bottom:80px">Abrir la guía del taller</a>
+  <aside class="notas">Aprendizaje basado en problemas: cada estudiante trabaja también con sus propios datos, como pide el calendario. Si alguien aún no tiene datos, use la tutoría. Punto de control clave: 24,93 % al perfilar todo el archivo.</aside>
+</section>
+
+<!-- 13 Glosario -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:52px;width:1424px"><p class="rot">Rótulos de la sala</p><h2 style="font-size:52px;margin:6px 0 20px">Glosario de hoy</h2>
+    <div class="muestras">
+      <div class="muestra"><i class="ico" data-i="plug"></i><b>Conector</b><span>Lo que permite a Power BI leer una fuente.</span></div>
+      <div class="muestra"><i class="ico" data-i="download"></i><b>Importar</b><span>Copia los datos; cambian al actualizar.</span></div>
+      <div class="muestra"><i class="ico" data-i="radio"></i><b>DirectQuery</b><span>Consulta la fuente en cada visual.</span></div>
+      <div class="muestra"><i class="ico" data-i="filter"></i><b>Power Query</b><span>Conecta y prepara con pasos repetibles.</span></div>
+      <div class="muestra"><i class="ico" data-i="list-checks"></i><b>Paso aplicado</b><span>Transformación guardada, en orden.</span></div>
+      <div class="muestra"><i class="ico" data-i="scan-line"></i><b>Perfilado</b><span>Resumen de calidad de cada columna.</span></div>
+      <div class="muestra"><i class="ico" data-i="eraser"></i><b>Vacío (null)</b><span>Ausencia de dato. No es cero.</span></div>
+      <div class="muestra"><i class="ico" data-i="tag"></i><b>Tipo de dato</b><span>Texto, número o fecha: define qué calcular.</span></div>
+      <div class="muestra"><i class="ico" data-i="microscope"></i><b>Diagnóstico</b><span>Completo, único, válido, consistente, con cobertura.</span></div>
+      <div class="muestra"><i class="ico" data-i="database"></i><b>Base de datos</b><span>Guarda tablas y responde consultas.</span></div>
+    </div>
+  </div>
+  <aside class="notas">Estos términos reaparecen en la Evaluación 1 de la sesión 6. Pida a alguien explicar uno con sus palabras.</aside>
+</section>
+
+<!-- 14 Dictamen -->
+<section class="esc" data-cine="pagina">
+  <div class="hoja" style="left:200px;top:64px;width:1200px;height:770px">
+    <p class="rot">Dictamen de hoy</p>
+    <h2 style="font-size:58px;color:#04212d;margin:8px 0 26px">Antes de seguir, tres reglas firmadas</h2>
+    <div style="display:grid;grid-template-columns:86px 1fr;gap:26px 16px;align-items:center;border-top:3px solid #04212d;padding-top:26px">
+      <i class="ico paso" data-i="scan-search" style="font-size:66px;color:#0b6b83"></i><p class="paso" style="font-size:37px"><b>Perfila todo el archivo,</b> no las primeras 1.000 filas.</p>
+      <i class="ico paso" data-i="microscope" style="font-size:66px;color:#0b6b83"></i><p class="paso" style="font-size:37px"><b>Sin huecos no significa sano:</b> busca lo repetido, lo imposible y lo inconsistente.</p>
+      <i class="ico paso" data-i="refresh-cw" style="font-size:66px;color:#0b6b83"></i><p class="paso" style="font-size:37px"><b>Conecta con recetas, no a mano.</b> El original queda intacto.</p>
+    </div>
+    <p class="paso" style="font-size:27px;margin-top:26px;color:#35586a">Próxima sesión: qué hacer con cada hallazgo, y por qué. Trae tu ficha.</p>
+    <div class="sello" style="right:44px;bottom:36px;font-size:40px">Diagnosticado</div>
+  </div>
+  <aside class="notas">Cierre preguntando qué encontró cada quien en sus propios datos. La ficha es insumo de la sesión 4.</aside>
+</section>
+
+<!-- 15 Fuentes -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:60px;width:1424px" class="bib">
+    <p class="rot">Archivo de la sesión</p>
+    <h2 style="font-size:50px;margin:6px 0 16px">Bibliografía y fuentes</h2>
+    <p>Chen, D. (2015). <em>Online Retail</em> [conjunto de datos]. UCI Machine Learning Repository. CC BY 4.0. <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">doi:10.24432/C5BW33</a></p>
+    <p>Microsoft Learn. <em>Using the data profiling tools</em>. <a href="https://learn.microsoft.com/en-us/power-query/data-profiling-tools" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>What is Power Query?</em> <a href="https://learn.microsoft.com/en-us/power-query/power-query-what-is-power-query" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>DirectQuery in Power BI</em>. <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-directquery-about" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Superintendencia Financiera de Colombia. <em>TRM</em> [API]. Datos Abiertos Colombia. CC BY-SA 4.0. <a href="https://www.datos.gov.co/resource/32sa-8pi3.json" target="_blank" rel="noopener">datos.gov.co</a></p>
+    <p>Kotzias, D. (2015). <em>Sentiment Labelled Sentences</em>. UCI. CC BY 4.0. <a href="https://doi.org/10.24432/C57604" target="_blank" rel="noopener">doi:10.24432/C57604</a></p>
+    <p>Iconos: Lucide, licencia ISC. Dirección de arte: propuesta generada con Gemini y adaptada por el docente; gráficas hechas con los datos reales.</p>
+  </div>
+  <aside class="notas">Cifras recalculadas con el archivo original: Material_Privado/Unidades_2_3/cifras_u23.json. El uso de IA se declara, como exige la guía de aprendizaje.</aside>
+</section>
+
+<div id="haz"></div>
+<div id="ayuda">Flechas para avanzar · F pantalla completa · N notas</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/iconos.js"></script>
+<script src="../assets/puntos/curso.js"></script>
+<script>
+(function () {
+  var luz = CUR.luz, ic = CUR.ic;
+  /* Portada: cada punto es una celda; la columna 7 tiene su proporción real de vacíos, por estrato */
+  var B = [28,41,37.6,41.6,47.4,23.7,27.4,23.9,21.1,25.3,24.5,23.7,22.1,26.4,18.8,21.6,26.2,22.8,41.5,26.2,27,21.4,9.5,34.6,17,20.1,13.6,18.9,15.1,19.4,14.3,16.4,15,25.1,26.9,18.2,20.8,28.2,24.8,40];
+  var s = '', col = 8, seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  for (var f = 0; f < 40; f++) for (var c = 0; c < col; c++) for (var k = 0; k < 5; k++) {
+    var x = 70 + c * 190 + k * 30, y = 12 + f * 22.2, vac = c === 6 && rnd() * 100 < B[f];
+    s += '<rect x="' + x + '" y="' + y + '" width="24" height="14" fill="' + (vac ? '#ff7a1f' : '#7fe6ff') + '" opacity="' + (vac ? .95 : .13 + rnd() * .2) + '"/>';
+  }
+  CUR.poner('radiografia', s);
+
+  /* Agenda: banda con compuertas */
+  var E = [['10:00', 'Quiz 1', 'clipboard-check', '30 min, resultado 1.1'], ['10:30', 'Signos vitales', 'scan-line', 'Qué tiene el archivo'], ['11:00', 'Pausa', 'coffee', '15 min'], ['11:15', 'English', 'languages', '10 min'], ['11:25', 'Conectar', 'cable', 'Excel, CSV y API'], ['11:45', 'Diagnosticar', 'microscope', 'Tus datos'], ['12:50', 'Dictamen', 'stamp', 'Cierre']];
+  var y = 470, g = '<rect x="0" y="' + y + '" width="1600" height="22" fill="var(--fondo-2)"/>';
+  for (var i = 0; i < 40; i++) g += '<circle cx="' + (i * 42 + 18) + '" cy="' + (y + 44) + '" r="13" fill="none" stroke="var(--punto)" stroke-width="3"/>';
+  E.forEach(function (e, i) {
+    var x = 118 + i * 228, foco = i === 1 || i === 5;
+    g += '<path d="M' + (x - 92) + ' ' + y + 'V' + (y - 210) + 'L' + (x - 62) + ' ' + (y - 240) + 'H' + (x + 92) + 'V' + y + '" fill="var(--fondo-2)" stroke="' + (foco ? 'var(--compra)' : 'var(--punto)') + '" stroke-width="' + (foco ? 4 : 2.5) + '"/>';
+    g += ic(e[2], x - 44, y - 214, 88, foco ? 'var(--acento-texto)' : 'var(--rx)');
+    g += '<text class="t-rx" x="' + x + '" y="' + (y - 92) + '" text-anchor="middle">' + e[0] + '</text><text class="t-n" x="' + x + '" y="' + (y - 50) + '" text-anchor="middle" font-size="25">' + e[1] + '</text>';
+    g += '<text class="t-s" x="' + x + '" y="' + (y + 100) + '" text-anchor="middle" font-size="23">' + e[3] + '</text>';
+  });
+  g += luz('M0 ' + (y - 10) + 'L1600 ' + (y - 10), 0, 7, 'fuerte');
+  document.getElementById('linea').classList.add('diagrama');
+  CUR.poner('linea', g);
+
+  /* Perforación: 40 estratos reales */
+  var p = '', x0 = 150, top = 76, alt = 18.4, W = 500, maxV = 50;
+  p += '<rect x="' + (x0 - 6) + '" y="' + (top - 10) + '" width="' + (W + 12) + '" height="' + (alt * 40 + 18) + '" fill="#021018" stroke="var(--punto)"/>';
+  B.forEach(function (v, i) {
+    var yy = top + i * alt, w = v / maxV * W, op = 1;
+    p += '<rect x="' + x0 + '" y="' + yy + '" width="' + W + '" height="' + (alt - 3) + '" fill="var(--rx)" opacity=".1"/>';
+    p += '<g class="paso-capa"><rect x="' + x0 + '" y="' + yy + '" width="' + w + '" height="' + (alt - 3) + '" fill="var(--compra)"/></g>';
+  });
+  p += '<line x1="' + (x0 + 24.93 / maxV * W) + '" x2="' + (x0 + 24.93 / maxV * W) + '" y1="' + (top - 14) + '" y2="' + (top + alt * 40 + 8) + '" stroke="#fff" stroke-width="2.5" stroke-dasharray="7 7"/>';
+  p += '<text class="t-n" font-size="24" x="' + (x0 + 24.93 / maxV * W) + '" y="' + (top - 22) + '" text-anchor="middle">promedio 24,93 %</text>';
+  p += '<rect x="' + (x0 - 6) + '" y="' + (top - 2) + '" width="' + (W + 12) + '" height="3.5" fill="#fff"/><path d="M' + (x0 - 12) + ' ' + top + 'C100 ' + top + ' 90 ' + (top + 18) + ' 70 ' + (top + 40) + '" fill="none" stroke="#fff" stroke-width="2"/><text class="t-rx" x="6" y="' + (top + 70) + '" style="fill:#fff" font-size="20">1.000</text><text class="t-rx" x="6" y="' + (top + 96) + '" style="fill:#fff" font-size="20">filas</text>';
+  p += '<text class="t-s" x="130" y="' + (top + 10) + '" font-size="20" text-anchor="end" dy="60"></text><text class="t-s" x="130" y="' + (top + alt * 40) + '" font-size="21" text-anchor="end">dic-11</text>';
+  CUR.poner('perfora', p);
+  document.getElementById('perfora').classList.add('diagrama');
+
+  /* Tubos */
+  var C = [['InvoiceNo', 0], ['StockCode', 0], ['Description', .27], ['Quantity', 0], ['InvoiceDate', 0], ['UnitPrice', 0], ['CustomerID', 24.93], ['Country', 0]], t = '';
+  var ty = 40, th = 470, tw = 96;
+  C.forEach(function (c, i) {
+    var x = 40 + i * 174, h = c[1] / 100 * th, grave = c[1] > 1;
+    t += '<rect x="' + x + '" y="' + ty + '" width="' + tw + '" height="' + th + '" rx="48" fill="url(#liq)"/><rect x="' + x + '" y="' + ty + '" width="' + tw + '" height="' + Math.max(h, 0) + '" fill="#021018"' + (h > 60 ? ' rx="48"' : '') + '/>';
+    t += '<rect x="' + x + '" y="' + ty + '" width="' + tw + '" height="' + th + '" rx="48" fill="none" stroke="' + (grave ? 'var(--compra)' : 'var(--rx)') + '" stroke-width="' + (grave ? 5 : 2.5) + '"/>';
+    if (h > 0) t += '<line x1="' + (x - 8) + '" x2="' + (x + tw + 8) + '" y1="' + (ty + h) + '" y2="' + (ty + h) + '" stroke="var(--compra)" stroke-width="3"/>';
+    t += '<text class="' + (grave ? 't-o' : 't-n') + '" x="' + (x + tw / 2) + '" y="' + (ty + th + 54) + '" text-anchor="middle" font-size="' + (c[1] > 0 ? 36 : 28) + '">' + c[1].toString().replace('.', ',') + ' %</text>';
+    t += '<text class="t-rx" x="' + (x + tw / 2) + '" y="' + (ty + th + 92) + '" text-anchor="middle" style="font-size:21px;fill:var(--tinta-2)">' + c[0] + '</text>';
+  });
+  t = '<defs><linearGradient id="liq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fe6ff" stop-opacity=".55"/><stop offset="1" stop-color="#7fe6ff" stop-opacity=".14"/></linearGradient></defs>' + t;
+  t += '<rect class="barrer" style="--d:1380px" x="4" y="0" width="4" height="560" fill="#fff" opacity=".85" filter="drop-shadow(0 0 12px #7fe6ff)"/>';
+  CUR.poner('tubos', t);
+
+  /* Fracturas: lámina central y seis señales */
+  var Fr = [['9.288', 'Facturas con C', 'cancelaciones', 'ban', 0, 0], ['2.517', 'Precio cero o negativo', '“check”, “damaged”, “?”', 'file-warning', 0, 1], ['5.268', 'Filas idénticas', '£21.741: ¿error o real?', 'copy', 0, 2], ['112', 'Códigos en mayúsculas', '15056BL y 15056bl', 'case-sensitive', 1, 0], ['EIRE', 'Países por interpretar', 'RSA, Unspecified', 'map-pin', 1, 1], ['113.452', 'Espacios invisibles', 'al inicio o al final', 'eraser', 1, 2]];
+  var fx = 660, fw = 280, fy = 30, fh = 690, ff = '<rect x="' + fx + '" y="' + fy + '" width="' + fw + '" height="' + fh + '" fill="#021018" stroke="var(--rx)" stroke-opacity=".5" stroke-width="2"/>';
+  for (var fi = 0; fi < 34; fi++) for (var fc = 0; fc < 8; fc++) { var r2 = rnd(); ff += '<rect x="' + (fx + 12 + fc * 33) + '" y="' + (fy + 12 + fi * 20) + '" width="26" height="12" fill="#7fe6ff" opacity="' + (.1 + r2 * .22) + '"/>'; }
+  Fr.forEach(function (d, i) {
+    var der = d[4] === 1, yy = 70 + d[5] * 232, hx = fx + (der ? 200 : 70) + (i * 13) % 40, hy = fy + 90 + (i * 107) % 520, tx = der ? 1010 : 590, al = der ? 'start' : 'end';
+    ff += '<g class="paso"><circle cx="' + hx + '" cy="' + hy + '" r="15" fill="none" stroke="var(--compra)" stroke-width="4"/>';
+    ff += '<path d="M' + hx + ' ' + hy + 'C' + (der ? hx + 90 : hx - 90) + ' ' + hy + ' ' + (der ? tx - 90 : tx + 90) + ' ' + (yy + 40) + ' ' + (der ? tx - 12 : tx + 12) + ' ' + (yy + 40) + '" fill="none" stroke="var(--compra)" stroke-width="2.5"/>';
+    ff += ic(d[3], der ? tx : tx - 66, yy - 8, 66);
+    ff += '<text class="t-o" x="' + (der ? tx + 82 : tx - 82) + '" y="' + (yy + 38) + '" text-anchor="' + al + '" font-size="58">' + d[0] + '</text>';
+    ff += '<text class="t-n" x="' + tx + '" y="' + (yy + 92) + '" text-anchor="' + al + '" font-size="30">' + d[1] + '</text><text class="t-s" x="' + tx + '" y="' + (yy + 128) + '" text-anchor="' + al + '" font-size="26">' + d[2] + '</text></g>';
+  });
+  CUR.poner('fracturas', ff);
+
+  /* Puerto de conexiones */
+  var S = [['file-spreadsheet', 'Excel', 'Online Retail'], ['file-text', 'CSV', 'Reseñas'], ['webhook', 'API web', 'TRM'], ['database', 'Base de datos', 'Servidor y base'], ['folder-open', 'Carpeta o nube', 'Archivos repetidos']], q = '';
+  q += '<text x="88" y="118" font-size="62" font-weight="800" style="fill:var(--tinta)">Muchas fuentes, una sola puerta</text>';
+  var px = 930, py = 500, mx = 1360;
+  S.forEach(function (d, i) {
+    var yy = 190 + i * 134;
+    q += ic(d[0], 88, yy, 84, 'var(--rx)') + '<text class="t-n" x="196" y="' + (yy + 38) + '" font-size="34">' + d[1] + '</text><text class="t-s" x="196" y="' + (yy + 76) + '" font-size="25">' + d[2] + '</text>';
+    q += luz('M480 ' + (yy + 42) + 'C690 ' + (yy + 42) + ' 680 ' + py + ' ' + (px - 70) + ' ' + py, i * .5, 3.6);
+  });
+  q += luz('M' + (px + 70) + ' ' + py + 'L' + (mx - 70) + ' ' + py, .3, 2.6, 'fuerte');
+  q += '<path d="M' + (px - 70) + ' ' + (py - 60) + 'L' + (px - 40) + ' ' + (py - 90) + 'H' + (px + 70) + 'V' + (py + 90) + 'H' + (px - 70) + 'Z" fill="var(--fondo-2)" stroke="var(--compra)" stroke-width="4"/>' + ic('filter', px - 42, py - 44, 88);
+  q += '<path d="M' + (mx - 70) + ' ' + (py - 60) + 'L' + (mx - 40) + ' ' + (py - 90) + 'H' + (mx + 70) + 'V' + (py + 90) + 'H' + (mx - 70) + 'Z" fill="var(--fondo-2)" stroke="var(--rx)" stroke-width="3"/>' + ic('layers', mx - 42, py - 44, 88, 'var(--rx)');
+  q += '<text class="t-n" x="' + px + '" y="' + (py + 140) + '" text-anchor="middle" font-size="33">Power Query</text><text class="t-s" x="' + px + '" y="' + (py + 178) + '" text-anchor="middle" font-size="25">conecta y prepara</text><text class="t-n" x="' + mx + '" y="' + (py + 140) + '" text-anchor="middle" font-size="33">Modelo</text><text class="t-s" x="' + mx + '" y="' + (py + 178) + '" text-anchor="middle" font-size="25">relaciona y calcula</text>';
+  document.getElementById('puerto').classList.add('diagrama');
+  CUR.poner('puerto', q);
+
+  /* Importar o consultar: dos máquinas en movimiento */
+  var m = '<text x="88" y="112" font-size="62" font-weight="800" style="fill:var(--tinta)">¿Copiar los datos, o preguntarle a la fuente?</text><line x1="800" x2="800" y1="170" y2="820" stroke="var(--regla)" stroke-width="2"/>';
+  m += '<text class="t-o" x="88" y="200" font-size="46">Importar</text>' + ic('database', 96, 280, 110, 'var(--rx)') + ic('layers', 560, 280, 110, 'var(--acento-texto)');
+  [0, 1, 2].forEach(function (i) { m += '<g style="animation:viajar 3.6s cubic-bezier(.45,0,.55,1) ' + (i * 1.1) + 's infinite"><rect x="240" y="315" width="44" height="40" fill="var(--compra)"/></g>'; });
+  m += '<line x1="220" x2="540" y1="335" y2="335" stroke="var(--punto)" stroke-width="3" stroke-dasharray="8 8"/>';
+  m += '<text class="t-n" x="88" y="480" font-size="33">Copia los datos en Power BI.</text><text class="t-n" x="88" y="526" font-size="33">Rápido y con todas las funciones.</text><text class="t-s" x="88" y="580" font-size="28">Solo cambia cuando actualizas.</text><text class="t-o" x="88" y="660" font-size="33">Microsoft: úsalo por defecto.</text>';
+  m += '<text class="t-o" x="860" y="200" font-size="46">DirectQuery</text>' + ic('database', 868, 280, 110, 'var(--rx)') + ic('bar-chart-3', 1340, 280, 110, 'var(--acento-texto)');
+  m += luz('M1000 318L1320 318', 0, 2.2) + luz('M1320 356L1000 356', 1.1, 2.2, 'fuerte');
+  m += '<text class="t-s" x="1160" y="298" text-anchor="middle" font-size="24">respuesta</text><text class="t-s" x="1160" y="396" text-anchor="middle" font-size="24">pregunta en cada visual</text>';
+  m += '<text class="t-n" x="860" y="480" font-size="33">Deja los datos en la fuente.</text><text class="t-n" x="860" y="526" font-size="33">Cada visual lanza una consulta.</text><text class="t-s" x="860" y="580" font-size="28">Depende de la velocidad de la fuente.</text><text class="t-o" x="860" y="660" font-size="33">Solo con una razón: tamaño o frescura.</text>';
+  m = '<style>@keyframes viajar { 0% { transform: translateX(0); opacity: 0; } 12% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateX(250px); opacity: 0; } }</style>' + m;
+  document.getElementById('modos').classList.add('diagrama');
+  CUR.poner('modos', m);
+
+  /* Taller: cuatro estaciones que se encienden */
+  var T = [['plug', 'Conecta', 'El Excel original, 541.909 filas'], ['scan-search', 'Perfila', 'Todo el archivo'], ['webhook', 'Agrega', 'CSV y API, con su trampa'], ['clipboard-list', 'Diagnostica', 'Tus propios datos']], o = '';
+  o += '<text x="88" y="112" font-size="62" font-weight="800" style="fill:var(--tinta)">Conecta tres fuentes y escribe el diagnóstico</text><text class="t-s" x="88" y="160" font-size="28">Taller individual · Power BI Desktop · entrega: ficha de diagnóstico</text>';
+  var pts = T.map(function (_, i) { return [230 + i * 380, 420 + (i % 2 ? -44 : 44)]; }), dd = 'M0 464' + CUR.suave(pts).replace(/^M[\d. ]+/, 'L' + pts[0][0] + ' ' + pts[0][1]) + 'L1600 400';
+  o += luz(dd, 0, 6, 'fuerte');
+  T.forEach(function (e, i) {
+    var pt = pts[i];
+    o += '<circle cx="' + pt[0] + '" cy="' + pt[1] + '" r="78" fill="var(--fondo-2)" stroke="var(--compra)" stroke-width="4"/>' + ic(e[0], pt[0] - 42, pt[1] - 42, 84);
+    o += '<text class="t-n" x="' + pt[0] + '" y="' + (pt[1] + 132) + '" text-anchor="middle" font-size="36">' + e[1] + '</text><text class="t-s" x="' + pt[0] + '" y="' + (pt[1] + 172) + '" text-anchor="middle" font-size="26">' + e[2] + '</text>';
+  });
+  document.getElementById('orden').classList.add('diagrama');
+  CUR.poner('orden', o);
+})();
+</script>
+<script src="../assets/puntos/cine.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

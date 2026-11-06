@@ -1,286 +1,317 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 10</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides {
-            width: 95% !important;
-            height: 95% !important;
-            max-width: 1300px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 30px;
-            margin-top: 25px;
-        }
-        
-        .box-glass {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .box-glass:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 45px rgba(0, 56, 101, 0.2);
-        }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 800; }
-        .reveal h1 { font-size: 3.2em; }
-        .reveal h2 { font-size: 2.2em; margin-bottom: 20px; }
-        .highlight { color: var(--unab-orange); position: relative; display: inline-block; }
-        .highlight::after {
-            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
-            background: var(--unab-orange); opacity: 0.3; z-index: -1; border-radius: 4px;
-        }
-        
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.75em !important; line-height: 1.4; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #002240 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.8em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 12px; font-size: 1.4em; }
-        
-        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p { color: white !important; }
-        
-        /* Modal Glassmorphism */
-        .clickable-concept { cursor: pointer; position: relative; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -15px; right: -15px; background: var(--unab-orange); color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; box-shadow: 0 5px 15px rgba(232,92,11,0.4); opacity: 0; transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%);
-            width: 85%; max-width: 700px; background: rgba(255, 255, 255, 0.98); padding: 40px;
-            border-radius: 20px; box-shadow: 0 40px 80px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-        }
-        #concept-modal.show { opacity: 1; transform: translate(-50%, -50%); }
-        @keyframes popIn { 0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-        
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.85); backdrop-filter: blur(8px); z-index: 1999;
-            animation: fadeIn 0.3s ease forwards; opacity: 0;
-        }
-        #concept-modal-overlay.show { opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; font-size: 1.8em; color: #888; transition: color 0.2s; }
-        .modal-close:hover { color: var(--unab-orange); }
-        
-        #typed-container {
-            background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px; font-family: monospace;
-            color: #00ff00; margin-bottom: 20px; display: inline-block; border-left: 4px solid #00ff00; font-size: 0.6em;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 10 · La sala de turbinas | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<link rel="stylesheet" href="../assets/puntos/cine.css">
+<link rel="stylesheet" href="../assets/puntos/curso.css">
+<style>
+  /* Mundo: tablero sinóptico de una planta. Los datos fluyen por conductos y las lámparas avisan si algo falla. Dirección de arte: propuesta de Gemini, adaptada. */
+  :root { --fondo: #0a1424; --fondo-2: #14233a; --tinta: #eef4fa; --tinta-2: #9fb4c9; --regla: rgba(159,180,201,.26); --punto: #4a6585; --compra: #ff7a1f; --acento-texto: #ffa263; --vivo: #3ddc97; --falla: #ff5c5c; --dur: 1.25s; }
+  .rot { font: 700 23px Consolas, 'Courier New', monospace; letter-spacing: .08em; color: var(--vivo); text-transform: uppercase; }
+  svg text { font-family: inherit; }
+  .t-n { fill: var(--tinta); font-weight: 800; } .t-s { fill: var(--tinta-2); } .t-o { fill: var(--acento-texto); font-weight: 800; } .t-v { fill: var(--vivo); font-weight: 800; }
+  .lampara { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--vivo); box-shadow: 0 0 16px var(--vivo); animation: latir 1.6s ease-in-out infinite; vertical-align: 1px; }
+  .lampara.off { background: #6d7b8c; box-shadow: none; animation: none; }
+  @keyframes latir { 50% { opacity: .35; } }
+  .trm { font: 800 150px Consolas, 'Courier New', monospace; letter-spacing: -.05em; line-height: 1; color: var(--tinta); font-variant-numeric: tabular-nums; }
+  .switch { display: grid; grid-template-columns: 120px 1fr; gap: 26px; align-items: center; padding: 19px 0; border-top: 2px solid var(--regla); }
+  .switch i.pal { display: block; width: 96px; height: 46px; border: 3px solid var(--vivo); position: relative; }
+  .switch i.pal::after { content: ''; position: absolute; top: 5px; left: 5px; width: 30px; height: 30px; background: var(--vivo); transition: left .6s cubic-bezier(.16,1,.3,1) 1.2s; }
+  .esc.activa .switch i.pal::after { left: 55px; }
+  .switch p { font-size: 36px; }
+  .panel { display: grid; grid-template-columns: 420px 1fr; gap: 40px; }
+  .fallas { display: flex; flex-direction: column; gap: 9px; }
+  .fallas button { display: grid; grid-template-columns: 26px 1fr; gap: 14px; align-items: center; text-align: left; font: 700 32px 'Schibsted Grotesk', sans-serif; color: var(--tinta); background: var(--fondo-2); border: 2px solid var(--punto); padding: 22px 18px; cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .1s ease; }
+  .fallas button i { width: 20px; height: 20px; border-radius: 50%; background: #6d7b8c; display: block; }
+  .fallas button[aria-pressed="true"] { border-color: var(--falla); background: #2a1a24; }
+  .fallas button[aria-pressed="true"] i { background: var(--falla); box-shadow: 0 0 14px var(--falla); }
+  .fallas button:active { transform: scale(.98); }
+  .fallas button:focus-visible { outline: 3px solid var(--compra); outline-offset: 2px; }
+  .det h3 { font-size: 54px; margin-bottom: 18px; }
+  .det dl { margin: 0; display: grid; grid-template-columns: 180px 1fr; gap: 16px 18px; }
+  .det dt { color: var(--vivo); font: 700 24px Consolas, monospace; text-transform: uppercase; padding-top: 4px; }
+  .det dd { margin: 0; font-size: 36px; line-height: 1.2; }
+  .borne { display: grid; grid-template-columns: 90px 300px 1fr; gap: 16px; align-items: center; border-bottom: 1px solid var(--regla); padding: 8.5px 0; }
+  .borne .ico { font-size: 44px; color: var(--vivo); }
+  .borne b { font-size: 27px; } .borne span { font-size: 25.5px; color: var(--tinta-2); line-height: 1.14; }
+  .cod2 { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .cod2 .codigo { font-size: 27px; background: var(--fondo-2); color: var(--tinta); white-space: pre-wrap; min-height: 300px; }
+  .cod2 .mal { border-left-color: var(--falla); } .cod2 .bien { border-left-color: var(--vivo); }
+</style>
 </head>
-<body>
-    
-    <!-- Modal Interactivo -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
-        <h2 style="color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; display: flex; align-items: center; gap: 15px;">
-            <i id="modal-icon" class="fa-solid fa-lightbulb" style="color: var(--unab-orange);"></i> 
-            <span id="modal-title">Título</span>
-        </h2>
-        <p id="modal-text" style="font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px;">Texto explicativo</p>
-        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
-            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Implementación Práctica:</h4>
-            <code id="modal-example-text" style="font-size: 0.9em; background: #fff; padding: 10px; display: block; border-radius: 5px; color: #d946ef; font-weight: bold;">Ejemplo</code>
-        </div>
+<body data-cine="orbita">
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
+
+<!-- 1 Portada viva -->
+<section class="esc" data-cine="dolly">
+  <svg class="diagrama" id="tubos10" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" aria-hidden="true"></svg>
+  <div style="position:absolute;left:88px;top:70px;width:980px">
+    <p class="rot">La sala de turbinas · Sesión 10</p>
+    <h1 style="font-size:88px;margin-top:12px">Un tablero que no se actualiza, <span class="acento">miente con cara seria.</span></h1>
+    <p class="sec" style="font-size:25px;margin-top:14px">Inteligencia de Negocios · Dudbil Olvasada Pabón Riaño · UNAB</p>
+  </div>
+  <div style="position:absolute;left:88px;bottom:90px;width:1000px">
+    <p style="font-size:27px"><i class="lampara" id="lamp"></i> <b id="estadoVivo">Consultando la API de la TRM...</b></p>
+    <div class="trm" id="trmV">—</div>
+    <p class="sec" style="font-size:25px" id="trmF">Pesos por dólar. Superintendencia Financiera, datos.gov.co.</p>
+  </div>
+  <aside class="notas">Esta cifra no está escrita en la diapositiva: se pide en vivo a la API pública cuando se abre la escena. Si el salón no tiene internet, aparecerá el aviso y no una cifra inventada. Pruébelo antes de clase. Cierra la Unidad 3.</aside>
+</section>
+
+<!-- 2 Agenda: tambor -->
+<section class="esc">
+  <svg class="diagrama" id="tambor" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Agenda en un tambor de levas: Quiz 2, cadena, pausa, inglés, laboratorio, diagnóstico y cierre"></svg>
+  <aside class="notas">Quiz 2: 10 % de la nota, resultados 2.1, 2.2 y 2.3. Enunciado y clave en Material_Privado/Evaluaciones. El tambor gira como un programador de planta: cada leva dispara un bloque. Ajuste los tiempos.</aside>
+</section>
+
+<!-- 3 Resultado -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:72px;width:1424px">
+    <p class="rot">Resultado de aprendizaje 2.3</p>
+    <h2 style="font-size:64px;margin:12px 0 34px">Automatiza la actualización de visualizaciones mediante conexiones dinámicas.</h2>
+    <div class="switch"><i class="pal"></i><p><b>Conectas</b> Power BI a una API, de forma que se pueda actualizar.</p></div>
+    <div class="switch"><i class="pal"></i><p><b>Programas</b> o planeas la actualización, y sabes qué limita cada licencia.</p></div>
+    <div class="switch"><i class="pal"></i><p><b>Diagnosticas</b> por qué falló, y detectas cuando falla sin avisar.</p></div>
+  </div>
+  <aside class="notas">Resultado textual del syllabus. El calendario pide laboratorio aplicado de conexiones y actualización, diagnóstico de problemas y mejora de soluciones.</aside>
+</section>
+
+<!-- 4 Congelado o vivo -->
+<section class="esc">
+  <svg class="diagrama" id="dos10" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Online Retail es un archivo congelado en 2011. La TRM cambia y se puede volver a consultar"></svg>
+  <p class="pie">Microsoft Learn, DirectQuery in Power BI: “Visuals don't reflect source changes until you refresh”.</p>
+  <aside class="notas">Online Retail termina el 9 de diciembre de 2011 y no cambiará: ningún botón lo mejora. La TRM sí cambia. Importar copia los datos: hasta que se actualice, el informe muestra la última copia. Pregunte: en su proyecto, ¿los datos cambian? ¿Cada cuánto?</aside>
+</section>
+
+<!-- 5 Cadena -->
+<section class="esc">
+  <svg class="diagrama" id="cadena" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Cadena de actualización: fuente, puerta de enlace si hace falta, modelo semántico en el servicio e informe"></svg>
+  <p class="pie">Microsoft Learn: Data refresh in Power BI.</p>
+  <aside class="notas">Avance eslabón por eslabón. En Power BI Desktop, Actualizar lo hace usted. Una vez publicado, el modelo semántico se actualiza en el servicio, a demanda o por programa. Cada eslabón es un lugar donde puede fallar. Publicar y programar requiere cuenta y licencia: confirme qué tienen los estudiantes en la UNAB.</aside>
+</section>
+
+<!-- 6 Dirección dinámica -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:44px;width:1424px">
+    <h2 style="font-size:50px;margin-bottom:18px">Una dirección armada a mano puede no actualizar en la nube</h2>
+    <div class="cod2">
+      <div class="codigo mal"><b style="color:var(--falla)">Riesgo</b>: la dirección se calcula al ejecutar
+Web.Contents(
+  "https://www.datos.gov.co/resource/"
+  &amp; Conjunto &amp; ".json?$limit=" &amp; Limite
+)</div>
+      <div class="codigo bien paso"><b style="color:var(--vivo)">Mejor</b>: raíz fija, y lo demás en opciones
+Web.Contents(
+  "https://www.datos.gov.co",
+  [ RelativePath = "resource/32sa-8pi3.json",
+    Query = [ #"$limit" = "10000" ] ]
+)</div>
     </div>
+    <p class="paso" style="font-size:33px;margin-top:20px">El servicio necesita saber a qué fuente se conecta <b>antes</b> de ejecutar la consulta. Si no puede, es un <b class="acento">origen dinámico</b>, que en la mayoría de los casos no se actualiza allí.</p>
+    <p class="paso sec" style="font-size:27px;margin-top:8px">Se revisa en Power Query: Configuración de origen de datos. Allí aparece la advertencia.</p>
+  </div>
+  <p class="pie">Microsoft Learn: Data refresh in Power BI, “Refresh and dynamic data sources”; Web.Contents.</p>
+  <aside class="notas">La documentación dice que en la mayoría de los casos los modelos con orígenes dinámicos no se pueden actualizar en el servicio; las excepciones incluyen RelativePath y Query con Web.Contents, y consultas que referencian parámetros de Power Query. En Desktop ambas formas funcionan: por eso el error aparece tarde.</aside>
+</section>
 
-    <div class="reveal">
-        <div class="slides">
+<!-- 7 Relojes -->
+<section class="esc">
+  <svg class="diagrama" id="relojes" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Dos relojes de 24 horas: 8 franjas en capacidad compartida y 48 en Premium"></svg>
+  <p class="pie">Microsoft Learn: Data refresh in Power BI. Hasta 8 franjas diarias en capacidad compartida (Pro); hasta 48 en Premium. Revise la licencia y la versión vigente.</p>
+  <aside class="notas">Cifras de la documentación oficial. La pregunta útil no es cuántas se puede, sino cuántas se necesita: la TRM cambia a diario; actualizarla 48 veces no aporta. Cada marca es una franja disponible; el reparto parejo es solo para dibujarlo: usted elige las horas.</aside>
+</section>
 
-            <!-- 1. Portada -->
-            <section data-transition="zoom" class="dark-slide">
-                <div id="typed-container"><span id="typed-output"></span></div>
-                <br>
-                <i class="fa-solid fa-python" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
-                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Semana 10: Integración con Python y R</h3>
-                <br>
-                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
-            </section>
-            
-            <!-- 2. RAE -->
-            <section data-transition="slide">
-                <h2 class="text-left" style="color: #003865;"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
-                <div class="box-glass text-left" style="border-top: 6px solid #003865; margin-top: 30px; padding: 40px;">
-                    <h3 style="color: #003865; margin-bottom: 20px;">Meta Analítica</h3>
-                    <p style="font-size: 1.2em; color: #333; line-height: 1.6;">
-                        <i class="fa-solid fa-check-double text-green-600" style="color: #E85C0B; margin-right: 15px;"></i>
-                        Extender los límites de las herramientas de Inteligencia de Negocios inyectando código en Python (Pandas/Seaborn) y R para realizar transformaciones estadísticas y gráficas especializadas imposibles nativamente.
-                    </p>
-                </div>
-            </section>
+<!-- 8 Muro -->
+<section class="esc">
+  <svg class="diagrama" id="muro" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="La puerta de enlace conecta fuentes internas con el servicio en la nube a través del muro de la red"></svg>
+  <p class="pie">Microsoft Learn: Data refresh in Power BI; What is an on-premises data gateway?</p>
+  <aside class="notas">Microsoft: un origen en la nube no necesita puerta de enlace si Power BI puede conectarse directamente. Un origen local sí. El modo personal existe, con limitaciones, y sirve si usted es la única persona que administra el modelo. Requiere un equipo encendido y conectado.</aside>
+</section>
 
-            <!-- 3. Conceptos Estructurales -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-cubes-stacked" style="color: #E85C0B;"></i> Conceptos Analíticos Clave</h2>
-                <div class="split-layout">
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Pandas en Power Query', 'fa-table', 'Ejecución de scripts de Python en el motor ETL para utilizar bibliotecas potentes de limpieza, manipulación tensorial, expresiones regulares avanzadas o importación de modelos entrenados (scikit-learn).', 'Ejecutar `df.dropna(thresh=2)` o aplicar un scaler estandarizado a las columnas.')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865;"><i class="fa-solid fa-table"></i> Pandas en Power Query</h3>
-                        <p class="small-text" style="margin-top: 20px;">Ejecución de scripts de Python en el motor ETL para utilizar bibliotecas potentes de limpieza, manipulación tensorial, expresiones regulares avanzadas o importación de modelos entrenados (scikit-learn).</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #E85C0B; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Visualizaciones Python/R', 'fa-chart-area', 'Renderizado de parcelas gráficas (Matplotlib, Seaborn, ggplot2) como visualizaciones integradas e interactivas en el lienzo del dashboard, recibiendo contextos de filtro desde PBI.', 'Un `sns.violinplot()` dinámico que se actualiza cuando un usuario hace clic en un mapa.')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-chart-area"></i> Visualizaciones Python/R</h3>
-                        <p class="small-text" style="margin-top: 20px;">Renderizado de parcelas gráficas (Matplotlib, Seaborn, ggplot2) como visualizaciones integradas e interactivas en el lienzo del dashboard, recibiendo contextos de filtro desde PBI.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #003865; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                </div>
-            </section>
+<!-- 9 Tablero de fallas -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:46px;width:1424px">
+    <p class="rot">Tablero de fallas · Haz clic en una lámpara</p>
+    <h2 style="font-size:48px;margin:6px 0 22px">Antes de ver la causa: ¿dónde mirarías?</h2>
+    <div class="panel"><div class="fallas" id="fallas"></div><div class="det" id="det"></div></div>
+  </div>
+  <div class="lamina " style="left:1040px;top:566px;width:472px;height:266px;box-shadow:0 16px 44px rgba(0,0,0,.45);z-index:1"><img src="../assets/vector/s10_banco_relays_webcontents.svg" alt="Relés sobre un riel, con pistas de circuito"></div>
+  <aside class="notas">Interactivo. Pida una hipótesis antes de cada clic. Los síntomas se describen en general, porque el mensaje exacto cambia por versión. La pausa por dos meses de inactividad y el correo de aviso están en la documentación; también que el servicio deshabilita la programación tras fallas consecutivas.</aside>
+</section>
 
-            <!-- 4. Discusión Profunda Inyectada -->
-            
-        <section>
-            <h2>El Poder de la Interoperabilidad Analítica</h2>
-            <div class="split-layout">
-                <div class="box-glass text-left" style="border-left: 5px solid #003865;">
-                    <h4 style="color: #003865;"><i class="fa-brands fa-python"></i> Machine Learning in-memory</h4>
-                    <p class="small-text">Mediante scripts de Python en la fase ETL, puedes puntuar un conjunto de datos (Scoring) con un modelo preentrenado (ej. `.pkl` pickle object) antes de que la data pase a memoria RAM (VertiPaq). Esto permite mostrar columnas predictivas directamente en la tabla de hechos.</p>
-                </div>
-                <div class="box-glass text-left" style="border-left: 5px solid #E85C0B;">
-                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-code"></i> Arquitectura y Seguridad</h4>
-                    <p class="small-text">Los scripts de Python dependen del compilador local del usuario (Personal Gateway en la nube). Se deben manejar entornos virtuales ligeros (venv) y controlar los riesgos de inyección y los bloqueos del firewall en el entorno corporativo.</p>
-                </div>
-            </div>
-            <div class="pro-tip" style="margin-top: 15px;">
-                <i class="fa-solid fa-triangle-exclamation"></i> <strong>Importante:</strong> Todo el DataFrame que recibe un visual de Python desde Power BI perderá los duplicados absolutos de forma automática. ¡Ten cuidado con la pérdida de volumen de filas!
-            </div>
-        </section>
-        
+<!-- 10 Falla silenciosa -->
+<section class="esc" data-cine="dolly">
+  <svg class="diagrama" id="silencio" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Tres testigos en pantalla: última fecha, número de filas y total de control"></svg>
+  <aside class="notas">Lo peor no es el error: es que la actualización diga “correcta” y los datos estén mal. Ya lo vimos: la API entrega 1.000 registros si no se le pide otra cosa. Tres testigos en la página lo delatan. Es una práctica recomendada del curso; se construye en el taller.</aside>
+</section>
 
-            <!-- 5. Taller Práctico -->
-            <section data-transition="slide" class="dark-slide">
-                <i class="fa-solid fa-laptop-code" style="font-size: 5em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1 style="color: white !important;">Taller Aplicado</h1>
-                <p style="font-size: 1.2em;">Migración de entorno teórico a plataforma práctica.</p>
-                <div class="box-glass" style="background: rgba(255,255,255,0.1); margin: 30px auto; max-width: 80%; text-align: center; border: 1px solid rgba(255,255,255,0.2);">
-                    <h4 style="color: white; margin-top: 0;">Flujo Técnico a ejecutar:</h4>
-                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 10</span>
-                </div>
-            </section>
-
-            <!-- 6. Glosario y Bibliografía -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-book-open"></i> Referencias Bibliográficas</h2>
-                <div class="box-glass text-left" style="border-top: 5px solid #003865;">
-                    <ul style="font-size: 0.8em; line-height: 1.8; color: #444;">
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Sharda, R., Delen, D., & Turban, E. (2020). <strong>Business Intelligence, Analytics, and Data Science: A Managerial Perspective.</strong> 4th Edition. Pearson.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Ferrari, A., & Russo, M. (2019). <strong>The Definitive Guide to DAX: Business intelligence for Microsoft Power BI.</strong> Microsoft Press.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Knaflic, C. N. (2015). <strong>Storytelling with Data: A Data Visualization Guide for Business Professionals.</strong> Wiley.</li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
+<!-- 11 EMI -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:58px;width:1424px;display:grid;grid-template-columns:1.02fr 1fr;gap:56px">
+    <div>
+      <p class="rot">English immersion · 10 minutes</p>
+      <p style="font-size:43px;line-height:1.16;font-weight:700;margin-top:14px">“Power BI sends refresh failure notifications to the semantic model owner through email, so that they can act in a timely manner.”</p>
+      <p class="sec" style="font-size:22px;margin-top:10px">Microsoft Learn, Data refresh in Power BI (slightly shortened)</p>
+      <p style="font-size:29px;margin-top:22px;line-height:1.35">refresh · schedule · gateway · credentials · to fail · owner · stale data · on-premises</p>
     </div>
+    <ol class="lista">
+      <li class="paso" style="font-size:34px">Who should own your dashboard's refresh? Why that person?</li>
+      <li class="paso" style="font-size:34px">Your manager says: “The numbers look old.” What do you check first? Say it in English.</li>
+      <li class="paso" style="font-size:34px">How often does your project's data change? How often should it refresh?</li>
+    </ol>
+  </div>
+  <aside class="notas">Cita de Microsoft Learn, acortada; empieza con “By default” en el original. Cinco minutos en parejas y cinco en plenaria, solo en inglés. La actividad EMI está en la pestaña Juego Didáctico.</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        Reveal.initialize({
-            hash: true,
-            transition: 'slide',
-            controlsTutorial: false,
-            center: true,
-            progress: true,
-            slideNumber: 'c/t'
-        });
+<!-- 12 Taller -->
+<section class="esc">
+  <svg class="diagrama" id="banco" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Laboratorio en cuatro estaciones conectadas"></svg>
+  <a class="boton" href="Guia_Laboratorio_Semana10.html" target="_blank" rel="noopener" style="position:absolute;left:88px;bottom:72px">Abrir la guía del laboratorio</a>
+  <aside class="notas">La publicación requiere cuenta y licencia; si no están disponibles en la sala, el ejercicio se resuelve hasta Power BI Desktop y con el plan por escrito. Las cifras de la TRM cambian cada día: los puntos de control son de estructura.</aside>
+</section>
 
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+<!-- 13 Glosario -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:40px;width:1424px">
+    <p class="rot">Regleta de bornes</p>
+    <h2 style="font-size:46px;margin:2px 0 8px">Glosario de hoy</h2>
+    <div id="bornes"></div>
+  </div>
+  <aside class="notas">Estos términos entran al Quiz 2 y a la Evaluación 2. Este es el último glosario de la Unidad 3.</aside>
+</section>
 
-        // Typed.js para efecto hacker corporativo
-        new Typed('#typed-output', {
-            strings: [
-                '> ESTABLECIENDO CONEXIÓN SEGURA...',
-                '> CARGANDO DATOS MASIVOS (ETL)...',
-                '> OPTIMIZANDO MODELO DIMENSIONAL...',
-                '> PROTOCOLO DE INTELIGENCIA DE NEGOCIOS: ACTIVO'
-            ],
-            typeSpeed: 30,
-            backSpeed: 10,
-            backDelay: 1500,
-            loop: true,
-            showCursor: true,
-            cursorChar: '_'
-        });
+<!-- 14 Conclusiones -->
+<section class="esc" data-cine="dolly">
+  <svg class="diagrama" id="anun" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Tres anunciadores pasan de falla a correcto, con las tres ideas de cierre"></svg>
+  <aside class="notas">Fin de la Unidad 3. Próxima sesión: de los tableros a las historias. Empieza la Unidad 4.</aside>
+</section>
 
-        function openModal(title, iconClass, text, example) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-icon').className = 'fa-solid ' + iconClass;
-            document.getElementById('modal-text').innerText = text;
-            document.getElementById('modal-example-text').innerHTML = example;
-            
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('concept-modal-overlay').classList.add('show');
-                document.getElementById('concept-modal').classList.add('show');
-            }, 10);
-        }
+<!-- 15 Fuentes -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:54px;width:1424px" class="bib">
+    <p class="rot">Documentación de la planta</p><h2 style="font-size:48px;margin:4px 0 14px">Bibliografía y fuentes</h2>
+    <p>Microsoft Learn. <em>Data refresh in Power BI</em>. <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/refresh-data" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>DirectQuery in Power BI</em>. <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-directquery-about" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Web.Contents</em>. <a href="https://learn.microsoft.com/en-us/powerquery-m/web-contents" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>What is an on-premises data gateway?</em> <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/service-gateway-onprem" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Superintendencia Financiera de Colombia. <em>Tasa de Cambio Representativa del Mercado (TRM)</em> [API]. Datos Abiertos Colombia. CC BY-SA 4.0. <a href="https://www.datos.gov.co/resource/32sa-8pi3.json" target="_blank" rel="noopener">datos.gov.co</a></p>
+    <p>Chen, D. (2015). <em>Online Retail</em> [conjunto de datos]. UCI. CC BY 4.0. <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">doi:10.24432/C5BW33</a></p>
+    <p>Iconos: Lucide, licencia ISC. Dirección de arte e ilustraciones: generadas con Gemini, vectorizadas y adaptadas; las ilustraciones no contienen datos. Gráficas hechas con los datos reales.</p>
+  </div>
+  <aside class="notas">Límites de licencia y comportamiento de actualización tomados de la documentación vigente al preparar la clase; pueden cambiar. Revíselos antes de cada curso.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal').classList.remove('show');
-            document.getElementById('concept-modal-overlay').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('concept-modal').style.display = 'none';
-                document.getElementById('concept-modal-overlay').style.display = 'none';
-            }, 400);
-        }
-    </script>
+<div id="ayuda">Flechas para avanzar · F pantalla completa · N notas</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/iconos.js"></script>
+<script src="../assets/puntos/curso.js"></script>
+<script>
+(function () {
+  var luz = CUR.luz, ic = CUR.ic;
+  /* Portada: conductos */
+  var s = '', P = [[1080,120],[1540,120],[1540,420],[1180,420],[1180,700],[1600,700]];
+  var d = 'M' + P.map(function (p) { return p.join(' '); }).join('L');
+  s += '<path d="' + d + '" fill="none" stroke="var(--fondo-2)" stroke-width="38"/>' + luz(d, 0, 5, 'fuerte');
+  [[1080,120,'webhook'],[1540,420,'filter'],[1180,700,'layers']].forEach(function (q) { s += '<circle cx="' + q[0] + '" cy="' + q[1] + '" r="58" fill="var(--fondo)" stroke="var(--vivo)" stroke-width="4"/>' + ic(q[2], q[0] - 34, q[1] - 34, 68, 'var(--vivo)'); });
+  CUR.poner('tubos10', s);
+  /* TRM en vivo: sin cifra de respaldo, para no inventar */
+  fetch('https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=1&$order=vigenciadesde%20DESC').then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (j) {
+    var v = parseFloat(j[0].valor), f = j[0].vigenciadesde.slice(0, 10);
+    document.getElementById('trmV').textContent = '$' + v.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('estadoVivo').textContent = 'En vivo: TRM vigente, pedida al abrir esta página';
+    document.getElementById('trmF').textContent = 'Pesos por dólar, vigencia ' + f + '. Superintendencia Financiera, datos.gov.co.';
+  }).catch(function () {
+    document.getElementById('lamp').className = 'lampara off';
+    document.getElementById('estadoVivo').textContent = 'Sin conexión con la API. Otra falla real: revise la red.';
+    document.getElementById('trmV').textContent = 'Sin dato';
+  });
+  /* Tambor de levas */
+  var E = [['10:00','Quiz 2',30,'clipboard-check'],['10:30','La cadena',30,'cable'],['11:00','Pausa',15,'coffee'],['11:15','English',10,'languages'],['11:25','Laboratorio',55,'wrench'],['12:20','Tablero de fallas',30,'siren'],['12:50','Cierre',10,'stamp']], g = '<text class="t-n" x="88" y="104" font-size="56">El tambor programa la sesión</text><text class="t-s" x="88" y="150" font-size="27">Cada leva dispara un bloque; su largo es el tiempo.</text>';
+  var y = 300, h = 150, x0 = 90, k = 1420 / 180;
+  g += '<rect x="60" y="' + y + '" width="1480" height="' + h + '" fill="var(--fondo-2)" stroke="var(--punto)" stroke-width="2"/>';
+  for (var i = 1; i < 6; i++) g += '<line x1="60" x2="1540" y1="' + (y + i * h / 6) + '" y2="' + (y + i * h / 6) + '" stroke="var(--punto)" opacity=".4"/>';
+  E.forEach(function (e, i) {
+    var w = e[2] * k, f = i === 4 || i === 5;
+    g += '<rect x="' + x0 + '" y="' + (y - 24) + '" width="' + (w - 6) + '" height="24" fill="' + (f ? 'var(--compra)' : 'var(--vivo)') + '"/>';
+    g += ic(e[3], x0 + w / 2 - 28, y + 46, 56, f ? 'var(--acento-texto)' : 'var(--vivo)');
+    var ty = 520 + i % 2 * 130, tx = Math.min(x0 + w / 2, 1500);
+    g += '<line x1="' + tx + '" x2="' + tx + '" y1="' + (y + h) + '" y2="' + (ty - 34) + '" stroke="var(--punto)"/><text class="t-v" x="' + tx + '" y="' + (ty - 4) + '" text-anchor="middle" font-size="22" style="font-family:Consolas,monospace">' + e[0] + '</text><text class="t-n" x="' + tx + '" y="' + (ty + 32) + '" text-anchor="middle" font-size="28">' + e[1] + '</text>';
+    x0 += w;
+  });
+  g += '<rect x="90" y="' + (y - 34) + '" width="4" height="' + (h + 44) + '" fill="#fff" style="animation:leer 16s linear infinite"/><style>@keyframes leer { to { transform: translateX(1416px); } } @media (prefers-reduced-motion: reduce) { rect[style*="leer"] { animation: none !important; } }</style>';
+  CUR.poner('tambor', g);
+  /* Congelado y vivo */
+  var dv = '<text class="t-n" x="88" y="104" font-size="56">Unos datos están congelados. Otros siguen vivos.</text><line x1="800" x2="800" y1="170" y2="810" stroke="var(--regla)" stroke-width="2"/>';
+  dv += ic('archive', 300, 190, 190, '#7f9db8') + '<text class="t-n" x="395" y="450" text-anchor="middle" font-size="42">Online Retail</text><text class="t-s" x="395" y="500" text-anchor="middle" font-size="30">Termina el 9 de diciembre de 2011.</text><text class="t-s" x="395" y="542" text-anchor="middle" font-size="30">Actualizar no cambia nada.</text>';
+  dv += '<text class="t-o" x="395" y="650" text-anchor="middle" font-size="33">Sirve para aprender.</text>';
+  dv += ic('activity', 1110, 190, 190, 'var(--vivo)') + '<text class="t-n" x="1205" y="450" text-anchor="middle" font-size="42">TRM</text><text class="t-s" x="1205" y="500" text-anchor="middle" font-size="30">Aparece un valor nuevo cada día.</text><text class="t-s" x="1205" y="542" text-anchor="middle" font-size="30">Sin actualizar, el informe envejece.</text>';
+  dv += '<text class="t-o" x="1205" y="650" text-anchor="middle" font-size="33">Sirve para practicar la automatización.</text>';
+  CUR.poner('dos10', dv);
+  /* Cadena */
+  var N = [['database','Fuente','Archivo, base o API',230],['key-round','Credenciales','El servicio debe poder entrar',580],['layers','Modelo semántico','Se actualiza a demanda o por programa',930],['bar-chart-3','Informe','Muestra lo último cargado',1280]], c = '<text class="t-n" x="88" y="104" font-size="50">Actualizar es una cadena, y cada eslabón puede fallar</text>';
+  var cy = 400;
+  c += luz('M0 ' + cy + 'L1600 ' + cy, 0, 5, 'fuerte');
+  N.forEach(function (e, i) { c += '<g class="paso"><path d="M' + (e[3] - 110) + ' ' + (cy - 90) + 'h220v180h-220z" fill="var(--fondo-2)" stroke="var(--vivo)" stroke-width="3"/>' + ic(e[0], e[3] - 54, cy - 54, 108, 'var(--vivo)') + '<text class="t-n" x="' + e[3] + '" y="' + (cy + 142) + '" text-anchor="middle" font-size="33">' + e[1] + '</text>' + e[2].split(' ').reduce(function (l, w) { var u = l[l.length - 1]; if ((u + ' ' + w).length > 22) l.push(w); else l[l.length - 1] = (u + ' ' + w).trim(); return l; }, ['']).map(function (t, k) { return '<text class="t-s" x="' + e[3] + '" y="' + (cy + 184 + k * 32) + '" text-anchor="middle" font-size="25">' + t + '</text>'; }).join('') + '</g>'; });
+  c += '<text class="t-o" x="88" y="810" font-size="32">En Desktop actualizas tú. Publicado, lo hace el servicio, y necesita acceso a todo lo anterior.</text>';
+  CUR.poner('cadena', c);
+  /* Relojes */
+  function reloj(cx, cy, r, n, col, tit, sub) {
+    var s = '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="var(--fondo-2)" stroke="var(--punto)" stroke-width="3"/>';
+    for (var h = 0; h < 24; h++) { var a = h / 24 * 6.283 - 1.57; s += '<line x1="' + (cx + (r - 12) * Math.cos(a)) + '" y1="' + (cy + (r - 12) * Math.sin(a)) + '" x2="' + (cx + r * Math.cos(a)) + '" y2="' + (cy + r * Math.sin(a)) + '" stroke="var(--tinta-2)"/>'; }
+    for (var i = 0; i < n; i++) { var b = i / n * 6.283 - 1.57; s += '<rect x="' + (cx + (r + 18) * Math.cos(b) - 7) + '" y="' + (cy + (r + 18) * Math.sin(b) - 7) + '" width="14" height="14" fill="' + col + '" transform="rotate(' + (i / n * 360) + ' ' + (cx + (r + 18) * Math.cos(b)) + ' ' + (cy + (r + 18) * Math.sin(b)) + ')"/>'; }
+    s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + cx + '" y2="' + (cy - r + 26) + '" stroke="' + col + '" stroke-width="5" style="transform-origin:' + cx + 'px ' + cy + 'px;animation:manecilla 12s linear infinite"/><text x="' + cx + '" y="' + (cy + 24) + '" text-anchor="middle" style="font-size:86px;font-weight:800;fill:var(--tinta)">' + n + '</text>';
+    s += '<text class="t-n" x="' + cx + '" y="' + (cy + r + 88) + '" text-anchor="middle" font-size="35">' + tit + '</text><text class="t-s" x="' + cx + '" y="' + (cy + r + 128) + '" text-anchor="middle" font-size="26">' + sub + '</text>';
+    return s;
+  }
+  CUR.poner('relojes', '<style>@keyframes manecilla { to { transform: rotate(360deg); } } @media (prefers-reduced-motion: reduce) { line[style*="manecilla"] { animation: none !important; } }</style><text class="t-n" x="88" y="100" font-size="52">¿Cuántas veces al día? No más de las que necesitas</text>' + reloj(440, 400, 190, 8, 'var(--vivo)', 'Capacidad compartida (Pro)', 'Hasta 8 franjas al día') + reloj(1160, 400, 190, 48, 'var(--compra)', 'Premium', 'Hasta 48 franjas al día'));
+  /* Muro */
+  var m = '<text class="t-n" x="88" y="100" font-size="56">La nube no entra sola a tu red</text>';
+  m += '<rect x="780" y="170" width="46" height="610" fill="var(--punto)"/>';
+  for (i = 0; i < 12; i++) m += '<line x1="780" x2="826" y1="' + (170 + i * 52) + '" y2="' + (170 + i * 52) + '" stroke="var(--fondo)" stroke-width="3"/>';
+  m += '<text class="t-s" x="400" y="186" text-anchor="middle" font-size="29">Tu red</text><text class="t-s" x="1230" y="186" text-anchor="middle" font-size="29">La nube</text>';
+  m += ic('file-spreadsheet', 130, 240, 96, '#7f9db8') + '<text class="t-n" x="178" y="372" text-anchor="middle" font-size="27">Excel local</text>' + ic('server', 130, 450, 96, '#7f9db8') + '<text class="t-n" x="178" y="582" text-anchor="middle" font-size="27">Base interna</text>';
+  m += '<g class="paso"><rect x="500" y="340" width="180" height="150" fill="var(--fondo-2)" stroke="var(--compra)" stroke-width="4"/>' + ic('shield-check', 552, 354, 76) + '<text class="t-o" x="590" y="462" text-anchor="middle" font-size="24">Puerta de enlace</text>' + luz('M240 290C360 290 380 400 500 400', 0, 3) + luz('M240 500C360 500 380 430 500 430', .7, 3) + luz('M680 415L1040 415', .3, 2.6, 'fuerte') + '<text class="t-s" x="400" y="660" text-anchor="middle" font-size="26">Un equipo encendido y conectado.</text></g>';
+  m += ic('cloud', 1040, 340, 150, 'var(--vivo)') + '<text class="t-n" x="1115" y="526" text-anchor="middle" font-size="31">Servicio de Power BI</text>';
+  m += ic('webhook', 1370, 240, 96, 'var(--vivo)') + '<text class="t-n" x="1418" y="372" text-anchor="middle" font-size="27">API pública</text>' + luz('M1370 290C1300 290 1270 360 1190 400', .4, 2.6) + '<text class="t-v" x="1300" y="640" text-anchor="middle" font-size="27">Sin puerta de enlace,</text><text class="t-v" x="1300" y="676" text-anchor="middle" font-size="27">si hay conexión directa.</text>';
+  CUR.poner('muro', m);
+  /* Fallas */
+  var F = [['Credenciales','La actualización falla por acceso.','Configuración del modelo semántico: credenciales del origen.','Volver a iniciar sesión; usar un dueño estable y no una cuenta personal que caduque.'],['Origen dinámico','Funciona en Desktop; en el servicio no se puede programar.','Power Query: Configuración de origen de datos. Busca la advertencia.','Usar Web.Contents con RelativePath y Query, o parámetros.'],['Puerta de enlace','Una fuente local no responde desde el servicio.','Conexión de puerta de enlace: ¿activa y actualizada? ¿El equipo está encendido?','Encender o actualizar; o pasar el archivo a una ubicación en la nube.'],['La fuente cambió','Un paso da error porque falta una columna.','Abrir en Desktop y recorrer los pasos hasta el primero con error.','Ajustar el paso y avisar a quien mantiene la fuente.'],['Programa detenido','Los datos están viejos, sin mensaje en el informe.','Configuración: ¿se pausó tras dos meses sin visitas o por fallas consecutivas? Revise el correo.','Reactivar, y dejar más de un destinatario de avisos.'],['Falla silenciosa','Todo dice “correcto”, pero faltan datos.','Comparar filas, última fecha y total de control.','Corregir la consulta: por ejemplo, el límite de 1.000 registros de la API.']], fb = document.getElementById('fallas'), det = document.getElementById('det');
+  function falla(i) {
+    var e = F[i];
+    det.innerHTML = '<h3>' + e[0] + '</h3><dl><dt>Síntoma</dt><dd>' + e[1] + '</dd><dt>Dónde mirar</dt><dd>' + e[2] + '</dd><dt>Qué hacer</dt><dd>' + e[3] + '</dd></dl>';
+    fb.querySelectorAll('button').forEach(function (b, k) { b.setAttribute('aria-pressed', k === i); });
+  }
+  F.forEach(function (e, i) { var b = document.createElement('button'); b.type = 'button'; b.innerHTML = '<i></i><span>' + e[0] + '</span>'; b.addEventListener('click', function () { falla(i); }); fb.appendChild(b); });
+  falla(0);
+  /* Silencio */
+  var T = [['calendar-clock','Última fecha','¿Llegó el dato de hoy?','MAX de la fecha'],['list-checks','Filas','¿Son las que deberían?','COUNTROWS'],['scale','Total de control','¿Cuadra con la fuente?','La suma conocida']], si = '<text class="t-n" x="88" y="104" font-size="54">“Actualización correcta” no significa datos correctos</text><text class="t-s" x="88" y="154" font-size="29">Deja tres testigos a la vista en tu informe.</text>';
+  T.forEach(function (e, i) { var x = 88 + i * 485; si += '<g class="paso"><rect x="' + x + '" y="220" width="454" height="400" fill="var(--fondo-2)" stroke="var(--vivo)" stroke-width="3"/>' + ic(e[0], x + 167, 256, 120, 'var(--vivo)') + '<text class="t-n" x="' + (x + 227) + '" y="440" text-anchor="middle" font-size="39">' + e[1] + '</text><text class="t-s" x="' + (x + 227) + '" y="494" text-anchor="middle" font-size="28">' + e[2] + '</text><text class="t-o" x="' + (x + 227) + '" y="560" text-anchor="middle" font-size="26">' + e[3] + '</text></g>'; });
+  si += '<text class="t-n" x="88" y="720" font-size="33">Ya te pasó: la API entrega 1.000 registros si no le pides más, y no da error.</text>';
+  CUR.poner('silencio', si);
+  /* Banco */
+  var B = [['webhook','Conecta','La API, con raíz fija'],['filter','Prepara','Tipos y testigos'],['refresh-cw','Actualiza','Desktop y, si hay licencia, el servicio'],['siren','Rompe y repara','Cuatro fallas a propósito']], bc = '<text class="t-n" x="88" y="104" font-size="56">Del conducto a la lámpara</text><text class="t-s" x="88" y="152" font-size="27">Laboratorio · Power BI Desktop · entrega: consulta, testigos y plan de actualización de tu proyecto</text>';
+  bc += luz('M0 400H1600', 0, 5, 'fuerte');
+  B.forEach(function (e, i) { var x = 230 + i * 380; bc += '<rect x="' + (x - 90) + '" y="310" width="180" height="180" fill="var(--fondo-2)" stroke="var(--compra)" stroke-width="4" transform="rotate(45 ' + x + ' 400)"/>' + ic(e[0], x - 44, 356, 88) + '<text class="t-n" x="' + x + '" y="580" text-anchor="middle" font-size="35">' + e[1] + '</text>' + e[2].split(' ').reduce(function (l, w) { var u = l[l.length - 1]; if ((u + ' ' + w).length > 24) l.push(w); else l[l.length - 1] = (u + ' ' + w).trim(); return l; }, ['']).map(function (t, k) { return '<text class="t-s" x="' + x + '" y="' + (620 + k * 32) + '" text-anchor="middle" font-size="25">' + t + '</text>'; }).join(''); });
+  CUR.poner('banco', bc);
+  /* Glosario */
+  var GL = [['refresh-cw','Actualización','Volver a traer los datos de la fuente.'],['clock','Actualización programada','El servicio lo hace en franjas definidas.'],['layers','Modelo semántico','Los datos y cálculos que usa un informe.'],['shield-check','Puerta de enlace','Puente entre fuentes locales y el servicio.'],['key-round','Credenciales','Permiso con que el servicio entra a la fuente.'],['webhook','API','Interfaz para pedir datos a otro sistema.'],['route','Origen dinámico','Dirección que solo se conoce al ejecutar.'],['spline','RelativePath y Query','Opciones de Web.Contents para una raíz fija.'],['eye','Testigo','Fecha, filas o total que delatan un error.'],['siren','Falla silenciosa','Termina bien, con datos equivocados.']];
+  CUR.poner('bornes', GL.map(function (e) { return '<div class="borne"><i class="ico" data-i="' + e[0] + '"></i><b>' + e[1] + '</b><span>' + e[2] + '</span></div>'; }).join(''));
+  /* Anunciadores */
+  var A = [['Conecta para poder actualizar','Raíz fija, sin direcciones armadas a mano.'],['Actualiza lo necesario','Según cuánto cambian los datos, y con un dueño.'],['No confíes en “correcta”','Fecha, filas y total, a la vista.']], an = '<text class="t-n" x="88" y="104" font-size="52">Tres lámparas en verde para llevarte</text>';
+  A.forEach(function (e, i) { var yy = 220 + i * 190; an += '<g class="paso"><rect x="88" y="' + yy + '" width="150" height="150" fill="#123425" stroke="var(--vivo)" stroke-width="4"/><circle cx="163" cy="' + (yy + 75) + '" r="42" fill="var(--vivo)" style="filter:drop-shadow(0 0 16px var(--vivo))"/><text class="t-n" x="280" y="' + (yy + 66) + '" font-size="46">' + e[0] + '</text><text class="t-s" x="280" y="' + (yy + 114) + '" font-size="31">' + e[1] + '</text></g>'; });
+  an += '<text class="t-s" x="88" y="830" font-size="27">Próxima sesión: empieza la Unidad 4. De los tableros a las historias.</text>';
+  CUR.poner('anun', an);
+})();
+</script>
+<script src="../assets/puntos/cine.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

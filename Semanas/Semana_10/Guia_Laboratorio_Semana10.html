@@ -1,117 +1,198 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 10 - Integración con Python y R</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B', dark: '#0f172a' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.08); }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio sesión 10: conexiones que se actualizan | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+<style>@media (max-width: 900px) { .marco { grid-template-columns: minmax(0, 1fr); } } li code { overflow-wrap: anywhere; }</style>
 </head>
-<body class="text-gray-800 antialiased p-4 md:p-8">
-    
-    <div class="max-w-5xl mx-auto space-y-8">
-        
-        <!-- Header -->
-        <div class="bg-gradient-to-br from-primary to-[#002240] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
-            <!-- Deco -->
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            
-            <div class="relative z-10">
-                <div class="flex items-center gap-5 mb-6">
-                    <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-python text-3xl text-secondary"></i>
-                    </div>
-                    <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 10</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Python Avanzado dentro de Power BI</h1>
-                    </div>
-                </div>
-                <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> Hay gráficos estadísticos profundos que BI no soporta nativamente. Como analista de datos avanzado, escribirás código en Seaborn (Python) para generar un Mapa de Calor (Heatmap) de correlaciones de Pearson, incrustado en el dashboard operativo.</p>
-                </div>
-            </div>
-        </div>
+<body>
+<header class="portada">
+  <h1>Conexiones que se actualizan</h1>
+  <p>Conecta Power BI a una API pública de forma que se pueda actualizar, deja testigos a la vista, provoca fallas para aprender a diagnosticarlas y escribe el plan de actualización de su proyecto.</p>
+  <div class="datos-clase"><span><b>Sesión</b>10</span><span><b>Modalidad</b>Individual</span><span><b>Herramienta</b>Power BI Desktop; servicio si hay licencia</span><span><b>Resultado</b>2.3</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#datos">Los datos</a></li>
+  <li><a href="#e1">1. Conectar</a></li>
+  <li><a href="#e2">2. Parámetro</a></li>
+  <li><a href="#e3">3. Testigos</a></li>
+  <li><a href="#e4">4. Actualizar</a></li>
+  <li><a href="#e5">5. Publicar y programar</a></li>
+  <li><a href="#e6">6. Romper y reparar</a></li>
+  <li><a href="#e7">7. Su plan</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Metodologia Paso a Paso -->
-        <div class="glass-card rounded-2xl p-8 md:p-12">
-            <h2 class="text-2xl font-bold text-primary mb-10 flex items-center gap-3 border-b border-gray-200 pb-4">
-                <i class="fas fa-layer-group text-secondary"></i> Flujo de Implementación Técnica
-            </h2>
-            
-            <div class="mt-8">
-                
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    1
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Configuración del Entorno (Python Runtime)</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Asegurar que Python y Pandas/Matplotlib/Seaborn estén instalados y mapeados en las opciones globales del software BI (Options > Python Scripting).</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    2
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Transformación ETL con Pandas</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">En Power Query, seleccionar 'Ejecutar script de Python'. Extraer el año y mes de una fecha compleja utilizando las potentes funciones lambda y de string de Pandas: `dataset['Año'] = dataset['Fecha_Cruda'].str.extract(r'(\d{4})')`.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    3
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Visualización de Correlaciones (Heatmap)</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Arrastrar el visual de Python al lienzo. Añadir métricas numéricas continuas (Ventas, Temperatura_Clima, Descuentos). Escribir el script: `import seaborn as sns; import matplotlib.pyplot as plt; sns.heatmap(dataset.corr(), annot=True, cmap='Blues'); plt.show()`.</p>
-                </div>
-            </div>
-            </div>
-        </div>
+<section id="datos">
+  <h2>Los datos</h2>
+  <p><b>TRM:</b> tasa de cambio representativa del mercado, en pesos colombianos por dólar. Superintendencia Financiera de Colombia, en Datos Abiertos Colombia. CC BY-SA 4.0.</p>
+  <div class="tablon"><table>
+    <tr><th>Campo</th><th>Qué es</th><th>Cómo llega</th></tr>
+    <tr><td><code>valor</code></td><td>La tasa</td><td>Texto con punto decimal</td></tr>
+    <tr><td><code>unidad</code></td><td>Moneda: COP</td><td>Texto</td></tr>
+    <tr><td><code>vigenciadesde</code></td><td>Inicio de la vigencia</td><td>Texto de fecha y hora</td></tr>
+    <tr><td><code>vigenciahasta</code></td><td>Fin de la vigencia</td><td>Texto de fecha y hora</td></tr>
+  </table></div>
+  <div class="aviso">Esta fuente cambia a diario: su resultado no será igual al de otra persona en otro momento. Los puntos de control revisan la estructura, y usted compara con la <a href="https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=1&amp;$order=vigenciadesde%20DESC" target="_blank" rel="noopener">última TRM publicada</a>.</div>
+</section>
 
-        <!-- Reto de Práctica Autónoma -->
-        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl border-l-8 border-secondary relative overflow-hidden transform transition hover:scale-[1.01] duration-300">
-            <div class="absolute top-0 right-0 p-8 opacity-10">
-                <i class="fas fa-rocket text-8xl"></i>
-            </div>
-            <div class="relative z-10">
-                <div class="inline-block bg-secondary text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4 shadow-lg">
-                    Actividad Autónoma
-                </div>
-                <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                    <i class="fas fa-brain text-secondary"></i> Reto Arquitectónico Avanzado
-                </h2>
-                <div class="bg-white/10 rounded-xl p-6 border border-white/10">
-                    <p class="text-gray-300 text-lg leading-relaxed">
-                        Entrenar y serializar (joblib/pickle) un modelo simple de Random Forest Regressor en Jupyter Notebook externo. Importarlo dentro de Power Query para realizar predicciones dinámicas y crear una columna calculada predictiva.
-                    </p>
-                </div>
-                
-                <div class="mt-8 bg-blue-900/40 border border-blue-500/30 rounded-lg p-5 flex gap-4">
-                    <i class="fas fa-circle-info text-blue-400 text-xl mt-1"></i>
-                    <p class="text-sm text-blue-200">
-                        <strong>Criterio de Evaluación Institucional:</strong> Este reto exige aplicar la documentación oficial, foros de la comunidad técnica y fundamentos teóricos de la clase magistral. Asegúrate de comentar y estructurar bien tu código DAX o M para sustentarlo en la revisión.
-                    </p>
-                </div>
-            </div>
-        </div>
+<section id="e1">
+  <h2><span class="num">1.</span> Conectar con raíz fija</h2>
+  <p class="meta">20 minutos.</p>
+  <ol class="pasos">
+    <li>En un archivo nuevo, vaya a <span class="ruta">Inicio &gt; Obtener datos &gt; Consulta en blanco</span>.</li>
+    <li>Abra el <span class="ruta">Editor avanzado</span> y pegue:</li>
+  </ol>
+  <pre><code>let
+    Origen = Json.Document(
+        Web.Contents(
+            "https://www.datos.gov.co",
+            [
+                RelativePath = "resource/32sa-8pi3.json",
+                Query = [ #"$limit" = "10000", #"$order" = "vigenciadesde DESC" ]
+            ]
+        )
+    ),
+    Tabla = Table.FromRecords(Origen),
+    Tipos = Table.TransformColumnTypes(
+        Tabla,
+        { {"valor", type number}, {"vigenciadesde", type datetime}, {"vigenciahasta", type datetime} },
+        "en-US"
+    )
+in
+    Tipos</code></pre>
+  <ol class="pasos">
+    <li>Si pide credenciales, elija <em>Anónimo</em> para <code>https://www.datos.gov.co</code>.</li>
+    <li>Llame la consulta <code>TRM</code>. Compruebe tipos y número de filas.</li>
+    <li>Explique: ¿por qué <code>"en-US"</code>? ¿Qué pasaría sin él en un equipo en español?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Cuatro columnas y más de 8.000 filas, y la primera es la TRM más reciente. El registro más antiguo es de diciembre de 1991, con valor 643,42. La primera fila debe coincidir con la última TRM del enlace de arriba.</p>
+    <p><code>"en-US"</code> indica que el texto viene con punto decimal. Sin él, un equipo configurado en español podría leer mal la cifra.</p>
+  </div></details>
+</section>
 
-    </div>
+<section id="e2">
+  <h2><span class="num">2.</span> Un parámetro para el límite</h2>
+  <p class="meta">10 minutos.</p>
+  <ol class="pasos">
+    <li><span class="ruta">Inicio &gt; Administrar parámetros &gt; Nuevo</span>. Nombre: <code>Limite</code>. Tipo: Texto. Valor: <code>10000</code>.</li>
+    <li>En el Editor avanzado cambie <code>#"$limit" = "10000"</code> por <code>#"$limit" = Limite</code>.</li>
+    <li>Cambie el parámetro a <code>5</code>. ¿Cuántas filas quedan? Vuelva a <code>10000</code>.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Con <code>5</code> quedan 5 filas. Es la dirección completa la que cambia, pero la raíz sigue siendo fija. La documentación de Microsoft indica que RelativePath, Query y los parámetros de Power Query están entre las excepciones que sí se pueden actualizar en el servicio.</p>
+  </div></details>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Dejar testigos a la vista</h2>
+  <p class="meta">15 minutos.</p>
+  <ol class="pasos">
+    <li><span class="ruta">Cerrar y aplicar</span>. Cree tres medidas:</li>
+  </ol>
+  <pre><code>Ultima Fecha = MAX ( TRM[vigenciadesde] )
+
+Filas TRM = COUNTROWS ( TRM )
+
+Ultima TRM =
+VAR u = MAX ( TRM[vigenciadesde] )
+RETURN CALCULATE ( MAX ( TRM[valor] ), TRM[vigenciadesde] = u )</code></pre>
+  <ol class="pasos">
+    <li>Ponga cada una en una tarjeta. Agregue una línea con <code>vigenciadesde</code> y <code>valor</code>.</li>
+    <li>Escriba en un cuadro de texto la regla: qué fecha y cuántas filas esperaría mañana.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p><code>Ultima TRM</code> debe coincidir con la cifra publicada. <code>Filas TRM</code> debe pasar de 8.000. Si da exactamente 1.000, perdió el <code>$limit</code>: es la falla silenciosa de la sesión 3.</p>
+  </div></details>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Actualizar en Desktop</h2>
+  <p class="meta">5 minutos.</p>
+  <ol class="pasos">
+    <li>Pulse <span class="ruta">Inicio &gt; Actualizar</span>.</li>
+    <li>Anote la hora, la última fecha y las filas. Repita mañana y compare.</li>
+    <li>¿Qué cambiaría si esta fuente fuera Online Retail, que termina en 2011?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Hoy probablemente nada cambie: la TRM no se publica a cada minuto. Con Online Retail nada cambiará nunca. La frecuencia correcta depende de la fuente.</p>
+  </div></details>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Publicar y programar</h2>
+  <p class="meta">15 minutos. Requiere cuenta de Power BI con licencia. Pregunte al docente qué hay disponible; si no hay, responda las preguntas con la documentación.</p>
+  <ol class="pasos">
+    <li><span class="ruta">Inicio &gt; Publicar</span> en un área de trabajo.</li>
+    <li>En el servicio, abra la configuración del modelo semántico. Revise las credenciales del origen.</li>
+    <li>Pruebe <em>Actualizar ahora</em>. Revise el historial.</li>
+    <li>Configure una actualización diaria, a una hora posterior a la publicación de la TRM. Active los avisos por correo.</li>
+    <li>Responda: ¿necesitó puerta de enlace? ¿Por qué? ¿Cuántas franjas permite su licencia? ¿Qué pasa si nadie abre el informe en dos meses?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <ul>
+      <li>Puerta de enlace: no es necesaria para un origen en la nube al que Power BI se puede conectar directamente.</li>
+      <li>Franjas: hasta 8 al día en capacidad compartida y hasta 48 en Premium, según la documentación.</li>
+      <li>Tras dos meses sin visitas, el servicio pausa la programación y avisa al dueño por correo.</li>
+    </ul>
+  </div></details>
+</section>
+
+<section id="e6">
+  <h2><span class="num">6.</span> Romper y reparar</h2>
+  <p class="meta">25 minutos. Sobre una copia del archivo. Para cada caso, primero escriba dónde miraría.</p>
+  <div class="tablon"><table>
+    <tr><th>Provoque esto</th><th>Pregunta</th></tr>
+    <tr><td>Cambie <code>RelativePath</code> a <code>"resource/no-existe.json"</code></td><td>¿Qué mensaje da? ¿En qué paso?</td></tr>
+    <tr><td>Quite <code>#"$limit"</code> de la consulta</td><td>¿Da error? ¿Qué testigo lo delata?</td></tr>
+    <tr><td>Quite <code>"en-US"</code> y vea <code>valor</code></td><td>¿Da error o una cifra equivocada? Depende de su configuración regional: compruébelo.</td></tr>
+    <tr><td>Agregue un paso que use una columna <code>tasa</code>, que no existe</td><td>¿Qué pasos fallan? ¿Cómo encuentra el primero?</td></tr>
+    <tr><td>Reescriba la consulta con la dirección armada a mano, concatenando <code>Limite</code></td><td>Abra <span class="ruta">Configuración de origen de datos</span>. ¿Aparece una advertencia de origen dinámico?</td></tr>
+  </table></div>
+  <details><summary>Punto de control</summary><div>
+    <p>Quitar el límite es lo más peligroso: <b>no hay error</b>, y solo cambia <code>Filas TRM</code>, a 1.000. La API además los entrega en el orden pedido, así que la última fecha puede seguir viéndose bien. Por eso se necesita más de un testigo.</p>
+    <p>La redacción exacta de los mensajes cambia con la versión de Power BI: lo que se evalúa es el procedimiento. Recorra los pasos aplicados hasta el primero con error.</p>
+  </div></details>
+</section>
+
+<section id="e7" class="reto">
+  <h2><span class="num">7.</span> Plan de actualización de su proyecto</h2>
+  <p class="meta">Es lo que se entrega.</p>
+  <div class="tablon"><table>
+    <tr><th>Pregunta</th><th>Su respuesta</th></tr>
+    <tr><td>¿Cada fuente es archivo local, nube, base o API?</td><td></td></tr>
+    <tr><td>¿Cada cuánto cambia cada una? ¿Cómo lo sabe?</td><td></td></tr>
+    <tr><td>¿Cada cuánto necesita actualizar su audiencia?</td><td></td></tr>
+    <tr><td>¿Hace falta puerta de enlace? ¿Dónde estaría?</td><td></td></tr>
+    <tr><td>¿Qué credenciales usa, y quién es el dueño?</td><td></td></tr>
+    <tr><td>¿Cuáles son sus tres testigos? Agréguelos al informe.</td><td></td></tr>
+    <tr><td>¿Qué falla es la más probable, y qué haría?</td><td></td></tr>
+  </table></div>
+  <p>Si sus datos no cambian, como un conjunto histórico, dígalo. Un plan honesto puede ser: “no requiere actualización; si se quisiera usar en producción, faltaría esta fuente”.</p>
+  <p class="meta">No escriba contraseñas ni claves en el informe, en la consulta ni en la entrega.</p>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/F_ilm2IaCgA" title="Actualización programada de informes en Power BI" allowfullscreen></iframe></div>
+  <p class="meta">Actualización programada de informes en Power BI. Microsoft Excel a Todo Nivel, 6:21, en español.</p>
+  <ul>
+    <li><a href="https://www.youtube.com/watch?v=WJ5Y4FjkWZw" target="_blank" rel="noopener">What is the Power BI Data Gateway?</a> Guy in a Cube, 5:19, en inglés.</li>
+    <li><a href="https://www.youtube.com/watch?v=tVa_tFjzTJk" target="_blank" rel="noopener">Por qué falla la actualización en Power BI.</a> NamasData, 5:52, en español.</li>
+    <li><a href="https://www.youtube.com/watch?v=CYSMZxaXNLk" target="_blank" rel="noopener">My Excel file is in the cloud! Why isn't refresh working?</a> Guy in a Cube, 5:22, en inglés.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/refresh-data" target="_blank" rel="noopener">Data refresh in Power BI</a>.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/powerquery-m/web-contents" target="_blank" rel="noopener">Web.Contents</a>.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/service-gateway-onprem" target="_blank" rel="noopener">What is an on-premises data gateway?</a></li>
+  </ul>
+</section>
+
+</main>
+</div>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

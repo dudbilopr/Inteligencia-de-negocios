@@ -14,18 +14,19 @@ Desarrollar la capacidad de transformar datos en información útil para la toma
 
 ## Contenido por Semanas
 
-### Unidad 1: Introducción a la Inteligencia de Negocios
+### Unidad 1: Concepto, evolución y fuentes
 
-- **[Semana 1: Introducción, Evolución y Conceptos Básicos](Semanas/Semana_1/)**
-  - [Presentación Interactiva HTML](Semanas/Semana_1/diapositivas_semana_1.html)
-  - [Actividad EMI - Warm Up](Semanas/Semana_1/quiz_semana_1.html)
+- **[Sesión 1: Concepto y evolución de BI; datos, información y decisiones](Semanas/Semana_1/)**
+  - [Presentación](Semanas/Semana_1/diapositivas_semana_1.html)
+  - [Taller](Semanas/Semana_1/Guia_Laboratorio_Semana1.html)
+  - [Actividad EMI](Semanas/Semana_1/quiz_semana_1.html)
 
-### Unidad 2: Modelado e Integración de Datos
+- **[Sesión 2: Tipos de datos, fuentes y fundamentos de KPI](Semanas/Semana_2/)**
+  - [Presentación](Semanas/Semana_2/diapositivas_semana_2.html)
+  - [Taller](Semanas/Semana_2/Guia_Laboratorio_Semana2.html)
+  - [Actividad EMI](Semanas/Semana_2/quiz_semana_2.html)
 
-- **[Semana 2: Modelado Relacional y ETL](Semanas/Semana_2/)**
-  - [Presentación Interactiva HTML](Semanas/Semana_2/diapositivas_semana_2.html)
-  - [Actividad EMI - Warm Up](Semanas/Semana_2/quiz_semana_2.html)
-  - [Reto / Práctica Autónoma](Semanas/Semana_2/Guia_Laboratorio_Semana2.html)
+### Unidades 2 y 3: pendientes de alinear con el calendario oficial
 
 - **[Semana 3: DAX Basics y Power Query](Semanas/Semana_3/)**
   - [Presentación Interactiva HTML](Semanas/Semana_3/diapositivas_semana_3.html)
@@ -49,22 +50,22 @@ Desarrollar la capacidad de transformar datos en información útil para la toma
   - [Actividad EMI - Warm Up](Semanas/Semana_6/quiz_semana_6.html)
   - [Reto / Práctica Autónoma](Semanas/Semana_6/Guia_Laboratorio_Semana6.html)
 
-- **[Semana 7: Interactivdad UX (Drill-through, Tooltips)](Semanas/Semana_7/)**
+- **[Sesión 7: Principios de visualización y KPI](Semanas/Semana_7/)**
   - [Presentación Interactiva HTML](Semanas/Semana_7/diapositivas_semana_7.html)
   - [Actividad EMI - Warm Up](Semanas/Semana_7/quiz_semana_7.html)
   - [Reto / Práctica Autónoma](Semanas/Semana_7/Guia_Laboratorio_Semana7.html)
 
-- **[Semana 8: Gobernanza y Row-Level Security (RLS)](Semanas/Semana_8/)**
+- **[Sesión 8: Reportes interactivos: filtros y drill-down](Semanas/Semana_8/)**
   - [Presentación Interactiva HTML](Semanas/Semana_8/diapositivas_semana_8.html)
   - [Actividad EMI - Warm Up](Semanas/Semana_8/quiz_semana_8.html)
   - [Reto / Práctica Autónoma](Semanas/Semana_8/Guia_Laboratorio_Semana8.html)
 
-- **[Semana 9: Proyecto Integrador - HR Analytics & Sales Performance](Semanas/Semana_9/)**
+- **[Sesión 9: Integración y cierre del Proyecto 1](Semanas/Semana_9/)**
   - [Presentación Interactiva HTML](Semanas/Semana_9/diapositivas_semana_9.html)
   - [Actividad EMI - Warm Up](Semanas/Semana_9/quiz_semana_9.html)
   - [Reto / Práctica Autónoma](Semanas/Semana_9/Guia_Laboratorio_Semana9.html)
 
-- **[Semana 10: Despliegue en la Nube y Automatización](Semanas/Semana_10/)**
+- **[Sesión 10: Actualización con conexiones dinámicas](Semanas/Semana_10/)**
   - [Presentación Interactiva HTML](Semanas/Semana_10/diapositivas_semana_10.html)
   - [Actividad EMI - Warm Up](Semanas/Semana_10/quiz_semana_10.html)
   - [Reto / Práctica Autónoma](Semanas/Semana_10/Guia_Laboratorio_Semana10.html)

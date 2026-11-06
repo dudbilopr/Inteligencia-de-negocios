@@ -1,94 +1,235 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio - Semana 2</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller sesión 2: fuentes, titulares y KPI | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+<style>@media (max-width: 900px) { .marco { grid-template-columns: minmax(0, 1fr); } } li code { overflow-wrap: anywhere; }</style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
-    
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        
-        <!-- Header -->
-        <div class="bg-primary text-white p-8">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-white/20 rounded-full flex justify-center items-center">
-                    <i class="fas fa-users-gear text-2xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-bold">Laboratorio: De la Intuición a la Analítica</h1>
-                    <p class="text-blue-200 text-sm">Semana 2 - Inteligencia de Negocios</p>
-                </div>
-            </div>
-            <p class="opacity-90 text-sm">En este taller no tocaremos código ni herramientas. Practicarás la habilidad más importante de un analista: traducir quejas ambiguas de gerencia en preguntas analíticas estructuradas y KPIs medibles.</p>
-        </div>
+<body>
+<header class="portada">
+  <h1>Fuentes, titulares y KPI</h1>
+  <p>Va a trabajar con tres fuentes reales, una tabla, una API y texto libre. Después reproducirá los tres titulares contradictorios de diciembre y definirá indicadores que sirvan para decidir.</p>
+  <div class="datos-clase"><span><b>Sesión</b>2</span><span><b>Modalidad</b>En parejas, entrega individual</span><span><b>Herramienta</b>Excel y navegador</span><span><b>Resultado</b>1.1</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#datos">Los datos</a></li>
+  <li><a href="#e1">1. Clasificar fuentes</a></li>
+  <li><a href="#e2">2. Abrir una API</a></li>
+  <li><a href="#e3">3. Contar palabras</a></li>
+  <li><a href="#e4">4. Tres titulares</a></li>
+  <li><a href="#e5">5. Retención</a></li>
+  <li><a href="#e6">6. Tres KPI</a></li>
+  <li><a href="#e7">7. El correo del gerente</a></li>
+  <li><a href="#e8">8. Su proyecto</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Content -->
-        <div class="p-8 space-y-10">
-            
-            <!-- Caso Clínico -->
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-book-open"></i></div>
-                    <h2 class="text-xl font-bold text-primary">El Caso de Estudio: "TechStore"</h2>
-                </div>
-                
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-sm text-gray-700 mb-4 shadow-inner relative">
-                    <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg"><i class="fas fa-envelope mr-1"></i> Correo de Gerencia</div>
-                    <p class="mt-4"><em>"Hola equipo de Datos,<br><br>Estoy muy preocupado. Siento que la gente ya no compra igual que antes. La semana pasada entré a la tienda física y estaba vacía, aunque me dicen que la página web tiene mucho tráfico. A pesar de eso, las ganancias de este mes fueron menores que las del mes pasado. Creo que nuestras campañas de marketing en Instagram no están sirviendo para nada y solo estamos quemando dinero.<br><br>Necesito que me hagan un reporte urgente que me diga qué está pasando. ¡Gracias!"</em></p>
-                    <p class="mt-4 font-bold text-right">- El Gerente General</p>
-                </div>
-            </section>
+<section id="datos">
+  <h2>Los datos</h2>
+  <div class="tablon"><table>
+    <tr><th>Fuente</th><th>Qué es</th><th>Licencia</th></tr>
+    <tr><td><a href="../Semana_1/Datos/Online_Retail_Facturas.xlsx" download>Online Retail, por factura</a></td><td>El libro de la sesión 1: ventas reales de un minorista británico, del 1 de diciembre de 2010 al 9 de diciembre de 2011. Importes en libras. Chen (2015).</td><td>CC BY 4.0</td></tr>
+    <tr><td><a href="Datos/Resenas_Amazon.csv" download>Reseñas de Amazon</a></td><td>1.000 frases reales de clientes sobre celulares y accesorios, en inglés, con etiqueta. Kotzias (2015).</td><td>CC BY 4.0</td></tr>
+    <tr><td><a href="https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=5&amp;$order=vigenciadesde%20DESC" target="_blank" rel="noopener">API de la TRM</a></td><td>Tasa de cambio oficial de pesos por dólar. Superintendencia Financiera, en Datos Abiertos Colombia.</td><td>CC BY-SA 4.0</td></tr>
+  </table></div>
+  <h3>Columnas de la hoja Facturas</h3>
+  <p>A <code>Factura</code> · B <code>Tipo</code> (Venta o Cancelación) · C <code>Fecha</code> · D <code>Mes</code> · E <code>Cliente</code> (vacío si no se registró) · F <code>Pais</code> · G <code>Lineas</code> · H <code>Unidades</code> · I <code>Importe_GBP</code> (negativo si es cancelación; incluye envío y comisiones).</p>
+  <h3>Columnas de las reseñas</h3>
+  <p><code>Resena</code>: la frase original, sin corregir. <code>Etiqueta</code>: Positiva o Negativa, asignada por quienes publicaron los datos. El archivo trae <b>500 y 500 a propósito</b>: no mide cuántos clientes están molestos.</p>
+  <p class="meta">Si su Excel está en inglés: <code>CONTAR.SI</code> es <code>COUNTIF</code>, <code>CONTAR.SI.CONJUNTO</code> es <code>COUNTIFS</code>, <code>SUMAR.SI.CONJUNTO</code> es <code>SUMIFS</code>, <code>FECHA</code> es <code>DATE</code>. Esta guía usa punto y coma entre argumentos; su equipo puede usar coma.</p>
+</section>
 
-            <!-- Instrucciones -->
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-pen-to-square"></i></div>
-                    <h2 class="text-xl font-bold text-primary">Tu Misión (Pair Programming)</h2>
-                </div>
-                <div class="bg-blue-50 border-l-4 border-primary p-4 rounded-r-md text-sm text-gray-700 mb-4">
-                    <p>Reúnete con tu pareja de proyecto. Lean cuidadosamente el correo y completen los siguientes tres pasos. Documenten sus respuestas en un documento de Word o Google Docs.</p>
-                </div>
-                
-                <ol class="space-y-6 mt-6">
-                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg">
-                        <strong class="text-primary text-lg block mb-2">1. Desglosar las Hipótesis</strong>
-                        <p class="text-sm text-gray-600 mb-2">El gerente está mezclando intuiciones con hechos. Separa el texto en 3 afirmaciones concretas que él cree que son ciertas.</p>
-                        <p class="text-xs text-gray-400 italic">Ejemplo: Afirmación 1: "Las ventas físicas están cayendo frente a las online".</p>
-                    </li>
-                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg">
-                        <strong class="text-primary text-lg block mb-2">2. Formulación de Preguntas Analíticas</strong>
-                        <p class="text-sm text-gray-600 mb-2">Convierte esas afirmaciones ambiguas en preguntas exactas que se le pueden hacer a una base de datos.</p>
-                        <p class="text-xs text-gray-400 italic">Ejemplo: "¿Cuál es la variación porcentual mensual (MoM) de los ingresos, segmentada por canal de venta (Físico vs Web) en los últimos 3 meses?"</p>
-                    </li>
-                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg">
-                        <strong class="text-primary text-lg block mb-2">3. Definición de 3 KPIs Clave</strong>
-                        <p class="text-sm text-gray-600 mb-2">Si tuvieras que construirle un Dashboard (Tablero) a este gerente mañana, ¿cuáles serían los 3 KPIs numéricos gigantes que pondrías en la parte superior para responder sus dudas?</p>
-                        <div class="text-xs text-gray-500 mt-2 bg-gray-50 p-2 rounded">
-                            <ul class="list-disc ml-5">
-                                <li>Nombre del KPI.</li>
-                                <li>Fórmula matemática simple (ej. Ingresos Netos - Costo Publicidad).</li>
-                                <li>¿Por qué es importante?</li>
-                            </ul>
-                        </div>
-                    </li>
-                </ol>
-            </section>
+<section id="e1">
+  <h2><span class="num">1.</span> Clasificar fuentes</h2>
+  <p class="meta">10 minutos. Sin computador.</p>
+  <p>Para cada fuente, indique si es interna o externa, si es estructurada, semiestructurada o no estructurada, y una decisión de mercadeo que apoyaría.</p>
+  <ol class="pasos">
+    <li>La tabla de facturas de Online Retail.</li>
+    <li>La respuesta de la API de la TRM.</li>
+    <li>Las reseñas escritas por clientes.</li>
+    <li>Las grabaciones de llamadas de un centro de servicio.</li>
+    <li>La exportación de contactos de un CRM.</li>
+    <li>El registro de navegación del sitio web en formato JSON.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th>Fuente</th><th>Origen</th><th>Forma</th></tr>
+      <tr><td>Facturas</td><td>Interna</td><td>Estructurada</td></tr>
+      <tr><td>TRM por API</td><td>Externa</td><td>Semiestructurada; su contenido es muy regular</td></tr>
+      <tr><td>Reseñas</td><td>Interna o externa, según dónde se publiquen</td><td>No estructurada</td></tr>
+      <tr><td>Llamadas</td><td>Interna</td><td>No estructurada</td></tr>
+      <tr><td>Contactos del CRM</td><td>Interna</td><td>Estructurada; suele traer notas libres</td></tr>
+      <tr><td>Navegación en JSON</td><td>Interna</td><td>Semiestructurada</td></tr>
+    </table></div>
+    <p>La decisión es abierta. Lo que se revisa es que alguien haría algo distinto según el resultado.</p>
+  </div></details>
+</section>
 
-        </div>
-    </div>
+<section id="e2">
+  <h2><span class="num">2.</span> Abrir una API en vivo</h2>
+  <p class="meta">10 minutos. Solo necesita el navegador.</p>
+  <ol class="pasos">
+    <li>Abra este enlace: <a href="https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=5&amp;$order=vigenciadesde%20DESC" target="_blank" rel="noopener">las 5 TRM más recientes</a>.</li>
+    <li>Cambie <code>$limit=5</code> por <code>$limit=2</code> en la dirección y recargue. Acaba de hacerle otra petición a la API.</li>
+    <li>Anote qué campos trae cada registro.</li>
+    <li>Fíjese en el valor: ¿tiene comillas? ¿Qué pasaría si intentara sumarlo así en una hoja de cálculo?</li>
+    <li>Escriba una decisión para la que la TRM sea útil.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Debe ver cuatro campos: <code>valor</code>, <code>unidad</code>, <code>vigenciadesde</code> y <code>vigenciahasta</code>. El valor cambia cada día, así que no hay una cifra única.</p>
+    <p>El valor viene entre comillas: es <b>texto</b>, y además usa punto decimal. Hay que convertirlo antes de calcular. Limpiar eso es justo el tema de la sesión 3.</p>
+  </div></details>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Contar palabras</h2>
+  <p class="meta">20 minutos. Convierte texto libre en un indicador muy simple.</p>
+  <ol class="pasos">
+    <li>En un libro nuevo, vaya a <span class="ruta">Datos &gt; Desde texto/CSV</span>, elija <code>Resenas_Amazon.csv</code>, confirme que el delimitador sea la coma y cárguelo. Si lo abre con doble clic, puede quedar todo en una columna.</li>
+    <li>Compruebe que quedó la columna <code>Resena</code> en A y <code>Etiqueta</code> en B, con 1.000 filas de datos.</li>
+    <li>En una celda libre, cuente las frases que contienen “charg”: <code>=CONTAR.SI(A:A;"*charg*")</code>. Los asteriscos significan “cualquier texto”.</li>
+    <li>Cuente cuántas de esas son negativas: <code>=CONTAR.SI.CONJUNTO(A:A;"*charg*";B:B;"Negativa")</code>.</li>
+    <li>Divida para obtener el porcentaje de negativas.</li>
+    <li>Repita con <code>batter</code>, <code>quality</code>, <code>sound</code> y <code>price</code>.</li>
+    <li>Lea cinco frases con “charg”. ¿La palabra siempre indica una queja de carga?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th>Palabra</th><th class="d">Frases</th><th class="d">Negativas</th><th class="d">Porcentaje</th></tr>
+      <tr><td>charg</td><td class="d">42</td><td class="d">27</td><td class="d">64,3&nbsp;%</td></tr>
+      <tr><td>batter</td><td class="d">47</td><td class="d">24</td><td class="d">51,1&nbsp;%</td></tr>
+      <tr><td>quality</td><td class="d">49</td><td class="d">18</td><td class="d">36,7&nbsp;%</td></tr>
+      <tr><td>sound</td><td class="d">44</td><td class="d">16</td><td class="d">36,4&nbsp;%</td></tr>
+      <tr><td>price</td><td class="d">33</td><td class="d">3</td><td class="d">9,1&nbsp;%</td></tr>
+    </table></div>
+    <p>La línea base es 50&nbsp;%, porque el archivo trae mitad y mitad. Los grupos son pequeños y una palabra no captura el sentido: esto orienta, no prueba.</p>
+  </div></details>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Reproducir los tres titulares</h2>
+  <p class="meta">25 minutos. Hoja <code>Facturas</code> de Online Retail.</p>
+  <p>Use fórmulas con rangos de fecha. La primera suma las ventas de diciembre de 2010 completo:</p>
+  <pre><code>=SUMAR.SI.CONJUNTO(I:I;C:C;"&gt;="&amp;FECHA(2010;12;1);C:C;"&lt;"&amp;FECHA(2011;1;1);B:B;"Venta")</code></pre>
+  <ol class="pasos">
+    <li><b>Titular 1.</b> Calcule las ventas de diciembre de 2010 completo y las de diciembre de 2011 hasta donde llega el archivo. Halle la variación: <code>nuevo/anterior-1</code>.</li>
+    <li><b>Titular 2.</b> Compare solo del 1 al 9 de diciembre de cada año. Cambie la fecha final por <code>FECHA(2010;12;10)</code> y <code>FECHA(2011;12;10)</code>.</li>
+    <li><b>Titular 3.</b> Repita el paso 2 sin la condición de <code>Tipo</code>, para incluir las cancelaciones.</li>
+    <li>Ordene la hoja por <code>Importe_GBP</code> de mayor a menor. ¿Cuáles son las dos facturas más grandes? Búsquelas ahora con su cancelación.</li>
+    <li>Escriba en dos frases cuál titular publicaría y qué advertencia le agregaría.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th>Medida</th><th class="d">Dic. 2010</th><th class="d">Dic. 2011</th><th class="d">Variación</th></tr>
+      <tr><td>Ventas, mes contra 9 días</td><td class="d">823.746</td><td class="d">638.793</td><td class="d">−22,5&nbsp;%</td></tr>
+      <tr><td>Ventas, del 1 al 9</td><td class="d">438.853</td><td class="d">638.793</td><td class="d">+45,6&nbsp;%</td></tr>
+      <tr><td>Neto, del 1 al 9</td><td class="d">377.488</td><td class="d">433.668</td><td class="d">+14,9&nbsp;%</td></tr>
+    </table></div>
+    <p>Las dos facturas más grandes son <b>581483</b>, de £168.469,60, y <b>541431</b>, de £77.183,60. Se cancelaron con <b>C581484</b> 12 minutos después y con <b>C541433</b> 16 minutos después.</p>
+    <p>Los datos no dicen por qué se cancelaron. Tampoco garantizan que cada cancelación pertenezca a una venta del mismo mes.</p>
+  </div></details>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Calcular la retención</h2>
+  <p class="meta">25 minutos.</p>
+  <p><b>Pregunta:</b> de quienes compraron de enero a junio de 2011, ¿qué porcentaje volvió a comprar de julio en adelante?</p>
+  <ol class="pasos">
+    <li>En la hoja <code>Facturas</code>, escriba <code>Semestre</code> en <code>J1</code> y en <code>J2</code>: <code>=SI(C2&lt;FECHA(2011;1;1);"Dic10";SI(C2&lt;FECHA(2011;7;1);"S1";"S2"))</code>. Cópiela hacia abajo.</li>
+    <li>Cree una tabla dinámica: <code>Cliente</code> en Filas, <code>Semestre</code> en Columnas, <code>Factura</code> en Valores como <em>Cuenta</em>, y <code>Tipo</code> en Filtros, con solo <em>Venta</em>.</li>
+    <li>Quite <em>(en blanco)</em> en el filtro de <code>Cliente</code>.</li>
+    <li>Copie la tabla como valores en una hoja nueva. Suponga que S1 queda en la columna C y S2 en la D.</li>
+    <li>Cuente los clientes de S1: <code>=CONTAR(C:C)</code>. Excluya de ese conteo la fila de total general.</li>
+    <li>En una columna auxiliar marque quién compró en ambos: <code>=SI(Y(C3&gt;0;D3&gt;0);1;0)</code>. Súmela, otra vez sin el total.</li>
+    <li>Divida. Después escriba: ¿el resultado es bueno o malo? ¿Cómo lo sabe?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Compraron en S1: <b>2.724</b> clientes. En S1 y S2: <b>1.871</b>. Retención: <b>68,7&nbsp;%</b>.</p>
+    <p>No hay forma de decir si es buena: falta una referencia, como otro año o una meta. El segundo semestre además termina el 9 de diciembre, y faltan clientes sin identificador.</p>
+  </div></details>
+</section>
+
+<section id="e6">
+  <h2><span class="num">6.</span> Tres KPI completos</h2>
+  <p class="meta">20 minutos. Es lo que se entrega.</p>
+  <ol class="pasos">
+    <li>Suponga que le habla a la gerencia comercial de esta empresa. Escriba cuál decisión quiere apoyar.</li>
+    <li>Elija tres indicadores. Puede usar venta neta mensual, retención, cancelación u otros que pueda calcular.</li>
+    <li>Complete esta ficha para cada uno. Si no puede llenar una fila, todavía es una métrica.</li>
+  </ol>
+  <div class="tablon"><table>
+    <tr><th>Campo</th><th>Qué escribir</th></tr>
+    <tr><td>Nombre</td><td>Sin siglas que nadie conozca.</td></tr>
+    <tr><td>Fórmula</td><td>Con columnas reales. Incluya qué se excluye.</td></tr>
+    <tr><td>Valor actual</td><td>Calculado por usted.</td></tr>
+    <tr><td>Meta</td><td>Cifra y plazo. Declárela como supuesto y justifíquela: el archivo no trae metas.</td></tr>
+    <tr><td>Frecuencia</td><td>Cada cuánto se mide.</td></tr>
+    <tr><td>Responsable</td><td>Un cargo.</td></tr>
+    <tr><td>Decisión</td><td>Qué se hace si no se cumple la meta.</td></tr>
+  </table></div>
+  <details><summary>Cifras para comparar</summary><div>
+    <p>Venta neta mensual, promedio de febrero a agosto: £639.300. Retención semestral: 68,7&nbsp;%. Tasa de cancelación, importe cancelado sobre venta bruta: 8,4&nbsp;%, o 6,2&nbsp;% sin las dos facturas del ejercicio 4.</p>
+    <p>Quitar esas facturas también es una decisión: si lo hace, dígalo en la fórmula.</p>
+  </div></details>
+</section>
+
+<section id="e7">
+  <h2><span class="num">7.</span> El correo del gerente</h2>
+  <p class="meta">15 minutos. Correo inventado para el ejercicio.</p>
+  <div class="aviso">
+    <p>“Equipo: estoy muy preocupado. Diciembre fue malo, y hasta me dicen que estamos vendiendo menos que hace un año. Siento que los clientes de siempre ya no vuelven, y que vivimos de dos o tres compradores. Además, el dólar nos está matando. Necesito un informe urgente con todo.”</p>
+    <p class="meta">El gerente</p>
+  </div>
+  <ol class="pasos">
+    <li>Separe el correo en afirmaciones concretas. ¿Cuáles puede comprobar con estos datos?</li>
+    <li>Convierta cada una en una pregunta analítica: qué se mide, sobre quién, en qué periodo y contra qué.</li>
+    <li>Responda las que pueda con lo que ya calculó.</li>
+    <li>¿Cuál no se puede responder? ¿Qué fuente le faltaría?</li>
+    <li>“Con todo” es una trampa. Escriba qué tres cifras le mostraría.</li>
+  </ol>
+  <details><summary>Para comparar</summary><div>
+    <p><b>“Diciembre fue malo”:</b> del 1 al 9, la venta neta creció 14,9&nbsp;% frente al año anterior. El mes no ha terminado en el archivo.</p>
+    <p><b>“Ya no vuelven”:</b> 68,7&nbsp;% de los clientes del primer semestre volvió; sin una referencia no se puede juzgar.</p>
+    <p><b>“Dos o tres compradores”:</b> no tanto, pero sí hay concentración: el cliente mayor pesa 3,4&nbsp;% y el 10&nbsp;% mayor, 59,7&nbsp;%.</p>
+    <p><b>“El dólar nos está matando”:</b> no se puede responder. La empresa factura en libras y faltan costos y tasas de cambio de ese periodo. La API de la TRM trae pesos por dólar, así que tampoco es la fuente para este caso.</p>
+  </div></details>
+</section>
+
+<section id="e8" class="reto">
+  <h2><span class="num">8.</span> Avance de su proyecto</h2>
+  <p class="meta">Para la sesión 3, que además tiene Quiz 1.</p>
+  <ol class="pasos">
+    <li>Escriba la decisión: quién, qué decide y cuándo.</li>
+    <li>Escriba la pregunta analítica.</li>
+    <li>Liste sus fuentes: tipo, dueño, enlace, licencia y periodo que cubren de verdad. Abra el archivo y revise la fecha mínima y la máxima.</li>
+    <li>Escriba un KPI preliminar con la ficha del ejercicio 6.</li>
+  </ol>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/dzh7faTkHCk" title="KPI, qué es y ejemplos, Cyberclick" allowfullscreen></iframe></div>
+  <p class="meta">KPI: qué es y ejemplos. Cyberclick, 6:24, en español. Desde el mercadeo digital: indicadores de lo que ya pasó y de lo que está por venir.</p>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/ItZlTixh6Bs" title="What are KPIs and Metrics?, Alex The Analyst" allowfullscreen></iframe></div>
+  <p class="meta">What are KPIs and Metrics? Alex The Analyst, 5:47, en inglés. Tres preguntas para escoger un KPI: cuál es la meta, qué métrica la sigue y si se puede actuar sobre ella.</p>
+  <ul>
+    <li><a href="https://www.youtube.com/watch?v=vp3-tUKYLX8" target="_blank" rel="noopener">¿Métrica o KPI? El error que frena tu negocio.</a> Datademia, 2:29, en español.</li>
+    <li><a href="https://www.youtube.com/watch?v=brqwiL7kE7g" target="_blank" rel="noopener">Datos estructurados, semi estructurados y no estructurados.</a> Miss Yera, 4:08, en español. Buen ejemplo de JSON. <b>Vea con ojo crítico:</b> clasifica los CSV como semiestructurados, mientras que en clase se clasifica por el contenido, y un CSV de filas y columnas fijas es estructurado.</li>
+    <li>IBM. <a href="https://www.ibm.com/think/topics/structured-vs-unstructured-data" target="_blank" rel="noopener">Structured vs. unstructured data: What's the difference?</a></li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-kpi" target="_blank" rel="noopener">Key Performance Indicator (KPI) visuals.</a> Power BI pide medida, meta y umbral.</li>
+    <li>Parmenter, D. (2015). <a href="https://doi.org/10.1002/9781119019855" target="_blank" rel="noopener"><em>Key Performance Indicators</em></a> (3.ª ed.). Wiley.</li>
+    <li>Doran, G. T. (1981). There's a S.M.A.R.T. way to write management's goals and objectives. <em>Management Review, 70</em>(11), 35-36.</li>
+    <li>Kotzias, D. (2015). <a href="https://doi.org/10.24432/C57604" target="_blank" rel="noopener">Sentiment Labelled Sentences</a>. UCI Machine Learning Repository.</li>
+    <li>Chen, D. (2015). <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">Online Retail</a>. UCI Machine Learning Repository.</li>
+  </ul>
+</section>
+
+</main>
+</div>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

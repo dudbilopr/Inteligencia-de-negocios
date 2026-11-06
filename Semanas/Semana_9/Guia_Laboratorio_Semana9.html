@@ -1,203 +1,148 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 9 - Proyecto Integrador (HR & Sales Analytics)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B', dark: '#0f172a' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.08); }
-        .step-number { width: 40px; height: 40px; border-radius: 50%; background: #003865; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; }
-        .code-block { background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 0.75rem; font-family: monospace; font-size: 0.9rem; overflow-x: auto; margin: 1rem 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
-        .dax-keyword { color: #c678dd; } /* Morado */
-        .dax-function { color: #61afef; } /* Azul */
-        .dax-string { color: #98c379; } /* Verde */
-        .dax-comment { color: #5c6370; font-style: italic; } /* Gris */
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 9: preparar y sustentar el Proyecto 1 | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+<style>@media (max-width: 900px) { .marco { grid-template-columns: minmax(0, 1fr); } } li code { overflow-wrap: anywhere; }</style>
 </head>
-<body class="text-gray-800 antialiased p-4 md:p-8">
-    
-    <div class="max-w-5xl mx-auto space-y-8">
-        
-        <!-- Header -->
-        <div class="bg-gradient-to-br from-primary to-[#002240] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
-            <!-- Deco -->
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            
-            <div class="relative z-10">
-                <div class="flex items-center gap-5 mb-6">
-                    <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-users-gear text-3xl text-secondary"></i>
-                    </div>
-                    <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 9</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Proyecto Integrador: HR Analytics & Rendimiento de Ventas</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body>
+<header class="portada">
+  <h1>Preparar y sustentar el Proyecto 1</h1>
+  <p>Presenta su solución de inteligencia de negocios completa: problema, datos, modelo, KPI, dashboard y decisiones que puede apoyar. Esta guía le ayuda a revisarla antes de exponer y a dar retroalimentación después.</p>
+  <div class="datos-clase"><span><b>Sesión</b>9</span><span><b>Modalidad</b>Individual</span><span><b>Peso</b>25&nbsp;% de la nota</span><span><b>Resultados</b>1.1, 1.2, 1.3 y 2.1</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#e1">1. Revisar la cadena</a></li>
+  <li><a href="#e2">2. Prueba de carga</a></li>
+  <li><a href="#e3">3. Guion</a></li>
+  <li><a href="#e4">4. Ensayo</a></li>
+  <li><a href="#rub">Rúbrica</a></li>
+  <li><a href="#e5">5. Retroalimentación</a></li>
+  <li><a href="#e6">6. Reflexión</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- 1. El Problema de Negocio -->
-        <div class="glass-card rounded-2xl p-8 md:p-12 border-l-8 border-secondary">
-            <h2 class="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
-                <i class="fas fa-briefcase text-secondary"></i> 1. El Problema de Negocio (Business Case)
-            </h2>
-            <div class="bg-blue-50 border border-blue-200 p-6 rounded-xl text-gray-700 leading-relaxed mb-6">
-                <p class="mb-4"><strong>El Escenario:</strong> Eres el Consultor de BI Senior contratado por la junta directiva de <em>Adventure Works</em>. Recientemente, el Vicepresidente de Ventas y el Director de Recursos Humanos (HR) han tenido una reunión de emergencia.</p>
-                <p class="mb-4"><strong>El Problema:</strong> Están notando una <strong>alta rotación de personal (Attrition)</strong> en su fuerza de ventas. Los representantes comerciales están renunciando, y no saben si es por exceso de trabajo, por falta de alcance en sus cuotas de ventas, o por bajas comisiones.</p>
-                <p><strong>Tu Misión:</strong> Construir una solución analítica de extremo a extremo que conecte el mundo de los Recursos Humanos (Desempeño, Retención) con el mundo Financiero (Ventas, Cuotas, Comisiones) para encontrar correlaciones y presentar un reporte gerencial que cuente esta historia de forma didáctica.</p>
-            </div>
-        </div>
+<section id="e1">
+  <h2><span class="num">1.</span> Revise la cadena</h2>
+  <p class="meta">Antes de la sesión. Debe poder responder cada fila con evidencia.</p>
+  <div class="tablon"><table>
+    <tr><th>Tramo</th><th>Qué debe poder decir</th><th>Evidencia</th><th>Se trabajó en</th></tr>
+    <tr><td><b>Problema</b></td><td>Quién decide, qué decide y cuándo</td><td>Pregunta analítica</td><td>Sesiones 1 y 2</td></tr>
+    <tr><td><b>Datos</b></td><td>Fuente, dueño, licencia o permiso, periodo real, qué falta</td><td>Ficha de diagnóstico</td><td>Sesiones 2 y 3</td></tr>
+    <tr><td><b>Limpieza</b></td><td>Qué excluyó, corrigió, marcó o dejó, y por qué</td><td>Bitácora y total conciliado</td><td>Sesión 4</td></tr>
+    <tr><td><b>Modelo</b></td><td>Qué es una fila; entidades, claves y relaciones</td><td>Diagrama y modelo</td><td>Sesiones 5 y 6</td></tr>
+    <tr><td><b>KPI</b></td><td>Fórmula, meta justificada, responsable y decisión</td><td>Ficha de KPI</td><td>Sesiones 2 y 7</td></tr>
+    <tr><td><b>Dashboard</b></td><td>Qué responde cada visual; cómo se navega</td><td>Archivo de Power BI y prueba de usabilidad</td><td>Sesiones 7 y 8</td></tr>
+    <tr><td><b>Decisión</b></td><td>Qué recomienda, y qué no permiten afirmar los datos</td><td>Una frase con cifra y un límite</td><td>Hoy</td></tr>
+  </table></div>
+  <details><summary>Ejemplo con el caso del curso</summary><div>
+    <p><b>Problema:</b> la gerencia comercial debe decidir antes de septiembre cuánto inventario negociar. <span class="meta">(Supuesto del caso.)</span></p>
+    <p><b>Datos:</b> Online Retail, UCI, CC BY 4.0. 541.909 filas, del 1 de diciembre de 2010 al 9 de diciembre de 2011. El 24,93&nbsp;% sin cliente.</p>
+    <p><b>Limpieza y modelo:</b> excluí 2.517 filas que no son venta ni cancelación; hecho de 539.392 líneas y cuatro dimensiones; neto de £9.769.872,05, que concilia.</p>
+    <p><b>KPI:</b> venta neta mensual, contra una meta supuesta de £700.000. Promedio de febrero a agosto: £639.300.</p>
+    <p><b>Dashboard:</b> noviembre llega a £1.461.756; de septiembre a noviembre, 36,4&nbsp;% del periodo.</p>
+    <p><b>Decisión:</b> negociar el inventario antes de septiembre. Límite: solo hay un año de datos y no hay márgenes.</p>
+    <p class="meta">Es una estructura, no una respuesta para copiar. Su proyecto usa sus propios datos.</p>
+  </div></details>
+</section>
 
-        <!-- 2. Arquitectura de Datos -->
-        <div class="glass-card rounded-2xl p-8 md:p-12 border-t-8 border-primary">
-            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
-                <div class="step-number">2</div>
-                <h2 class="text-2xl font-bold text-primary">Arquitectura y Modelado de Datos</h2>
-            </div>
-            
-            <p class="mb-4 text-gray-700">Para resolver este enigma, necesitamos un modelo en estrella que una los empleados con sus resultados. Usaremos la base de datos <code>AdventureWorksDW</code>.</p>
+<section id="e2">
+  <h2><span class="num">2.</span> Prueba de carga</h2>
+  <p class="meta">20 minutos. Cada fila es un error real que apareció en el curso. Busque el equivalente en su proyecto.</p>
+  <div class="tablon"><table>
+    <tr><th>Pregunta</th><th>En el curso</th><th>En mi proyecto</th></tr>
+    <tr><td>¿Hay periodos incompletos?</td><td>Diciembre de 9 días</td><td></td></tr>
+    <tr><td>¿Perfilé todo el archivo?</td><td>0,1&nbsp;% contra 24,93&nbsp;%</td><td></td></tr>
+    <tr><td>¿Las claves son únicas, también ignorando mayúsculas?</td><td>15056BL y 15056bl</td><td></td></tr>
+    <tr><td>¿Sumo en el grano correcto?</td><td>Noviembre multiplicado por 103</td><td></td></tr>
+    <tr><td>¿Mis KPI tienen meta y dueño?</td><td>68,7&nbsp;% sin referencia</td><td></td></tr>
+    <tr><td>¿Bajé de nivel antes de concluir?</td><td>98,2&nbsp;% en un solo cliente</td><td></td></tr>
+    <tr><td>¿Hay filtros que quien lee no ve?</td><td>El filtro de la sesión 8</td><td></td></tr>
+  </table></div>
+</section>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-                <!-- Dimensión Empleado -->
-                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
-                    <h3 class="text-lg font-bold text-primary mb-3"><i class="fas fa-id-badge text-secondary"></i> Dim_Employee (Recursos Humanos)</h3>
-                    <ul class="list-disc ml-5 text-sm text-gray-600 space-y-2">
-                        <li><strong>Contiene:</strong> <code>EmployeeKey</code>, <code>FirstName</code>, <code>Title</code>, <code>HireDate</code>, <code>Status</code>.</li>
-                        <li><strong>Ingeniería de Datos (ETL):</strong> En Power Query, crea una columna condicional llamada <code>Attrition</code>. Si el <code>Status</code> es NULL o "Inactivo", Attrition = "Yes", de lo contrario "No".</li>
-                    </ul>
-                </div>
+<section id="e3">
+  <h2><span class="num">3.</span> Escriba el guion</h2>
+  <p class="meta">Una frase por tramo, en el orden del calendario. Pregunte al docente cuántos minutos tiene.</p>
+  <ol class="pasos">
+    <li>Empiece por el problema y la decisión, no por la herramienta.</li>
+    <li>Reparta su tiempo: lo técnico, breve; el dashboard y la decisión, con más espacio.</li>
+    <li>Prepare el dashboard en vivo, y una captura por si falla el equipo.</li>
+    <li>Termine con lo que la audiencia debe hacer, y un límite.</li>
+    <li>Declare si usó IA: qué herramienta, para qué, con qué instrucciones, qué versión y qué aportó usted. Lo exige la guía de aprendizaje.</li>
+  </ol>
+</section>
 
-                <!-- Hechos de Ventas/Cuotas -->
-                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
-                    <h3 class="text-lg font-bold text-primary mb-3"><i class="fas fa-coins text-secondary"></i> Fact_SalesQuota & Fact_ResellerSales</h3>
-                    <ul class="list-disc ml-5 text-sm text-gray-600 space-y-2">
-                        <li><strong>Contiene:</strong> <code>SalesAmountQuota</code>, <code>SalesAmount</code>.</li>
-                        <li><strong>Relación:</strong> Conecta <code>Dim_Employee[EmployeeKey]</code> con <code>Fact_SalesQuota[EmployeeKey]</code>. <span class="text-red-500 font-bold">¡Cuidado!</span> Una cuota de ventas ocurre en una fecha, asegúrate de conectar <code>Fact_SalesQuota[DateKey]</code> a tu <code>Dim_Date</code>.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+<section id="e4">
+  <h2><span class="num">4.</span> Ensaye</h2>
+  <p class="meta">En voz alta y con cronómetro. Preguntas probables:</p>
+  <ul>
+    <li>¿Qué haría distinto esa persona si la cifra saliera al revés?</li>
+    <li>¿Qué periodo cubren los datos? ¿Quién queda por fuera?</li>
+    <li>¿Qué es una fila? ¿Cómo sabe que el total es correcto?</li>
+    <li>¿De dónde sale la meta? ¿Quién responde si no se cumple?</li>
+    <li>Muéstreme cómo llegar al detalle. ¿Hay filtros que no se ven?</li>
+    <li>¿Qué no permiten afirmar estos datos?</li>
+  </ul>
+</section>
 
-        <!-- 3. Motor Analítico DAX -->
-        <div class="glass-card rounded-2xl p-8 md:p-12">
-            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
-                <div class="step-number">3</div>
-                <h2 class="text-2xl font-bold text-primary">Motor Analítico (DAX Avanzado)</h2>
-            </div>
-            
-            <p class="text-sm text-gray-600 mb-6">Un buen analista no solo suma datos, construye métricas de negocio. Implementa las siguientes medidas en una tabla <code>_MedidasHR</code>.</p>
+<section id="rub">
+  <h2>Rúbrica</h2>
+  <p class="meta">Los siete criterios son de la guía de aprendizaje. El docente confirma los pesos y la escala antes de calificar.</p>
+  <div class="tablon"><table>
+    <tr><th>Criterio</th><th>Se espera</th><th>Señales de alerta</th></tr>
+    <tr><td><b>Pertinencia de fuentes</b></td><td>Fuente real e identificada; sirve para la pregunta</td><td>Sin autor o licencia; datos ficticios presentados como reales</td></tr>
+    <tr><td><b>Transformación y limpieza</b></td><td>Pasos justificados, con total conciliado</td><td>No sabe qué filas quitó ni por qué</td></tr>
+    <tr><td><b>Modelado</b></td><td>Grano claro; relaciones correctas</td><td>Tabla plana sin razón; claves repetidas</td></tr>
+    <tr><td><b>KPI</b></td><td>Ligados a la decisión, con meta y responsable</td><td>Lista de métricas sin referencia</td></tr>
+    <tr><td><b>Funcionalidad del dashboard</b></td><td>Filtros y navegación que funcionan y responden</td><td>Errores, filtros ocultos, interacción sin propósito</td></tr>
+    <tr><td><b>Diseño visual y usabilidad</b></td><td>Visual adecuado, títulos con conclusión, sin estorbos</td><td>Decoración; otra persona se pierde</td></tr>
+    <tr><td><b>Explicar decisiones soportadas</b></td><td>Recomienda con cifras y declara límites</td><td>Describe el tablero sin concluir nada</td></tr>
+  </table></div>
+</section>
 
-            <!-- DAX HR -->
-            <h3 class="text-lg font-bold text-primary mt-6">A. Métricas de Retención (HR Analytics)</h3>
-            <div class="code-block">
-<span class="dax-comment">// 1. Conteo total de plantilla histórica</span>
-Total Plantilla = <span class="dax-function">COUNTROWS</span>('Dim_Employee')
+<section id="e5">
+  <h2><span class="num">5.</span> Retroalimentación a un compañero</h2>
+  <p class="meta">Mientras otros presentan, llene una fila por cada persona que le asignen. Se critica el trabajo, no a la persona.</p>
+  <div class="tablon"><table>
+    <tr><th>Presentó</th><th>Lo que vi</th><th>Por qué importa</th><th>Qué probaría</th></tr>
+    <tr><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td></tr>
+  </table></div>
+  <details><summary>Ejemplo</summary><div><p><b>Lo que vi:</b> el título dice “Ventas por mes”. <b>Por qué importa:</b> la gerente no sabe qué concluir. <b>Qué probaría:</b> decir en el título que noviembre fue el pico.</p></div></details>
+</section>
 
-<span class="dax-comment">// 2. Empleados que se han ido (Attrition = Yes)</span>
-Empleados Fugados = 
-<span class="dax-function">CALCULATE</span>(
-    [Total Plantilla], 
-    'Dim_Employee'[Attrition] = <span class="dax-string">"Yes"</span>
-)
+<section id="e6" class="reto">
+  <h2><span class="num">6.</span> Reflexión</h2>
+  <p class="meta">5 minutos, por escrito. Se entrega con el proyecto.</p>
+  <ol class="pasos">
+    <li>¿Cuál fue su tramo más débil? ¿Cómo lo sabe?</li>
+    <li>¿Qué decisión de limpieza o de modelo cambió más su resultado?</li>
+    <li>¿Quién usaría de verdad su tablero, y para qué?</li>
+    <li>¿Dónde usó IA, para qué y cómo lo verificó?</li>
+    <li>¿Qué hará distinto en el Proyecto 2?</li>
+  </ol>
+</section>
 
-<span class="dax-comment">// 3. Tasa de Rotación Crítica (%)</span>
-% Rotación (Attrition Rate) = 
-<span class="dax-function">DIVIDE</span>([Empleados Fugados], [Total Plantilla], 0)
-            </div>
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/jizZKNnx9wA" title="7 Effective Tips for Presenting Data at Work, Jeff Su" allowfullscreen></iframe></div>
+  <p class="meta">7 Effective Tips for Presenting Data at Work! Jeff Su, 7:32, en inglés.</p>
+  <ul>
+    <li><a href="https://www.youtube.com/watch?v=jH0tRqWu7BY" target="_blank" rel="noopener">Cómo crear un Dashboard PRO en Power BI, paso a paso.</a> Mau Duarte, 12:58, en español. Juzgue el diseño con los criterios de la sesión 7.</li>
+    <li><a href="https://www.youtube.com/watch?v=7UZ87GPUSCw" target="_blank" rel="noopener">Power BI End-to-End Project 2026.</a> Data Tutorials, 19:21, en inglés. Un proyecto completo; compárelo con su cadena.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/guidance/star-schema" target="_blank" rel="noopener">Understand star schema</a>.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-kpi" target="_blank" rel="noopener">Key Performance Indicator (KPI) visuals</a>.</li>
+    <li>Knaflic, C. N. (2015). <a href="https://doi.org/10.1002/9781119055259" target="_blank" rel="noopener"><em>Storytelling with Data</em></a>. Wiley.</li>
+  </ul>
+</section>
 
-            <!-- DAX Ventas -->
-            <h3 class="text-lg font-bold text-primary mt-6">B. Métricas de Rendimiento (Sales Performance)</h3>
-            <p class="text-sm text-gray-600 mb-2">Evaluaremos si el vendedor está logrando la meta que se le impuso.</p>
-            <div class="code-block">
-<span class="dax-comment">// 4. Total de ventas logradas por el vendedor</span>
-Total Ventas Representante = <span class="dax-function">SUM</span>('Fact_ResellerSales'[SalesAmount])
-
-<span class="dax-comment">// 5. Meta/Cuota exigida por la directiva</span>
-Total Cuota Exigida = <span class="dax-function">SUM</span>('Fact_SalesQuota'[SalesAmountQuota])
-
-<span class="dax-comment">// 6. Porcentaje de Cumplimiento de Meta (% Quota Attainment)</span>
-% Cumplimiento Cuota = 
-<span class="dax-keyword">VAR</span> Cumplimiento = <span class="dax-function">DIVIDE</span>([Total Ventas Representante], [Total Cuota Exigida], 0)
-<span class="dax-keyword">RETURN</span> Cumplimiento
-            </div>
-        </div>
-
-        <!-- 4. Construcción del Dashboard y Storytelling -->
-        <div class="glass-card rounded-2xl p-8 md:p-12 border-l-8 border-secondary">
-            <div class="flex items-center gap-4 mb-6 border-b border-gray-200 pb-4">
-                <div class="step-number">4</div>
-                <h2 class="text-2xl font-bold text-primary">Diseño del Dashboard y Storytelling</h2>
-            </div>
-            
-            <p class="mb-4 text-gray-700">El reporte final no debe ser una "sopa de números". Debe contar una historia. Configura el lienzo en Power BI con los siguientes cuadrantes:</p>
-
-            <div class="space-y-4">
-                <div class="flex gap-4 items-start">
-                    <i class="fas fa-layer-group text-secondary mt-1 text-xl"></i>
-                    <div>
-                        <h4 class="font-bold text-primary">Cabecera Ejecutiva (Top)</h4>
-                        <p class="text-sm text-gray-600">Tarjetas (Cards) mostrando el panorama general: <code>Total Plantilla</code>, <code>% Rotación</code>, y <code>% Cumplimiento Global de Cuotas</code>.</p>
-                    </div>
-                </div>
-                
-                <div class="flex gap-4 items-start">
-                    <i class="fas fa-chart-scatter text-secondary mt-1 text-xl"></i>
-                    <div>
-                        <h4 class="font-bold text-primary">Cuadrante Analítico (Dispersión) - ¡LA JOYA DE LA CORONA!</h4>
-                        <p class="text-sm text-gray-600">Crea un <strong>Gráfico de Dispersión (Scatter Plot)</strong>. <br>
-                        <strong>Eje X:</strong> <code>Total Cuota Exigida</code> <br>
-                        <strong>Eje Y:</strong> <code>Total Ventas Representante</code> <br>
-                        <strong>Detalle/Leyenda:</strong> <code>FirstName</code> (Nombre del empleado) <br>
-                        <em>Explicación Didáctica:</em> Este gráfico mostrará una diagonal. Los puntos por encima de la línea diagonal son vendedores estrella que superan la meta. Los que están por debajo están quemados o no rinden. Pon en la "Leyenda" la variable <code>Attrition</code> para pintar de rojo los que ya renunciaron. ¡Te darás cuenta visualmente si renunciaron porque sus cuotas eran imposibles!</p>
-                    </div>
-                </div>
-
-                <div class="flex gap-4 items-start">
-                    <i class="fas fa-table text-secondary mt-1 text-xl"></i>
-                    <div>
-                        <h4 class="font-bold text-primary">Ranking de Rendimiento (Tabla Matriz)</h4>
-                        <p class="text-sm text-gray-600">Una tabla con las columnas: <code>Nombre Empleado</code>, <code>Puesto (Title)</code>, <code>Total Ventas</code>, <code>% Cumplimiento</code>. Aplica Formato Condicional: Si el <code>% Cumplimiento</code> es menor a 80%, pintar la celda de rojo pálido.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Reto Final Evaluativo -->
-        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden mt-10">
-            <div class="relative z-10">
-                <div class="inline-block bg-secondary text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4 shadow-lg">
-                    Actividad Autónoma Evaluativa
-                </div>
-                <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                    <i class="fas fa-trophy text-secondary"></i> El Veredicto Final del Consultor
-                </h2>
-                <div class="bg-white/10 rounded-xl p-6 border border-white/10">
-                    <p class="text-gray-300 text-lg leading-relaxed mb-4">
-                        Tu trabajo como consultor no termina haciendo gráficos; tu valor real es <strong>interpretar los datos</strong>. En un cuadro de texto dentro de tu Dashboard, o en un archivo adjunto, responde a la directiva de Adventure Works:
-                    </p>
-                    <ul class="list-disc ml-6 text-gray-300 space-y-2 font-medium">
-                        <li>¿Existe una correlación visible entre los empleados que renunciaron (Attrition = Yes) y un bajo porcentaje de cumplimiento de cuotas?</li>
-                        <li>¿Qué territorio de ventas tiene el peor desempeño en retención de talento? (Filtra tu reporte por territorio para averiguarlo).</li>
-                        <li>¿Recomendarías bajar las cuotas de ventas o despedir al gerente del territorio con peor desempeño? Fundamenta tu respuesta.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
+</main>
+</div>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

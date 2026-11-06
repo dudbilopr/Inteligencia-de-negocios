@@ -1,0 +1,23 @@
+/* Piezas comunes de las sesiones 3 a 10. Lo propio de cada mundo va en su presentación. */
+.mono { font-family: Consolas, 'Cascadia Mono', 'Courier New', monospace; font-variant-numeric: tabular-nums; }
+.glos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 56px; margin: 0; }
+.glos dt { font-weight: 800; font-size: 27px; color: var(--acento-texto); }
+.glos dd { margin: 0 0 3px; font-size: 25px; line-height: 1.22; }
+.bib p { font-size: 22.5px; line-height: 1.24; margin-bottom: 8px; }
+.par { display: grid; grid-template-columns: 560px 1fr; gap: 48px; height: 100%; align-items: center; }
+.par .col { gap: 20px; }
+.diagrama .t-eje { font-size: 23px; fill: var(--tinta-2); }
+.diagrama .t-nota { font-size: 28px; font-weight: 700; fill: var(--acento-texto); }
+.diagrama .t-g { font-size: 42px; font-weight: 800; fill: var(--tinta); letter-spacing: -.015em; }
+.diagrama .t-f { font-size: 27px; font-weight: 700; fill: var(--tinta); }
+.filas { display: grid; gap: 18px 36px; align-items: baseline; }
+.filas > div { font-size: 32px; line-height: 1.2; }
+.filas .h { font-size: 24px; font-weight: 700; color: var(--tinta-2); border-bottom: 2px solid var(--regla); padding-bottom: 8px; }
+.filas .k { font-weight: 800; color: var(--acento-texto); }
+.codigo { font-family: Consolas, 'Cascadia Mono', monospace; font-size: 27px; line-height: 1.34; background: var(--fondo-2); padding: 22px 28px; white-space: pre; border-left: 6px solid var(--compra); }
+.codigo .c { color: var(--acento-texto); font-weight: 700; }
+.diagrama text.t-n { fill: var(--tinta); }
+.diagrama text.t-s { fill: var(--tinta-2); }
+.diagrama text.t-o { fill: var(--acento-texto); }
+.diagrama text.t-v { fill: var(--vivo, var(--acento-texto)); }
+.diagrama text.t-rx { fill: var(--rx, var(--acento-texto)); }

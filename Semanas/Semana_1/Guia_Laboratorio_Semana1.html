@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller sesión 1: de una fila a una decisión | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+</head>
+<body>
+<header class="portada">
+  <h1>De una fila a una decisión</h1>
+  <p>Va a subir la escalera completa con datos reales de un minorista británico: de una línea de factura a una recomendación que pueda defender, diciendo también lo que los datos no permiten afirmar.</p>
+  <div class="datos-clase"><span><b>Sesión</b>1</span><span><b>Modalidad</b>En parejas, entrega individual</span><span><b>Herramienta</b>Excel; Power BI opcional</span><span><b>Competencia</b>1</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#datos">Los datos</a></li>
+  <li><a href="#e1">1. Decidir sin datos</a></li>
+  <li><a href="#e2">2. Leer una fila</a></li>
+  <li><a href="#e3">3. Los 13 números</a></li>
+  <li><a href="#e4">4. Concentración</a></li>
+  <li><a href="#e5">5. Su escalera</a></li>
+  <li><a href="#e6">6. Su proyecto</a></li>
+  <li><a href="#e7">Opcional: Power BI</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
+
+<section id="datos">
+  <h2>Los datos</h2>
+  <p>Son transacciones reales de un minorista en línea registrado en el Reino Unido, que vende sobre todo regalos; muchos de sus clientes son mayoristas. Cubren del 1 de diciembre de 2010 al 9 de diciembre de 2011. El nombre de la empresa no se publica.</p>
+  <div class="descargas"><a class="boton" href="Datos/Online_Retail_Facturas.xlsx" download>Descargar el libro de Excel</a><a class="boton sec" href="https://archive.ics.uci.edu/dataset/352/online+retail" target="_blank" rel="noopener">Ver la fuente original</a></div>
+  <p class="meta">Chen, D. (2015). Online Retail. UCI Machine Learning Repository. CC BY 4.0. Para el curso, las 541.909 filas originales se agregaron por factura; el cambio se explica en la hoja <code>Leeme</code>.</p>
+  <h3>Hoja Facturas: una fila por factura (23.796 filas)</h3>
+  <div class="tablon"><table>
+    <tr><th>Columna</th><th>Qué es</th><th>Unidad o valores</th></tr>
+    <tr><td><code>Factura</code></td><td>Número de la factura. Si empieza por C, es una cancelación</td><td>Texto</td></tr>
+    <tr><td><code>Tipo</code></td><td>Venta o cancelación</td><td>Venta, Cancelación</td></tr>
+    <tr><td><code>Fecha</code></td><td>Fecha y hora de la factura</td><td>Fecha y hora</td></tr>
+    <tr><td><code>Mes</code></td><td>Año y mes de la factura</td><td>Texto, 2011-11</td></tr>
+    <tr><td><code>Cliente</code></td><td>Identificador del cliente. Vacío si no se registró</td><td>Número de 5 cifras</td></tr>
+    <tr><td><code>Pais</code></td><td>País del cliente</td><td>Texto, en inglés</td></tr>
+    <tr><td><code>Lineas</code></td><td>Cuántas filas de producto tenía la factura</td><td>Filas</td></tr>
+    <tr><td><code>Unidades</code></td><td>Suma de unidades. Negativa si es cancelación</td><td>Unidades</td></tr>
+    <tr><td><code>Importe_GBP</code></td><td>Cantidad por precio. Negativo si es cancelación. Incluye envío y comisiones</td><td>Libras esterlinas</td></tr>
+  </table></div>
+  <h3>Hoja Filas_originales: las primeras 500 filas, sin cambios</h3>
+  <p>Columnas en inglés: <code>InvoiceNo</code> (factura), <code>StockCode</code> (código de producto), <code>Description</code> (descripción), <code>Quantity</code> (cantidad), <code>InvoiceDate</code> (fecha), <code>UnitPrice</code> (precio unitario en libras), <code>CustomerID</code> (cliente), <code>Country</code> (país).</p>
+  <div class="aviso"><b>Venta neta</b> quiere decir ventas menos cancelaciones. Como las cancelaciones ya llevan signo negativo, se obtiene sumando toda la columna <code>Importe_GBP</code>, sin filtrar. En esta guía se usa la venta neta, salvo que se diga otra cosa.</div>
+  <p class="meta">Si su Excel está en inglés: <code>SUMA</code> es <code>SUM</code>. Esta guía usa punto y coma entre argumentos; su equipo puede usar coma.</p>
+</section>
+
+<section id="e1">
+  <h2><span class="num">1.</span> Decidir sin datos</h2>
+  <p class="meta">10 minutos. Sin computador.</p>
+  <p>Suponga que usted dirige esta empresa de regalos en línea y que el dinero le alcanza para un solo pedido grande de inventario al año. El personaje es un supuesto del ejercicio.</p>
+  <ol class="pasos">
+    <li>Escriba en qué mes haría el pedido y por qué.</li>
+    <li>Escriba a qué clientes les vendería primero.</li>
+    <li>Apueste: el 10&nbsp;% de los clientes, ¿qué parte del ingreso trae? Elija entre 10, 25, 40, 60 y 80&nbsp;%.</li>
+    <li>De 0 a 100, ¿qué tan seguro está? Guárdelo: lo revisará en el ejercicio 5.</li>
+  </ol>
+</section>
+
+<section id="e2">
+  <h2><span class="num">2.</span> Leer una fila</h2>
+  <p class="meta">10 minutos. Hoja <code>Filas_originales</code>.</p>
+  <ol class="pasos">
+    <li>Abra la fila 2, el primer registro del archivo. Diga en una frase qué ocurrió.</li>
+    <li>En una celda libre, calcule el importe de esa línea: <code>=D2*F2</code>. La columna D es la cantidad y la F, el precio.</li>
+    <li>Busque cuántas filas seguidas tienen la factura <code>536365</code> y sume sus importes.</li>
+    <li>Vaya a la hoja <code>Facturas</code> y busque esa factura. ¿Coincide?</li>
+    <li>Responda: con esta factura, ¿qué podría decidir? ¿Qué le falta para compararla?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>La fila 2 da <b>£15,30</b>: 6 portavelas a £2,55. La factura 536365 tiene <b>7 líneas</b>, 40 unidades y suma <b>£139,12</b>, igual en las dos hojas.</p>
+    <p>Con una sola factura no se puede decidir: falta contra qué compararla. Eso es un dato.</p>
+  </div></details>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Los 13 números</h2>
+  <p class="meta">25 minutos. Hoja <code>Facturas</code>.</p>
+  <ol class="pasos">
+    <li>Haga clic en cualquier celda de la tabla. Vaya a <span class="ruta">Insertar &gt; Tabla dinámica</span>, en una hoja nueva.</li>
+    <li>Arrastre <code>Mes</code> a Filas, <code>Tipo</code> a Columnas e <code>Importe_GBP</code> a Valores. Compruebe que dice <em>Suma</em>, no <em>Cuenta</em>.</li>
+    <li>Revise el total general. Si no coincide con el punto de control, hay un filtro puesto o un campo equivocado.</li>
+    <li>Identifique el mes más alto y el más bajo.</li>
+    <li>El mes más bajo es diciembre de 2011. Revise la columna <code>Fecha</code>. ¿Por qué no se puede comparar con los demás?</li>
+    <li>Promedie la venta neta de febrero a agosto y calcule cuántas veces cabe ese promedio en noviembre de 2011.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Total general: <b>£9.769.872,05</b>. Ventas: £10.666.684,54. Cancelaciones: −£896.812,49.</p>
+    <div class="tablon"><table>
+      <tr><th>Mes</th><th class="d">Venta</th><th class="d">Cancelación</th><th class="d">Neto</th></tr>
+      <tr><td>2010-12</td><td class="d">823.746</td><td class="d">−74.789</td><td class="d">748.957</td></tr>
+      <tr><td>2011-01</td><td class="d">691.365</td><td class="d">−131.364</td><td class="d">560.000</td></tr>
+      <tr><td>2011-02</td><td class="d">523.632</td><td class="d">−25.569</td><td class="d">498.063</td></tr>
+      <tr><td>2011-03</td><td class="d">717.639</td><td class="d">−34.372</td><td class="d">683.267</td></tr>
+      <tr><td>2011-04</td><td class="d">537.809</td><td class="d">−44.602</td><td class="d">493.207</td></tr>
+      <tr><td>2011-05</td><td class="d">770.536</td><td class="d">−47.203</td><td class="d">723.334</td></tr>
+      <tr><td>2011-06</td><td class="d">761.740</td><td class="d">−70.617</td><td class="d">691.123</td></tr>
+      <tr><td>2011-07</td><td class="d">719.221</td><td class="d">−37.921</td><td class="d">681.300</td></tr>
+      <tr><td>2011-08</td><td class="d">759.138</td><td class="d">−54.334</td><td class="d">704.805</td></tr>
+      <tr><td>2011-09</td><td class="d">1.058.590</td><td class="d">−38.903</td><td class="d">1.019.688</td></tr>
+      <tr><td>2011-10</td><td class="d">1.154.979</td><td class="d">−84.275</td><td class="d">1.070.705</td></tr>
+      <tr><td>2011-11</td><td class="d">1.509.496</td><td class="d">−47.740</td><td class="d">1.461.756</td></tr>
+      <tr><td>2011-12</td><td class="d">638.793</td><td class="d">−205.125</td><td class="d">433.668</td></tr>
+    </table></div>
+    <p>Diciembre de 2011 llega solo hasta el día 9. El promedio de febrero a agosto es <b>£639.300</b>, y noviembre es <b>2,29 veces</b> ese promedio. Su tabla puede variar en un decimal por redondeo.</p>
+  </div></details>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Concentración de clientes</h2>
+  <p class="meta">25 minutos. Es el ejercicio con más pasos: use el control.</p>
+  <ol class="pasos">
+    <li>Cree otra tabla dinámica con <code>Cliente</code> en Filas e <code>Importe_GBP</code> en Valores.</li>
+    <li>En el filtro de <code>Cliente</code>, quite la opción <em>(en blanco)</em>: esas facturas no tienen cliente identificado.</li>
+    <li>Ordene los importes de mayor a menor.</li>
+    <li>Copie la tabla y péguela <b>como valores</b> en una hoja nueva, con títulos en la fila 1, sin la fila de total general. Cliente queda en la columna A e importe en la B.</li>
+    <li>Borre las filas finales con importe cero o negativo: son clientes cuyo saldo neto no es venta. Deben quedar 4.317 clientes, hasta la fila 4318.</li>
+    <li>En <code>C2</code> escriba <code>=SUMA($B$2:B2)/SUMA($B$2:$B$4318)</code>, déle formato de porcentaje y cópiela hacia abajo.</li>
+    <li>El 10&nbsp;% de 4.317 son 432 clientes. Mire la fila 433. El 1&nbsp;% son 43: mire la fila 44.</li>
+    <li>Compare con su apuesta del ejercicio 1.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>La suma de la columna B es <b>£8.313.295</b>. El cliente mayor es el <b>14646</b>, con £279.489,02, un 3,4&nbsp;% del total.</p>
+    <p>Fila 433: <b>59,7&nbsp;%</b>. Fila 44: <b>29,7&nbsp;%</b>. La respuesta a la apuesta era 60&nbsp;%.</p>
+    <p>Si le dio 61,4&nbsp;%, filtró solo las ventas: eso no descuenta cancelaciones.</p>
+  </div></details>
+  <div class="aviso">
+    <h3>Antes de sacar conclusiones</h3>
+    <ul>
+      <li>El 24,9&nbsp;% de las filas originales no tiene cliente, así que este cálculo cubre el 85&nbsp;% de la venta neta.</li>
+      <li>Muchos clientes son mayoristas. Tener clientes grandes aquí no significa lo mismo que en una tienda de barrio.</li>
+      <li>El archivo no trae costos: se habla de venta, no de ganancia.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Su escalera</h2>
+  <p class="meta">15 minutos. Es lo que se entrega.</p>
+  <p>Elija la pregunta del ejercicio 1, cuándo pedir o a quién venderle, y complete esta tabla con sus cifras.</p>
+  <div class="tablon"><table>
+    <tr><th>Peldaño</th><th>Qué escribir</th></tr>
+    <tr><td><b>Dato</b></td><td>Una fila o cifra suelta del archivo.</td></tr>
+    <tr><td><b>Información</b></td><td>Una comparación con cifras: frente a qué y cuánto.</td></tr>
+    <tr><td><b>Decisión</b></td><td>Empieza con un verbo. Quién la toma y para cuándo.</td></tr>
+    <tr><td><b>Límite</b></td><td>Algo que estos datos no permiten afirmar y que podría cambiar su decisión.</td></tr>
+  </table></div>
+  <ol class="pasos">
+    <li>Compare con lo que escribió sin datos. ¿Cambió de opinión? ¿Cuánta seguridad tiene ahora?</li>
+    <li>Revise la prueba de la decisión: si la cifra hubiera salido distinta, ¿usted haría algo distinto? Si no, reescríbala.</li>
+  </ol>
+  <details><summary>Un ejemplo, con otra decisión posible</summary><div>
+    <p><b>Información:</b> septiembre, octubre y noviembre suman el 36,4&nbsp;% de la venta neta del periodo. Noviembre es 2,29 veces un mes normal.</p>
+    <p><b>Decisión:</b> que la jefatura de compras negocie el inventario de temporada antes de septiembre.</p>
+    <p><b>Límite:</b> solo hay un año completo de datos; no se sabe si el pico se repite ni qué margen deja.</p>
+  </div></details>
+</section>
+
+<section id="e6">
+  <h2><span class="num">6.</span> Su proyecto individual</h2>
+  <p class="meta">15 minutos. Se retoma en la sesión 2.</p>
+  <p>El Proyecto 1 se presenta en la sesión 9 y vale el 25&nbsp;% de la nota. Empieza por un problema con decisión, no por un archivo.</p>
+  <ol class="pasos">
+    <li>Escriba tres problemas candidatos de una empresa o sector que le interese.</li>
+    <li>Para cada uno, escriba quién decide y qué decide. “La empresa” no vale: un cargo.</li>
+    <li>Busque si existen datos públicos, con autor y licencia, o datos a los que tenga acceso con permiso.</li>
+    <li>Aplique la prueba: si la respuesta sale distinta, ¿alguien haría algo distinto?</li>
+    <li>Marque su favorito.</li>
+  </ol>
+  <h3>Dónde empezar a buscar</h3>
+  <ul>
+    <li><a href="https://www.datos.gov.co/" target="_blank" rel="noopener">Datos Abiertos Colombia</a></li>
+    <li><a href="https://www.dane.gov.co/index.php/estadisticas-por-tema" target="_blank" rel="noopener">DANE, estadísticas por tema</a></li>
+    <li><a href="https://archive.ics.uci.edu/" target="_blank" rel="noopener">UCI Machine Learning Repository</a></li>
+    <li><a href="https://data.worldbank.org/indicator" target="_blank" rel="noopener">Banco Mundial, indicadores</a></li>
+  </ul>
+  <div class="aviso fuerte">Evite conjuntos sintéticos presentados como reales, frecuentes en sitios de competencias. Compruebe quién generó los datos. Adventure Works, Northwind y Contoso son ficticios: sirven para practicar, no para concluir.</div>
+</section>
+
+<section id="e7" class="reto">
+  <h2>Opcional: los mismos números en Power BI</h2>
+  <p class="meta">Si tiene Power BI Desktop instalado. Desde la próxima unidad será la herramienta principal.</p>
+  <ol class="pasos">
+    <li>Abra Power BI Desktop y elija <span class="ruta">Obtener datos &gt; Libro de Excel</span>.</li>
+    <li>Seleccione <code>Online_Retail_Facturas.xlsx</code>, marque la hoja <code>Facturas</code> y pulse <em>Cargar</em>.</li>
+    <li>Agregue un gráfico de columnas: <code>Mes</code> en el eje X e <code>Importe_GBP</code> en el eje Y.</li>
+    <li>Ordene el eje por <code>Mes</code>, en orden ascendente.</li>
+    <li>Agregue una segmentación con <code>Tipo</code>. Pruebe qué cambia al elegir solo <em>Venta</em>.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Sin filtro, la columna de 2011-11 marca <b>1,46 millones</b>, igual que su tabla de Excel. Solo con <em>Venta</em>, marca 1,51 millones.</p>
+  </div></details>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/ARr7RzdOLUI" title="¿Qué es Inteligencia de Negocios?, Grow Up" allowfullscreen></iframe></div>
+  <p class="meta">¿Qué es Inteligencia de Negocios? Grow Up, Escuela de Análisis de Datos, 2:11, en español. Separa BI, centrada en lo que ya pasó, de la ciencia de datos.</p>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/hDJdkcdG1iA" title="What is Business Intelligence (BI)?, Hitachi Solutions Canada" allowfullscreen></iframe></div>
+  <p class="meta">What is Business Intelligence (BI)? Hitachi Solutions Canada, 3:47, en inglés. Compara BI con un supermercado ordenado. Es de un proveedor: tome la explicación, no la invitación a comprar.</p>
+  <ul>
+    <li><a href="https://www.youtube.com/watch?v=WnxTUfSubR8" target="_blank" rel="noopener">¿Qué es Inteligencia de Negocios?</a> Simplificando, 6:38, en español. Repasa fuentes y herramientas, entre ellas las tablas dinámicas.</li>
+    <li><a href="https://www.youtube.com/watch?v=-I23qGB6JdY" target="_blank" rel="noopener">What is Business Intelligence? BI for Beginners.</a> Adam Finer, 6:24, en inglés. Analiza un tablero con datos reales de Instagram. ¿Sus conclusiones prueban causa?</li>
+    <li>Luhn, H. P. (1958). <a href="https://doi.org/10.1147/rd.24.0314" target="_blank" rel="noopener">A business intelligence system</a>. <em>IBM Journal of Research and Development, 2</em>(4), 314-319. Lea la primera página.</li>
+    <li>IBM. <a href="https://www.ibm.com/think/topics/business-intelligence" target="_blank" rel="noopener">What is business intelligence (BI)?</a></li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview" target="_blank" rel="noopener">What is Power BI?</a> La herramienta que usará el curso.</li>
+    <li>Power, D. J. (2007). <a href="https://dssresources.com/history/dsshistory.html" target="_blank" rel="noopener">A brief history of decision support systems</a>.</li>
+    <li>Chen, H., Chiang, R. H. L. y Storey, V. C. (2012). <a href="https://doi.org/10.2307/41703503" target="_blank" rel="noopener">Business intelligence and analytics: From big data to big impact</a>. <em>MIS Quarterly, 36</em>(4), 1165-1188.</li>
+    <li>Chen, D., Sain, S. L. y Guo, K. (2012). <a href="https://doi.org/10.1057/dbm.2012.17" target="_blank" rel="noopener">Data mining for the online retail industry</a>. Artículo de quienes publicaron estos datos.</li>
+  </ul>
+</section>
+
+</main>
+</div>
+</body>
+</html>

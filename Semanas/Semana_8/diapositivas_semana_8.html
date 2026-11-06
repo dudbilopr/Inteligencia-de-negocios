@@ -1,283 +1,369 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 8</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides {
-            width: 95% !important;
-            height: 95% !important;
-            max-width: 1300px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 30px;
-            margin-top: 25px;
-        }
-        
-        .box-glass {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .box-glass:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 45px rgba(0, 56, 101, 0.2);
-        }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 800; }
-        .reveal h1 { font-size: 3.2em; }
-        .reveal h2 { font-size: 2.2em; margin-bottom: 20px; }
-        .highlight { color: var(--unab-orange); position: relative; display: inline-block; }
-        .highlight::after {
-            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
-            background: var(--unab-orange); opacity: 0.3; z-index: -1; border-radius: 4px;
-        }
-        
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.75em !important; line-height: 1.4; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #002240 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.8em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 12px; font-size: 1.4em; }
-        
-        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p { color: white !important; }
-        
-        /* Modal Glassmorphism */
-        .clickable-concept { cursor: pointer; position: relative; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -15px; right: -15px; background: var(--unab-orange); color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; box-shadow: 0 5px 15px rgba(232,92,11,0.4); opacity: 0; transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%);
-            width: 85%; max-width: 700px; background: rgba(255, 255, 255, 0.98); padding: 40px;
-            border-radius: 20px; box-shadow: 0 40px 80px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-        }
-        #concept-modal.show { opacity: 1; transform: translate(-50%, -50%); }
-        @keyframes popIn { 0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-        
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.85); backdrop-filter: blur(8px); z-index: 1999;
-            animation: fadeIn 0.3s ease forwards; opacity: 0;
-        }
-        #concept-modal-overlay.show { opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; font-size: 1.8em; color: #888; transition: color 0.2s; }
-        .modal-close:hover { color: var(--unab-orange); }
-        
-        #typed-container {
-            background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px; font-family: monospace;
-            color: #00ff00; margin-bottom: 20px; display: inline-block; border-left: 4px solid #00ff00; font-size: 0.6em;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 8 · El microscopio | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<link rel="stylesheet" href="../assets/puntos/cine.css">
+<link rel="stylesheet" href="../assets/puntos/curso.css">
+<style>
+  /* Mundo: mesa de laboratorio con microscopio. Cada interacción sube el aumento, y la cámara entra. Dirección de arte: propuesta de Gemini, adaptada. */
+  :root { --fondo: #edf2ee; --fondo-2: #dbe5de; --tinta: #06283f; --tinta-2: #47606a; --regla: rgba(6,40,63,.24); --punto: #8ba3a4; --compra: #e85c0b; --acento-texto: #b94504; --lab: #0d7a7a; }
+  .rot { font: 700 23px Consolas, 'Courier New', monospace; letter-spacing: .06em; color: var(--lab); }
+  svg text { font-family: inherit; }
+  .t-n { fill: var(--tinta); font-weight: 800; } .t-s { fill: var(--tinta-2); } .t-o { fill: var(--acento-texto); font-weight: 800; }
+  .campo { position: absolute; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 14px var(--tinta), inset 0 0 0 16px var(--lab), 0 20px 60px rgba(6,40,63,.3); overflow: hidden; }
+  .aumento { position: absolute; font: 800 66px Consolas, monospace; color: var(--compra); letter-spacing: -.03em; }
+  .btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btns button { font: 700 25px 'Schibsted Grotesk', sans-serif; background: #fff; color: var(--tinta); border: 3px solid var(--tinta); padding: 11px 18px; cursor: pointer; transition: background .2s ease, color .2s ease, transform .12s ease; }
+  .btns button:hover { background: var(--fondo-2); }
+  .btns button:active { transform: scale(.97); }
+  .btns button[aria-pressed="true"] { background: var(--tinta); color: #fff; }
+  .btns button:focus-visible { outline: 4px solid var(--compra); outline-offset: 2px; }
+  .barra-v { transition: all .55s cubic-bezier(.16,1,.3,1); }
+  .laminas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .lam { background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(219,229,222,.8)); border: 2px solid var(--punto); padding: 18px 16px 22px; min-height: 306px; position: relative; }
+  .lam::before { content: ''; position: absolute; left: 16px; right: 16px; top: 8px; height: 8px; background: var(--lab); opacity: .45; }
+  .lam .ico { font-size: 52px; margin-top: 12px; color: var(--lab); }
+  .lam b { display: block; font-size: 28px; line-height: 1.08; margin: 8px 0; }
+  .lam span { display: block; font-size: 23.5px; line-height: 1.18; color: var(--tinta-2); }
+  .carril { display: grid; grid-template-columns: 112px 1fr; gap: 10px 26px; align-items: center; padding: 16px 0; border-top: 3px solid var(--regla); }
+  .carril .ico { font-size: 88px; color: var(--lab); }
+  .carril h3 { font-size: 36px; } .carril p { font-size: 28px; line-height: 1.18; margin-top: 4px; }
+  .codigo { background: #06283f; color: #e6f3f3; border-left-color: var(--compra); }
+</style>
 </head>
-<body>
-    
-    <!-- Modal Interactivo -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
-        <h2 style="color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; display: flex; align-items: center; gap: 15px;">
-            <i id="modal-icon" class="fa-solid fa-lightbulb" style="color: var(--unab-orange);"></i> 
-            <span id="modal-title">Título</span>
-        </h2>
-        <p id="modal-text" style="font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px;">Texto explicativo</p>
-        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
-            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Implementación Práctica:</h4>
-            <code id="modal-example-text" style="font-size: 0.9em; background: #fff; padding: 10px; display: block; border-radius: 5px; color: #d946ef; font-weight: bold;">Ejemplo</code>
-        </div>
+<body data-cine="dolly">
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
+
+<!-- 1 -->
+<section class="esc">
+  <div class="campo" style="left:880px;top:90px;width:640px;height:640px"><svg id="cielo" viewBox="0 0 640 640" style="width:100%;height:100%" aria-hidden="true"></svg></div>
+  <div style="position:absolute;left:88px;top:170px;width:760px">
+    <p class="rot">El microscopio · Sesión 8</p>
+    <h1 style="font-size:104px;margin-top:14px">No mires el tablero. <span class="acento">Interrógalo.</span></h1>
+    <p class="sec" style="font-size:27px;margin-top:20px">Inteligencia de Negocios · Dudbil Olvasada Pabón Riaño · UNAB</p>
+  </div>
+  <aside class="notas">Un total es una imagen a 1 aumento: se ve la forma, no lo que hay dentro. Filtros, segmentaciones y drill-down son las perillas. Hoy se construye el dashboard del Proyecto 1.</aside>
+</section>
+
+<!-- 2 Agenda: columna estratigráfica proporcional -->
+<section class="esc">
+  <p class="rot" style="position:absolute;left:88px;top:58px">Columna de hoy: el grosor es el tiempo real de cada bloque</p>
+  <svg class="diagrama" id="estratos" viewBox="0 0 1424 730" style="position:absolute;left:88px;top:110px;width:1424px;height:730px" role="img" aria-label="Agenda en capas proporcionales a su duración, de 10:00 a 13:00"></svg>
+  <aside class="notas">Cada capa es proporcional a su duración: el taller es la capa gruesa, como pide el calendario. Taller de construcción del dashboard, pruebas de interacción y usabilidad, retroalimentación individual y ajustes.</aside>
+</section>
+
+<!-- 3 RAE -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:90px;width:1424px;display:grid;grid-template-columns:560px 1fr;gap:64px;align-items:center">
+    <div class="campo" style="position:relative;width:520px;height:520px;background:#f3efe4"><div class="lamina" style="inset:18px;border-radius:50%"><img src="../assets/vector/s08_lente_estratigrafico.svg" alt="Una lente observa un bloque de capas"></div></div>
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <p class="rot">Resultados de aprendizaje 2.1 y 2.2</p>
+      <p style="font-size:42px;font-weight:800;line-height:1.1">Diseña dashboards enfocados en la visualización de KPI relevantes.</p>
+      <p style="font-size:42px;font-weight:800;line-height:1.1">Aplica principios de diseño visual y usabilidad en reportes ejecutivos.</p>
+      <p style="font-size:30px;border-top:3px solid var(--regla);padding-top:18px"><i class="ico" data-i="sliders-horizontal"></i> Agregas filtros y drill-down que respondan preguntas.<br><i class="ico" data-i="user-round-check"></i> Compruebas con otra persona si se entiende.</p>
     </div>
+  </div>
+  <aside class="notas">Resultados textuales del syllabus. Hoy el dashboard del Proyecto 1 debe quedar funcional para ajustarlo antes de la sesión 9.</aside>
+</section>
 
-    <div class="reveal">
-        <div class="slides">
+<!-- 4 1x -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:62px;width:1424px">
+    <p class="rot">Aumento 1x: el total por país, fuera del Reino Unido</p>
+    <h2 style="font-size:62px;margin:8px 0 12px">La gerencia quiere abrir oficina en Países Bajos. ¿Estás de acuerdo?</h2>
+  </div>
+  <svg class="diagrama" id="x1" viewBox="0 0 1424 520" style="position:absolute;left:88px;top:300px;width:1424px;height:520px" role="img" aria-label="Venta neta: Países Bajos 284.662; Irlanda 263.277; Alemania 221.698; Francia 197.404; Australia 137.077"></svg>
+  <p class="pie">Venta neta en libras, del 1-dic-2010 al 9-dic-2011. Chen (2015), CC BY 4.0. La propuesta de la oficina es un supuesto del ejercicio.</p>
+  <aside class="notas">Haga votar antes de avanzar. Es el mismo caso de la Evaluación 2, si ya se aplicó, y conecta con el ejercicio del JOIN de la sesión 6: tres clientes de Irlanda pesaban mucho.</aside>
+</section>
 
-            <!-- 1. Portada -->
-            <section data-transition="zoom" class="dark-slide">
-                <div id="typed-container"><span id="typed-output"></span></div>
-                <br>
-                <i class="fa-solid fa-shield-halved" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
-                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Semana 8: Gobernanza y Row-Level Security (RLS)</h3>
-                <br>
-                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
-            </section>
-            
-            <!-- 2. RAE -->
-            <section data-transition="slide">
-                <h2 class="text-left" style="color: #003865;"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
-                <div class="box-glass text-left" style="border-top: 6px solid #003865; margin-top: 30px; padding: 40px;">
-                    <h3 style="color: #003865; margin-bottom: 20px;">Meta Analítica</h3>
-                    <p style="font-size: 1.2em; color: #333; line-height: 1.6;">
-                        <i class="fa-solid fa-check-double text-green-600" style="color: #E85C0B; margin-right: 15px;"></i>
-                        Diseñar esquemas de seguridad dinámica a nivel de fila (Row-Level Security) e implementar buenas prácticas de gobernanza de datos para despliegues empresariales masivos.
-                    </p>
-                </div>
-            </section>
+<!-- 5 10x interactivo -->
+<section class="esc">
+  <div class="campo" style="left:800px;top:48px;width:720px;height:720px"><svg id="x10" viewBox="0 0 720 720" style="width:100%;height:100%" role="img" aria-label="Clientes del país elegido, proporcionales a su venta"></svg></div>
+  <div class="aumento" style="left:800px;top:40px">10x</div>
+  <div style="position:absolute;left:88px;top:70px;width:680px;display:flex;flex-direction:column;gap:20px">
+    <p class="rot">Haz clic: esto es un drill-down</p>
+    <h2 style="font-size:52px" id="x10t">Países Bajos: 9 clientes, y uno trae el 98,2 %</h2>
+    <div class="btns" id="x10b"></div>
+    <p style="font-size:29px" id="x10p"></p>
+    <p class="frase paso" style="font-size:36px">Mismo tamaño en el total. Otro negocio por dentro.</p>
+  </div>
+  <p class="pie" style="max-width:690px">Los cinco clientes mayores de cada país; el resto, agrupado. Áreas proporcionales.</p>
+  <aside class="notas">Interactivo: haga clic en cada país y pida al grupo que prediga antes. Países Bajos: 14646 trae £279.489, 98,2 %. Australia: 12415, 90,3 %. Irlanda: dos clientes concentran casi todo, y £12.992 no tienen cliente. Alemania: 95 clientes; el mayor, 8,5 %. Francia: 87; el mayor, 9,5 %. El cliente 14646 no prueba que sea una empresa neerlandesa: es lo que registra el archivo.</aside>
+</section>
 
-            <!-- 3. Conceptos Estructurales -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-cubes-stacked" style="color: #E85C0B;"></i> Conceptos Analíticos Clave</h2>
-                <div class="split-layout">
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Row-Level Security (RLS) Estático', 'fa-user-lock', 'Creación de roles (ej. 'Gerente Norte', 'Gerente Sur') en Power BI Desktop, aplicando filtros DAX predeterminados en las tablas maestras. Un usuario solo ve los datos de su rol.', 'Rol 'Norte': Filtro de tabla `Dim_Geografia[Region] = "Norte"`')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865;"><i class="fa-solid fa-user-lock"></i> Row-Level Security (RLS) Estático</h3>
-                        <p class="small-text" style="margin-top: 20px;">Creación de roles (ej. 'Gerente Norte', 'Gerente Sur') en Power BI Desktop, aplicando filtros DAX predeterminados en las tablas maestras. Un usuario solo ve los datos de su rol.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #E85C0B; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('RLS Dinámico', 'fa-users-gear', 'Uso de la función `USERPRINCIPALNAME()` para identificar automáticamente al usuario que inicia sesión en el servicio Power BI, filtrando la base de datos de manera dinámica a través de una tabla de mapeo de seguridad.', 'Filtro: `Dim_Geografia[Email_Manager] = USERPRINCIPALNAME()`')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-users-gear"></i> RLS Dinámico</h3>
-                        <p class="small-text" style="margin-top: 20px;">Uso de la función `USERPRINCIPALNAME()` para identificar automáticamente al usuario que inicia sesión en el servicio Power BI, filtrando la base de datos de manera dinámica a través de una tabla de mapeo de seguridad.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #003865; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                </div>
-            </section>
+<!-- 6 Compuertas de filtro -->
+<section class="esc" data-cine="paneo">
+  <svg class="diagrama" id="compuertas" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Tres niveles de filtro: informe, página y visual, más la segmentación en el lienzo"></svg>
+  <p class="pie">Microsoft Learn: Add a filter to a report in Power BI. Ejemplo con este caso.</p>
+  <aside class="notas">Microsoft documenta tres niveles en el panel de filtros: visual, página e informe. La segmentación está en el lienzo, a la vista de quien lee. Pregunta para usabilidad: ¿el lector sabe qué filtros están activos? Un filtro de informe invisible puede engañar.</aside>
+</section>
 
-            <!-- 4. Discusión Profunda Inyectada -->
-            
-        <section>
-            <h2>Gobernanza en Entornos Cloud</h2>
-            <div class="split-layout">
-                <div class="box-glass text-left" style="border-left: 5px solid #003865;">
-                    <h4 style="color: #003865;"><i class="fa-solid fa-server"></i> Espacios de Trabajo (Workspaces)</h4>
-                    <p class="small-text">En arquitecturas corporativas sólidas (DevOps para BI), se estructuran entornos separados: Desarrollo (Dev), Pruebas (Test) y Producción (Prod). Los Pipelines de despliegue garantizan que un cambio no rompa los tableros que está viendo la junta directiva.</p>
-                </div>
-                <div class="box-glass text-left" style="border-left: 5px solid #E85C0B;">
-                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-database"></i> Modelos Semánticos Compartidos</h4>
-                    <p class="small-text">Evita el caos de los hilos de Excel. Publica un **Golden Dataset** (Modelo Semántico único y certificado) en el servicio cloud, y conecta todos los nuevos reportes secundarios a esta única fuente de verdad (Live Connection), previniendo discrepancias en los cálculos de KPIs.</p>
-                </div>
-            </div>
-        </section>
-        
+<!-- 7 Interacción -->
+<section class="esc" data-cine="paneo">
+  <div style="position:absolute;left:88px;top:50px;width:1424px">
+    <h2 style="font-size:52px">Por defecto, un clic en un visual cambia a los demás</h2>
+    <div class="btns" id="crB" style="margin-top:16px"></div>
+  </div>
+  <svg class="diagrama" id="cruce" viewBox="0 0 1424 560" style="position:absolute;left:88px;top:220px;width:1424px;height:560px" role="img" aria-label="Al elegir un país, las columnas se resaltan y la línea se filtra"></svg>
+  <p class="pie">Microsoft Learn: “visualizations on a report page cross-filter and cross-highlight”. Se cambia en Formato &gt; Editar interacciones. Venta neta mensual real.</p>
+  <aside class="notas">Interactivo. A la izquierda, resaltado cruzado: se ve la parte dentro del total. A la derecha, filtro cruzado: solo queda lo elegido, y la escala cambia. Pregunte cuál prefiere para comparar. Alemania es tan pequeña frente a Reino Unido que apenas se ve resaltada: eso también es información.</aside>
+</section>
 
-            <!-- 5. Taller Práctico -->
-            <section data-transition="slide" class="dark-slide">
-                <i class="fa-solid fa-laptop-code" style="font-size: 5em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1 style="color: white !important;">Taller Aplicado</h1>
-                <p style="font-size: 1.2em;">Migración de entorno teórico a plataforma práctica.</p>
-                <div class="box-glass" style="background: rgba(255,255,255,0.1); margin: 30px auto; max-width: 80%; text-align: center; border: 1px solid rgba(255,255,255,0.2);">
-                    <h4 style="color: white; margin-top: 0;">Flujo Técnico a ejecutar:</h4>
-                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 8</span>
-                </div>
-            </section>
+<!-- 8 Drill mes-día-factura -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:44px;width:1424px">
+    <p class="rot" id="migas">Nivel: mes</p>
+    <h2 style="font-size:50px;margin-top:6px" id="drillT">¿Qué hay detrás del pico de noviembre? Haz clic en él.</h2>
+  </div>
+  <svg class="diagrama" id="drill" viewBox="0 0 1424 590" style="position:absolute;left:88px;top:190px;width:1424px;height:590px" role="img" aria-label="Venta neta por mes; se puede bajar a los días de noviembre y a la factura mayor del 14 de noviembre"></svg>
+  <button type="button" id="drillSube" class="boton" style="position:absolute;right:88px;top:64px;border:0;cursor:pointer;display:none">Subir un nivel</button>
+  <p class="pie">Solo noviembre tiene preparado el nivel de día en esta demostración. Chen (2015), CC BY 4.0.</p>
+  <aside class="notas">Interactivo: clic en noviembre, luego en el 14. El día 14 vendió £112.141, el mayor del mes; casi la mitad es la factura 576365, de £50.653,91, sin cliente, con 99 líneas. Parece un pedido grande no registrado a un cliente, pero el dato no lo prueba. Así se usa el drill: cada nivel responde una pregunta y abre otra. Noviembre no tiene sábados: faltan los días 5, 12, 19 y 26.</aside>
+</section>
 
-            <!-- 6. Glosario y Bibliografía -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-book-open"></i> Referencias Bibliográficas</h2>
-                <div class="box-glass text-left" style="border-top: 5px solid #003865;">
-                    <ul style="font-size: 0.8em; line-height: 1.8; color: #444;">
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Sharda, R., Delen, D., & Turban, E. (2020). <strong>Business Intelligence, Analytics, and Data Science: A Managerial Perspective.</strong> 4th Edition. Pearson.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Ferrari, A., & Russo, M. (2019). <strong>The Definitive Guide to DAX: Business intelligence for Microsoft Power BI.</strong> Microsoft Press.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Knaflic, C. N. (2015). <strong>Storytelling with Data: A Data Visualization Guide for Business Professionals.</strong> Wiley.</li>
-                    </ul>
-                </div>
-            </section>
+<!-- 9 Drill vs drillthrough -->
+<section class="esc">
+  <svg class="diagrama" id="caminos" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Drill baja dentro del mismo visual; drillthrough salta a otra página filtrada"></svg>
+  <p class="pie">Microsoft Learn: Use drill mode; Drillthrough in Power BI reports.</p>
+  <aside class="notas">Según Microsoft: drill explora niveles de una jerarquía dentro del mismo visual; drillthrough lleva a otra página del informe filtrada por la selección. Si el drill no aparece, el visual no usa jerarquía o quien diseñó no lo activó.</aside>
+</section>
 
-        </div>
+<!-- 10 Usabilidad -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:44px;width:1424px">
+    <h2 style="font-size:52px;margin-bottom:14px">Tu tablero se prueba mirando a alguien usarlo, sin ayudar</h2>
+    <div class="carril paso"><i class="ico" data-i="clipboard-list"></i><div><h3>1. Dale una tarea, no un recorrido</h3><p>“Encuentra qué país depende más de un solo cliente.”</p></div></div>
+    <div class="carril paso"><i class="ico" data-i="eye"></i><div><h3>2. Observa en silencio</h3><p>Dónde hace clic, dónde duda, qué concluye. Si pregunta, responde: “¿tú qué harías?”</p></div></div>
+    <div class="carril paso"><i class="ico" data-i="wrench"></i><div><h3>3. Corrige, y vuelve a probar</h3><p>Varias pruebas pequeñas enseñan más que una grande.</p></div></div>
+    <p class="paso" style="font-size:27px;margin-top:6px;border-top:3px solid var(--regla);padding-top:14px"><b class="acento">Nielsen (2000):</b> con 5 usuarios parecidos, un modelo estima que se halla cerca del 85&nbsp;% de los problemas. Hoy serán 1 o 2 compañeros: sirve para ver lo evidente, no para medir.</p>
+  </div>
+  <aside class="notas">La cifra es de un modelo de Nielsen, y vale para usuarios comparables; él mismo recomienda varios por grupo si los perfiles son distintos. Los compañeros no son la gerente real: dígalo. La tarea del ejemplo es la de esta clase.</aside>
+</section>
+
+<!-- 11 Construcción -->
+<section class="esc" data-cine="paneo">
+  <svg class="diagrama" id="planos" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Tres planos de un dashboard: panorama, exploración y detalle"></svg>
+  <aside class="notas">Se construye desde el boceto de la sesión 7. Durante el taller, retroalimentación individual: pida primero la pregunta y la audiencia. Es un esquema de trabajo del curso, no una regla de Power BI. Las rúbricas del Proyecto 1 se ven en la sesión 9, pero ya están en la guía.</aside>
+</section>
+
+<!-- 12 EMI -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:60px;width:1424px;display:grid;grid-template-columns:1.02fr 1fr;gap:56px">
+    <div>
+      <p class="rot">English immersion · 10 minutes</p>
+      <p style="font-size:42px;line-height:1.16;font-weight:700;margin-top:14px">“By using drill mode, you can answer your own follow-up questions about a chart, such as <span class="acento">‘What's behind that spike?’</span>”</p>
+      <p class="sec" style="font-size:22px;margin-top:10px">Microsoft Learn, Use drill mode (adapted punctuation)</p>
+      <div class="btns" style="margin-top:22px"><span class="rot" style="width:100%">Say it:</span>
+      <p style="font-size:30px;line-height:1.3">drill <b>down</b> · drill <b>up</b> · drill <b>through</b> · <b>slicer</b> · to <b>filter</b> · to <b>highlight</b> · <b>hierarchy</b></p></div>
     </div>
+    <ol class="lista">
+      <li class="paso" style="font-size:34px">Explain the Netherlands case in two English sentences.</li>
+      <li class="paso" style="font-size:34px">What is the difference between “drill down” and “drillthrough”?</li>
+      <li class="paso" style="font-size:34px">Give your partner a task to do on your dashboard, in English. Watch. Don't help.</li>
+    </ol>
+  </div>
+  <aside class="notas">La cita es de Microsoft Learn; se ajustó la puntuación y se conservó la pregunta. Cinco minutos en parejas y cinco en plenaria, solo en inglés. La actividad EMI está en la pestaña Juego Didáctico.</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        Reveal.initialize({
-            hash: true,
-            transition: 'slide',
-            controlsTutorial: false,
-            center: true,
-            progress: true,
-            slideNumber: 'c/t'
-        });
+<!-- 13 Taller -->
+<section class="esc">
+  <svg class="diagrama" id="pasos8" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Taller en cinco pasos concéntricos, de segmentar a probar"></svg>
+  <a class="boton" href="Guia_Laboratorio_Semana8.html" target="_blank" rel="noopener" style="position:absolute;left:88px;bottom:76px">Abrir la guía del taller</a>
+  <aside class="notas">Puntos de control: Netherlands £284.662 con 9 clientes; día 14 de noviembre £112.141. El resto del tiempo es el Proyecto 1 y la prueba con un compañero.</aside>
+</section>
 
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+<!-- 14 Glosario -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:46px;width:1424px">
+    <p class="rot">Portaobjetos de hoy</p><h2 style="font-size:48px;margin:4px 0 18px">Glosario</h2>
+    <div class="laminas">
+      <div class="lam"><i class="ico" data-i="list-filter"></i><b>Filtro</b><span>Limita los datos de un visual, página o informe.</span></div>
+      <div class="lam"><i class="ico" data-i="sliders-horizontal"></i><b>Segmentación</b><span>Filtro visible en el lienzo. En inglés, slicer.</span></div>
+      <div class="lam"><i class="ico" data-i="contrast"></i><b>Resaltado cruzado</b><span>Muestra la parte dentro del total.</span></div>
+      <div class="lam"><i class="ico" data-i="filter"></i><b>Filtrado cruzado</b><span>Deja solo lo elegido.</span></div>
+      <div class="lam"><i class="ico" data-i="layers"></i><b>Jerarquía</b><span>Niveles anidados: mes, día.</span></div>
+      <div class="lam"><i class="ico" data-i="zoom-in"></i><b>Drill-down</b><span>Baja de nivel en el mismo visual.</span></div>
+      <div class="lam"><i class="ico" data-i="route"></i><b>Drillthrough</b><span>Salta a otra página filtrada.</span></div>
+      <div class="lam"><i class="ico" data-i="user-round-check"></i><b>Prueba de usabilidad</b><span>Mirar a alguien hacer una tarea.</span></div>
+      <div class="lam"><i class="ico" data-i="scale"></i><b>Concentración</b><span>Pocos casos con casi todo.</span></div>
+      <div class="lam"><i class="ico" data-i="mouse-pointer-click"></i><b>Interacción</b><span>Cómo un visual afecta a otro.</span></div>
+    </div>
+  </div>
+  <aside class="notas">Estos términos entran al Quiz 2 de la sesión 10 y a la Evaluación 2.</aside>
+</section>
 
-        // Typed.js para efecto hacker corporativo
-        new Typed('#typed-output', {
-            strings: [
-                '> ESTABLECIENDO CONEXIÓN SEGURA...',
-                '> CARGANDO DATOS MASIVOS (ETL)...',
-                '> OPTIMIZANDO MODELO DIMENSIONAL...',
-                '> PROTOCOLO DE INTELIGENCIA DE NEGOCIOS: ACTIVO'
-            ],
-            typeSpeed: 30,
-            backSpeed: 10,
-            backDelay: 1500,
-            loop: true,
-            showCursor: true,
-            cursorChar: '_'
-        });
+<!-- 15 Conclusiones -->
+<section class="esc" data-cine="dolly">
+  <svg class="diagrama" id="anillos" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Tres aumentos: el total, el grupo y el caso"></svg>
+  <aside class="notas">Cierre: ¿qué descubrió alguien hoy, bajando de nivel en sus propios datos? Próxima sesión: presentación del Proyecto 1.</aside>
+</section>
 
-        function openModal(title, iconClass, text, example) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-icon').className = 'fa-solid ' + iconClass;
-            document.getElementById('modal-text').innerText = text;
-            document.getElementById('modal-example-text').innerHTML = example;
-            
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('concept-modal-overlay').classList.add('show');
-                document.getElementById('concept-modal').classList.add('show');
-            }, 10);
-        }
+<!-- 16 Fuentes -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:54px;width:1424px" class="bib">
+    <p class="rot">Fuentes del laboratorio</p><h2 style="font-size:48px;margin:4px 0 14px">Bibliografía y fuentes</h2>
+    <p>Chen, D. (2015). <em>Online Retail</em> [conjunto de datos]. UCI. CC BY 4.0. <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">doi:10.24432/C5BW33</a></p>
+    <p>Microsoft Learn. <em>Add a filter to a report in Power BI</em>. <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/power-bi-report-add-filter" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Slicers in Power BI</em>. <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-slicers" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Change how visuals interact in a report</em>. <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/service-reports-visual-interactions" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Use drill mode to explore visuals</em>. <a href="https://learn.microsoft.com/en-us/power-bi/explore-reports/end-user-drill" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Drillthrough in Power BI reports</em>. <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-drillthrough" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Nielsen, J. (2000). <em>Why you only need to test with 5 users</em>. Nielsen Norman Group. <a href="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/" target="_blank" rel="noopener">nngroup.com</a></p>
+    <p>Iconos: Lucide, licencia ISC. Dirección de arte e ilustraciones: generadas con Gemini, vectorizadas y adaptadas; las ilustraciones no contienen datos. Gráficas hechas con los datos reales.</p>
+  </div>
+  <aside class="notas">Cifras recalculadas con el archivo original: Material_Privado/Unidades_2_3/cifras_u3.json.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal').classList.remove('show');
-            document.getElementById('concept-modal-overlay').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('concept-modal').style.display = 'none';
-                document.getElementById('concept-modal-overlay').style.display = 'none';
-            }, 400);
-        }
-    </script>
+<div id="ayuda">Flechas para avanzar · F pantalla completa · N notas</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/iconos.js"></script>
+<script src="../assets/puntos/curso.js"></script>
+<script>
+(function () {
+  var luz = CUR.luz, ic = CUR.ic, mil = CUR.miles;
+  var PA = { 'Países Bajos': { n: 284662, c: 9, top: [[14646,279489],[12759,1531],[12775,1351],[12778,804],[12787,464]], sin: 0, t: 'Países Bajos: 9 clientes, y uno trae el 98,2 %', d: 'Si el cliente 14646 se va, casi no queda mercado.' }, 'Irlanda': { n: 263277, c: 3, top: [[14911,132573],[14156,113384],[14016,4328]], sin: 12992, t: 'Irlanda: 3 clientes; dos traen el 93,4 %', d: 'Además hay £12.992 de ventas sin cliente identificado.' }, 'Alemania': { n: 221698, c: 95, top: [[12471,18741],[12621,13612],[12477,13117],[12590,9861],[12709,9294]], sin: 0, t: 'Alemania: 95 clientes; el mayor pesa 8,5 %', d: 'Menos venta total, pero repartida: perder uno no tumba el mercado.' }, 'Francia': { n: 197404, c: 87, top: [[12731,18793],[12678,17588],[12681,13678],[12682,12288],[12567,9115]], sin: 691, t: 'Francia: 87 clientes; el mayor pesa 9,5 %', d: 'Parecida a Alemania. Hay £691 sin cliente.' }, 'Australia': { n: 137077, c: 9, top: [[12415,123725],[12431,5444],[12388,2781],[12424,1761],[12393,1583]], sin: 0, t: 'Australia: 9 clientes; uno trae el 90,3 %', d: 'El mismo patrón de Países Bajos, a menor escala.' } };
+  /* 1: campo con columnas que se enfocan */
+  var s = '<defs><filter id="bl"><feGaussianBlur stdDeviation="9"><animate attributeName="stdDeviation" values="16;0;0;16" dur="8s" repeatCount="indefinite"/></feGaussianBlur></filter></defs><g filter="url(#bl)">';
+  [14646,1531,1351,804,464].forEach(function (v, i) { var h = i ? Math.max(12, v / 279489 * 380) : 380; s += '<rect x="' + (110 + i * 86) + '" y="' + (520 - h) + '" width="64" height="' + h + '" fill="' + (i ? '#8ba3a4' : '#e85c0b') + '"/>'; });
+  s += '</g><line x1="320" x2="320" y1="20" y2="620" stroke="#06283f" opacity=".2"/><line x1="20" x2="620" y1="320" y2="320" stroke="#06283f" opacity=".2"/>';
+  CUR.poner('cielo', s);
+  /* 2: estratos */
+  var E = [['10:00','Interrogar los datos','zoom-in',35,1],['10:35','Filtros, cruces y niveles','sliders-horizontal',25,0],['11:00','Pausa','coffee',15,0],['11:15','English','languages',10,0],['11:25','Taller: dashboard del Proyecto 1','bar-chart-3',65,1],['12:30','Prueba y retroalimentación','user-round-check',20,0],['12:50','Cierre','stamp',10,0]], y = 0, g = '', k = 700 / 180;
+  E.forEach(function (e, i) {
+    var h = e[3] * k, f = ['#0d7a7a','#6aa8a0','#dbe5de','#a8c6bf','#e85c0b','#c7734a','#8ba3a4'][i];
+    g += '<path d="M0 ' + y + 'H820C860 ' + (y + h * .2) + ' 860 ' + (y + h * .8) + ' 820 ' + (y + h) + 'H0Z" fill="' + f + '" opacity=".9"/>';
+    g += ic(e[2], 18, y + h / 2 - Math.min(h * .4, 30), Math.min(h * .8, 60), i === 4 || i === 0 ? '#fff' : '#06283f');
+    g += '<text x="880" y="' + (y + h / 2 + 12) + '" font-size="33" font-weight="' + (e[4] ? 800 : 600) + '" style="fill:var(--tinta)">' + e[1] + '</text><text x="100" y="' + (y + h / 2 + 11) + '" font-size="29" font-weight="700" style="fill:' + (i === 4 || i === 0 ? '#fff' : '#06283f') + ';font-family:Consolas,monospace">' + e[0] + ' · ' + e[3] + ' min</text>';
+    y += h;
+  });
+  g += '<g style="animation:bajar 8s cubic-bezier(.45,0,.55,1) infinite alternate"><path d="M820 0h60" stroke="var(--compra)" stroke-width="5"/></g><style>@keyframes bajar { to { transform: translateY(696px); } }</style>';
+  CUR.poner('estratos', g);
+  /* 3: ojo de microscopio */
+  /* 4: 1x */
+  var nom = Object.keys(PA), t = '';
+  nom.forEach(function (p, i) { var yy = 8 + i * 100, w = PA[p].n / 284662 * 1000; t += '<g class="paso-no"><text class="t-n" x="0" y="' + (yy + 54) + '" font-size="33">' + p + '</text><rect x="240" y="' + (yy + 12) + '" width="' + w + '" height="72" fill="' + (i ? '#8ba3a4' : '#e85c0b') + '"/><text class="t-n" x="' + (258 + w) + '" y="' + (yy + 60) + '" font-size="33">£' + mil(PA[p].n) + '</text></g>'; });
+  CUR.poner('x1', t);
+  /* 5: 10x interactivo */
+  function tesela(p) {
+    var D = PA[p], rest = D.n - D.sin - D.top.reduce(function (a, b) { return a + b[1]; }, 0), L = D.top.map(function (c) { return { k: '' + c[0], v: c[1] }; });
+    if (rest > 50) L.push({ k: 'Otros ' + (D.c - D.top.length), v: rest });
+    if (D.sin) L.push({ k: 'Sin cliente', v: D.sin });
+    /* Tesela proporcional: rebanadas sucesivas dentro de un cuadrado */
+    var x = 110, y = 110, w = 500, h = 500, tot = D.n, html = '', i = 0;
+    L.forEach(function (it) {
+      var a = it.v / tot * 250000, vert = w >= h, ww = vert ? (a / h) : w, hh = vert ? h : (a / w);
+      var chico = ww < 44 || hh < 30;
+      html += '<rect class="barra-v" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + ww.toFixed(1) + '" height="' + hh.toFixed(1) + '" fill="' + (i === 0 ? '#e85c0b' : it.k === 'Sin cliente' ? '#47606a' : ['#0d7a7a', '#3d9490', '#6aa8a0', '#8ba3a4', '#b3c4c0', '#dbe5de'][Math.min(i - 1, 5)]) + '" stroke="#fff" stroke-width="2"/>';
+      if (!chico) html += '<text x="' + (x + 10).toFixed(1) + '" y="' + (y + 32).toFixed(1) + '" style="font-size:' + (i === 0 ? 30 : 20) + 'px;font-weight:800;fill:' + (i > 3 ? '#06283f' : '#fff') + '">' + it.k + '</text><text x="' + (x + 10).toFixed(1) + '" y="' + (y + (i === 0 ? 66 : 56)).toFixed(1) + '" style="font-size:' + (i === 0 ? 28 : 18) + 'px;fill:' + (i > 3 ? '#06283f' : '#fff') + '">£' + mil(it.v) + '</text>';
+      if (vert) { x += ww; w -= ww; } else { y += hh; h -= hh; }
+      i++;
+    });
+    return html;
+  }
+  var bx = document.getElementById('x10b');
+  function elegir(p) {
+    CUR.poner('x10', tesela(p));
+    document.getElementById('x10t').textContent = PA[p].t;
+    document.getElementById('x10p').textContent = PA[p].d;
+    bx.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.textContent === p); });
+  }
+  nom.forEach(function (p) { var b = document.createElement('button'); b.type = 'button'; b.textContent = p; b.addEventListener('click', function () { elegir(p); }); bx.appendChild(b); });
+  elegir('Países Bajos');
+  /* 6: compuertas */
+  var G = [['Informe','En todas las páginas','Solo productos, sin envíos','file-text',1],['Página','En una página','Solo 2011','file-search',2],['Visual','En un visual','Los 10 mayores','bar-chart-3',3],['Segmentación','En el lienzo: la maneja quien lee','Elige un país','sliders-horizontal',4]], c = '<text class="t-n" x="88" y="104" font-size="56">Cuatro compuertas: quién filtra, y qué tanto se ve</text>';
+  var cy = 440, hs = [400, 310, 220, 130];
+  c += '<path d="M0 ' + (cy - 200) + 'L220 ' + (cy - 200) + 'L1500 ' + (cy - 44) + 'V' + (cy + 44) + 'L220 ' + (cy + 200) + 'L0 ' + (cy + 200) + 'Z" fill="#0d7a7a" opacity=".13"/>';
+  c += luz('M0 ' + cy + 'L1600 ' + cy, 0, 5, 'fuerte');
+  G.forEach(function (e, i) {
+    var x = 310 + i * 330, h = hs[i], yy = cy - h / 2;
+    c += '<g class="paso"><rect x="' + (x - 7) + '" y="' + (cy - 240) + '" width="14" height="' + (240 - h / 2) + '" fill="var(--tinta)"/><rect x="' + (x - 7) + '" y="' + (cy + h / 2) + '" width="14" height="' + (240 - h / 2) + '" fill="var(--tinta)"/>';
+    c += ic(e[3], x - 36, cy - 330, 72, i === 3 ? 'var(--compra)' : '#0d7a7a') + '<text class="t-n" x="' + x + '" y="' + (cy + 282) + '" text-anchor="middle" font-size="31">' + e[0] + '</text><text class="t-s" x="' + x + '" y="' + (cy + 318) + '" text-anchor="middle" font-size="22">' + e[1] + '</text><text class="t-o" x="' + x + '" y="' + (cy + 354) + '" text-anchor="middle" font-size="25">' + e[2] + '</text></g>';
+  });
+  CUR.poner('compuertas', c);
+  /* 7: cruce */
+  var M = ['dic','ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var Tot = [748957,560000,498063,683267,493207,723334,691123,681300,704805,1019688,1070705,1461756,433668], UK = [676743,434308,408248,559707,442254,596460,554478,565480,561255,862018,877438,1282806,388735], DE = [14563,16451,8969,14170,11963,25571,13081,15722,19024,17720,30614,26044,7805];
+  function cruce(sel) {
+    var A = sel === 'Reino Unido' ? UK : sel === 'Alemania' ? DE : null, s = '';
+    s += '<text class="t-n" x="0" y="26" font-size="27">Resaltado cruzado: la parte, dentro del total</text><text class="t-n" x="760" y="26" font-size="27">Filtrado cruzado: solo lo elegido' + (A ? ', con su escala' : '') + '</text>';
+    var y0 = 500, k = 430 / 1500000;
+    Tot.forEach(function (v, i) {
+      var x = 6 + i * 52, h = v * k, ha = A ? A[i] * k : 0;
+      s += '<rect x="' + x + '" y="' + (y0 - h) + '" width="42" height="' + h + '" fill="#8ba3a4" opacity="' + (A ? .35 : .9) + '"/>';
+      if (A) s += '<rect x="' + x + '" y="' + (y0 - ha) + '" width="42" height="' + Math.max(ha, 1) + '" fill="#e85c0b"/>';
+      s += '<text class="t-s" x="' + (x + 21) + '" y="' + (y0 + 28) + '" text-anchor="middle" font-size="19">' + M[i] + '</text>';
+    });
+    var B = A || Tot, mx = Math.max.apply(0, B.slice(0, 12)), p = B.map(function (v, i) { return [770 + i * 52, y0 - v / mx * 400]; });
+    s += '<line x1="770" x2="1400" y1="' + y0 + '" y2="' + y0 + '" stroke="var(--regla)" stroke-width="2"/><path d="' + CUR.suave(p.slice(0, 12)) + '" fill="none" stroke="#e85c0b" stroke-width="5"/><path d="' + CUR.suave(p.slice(11)) + '" fill="none" stroke="#8ba3a4" stroke-width="4" stroke-dasharray="6 7"/>';
+    s += '<text class="t-o" x="' + p[11][0] + '" y="' + (p[11][1] - 16) + '" text-anchor="middle" font-size="25">£' + mil(B[11]) + '</text>';
+    M.forEach(function (m, i) { s += '<text class="t-s" x="' + (770 + i * 52) + '" y="' + (y0 + 28) + '" text-anchor="middle" font-size="19">' + m + '</text>'; });
+    CUR.poner('cruce', s);
+    crB.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.textContent === sel); });
+  }
+  var crB = document.getElementById('crB');
+  ['Todos','Reino Unido','Alemania'].forEach(function (p) { var b = document.createElement('button'); b.type = 'button'; b.textContent = p; b.addEventListener('click', function () { cruce(p); }); crB.appendChild(b); });
+  cruce('Todos');
+  /* 8: drill */
+  var ND = {1:28742,2:45239,3:62817,4:60082,6:42912,7:70001,8:56648,9:62599,10:68956,11:54836,13:33520,14:112141,15:60594,16:64409,17:60330,18:48032,20:34902,21:48302,22:62307,23:78481,24:48080,25:50443,27:20572,28:55442,29:72219,30:59151};
+  var nivel = 0, svgD = document.getElementById('drill'), migas = document.getElementById('migas'), tD = document.getElementById('drillT'), sube = document.getElementById('drillSube');
+  function pintaDrill() {
+    var s = '', y0 = 540, h0 = 490;
+    if (nivel === 0) {
+      migas.textContent = 'Nivel: mes'; tD.textContent = '¿Qué hay detrás del pico de noviembre? Haz clic en él.';
+      Tot.forEach(function (v, i) { var x = 8 + i * 108, h = v / 1500000 * h0, f = i === 11; s += '<g' + (f ? ' data-ir="1" style="cursor:pointer"' : '') + '><rect x="' + x + '" y="' + (y0 - h) + '" width="90" height="' + h + '" fill="' + (f ? '#e85c0b' : '#8ba3a4') + '"/><text class="t-s" x="' + (x + 45) + '" y="' + (y0 + 34) + '" text-anchor="middle" font-size="24">' + M[i] + (i === 12 ? '*' : '') + '</text>' + (f ? '<text class="t-o" x="' + (x + 45) + '" y="' + (y0 - h - 12) + '" text-anchor="middle" font-size="26">£1,46 M</text>' : '') + '</g>'; });
+      s += '<text class="t-s" x="1400" y="24" text-anchor="end" font-size="22">* solo 9 días</text>';
+    } else if (nivel === 1) {
+      migas.textContent = 'Nivel: día · noviembre de 2011'; tD.textContent = 'Un día se dispara. Haz clic en él.';
+      for (var d = 1; d <= 30; d++) { var v = ND[d] || 0, x = 6 + (d - 1) * 47, h = v / 120000 * h0, f = d === 14; s += '<g' + (f ? ' data-ir="2" style="cursor:pointer"' : '') + '><rect x="' + x + '" y="' + (y0 - h) + '" width="38" height="' + h + '" fill="' + (f ? '#e85c0b' : '#8ba3a4') + '"/><text class="t-s" x="' + (x + 19) + '" y="' + (y0 + 30) + '" text-anchor="middle" font-size="19">' + d + '</text>' + (f ? '<text class="t-o" x="' + (x + 19) + '" y="' + (y0 - h - 12) + '" text-anchor="middle" font-size="26">£112.141</text>' : '') + (v ? '' : '<text class="t-s" x="' + (x + 19) + '" y="' + (y0 - 10) + '" text-anchor="middle" font-size="16">—</text>') + '</g>'; }
+      s += '<text class="t-s" x="1400" y="24" text-anchor="end" font-size="22">Sin barra: los sábados, 5, 12, 19 y 26</text>';
+    } else {
+      migas.textContent = 'Nivel: factura · 14 de noviembre de 2011'; tD.textContent = 'Una sola factura, sin cliente, trae casi la mitad del día.';
+      var W = 1400, f1 = 50653.91 / 112141 * W;
+      s += '<rect x="0" y="70" width="' + f1 + '" height="210" fill="#e85c0b"/><rect x="' + f1 + '" y="70" width="' + (W - f1) + '" height="210" fill="#8ba3a4"/><text x="24" y="150" style="font-size:66px;font-weight:800;fill:#fff">£50.654</text><text x="24" y="196" style="font-size:29px;fill:#fff">Factura 576365 · 99 líneas</text><text x="' + (f1 + 24) + '" y="150" style="font-size:66px;font-weight:800;fill:#06283f">£61.487</text><text x="' + (f1 + 24) + '" y="196" style="font-size:29px;fill:#06283f">Otras 137 facturas y cancelaciones</text>';
+      s += '<text class="t-n" x="0" y="350" font-size="38">¿Es un cliente enorme sin registrar? ¿Ventas de un canal agrupadas?</text><text class="t-s" x="0" y="400" font-size="31">Los datos no lo dicen. Pero ahora sabes a quién llamar y qué preguntar.</text>';
+    }
+    svgD.innerHTML = s;
+    sube.style.display = nivel ? 'inline-block' : 'none';
+  }
+  svgD.addEventListener('click', function (e) { var g = e.target.closest('[data-ir]'); if (g) { e.stopPropagation(); nivel = +g.getAttribute('data-ir'); pintaDrill(); } });
+  sube.addEventListener('click', function (e) { e.stopPropagation(); nivel = Math.max(0, nivel - 1); pintaDrill(); });
+  pintaDrill();
+  /* 9: caminos */
+  var cm = '<text class="t-n" x="88" y="100" font-size="56">Bajar por la misma gráfica, o saltar a otra página</text>';
+  cm += '<rect x="88" y="170" width="660" height="620" fill="#fff" stroke="var(--tinta)" stroke-width="3"/><text class="t-o" x="118" y="224" font-size="40">Drill-down</text><text class="t-s" x="118" y="264" font-size="26">Misma gráfica, más detalle</text>';
+  ['Mes','Día','Factura'].forEach(function (n, i) { var y = 320 + i * 130, w = 480 - i * 130; cm += '<rect x="' + (118 + i * 65) + '" y="' + y + '" width="' + w + '" height="90" fill="' + ['#0d7a7a','#3d9490','#e85c0b'][i] + '"/><text x="' + (118 + i * 65 + w / 2) + '" y="' + (y + 56) + '" text-anchor="middle" style="font-size:33px;font-weight:800;fill:#fff">' + n + '</text>'; if (i < 2) cm += luz('M' + (358) + ' ' + (y + 90) + 'L358 ' + (y + 130), i * .5, 2); });
+  cm += '<rect x="852" y="170" width="660" height="620" fill="#fff" stroke="var(--tinta)" stroke-width="3"/><text class="t-o" x="882" y="224" font-size="40">Drillthrough</text><text class="t-s" x="882" y="264" font-size="26">Otra página, filtrada por lo que elegiste</text>';
+  cm += '<rect x="882" y="330" width="240" height="300" fill="var(--fondo-2)" stroke="var(--punto)"/><text class="t-n" x="1002" y="376" text-anchor="middle" font-size="26">Resumen</text>' ;
+  [100, 170, 60].forEach(function (h, i) { cm += '<rect x="' + (912 + i * 62) + '" y="' + (600 - h) + '" width="48" height="' + h + '" fill="' + (i === 1 ? '#e85c0b' : '#8ba3a4') + '"/>'; });
+  cm += '<rect x="1242" y="330" width="240" height="300" fill="var(--fondo-2)" stroke="var(--compra)" stroke-width="4"/><text class="t-n" x="1362" y="376" text-anchor="middle" font-size="26">Ficha del cliente</text>' + ic('users', 1322, 400, 80, '#e85c0b') + '<text class="t-s" x="1362" y="524" text-anchor="middle" font-size="23">Sus facturas</text><text class="t-s" x="1362" y="556" text-anchor="middle" font-size="23">Sus productos</text>';
+  cm += luz('M1030 470C1120 420 1150 420 1242 470', 0, 2.6, 'fuerte') + '<text class="t-s" x="882" y="690" font-size="25">Clic derecho sobre el dato &gt; Obtener detalles.</text><text class="t-s" x="882" y="730" font-size="25">Power BI agrega un botón para volver.</text>';
+  CUR.poner('caminos', cm);
+  /* 11: tres planos */
+  var Pl = [['Panorama','¿Cómo vamos?','KPI con meta y una gráfica principal','gauge',0],['Exploración','¿Dónde está?','Segmentaciones, cruces y drill-down','sliders-horizontal',1],['Detalle','¿Quién, exactamente?','Drillthrough a una ficha; tabla breve','table-2',2]], pl = '<text class="t-n" x="88" y="100" font-size="56">Tu dashboard, en tres planos</text><text class="t-s" x="88" y="148" font-size="28">Construye desde tu boceto. Cada plano responde a una pregunta distinta.</text>';
+  Pl.forEach(function (e, i) { var x = 120 + i * 90, y = 210 + i * 170, w = 980, h = 220; pl += '<g class="paso"><path d="M' + x + ' ' + y + 'h' + w + 'l100 80v' + h + 'h-' + w + 'l-100 -80z" fill="' + ['#fff', '#dbe5de', '#c7dbd4'][i] + '" stroke="var(--tinta)" stroke-width="3"/>' + ic(e[3], x + 40, y + 50, 86, i === 0 ? 'var(--compra)' : '#0d7a7a') + '<text class="t-n" x="' + (x + 150) + '" y="' + (y + 80) + '" font-size="40">' + e[0] + ': ' + e[1] + '</text><text class="t-s" x="' + (x + 150) + '" y="' + (y + 126) + '" font-size="29">' + e[2] + '</text></g>'; });
+  CUR.poner('planos', pl);
+  /* 13: taller */
+  var T = [['sliders-horizontal','Segmenta'],['zoom-in','Baja de nivel'],['route','Salta al detalle'],['bar-chart-3','Construye el tuyo'],['user-round-check','Prueba con alguien']], tl = '<text class="t-n" x="88" y="100" font-size="56">Cada paso sube el aumento</text><text class="t-s" x="88" y="148" font-size="28">Taller · Power BI Desktop · entrega: dashboard funcional y registro de la prueba</text>';
+  T.forEach(function (e, i) { var R = 330 - i * 58, cx = 950, cy = 500; tl += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="' + ['#dbe5de','#c7dbd4','#a8c6bf','#6aa8a0','#0d7a7a'][i] + '" stroke="#fff" stroke-width="4"/>'; });
+  T.forEach(function (e, i) { var y = 240 + i * 96; tl += ic(e[0], 88, y - 44, 60, i === 4 ? 'var(--compra)' : '#0d7a7a') + '<text class="t-n" x="170" y="' + (y - 4) + '" font-size="33">' + (i + 1) + '. ' + e[1] + '</text>'; });
+  CUR.poner('pasos8', tl);
+  /* 15: anillos */
+  var An = [['1x','Un total esconde','Países Bajos parecía el mejor mercado.',560,'#c7dbd4'],['10x','Bajar de nivel revela','Un solo cliente trae el 98,2 %.',380,'#6aa8a0'],['100x','Un dato abre una pregunta','Una factura sin cliente: ¿a quién le pregunto?',200,'#e85c0b']], an = '<text class="t-n" x="88" y="100" font-size="52">Tres aumentos para llevarte</text>';
+  An.forEach(function (e, i) { an += '<circle cx="1140" cy="480" r="' + (e[3] * .66) + '" fill="' + e[4] + '" stroke="#fff" stroke-width="4"/><text x="1140" y="' + (480 - e[3] * .66 + 60) + '" text-anchor="middle" style="font:800 48px Consolas,monospace;fill:' + (i === 2 ? '#fff' : '#06283f') + '">' + e[0] + '</text>'; var y = 230 + i * 190; an += '<g class="paso"><text class="t-o" x="88" y="' + y + '" font-size="34" style="font-family:Consolas,monospace">' + e[0] + '</text><text class="t-n" x="190" y="' + y + '" font-size="39">' + e[1] + '</text><text class="t-s" x="190" y="' + (y + 46) + '" font-size="28">' + e[2] + '</text></g>'; });
+  an += '<text class="t-s" x="88" y="810" font-size="28">Próxima sesión: presentas tu Proyecto 1. Si alguien se pierde en tu tablero, ajústalo hoy.</text>';
+  CUR.poner('anillos', an);
+})();
+</script>
+<script src="../assets/puntos/cine.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

@@ -1,283 +1,416 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 7</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides {
-            width: 95% !important;
-            height: 95% !important;
-            max-width: 1300px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 30px;
-            margin-top: 25px;
-        }
-        
-        .box-glass {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .box-glass:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 45px rgba(0, 56, 101, 0.2);
-        }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 800; }
-        .reveal h1 { font-size: 3.2em; }
-        .reveal h2 { font-size: 2.2em; margin-bottom: 20px; }
-        .highlight { color: var(--unab-orange); position: relative; display: inline-block; }
-        .highlight::after {
-            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
-            background: var(--unab-orange); opacity: 0.3; z-index: -1; border-radius: 4px;
-        }
-        
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.75em !important; line-height: 1.4; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #002240 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.8em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 12px; font-size: 1.4em; }
-        
-        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p { color: white !important; }
-        
-        /* Modal Glassmorphism */
-        .clickable-concept { cursor: pointer; position: relative; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -15px; right: -15px; background: var(--unab-orange); color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; box-shadow: 0 5px 15px rgba(232,92,11,0.4); opacity: 0; transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%);
-            width: 85%; max-width: 700px; background: rgba(255, 255, 255, 0.98); padding: 40px;
-            border-radius: 20px; box-shadow: 0 40px 80px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-        }
-        #concept-modal.show { opacity: 1; transform: translate(-50%, -50%); }
-        @keyframes popIn { 0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-        
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.85); backdrop-filter: blur(8px); z-index: 1999;
-            animation: fadeIn 0.3s ease forwards; opacity: 0;
-        }
-        #concept-modal-overlay.show { opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; font-size: 1.8em; color: #888; transition: color 0.2s; }
-        .modal-close:hover { color: var(--unab-orange); }
-        
-        #typed-container {
-            background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px; font-family: monospace;
-            color: #00ff00; margin-bottom: 20px; display: inline-block; border-left: 4px solid #00ff00; font-size: 0.6em;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 7 · El cuarto de revelado | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<link rel="stylesheet" href="../assets/puntos/cine.css">
+<link rel="stylesheet" href="../assets/puntos/curso.css">
+<style>
+  /* Mundo: cuarto oscuro de fotografía. Un diafragma abre cada escena y los datos se revelan como copias en papel. Dirección de arte: propuesta de Gemini, adaptada. */
+  :root { --fondo: #120907; --fondo-2: #24130d; --tinta: #fbf1e6; --tinta-2: #c8ad98; --regla: rgba(251,241,230,.22); --punto: #84604b; --compra: #ff6a1a; --acento-texto: #ff9a5c; --papel: #f6f1e7; --sal: #2a1109; }
+  #escenario::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 760px 520px at 78% 8%, rgba(232,92,11,.26), transparent 70%); }
+  .rot { font: 700 24px 'Schibsted Grotesk', sans-serif; letter-spacing: .14em; color: var(--acento-texto); text-transform: uppercase; }
+  svg text { font-family: inherit; }
+  .t-n { fill: var(--tinta); font-weight: 800; } .t-s { fill: var(--tinta-2); } .t-o { fill: var(--acento-texto); font-weight: 800; }
+  .copia { position: absolute; background: var(--papel); color: #1c120c; padding: 16px 16px 12px; box-shadow: 0 18px 44px rgba(0,0,0,.6); }
+  .copia h3 { font-size: 27px; line-height: 1.1; color: #1c120c; margin-bottom: 8px; }
+  .copia .sv { display: block; width: 100%; }
+  .copia svg text { fill: #4b3a2e; font-size: 16px; }
+  .copia .pinza { position: absolute; left: 50%; top: -24px; width: 34px; height: 44px; margin-left: -17px; background: #6d7782; clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%); }
+  /* El papel se revela: de borroso a nítido */
+  .paso.copia { transition: opacity .3s ease, transform .5s cubic-bezier(.16,1,.3,1), filter 2.2s ease; filter: blur(14px) sepia(1) brightness(.55); }
+  .paso.copia.visto { filter: none; }
+  .ladder { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .ladder > div { background: var(--fondo-2); padding: 16px; display: flex; flex-direction: column; gap: 8px; border-top: 5px solid var(--compra); }
+  .ladder > div:nth-child(2) { border-top-color: #ff9a5c; } .ladder > div:nth-child(3) { border-top-color: #b98368; } .ladder > div:nth-child(4) { border-top-color: #84604b; } .ladder > div:nth-child(5) { border-top-color: #4c3528; }
+  .ladder b { font-size: 26px; line-height: 1.1; } .ladder span { font-size: 22px; color: var(--tinta-2); line-height: 1.15; }
+  .gest { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 32px; }
+  .gest div { display: grid; grid-template-columns: 180px 1fr; gap: 16px; align-items: center; min-height: 200px; }
+  .gest b { font-size: 34px; color: var(--acento-texto); display: block; } .gest span { font-size: 27px; color: var(--tinta-2); line-height: 1.16; }
+  .limp [data-r], .limp .bar { transition: opacity .5s ease, fill .5s ease; }
+  .limp .quitado { opacity: 0; }
+  .ctc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .ctc > div { background: var(--papel); color: #1c120c; padding: 16px 18px 20px; min-height: 340px; }
+  .ctc .num { font: 800 22px Consolas, monospace; color: #b94504; }
+  .ctc p { color: #1c120c; font-size: 28px; line-height: 1.16; margin-top: 8px; font-weight: 600; }
+  .ctc .ico { font-size: 60px; color: #b94504; display: block; margin: 6px 0; }
+  .tarjeta-g { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px 16px; }
+  .tarjeta-g div { background: var(--fondo-2); padding: 18px 15px 22px; min-height: 324px; }
+  .tarjeta-g .ico { font-size: 60px; }
+  .tarjeta-g b { display: block; font-size: 29px; line-height: 1.08; margin: 6px 0; } .tarjeta-g span { font-size: 24.5px; color: var(--tinta-2); line-height: 1.16; display: block; }
+  .filabio { display: grid; grid-template-columns: 230px 1fr 1fr; gap: 16px 30px; align-items: start; }
+</style>
 </head>
-<body>
-    
-    <!-- Modal Interactivo -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
-        <h2 style="color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; display: flex; align-items: center; gap: 15px;">
-            <i id="modal-icon" class="fa-solid fa-lightbulb" style="color: var(--unab-orange);"></i> 
-            <span id="modal-title">Título</span>
-        </h2>
-        <p id="modal-text" style="font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px;">Texto explicativo</p>
-        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
-            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Implementación Práctica:</h4>
-            <code id="modal-example-text" style="font-size: 0.9em; background: #fff; padding: 10px; display: block; border-radius: 5px; color: #d946ef; font-weight: bold;">Ejemplo</code>
-        </div>
+<body data-cine="iris">
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
+
+<!-- 1 Portada -->
+<section class="esc">
+  <div class="lamina " style="left:800px;top:330px;width:740px;height:416px;box-shadow:0 16px 44px rgba(0,0,0,.45);z-index:1"><img src="../assets/vector/s07_lente_optica_datos.svg" alt="Muchas líneas desordenadas entran a una lente y sale un solo haz"></div>
+  <div style="position:absolute;left:88px;top:60px;width:1350px">
+    <p class="rot">El cuarto de revelado · Sesión 7</p>
+    <h1 style="font-size:86px;margin-top:14px">Los mismos datos. <span class="acento">Otra pregunta, otra gráfica.</span></h1>
+    <p class="sec" style="font-size:27px;margin-top:20px">Inteligencia de Negocios · Dudbil Olvasada Pabón Riaño · UNAB</p>
+  </div>
+  <aside class="notas">Una lente recibe muchos rayos y deja salir una imagen. Elegir un visual es lo mismo: es decidir qué se enfoca. Hoy empieza la Unidad 3. Los datos siguen siendo Online Retail.</aside>
+</section>
+
+<!-- 2 Agenda: torreta -->
+<section class="esc">
+  <svg class="diagrama" id="torreta" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Agenda como torreta de siete lentes: revelar, elegir, percepción, pausa, inglés, diseñar y cierre"></svg>
+  <aside class="notas">La torreta gira una lente por bloque. El calendario pide: laboratorio de selección de visuales según pregunta y audiencia, diseño inicial del dashboard y análisis crítico de ejemplos. Ajuste los tiempos al grupo.</aside>
+</section>
+
+<!-- 3 Resultado: ficha -->
+<section class="esc">
+  <div class="copia" style="left:190px;top:70px;width:1220px;height:760px;padding:44px 54px">
+    <p class="rot" style="color:#b94504;font-size:21px">Ficha de esta tira · Resultados de aprendizaje 2.1 y 2.2</p>
+    <h2 style="font-size:45px;color:#1c120c;margin:12px 0 8px">Diseña dashboards enfocados en la visualización de KPI relevantes.</h2>
+    <h2 style="font-size:45px;color:#1c120c;margin-bottom:24px">Aplica principios de diseño visual y usabilidad en reportes ejecutivos.</h2>
+    <div style="display:grid;grid-template-columns:86px 1fr;gap:20px 14px;align-items:center;border-top:3px solid #1c120c;padding-top:22px">
+      <i class="ico" data-i="focus" style="font-size:62px;color:#b94504"></i><p style="font-size:32px;color:#1c120c">Eliges el visual según la pregunta y la audiencia, y lo justificas.</p>
+      <i class="ico" data-i="eraser" style="font-size:62px;color:#b94504"></i><p style="font-size:32px;color:#1c120c">Quitas lo que estorba y diriges la mirada.</p>
+      <i class="ico" data-i="pencil-ruler" style="font-size:62px;color:#b94504"></i><p style="font-size:32px;color:#1c120c">Dibujas el diseño inicial del dashboard de tu Proyecto 1.</p>
     </div>
+  </div>
+  <aside class="notas">Resultados textuales del syllabus; el 2.2 se evalúa en la Evaluación 2 y el 2.1 en el Proyecto 1 y el Quiz 2. Los logros son de esta sesión.</aside>
+</section>
 
-    <div class="reveal">
-        <div class="slides">
+<!-- 4 Hoja de contactos -->
+<section class="esc" data-cine="dolly">
+  <div style="position:absolute;left:88px;top:40px;width:1424px"><h2 style="font-size:43px">Un archivo, cuatro copias. Cada pregunta revela algo distinto.</h2></div>
+  <div class="paso copia" style="left:88px;top:150px;width:690px;height:330px"><i class="pinza"></i><h3>¿Qué día se vende? El jueves. El sábado no existe.</h3><svg class="sv" id="fDias" viewBox="0 0 660 240"></svg></div>
+  <div class="paso copia" style="left:822px;top:150px;width:690px;height:330px"><i class="pinza"></i><h3>¿Dónde se vende? 84 de cada 100 libras, en Reino Unido.</h3><svg class="sv" id="fPais" viewBox="0 0 660 240"></svg></div>
+  <div class="paso copia" style="left:88px;top:510px;width:690px;height:340px"><i class="pinza"></i><h3>¿Qué se vende? Ni los 10 mejores llegan a 9 de cada 100.</h3><svg class="sv" id="fProd" viewBox="0 0 660 250"></svg></div>
+  <div class="paso copia" style="left:822px;top:510px;width:690px;height:340px"><i class="pinza"></i><h3>¿A qué hora? Tres de cada cuatro libras, de 10:00 a 15:59.</h3><svg class="sv" id="fHora" viewBox="0 0 660 250"></svg></div>
+  <aside class="notas">Revele una copia a la vez y pregunte qué decisión apoyaría cada una. Venta neta. Jueves: £2.112.519. Reino Unido: 84,0 %. Top 10 de productos: 8,2 % de la venta de productos con saldo positivo. De 10:00 a 15:59: 75,0 %. La hora es la que registra el archivo. No hay filas en sábado; los datos no dicen por qué. Forma distinta por pregunta: columnas para comparar días, barra para parte y todo, barras ordenadas para ranking, línea para horas.</aside>
+</section>
 
-            <!-- 1. Portada -->
-            <section data-transition="zoom" class="dark-slide">
-                <div id="typed-container"><span id="typed-output"></span></div>
-                <br>
-                <i class="fa-solid fa-hand-pointer" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
-                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Semana 7: Interactividad UX (Drill-through, Tooltips)</h3>
-                <br>
-                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
-            </section>
-            
-            <!-- 2. RAE -->
-            <section data-transition="slide">
-                <h2 class="text-left" style="color: #003865;"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
-                <div class="box-glass text-left" style="border-top: 6px solid #003865; margin-top: 30px; padding: 40px;">
-                    <h3 style="color: #003865; margin-bottom: 20px;">Meta Analítica</h3>
-                    <p style="font-size: 1.2em; color: #333; line-height: 1.6;">
-                        <i class="fa-solid fa-check-double text-green-600" style="color: #E85C0B; margin-right: 15px;"></i>
-                        Implementar técnicas avanzadas de interactividad en Power BI para crear aplicaciones analíticas fluidas que permitan explorar el detalle (drill-down) sin cambiar el contexto global.
-                    </p>
-                </div>
-            </section>
+<!-- 5 Árbol -->
+<section class="esc">
+  <svg class="diagrama" id="arbol" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Árbol de decisión: comparar lleva a barras, tiempo a línea, parte y todo a barra apilada, distribución a histograma, relación a dispersión"></svg>
+  <p class="pie">Basado en From Data to Viz y la guía de gráficos de Storytelling with Data. Es un punto de partida, no una ley.</p>
+  <aside class="notas">La forma se elige por la tarea: ¿qué debe hacer el ojo? Pregunte qué tarea corresponde a cada una de las cuatro copias anteriores. Lectura en casa: data-to-viz.com tiene un árbol completo.</aside>
+</section>
 
-            <!-- 3. Conceptos Estructurales -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-cubes-stacked" style="color: #E85C0B;"></i> Conceptos Analíticos Clave</h2>
-                <div class="split-layout">
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Drill-through (Obtención de Detalles)', 'fa-magnifying-glass-arrow-right', 'Permite crear una página de informe de destino centrada en una entidad específica (ej. un producto). El usuario hace clic derecho en un resumen y 'viaja' al detalle del producto manteniendo el contexto.', 'Clic derecho en una barra del 'iPhone 15' > Obtener Detalles > Ver perfil completo del producto.')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865;"><i class="fa-solid fa-magnifying-glass-arrow-right"></i> Drill-through (Obtención de Detalles)</h3>
-                        <p class="small-text" style="margin-top: 20px;">Permite crear una página de informe de destino centrada en una entidad específica (ej. un producto). El usuario hace clic derecho en un resumen y 'viaja' al detalle del producto manteniendo el contexto.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #E85C0B; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Report Page Tooltips', 'fa-window-maximize', 'Páginas de informe ocultas y en miniatura que emergen al hacer hover (pasar el mouse) sobre un elemento visual, proporcionando un mini-dashboard contextual en tiempo real.', 'Al pasar el mouse por 'Sucursal Centro', emerge un micro-mapa de ubicación e indicadores de esa tienda específica.')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-window-maximize"></i> Report Page Tooltips</h3>
-                        <p class="small-text" style="margin-top: 20px;">Páginas de informe ocultas y en miniatura que emergen al hacer hover (pasar el mouse) sobre un elemento visual, proporcionando un mini-dashboard contextual en tiempo real.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #003865; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4. Discusión Profunda Inyectada -->
-            
-        <section>
-            <h2>Navegación y Marcadores (Bookmarks)</h2>
-            <div class="split-layout">
-                <div class="box-glass text-left" style="border-left: 5px solid #003865;">
-                    <h4 style="color: #003865;"><i class="fa-solid fa-bookmark"></i> Bookmarks de Estado</h4>
-                    <p class="small-text">Los marcadores en Power BI no solo guardan filtros; guardan la visibilidad de los elementos. Esto permite simular <strong>Pestañas o Botones Toggle</strong> dentro de una misma página, cambiando de una vista 'Resumen' a una vista 'Detalle' al hacer clic, logrando un comportamiento de aplicación web.</p>
-                </div>
-                <div class="box-glass text-left" style="border-left: 5px solid #E85C0B;">
-                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-code-branch"></i> Sincronización de Filtros</h4>
-                    <p class="small-text">Al crear aplicaciones multicapa, un cambio de filtro (ej. seleccionar el año 2026) debe propagarse (o no) a las demás páginas según el diseño. La sincronización cuidadosa de los Slicers garantiza que la experiencia del usuario sea intuitiva e ininterrumpida.</p>
-                </div>
-            </div>
-        </section>
-        
-
-            <!-- 5. Taller Práctico -->
-            <section data-transition="slide" class="dark-slide">
-                <i class="fa-solid fa-laptop-code" style="font-size: 5em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1 style="color: white !important;">Taller Aplicado</h1>
-                <p style="font-size: 1.2em;">Migración de entorno teórico a plataforma práctica.</p>
-                <div class="box-glass" style="background: rgba(255,255,255,0.1); margin: 30px auto; max-width: 80%; text-align: center; border: 1px solid rgba(255,255,255,0.2);">
-                    <h4 style="color: white; margin-top: 0;">Flujo Técnico a ejecutar:</h4>
-                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 7</span>
-                </div>
-            </section>
-
-            <!-- 6. Glosario y Bibliografía -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-book-open"></i> Referencias Bibliográficas</h2>
-                <div class="box-glass text-left" style="border-top: 5px solid #003865;">
-                    <ul style="font-size: 0.8em; line-height: 1.8; color: #444;">
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Sharda, R., Delen, D., & Turban, E. (2020). <strong>Business Intelligence, Analytics, and Data Science: A Managerial Perspective.</strong> 4th Edition. Pearson.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Ferrari, A., & Russo, M. (2019). <strong>The Definitive Guide to DAX: Business intelligence for Microsoft Power BI.</strong> Microsoft Press.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Knaflic, C. N. (2015). <strong>Storytelling with Data: A Data Visualization Guide for Business Professionals.</strong> Wiley.</li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
+<!-- 6 Percepción -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:52px;width:1424px">
+    <h2 style="font-size:54px">El ojo no lee todas las formas igual de bien</h2>
+    <p class="sec" style="font-size:28px;margin:8px 0 24px">Los mismos cinco países, de la lectura más precisa a la menos precisa.</p>
+    <div class="ladder">
+      <div><b>Posición</b><svg id="p1" viewBox="0 0 230 210"></svg><span>Sobre una escala común</span></div>
+      <div><b>Longitud</b><svg id="p2" viewBox="0 0 230 210"></svg><span>Barras desde cero</span></div>
+      <div><b>Ángulo</b><svg id="p3" viewBox="0 0 230 210"></svg><span>Porciones de torta</span></div>
+      <div><b>Área</b><svg id="p4" viewBox="0 0 230 210"></svg><span>Burbujas</span></div>
+      <div><b>Color</b><svg id="p5" viewBox="0 0 230 210"></svg><span>Saturación</span></div>
     </div>
+    <p class="paso frase" style="font-size:38px;margin-top:22px">Por eso una barra suele ganarle a una torta. Pregúntate: ¿qué debe comparar el ojo?</p>
+  </div>
+  <p class="pie">Cleveland y McGill (1984), simplificado: los autores lo proponen como marco de trabajo; estudios posteriores lo matizan según la tarea. Datos: Países Bajos, Irlanda, Alemania, Francia, Australia.</p>
+  <aside class="notas">Pida ordenar los cinco países en cada columna, sin ver cifras. Con la posición es fácil; con el color, casi imposible. Los valores son £284.662, £263.277, £221.698, £197.404 y £137.077. Ranking simplificado de Cleveland y McGill; también incluye posición en escalas no alineadas, dirección, volumen y curvatura.</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        Reveal.initialize({
-            hash: true,
-            transition: 'slide',
-            controlsTutorial: false,
-            center: true,
-            progress: true,
-            slideNumber: 'c/t'
-        });
+<!-- 7 Gestalt -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:58px;width:1424px">
+    <h2 style="font-size:56px;margin-bottom:8px">Antes de leer, el cerebro ya agrupó</h2>
+    <p class="sec" style="font-size:29px;margin-bottom:30px">Seis principios de la Gestalt para ordenar sin agregar nada.</p>
+    <div class="gest" id="gestalt"></div>
+    <p class="paso frase" style="font-size:38px;margin-top:30px">Usa una sola diferencia para decir “mira aquí”: lo demás, en gris.</p>
+  </div>
+  <p class="pie">Knaflic (2015), capítulos sobre desorden y atención.</p>
+  <aside class="notas">Los seis principios son los que presenta Knaflic: proximidad, similitud, encerramiento, cierre, continuidad y conexión. Muestre cómo el mismo grupo de puntos cambia de lectura en cada recuadro. Conecte con la atención previa: el color de énfasis se ve antes de pensar.</aside>
+</section>
 
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+<!-- 8 Limpieza en vivo -->
+<section class="esc" data-cine="dolly">
+  <div class="copia limp" style="left:88px;top:44px;width:980px;height:812px"><svg class="sv" id="sucia" viewBox="0 0 950 780"></svg></div>
+  <div style="position:absolute;left:1110px;top:60px;width:410px;display:flex;flex-direction:column;gap:18px">
+    <p class="rot">Los mismos datos</p>
+    <h2 style="font-size:46px">Cada paso quita un estorbo</h2>
+    <p class="paso" data-quita=".q1" style="font-size:29px"><b class="acento">1.</b> Fuera el relieve y la cuadrícula.</p>
+    <p class="paso" data-quita=".q2" style="font-size:29px"><b class="acento">2.</b> Fuera la leyenda: el eje ya lo dice.</p>
+    <p class="paso" data-clase=".bar|gris" style="font-size:29px"><b class="acento">3.</b> Un color de énfasis; el resto en gris.</p>
+    <p class="paso" data-quita=".q4" data-clase=".tit2|ver" style="font-size:29px"><b class="acento">4.</b> El título dice la conclusión.</p>
+  </div>
+  <div class="lamina " style="left:1110px;top:596px;width:410px;height:231px;box-shadow:0 16px 44px rgba(0,0,0,.45);z-index:1"><img src="../assets/vector/s07_mesa_corte_ruido.svg" alt="Una cuchilla separa el ruido de una gráfica limpia"></div>
+  <aside class="notas">Pregunte antes de cada paso qué quitarían. Las cifras nunca cambian: es venta neta por día de la semana, en libras. Advierta que el sábado va vacío a propósito: quitarlo escondería un hallazgo. La Evaluación 2 pregunta por esto.</aside>
+</section>
 
-        // Typed.js para efecto hacker corporativo
-        new Typed('#typed-output', {
-            strings: [
-                '> ESTABLECIENDO CONEXIÓN SEGURA...',
-                '> CARGANDO DATOS MASIVOS (ETL)...',
-                '> OPTIMIZANDO MODELO DIMENSIONAL...',
-                '> PROTOCOLO DE INTELIGENCIA DE NEGOCIOS: ACTIVO'
-            ],
-            typeSpeed: 30,
-            backSpeed: 10,
-            backDelay: 1500,
-            loop: true,
-            showCursor: true,
-            cursorChar: '_'
-        });
+<!-- 9 KPI -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:50px;width:1424px"><h2 style="font-size:54px">Un KPI en pantalla necesita tres cosas, y una frase</h2></div>
+  <svg class="diagrama" id="kpi" viewBox="0 0 1424 680" style="position:absolute;left:88px;top:150px;width:1424px;height:680px" role="img" aria-label="Tarjeta KPI: valor de 1.461.756 libras en noviembre, meta supuesta de 700.000, tendencia de 13 meses y una frase de decisión"></svg>
+  <p class="pie">Microsoft Learn, visual de KPI: medida base, destino y umbral. La meta de £700.000 es un supuesto del caso, igual que en la sesión 2.</p>
+  <aside class="notas">Microsoft: un visual de KPI requiere una medida base, un destino y un umbral o meta. Lo que Power BI no pide, y usted sí: la frase que dice qué hacer. Noviembre frente a octubre: +36,5 %. No hay noviembre del año anterior: no se puede afirmar crecimiento anual. Conecta con la ficha de KPI de la sesión 2.</aside>
+</section>
 
-        function openModal(title, iconClass, text, example) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-icon').className = 'fa-solid ' + iconClass;
-            document.getElementById('modal-text').innerText = text;
-            document.getElementById('modal-example-text').innerHTML = example;
-            
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('concept-modal-overlay').classList.add('show');
-                document.getElementById('concept-modal').classList.add('show');
-            }, 10);
-        }
+<!-- 10 Audiencias -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:46px;width:1424px">
+    <h2 style="font-size:52px;margin-bottom:22px">Misma empresa, tres personas: cambia lo que se revela</h2>
+    <div class="filabio" style="font-size:27px">
+      <div class="h" style="font-size:24px;color:var(--tinta-2);font-weight:700">Quién</div><div style="font-size:24px;color:var(--tinta-2);font-weight:700">Qué decide</div><div style="font-size:24px;color:var(--tinta-2);font-weight:700">Qué ve</div>
+      <div class="paso"><i class="ico" data-i="package" style="font-size:66px;display:block"></i><b style="font-size:30px">Jefatura de bodega</b></div><div class="paso" style="font-size:31px">¿Qué días reforzar despachos?</div><div class="paso"><svg id="a1" viewBox="0 0 560 130" style="width:100%"></svg><span class="sec" style="font-size:24px">Columnas por día: jueves arriba, sábado en cero.</span></div>
+      <div class="paso"><i class="ico" data-i="presentation" style="font-size:66px;display:block"></i><b style="font-size:30px">Gerencia comercial</b></div><div class="paso" style="font-size:31px">¿Cuándo preparar la temporada?</div><div class="paso"><svg id="a2" viewBox="0 0 560 130" style="width:100%"></svg><span class="sec" style="font-size:24px">Línea de 13 meses, con el último punto marcado como incompleto.</span></div>
+      <div class="paso"><i class="ico" data-i="landmark" style="font-size:66px;display:block"></i><b style="font-size:30px">Junta directiva</b></div><div class="paso" style="font-size:31px">¿Cuánto riesgo hay en un solo mercado?</div><div class="paso"><p style="font-size:72px;font-weight:800;line-height:1;color:var(--acento-texto)">84,0&nbsp;%</p><span class="sec" style="font-size:24px">Una cifra y una frase. Sin tablas.</span></div>
+    </div>
+  </div>
+  <p class="pie">Personas y decisiones supuestas para el ejercicio. Datos reales: Chen (2015).</p>
+  <aside class="notas">La pregunta de cada audiencia decide el visual; no al revés. En la sesión 12 se profundiza en lenguaje y formato. Pida a cada estudiante nombrar el cargo de su audiencia en el Proyecto 1.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal').classList.remove('show');
-            document.getElementById('concept-modal-overlay').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('concept-modal').style.display = 'none';
-                document.getElementById('concept-modal-overlay').style.display = 'none';
-            }, 400);
-        }
-    </script>
+<!-- 11 Wireframe -->
+<section class="esc" data-cine="pagina">
+  <svg class="diagrama" id="plano" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Boceto de dashboard en cuatro capas: indicadores arriba, gráfica principal, apoyo y detalle"></svg>
+  <p class="pie">Knaflic (2015): sin otras pistas, se lee desde arriba a la izquierda en zigzag. Bach y otros (2022), patrones de tableros.</p>
+  <aside class="notas">Se dibuja en papel antes de abrir Power BI. Knaflic describe que, sin otras pistas, la audiencia empieza arriba a la izquierda y baja en zigzag: ahí va lo más importante. Bach y otros documentan patrones de diseño de tableros; es lectura para quien quiera profundizar. No hay una única distribución correcta.</aside>
+</section>
+
+<!-- 12 Crítica -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:50px;width:1424px">
+    <p class="rot">Crítica de ejemplos reales</p>
+    <h2 style="font-size:54px;margin:6px 0 24px">Cinco preguntas antes de opinar si un tablero es bueno</h2>
+    <div class="ctc">
+      <div class="paso"><span class="num">1</span><i class="ico" data-i="circle-help"></i><p>¿Qué pregunta responde?</p></div>
+      <div class="paso"><span class="num">2</span><i class="ico" data-i="users"></i><p>¿Para quién, y qué decide?</p></div>
+      <div class="paso"><span class="num">3</span><i class="ico" data-i="eraser"></i><p>¿Qué le quitarías sin perder nada?</p></div>
+      <div class="paso"><span class="num">4</span><i class="ico" data-i="scale"></i><p>¿Cada cifra se compara con algo?</p></div>
+    </div>
+    <p class="paso" style="font-size:33px;margin-top:22px"><b class="acento">Y la quinta:</b> ¿cuál es el visual que mejor o peor responde a su tarea, y por qué?</p>
+    <p class="paso sec" style="font-size:27px;margin-top:8px">Se critica sobre los ejemplos oficiales de Power BI: Retail Analysis y Sales and Marketing.</p>
+  </div>
+  <aside class="notas">Se critica el diseño, no a quien lo hizo. Los ejemplos están en Microsoft Learn y se usan en el taller. Son ficticios: sirven para practicar la crítica, no para sacar conclusiones de negocio.</aside>
+</section>
+
+<!-- 13 EMI -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:58px;width:1424px;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start">
+    <div>
+      <p class="rot">English immersion · 10 minutes</p>
+      <p style="font-size:42px;line-height:1.16;font-weight:700;margin-top:14px">“A KPI visual requires a <span class="acento">base measure</span> that evaluates to a value, a <span class="acento">target</span> measure or value, and a <span class="acento">threshold or goal</span>.”</p>
+      <p class="sec" style="font-size:22px;margin-top:10px">Microsoft Learn, Key Performance Indicator visuals</p>
+      <svg id="visor" viewBox="0 0 640 260" style="width:100%;margin-top:14px" aria-hidden="true"></svg>
+    </div>
+    <ol class="lista">
+      <li class="paso" style="font-size:33px">Look at any chart today. Say: “This chart answers the question ___.”</li>
+      <li class="paso" style="font-size:33px">Tell your partner one thing you would remove from it, and why.</li>
+      <li class="paso" style="font-size:33px">Say the KPI of your project: base, target, threshold.</li>
+      <li class="paso sec" style="font-size:27px">Words: <b>clutter</b>, <b>to highlight</b>, <b>bar chart</b>, <b>trend</b>, <b>target</b>, <b>audience</b>.</li>
+    </ol>
+  </div>
+  <aside class="notas">Cita textual de Microsoft Learn, ligeramente sin los énfasis originales. Cinco minutos en parejas y cinco en plenaria, solo en inglés. Después, la actividad en la pestaña Juego Didáctico.</aside>
+</section>
+
+<!-- 14 Taller -->
+<section class="esc">
+  <svg class="diagrama" id="tira" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Tira de película con cinco tomas del taller"></svg>
+  <a class="boton" href="Guia_Laboratorio_Semana7.html" target="_blank" rel="noopener" style="position:absolute;left:88px;bottom:76px">Abrir la guía del taller</a>
+  <div class="lamina " style="left:1090px;top:640px;width:410px;height:200px;box-shadow:0 16px 44px rgba(0,0,0,.45);z-index:1"><img src="../assets/vector/s07_plano_control_dashboard.svg" alt="Plano de un tablero con paneles y conexiones"></div>
+  <aside class="notas">Punto de control clave: 84,0 % de Reino Unido y jueves £2.112.519. Pase por las mesas al revisar el boceto del Proyecto 1: pida la pregunta y la audiencia antes de mirar el dibujo.</aside>
+</section>
+
+<!-- 15 Glosario -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:48px;width:1424px">
+    <p class="rot">Rótulos del cuarto oscuro</p><h2 style="font-size:50px;margin:4px 0 20px">Glosario de hoy</h2>
+    <div class="tarjeta-g">
+      <div><i class="ico" data-i="contrast"></i><b>Atención previa</b><span>Lo que el ojo capta antes de pensar: color, tamaño, posición.</span></div>
+      <div><i class="ico" data-i="grid-3x3"></i><b>Gestalt</b><span>Principios de cómo agrupamos lo que vemos.</span></div>
+      <div><i class="ico" data-i="eraser"></i><b>Desorden</b><span>Lo que ocupa atención sin aportar comprensión.</span></div>
+      <div><i class="ico" data-i="target"></i><b>Énfasis</b><span>Una diferencia visual que dice “mira aquí”.</span></div>
+      <div><i class="ico" data-i="bar-chart-3"></i><b>Visual</b><span>Objeto gráfico de un informe de Power BI.</span></div>
+      <div><i class="ico" data-i="gauge"></i><b>Visual de KPI</b><span>Medida base, destino y umbral.</span></div>
+      <div><i class="ico" data-i="sigma"></i><b>Medida</b><span>Cálculo que se evalúa según los filtros.</span></div>
+      <div><i class="ico" data-i="users"></i><b>Audiencia</b><span>Un cargo que decide algo concreto.</span></div>
+      <div><i class="ico" data-i="pencil-ruler"></i><b>Boceto</b><span>Dibujo del tablero antes de construirlo.</span></div>
+      <div><i class="ico" data-i="focus"></i><b>Título-conclusión</b><span>Dice qué concluir, no de qué trata.</span></div>
+    </div>
+  </div>
+  <aside class="notas">Estos términos entran al Quiz 2 de la sesión 10 y a la Evaluación 2. Pida explicar uno con un ejemplo propio.</aside>
+</section>
+
+<!-- 16 Conclusiones -->
+<section class="esc" data-cine="dolly">
+  <svg class="diagrama" id="contacto" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Tres copias finales unidas por un hilo de luz"></svg>
+  <aside class="notas">Cierre preguntando: ¿qué visual de su proyecto cambiarían después de hoy? Próxima sesión: el tablero deja de ser una foto y se vuelve interactivo. Traer el boceto.</aside>
+</section>
+
+<!-- 17 Fuentes -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:50px;width:1424px" class="bib">
+    <p class="rot">Colofón</p><h2 style="font-size:48px;margin:4px 0 14px">Bibliografía y fuentes</h2>
+    <p>Bach, B., Freeman, E., Abdul-Rahman, A., Turkay, C., Khan, S., Fan, Y. y otros (2022). Dashboard design patterns. <em>IEEE Transactions on Visualization and Computer Graphics</em>. <a href="https://doi.org/10.1109/tvcg.2022.3209448" target="_blank" rel="noopener">doi:10.1109/tvcg.2022.3209448</a></p>
+    <p>Chen, D. (2015). <em>Online Retail</em> [conjunto de datos]. UCI. CC BY 4.0. <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">doi:10.24432/C5BW33</a></p>
+    <p>Cleveland, W. S. y McGill, R. (1984). Graphical perception. <em>Journal of the American Statistical Association, 79</em>(387), 531-554. <a href="https://doi.org/10.1080/01621459.1984.10478080" target="_blank" rel="noopener">doi:10.1080/01621459.1984.10478080</a></p>
+    <p>From Data to Viz. <a href="https://www.data-to-viz.com/" target="_blank" rel="noopener">data-to-viz.com</a></p>
+    <p>Knaflic, C. N. (2015). <em>Storytelling with Data</em>. Wiley. <a href="https://doi.org/10.1002/9781119055259" target="_blank" rel="noopener">doi:10.1002/9781119055259</a></p>
+    <p>Microsoft Learn. <em>Key Performance Indicator (KPI) visuals</em>. <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-kpi" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Retail Analysis sample</em> y <em>Sales and Marketing sample</em>. <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-retail-analysis" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Storytelling with Data. <em>Guía de gráficos</em>. <a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener">storytellingwithdata.com</a></p>
+    <p>Iconos: Lucide, licencia ISC. Dirección de arte e ilustraciones: generadas con Gemini, vectorizadas y adaptadas; las ilustraciones no contienen datos. Gráficas hechas con los datos reales.</p>
+  </div>
+  <aside class="notas">Cifras recalculadas con el archivo original: Material_Privado/Unidades_2_3/cifras_u23.json y cifras_u3.json. El ordenamiento de Cleveland y McGill se comprobó en fuentes secundarias.</aside>
+</section>
+
+<div id="ayuda">Flechas para avanzar · F pantalla completa · N notas</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/iconos.js"></script>
+<script src="../assets/puntos/curso.js"></script>
+<script>
+(function () {
+  var luz = CUR.luz, ic = CUR.ic, mil = CUR.miles;
+  var DIAS = [['Lun',1588609],['Mar',1966183],['Mié',1734147],['Jue',2112519],['Vie',1562735],['Sáb',0],['Dom',805679]];
+  var MES = ['dic','ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'], NET = [748957,560000,498063,683267,493207,723334,691123,681300,704805,1019688,1070705,1461756,433668];
+  var PAIS = [['P. Bajos',284662],['Irlanda',263277],['Alemania',221698],['Francia',197404],['Australia',137077]];
+  /* Portada: lente con rayos */
+  var cx = 1140, cy = 560, r = 250, s = '';
+  for (var i = 0; i < 9; i++) { var y = 560 + i * 34; s += luz('M0 ' + y + 'C400 ' + y + ' 700 ' + (cy + (y - cy) * .9) + ' ' + (cx - 40) + ' ' + (cy + (y - cy) * .75), i * .3, 4.6); }
+  s += luz('M' + (cx + 40) + ' ' + cy + 'L1600 ' + cy, 0, 3, 'fuerte');
+  for (var a = 0; a < 3; a++) s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r - a * 42) + '" fill="' + (a === 2 ? 'var(--fondo-2)' : 'none') + '" stroke="var(--punto)" stroke-width="' + (a ? 2 : 6) + '"/>';
+  for (var b = 0; b < 8; b++) { var t = b / 8 * 6.283, t2 = t + 1.1; s += '<path d="M' + (cx + 90 * Math.cos(t)) + ' ' + (cy + 90 * Math.sin(t)) + 'L' + (cx + 166 * Math.cos(t2)) + ' ' + (cy + 166 * Math.sin(t2)) + '" stroke="var(--compra)" stroke-width="3"/>'; }
+  s += '<circle cx="' + cx + '" cy="' + cy + '" r="86" fill="#1c0c06" stroke="var(--compra)" stroke-width="4"/>' + ic('aperture', cx - 54, cy - 54, 108);
+  /* Torreta de agenda */
+  var E = [['10:00','Cuatro copias','scan-search'],['10:25','Elegir la forma','split'],['10:40','Cómo mira el ojo','eye'],['11:00','Pausa','coffee'],['11:15','English','languages'],['11:25','Taller y boceto','pencil-ruler'],['12:50','Cierre','stamp']];
+  var tx = 450, ty = 500, R = 240, g = '<text x="88" y="118" font-size="30" font-weight="700" style="fill:var(--acento-texto);letter-spacing:.14em">TORRETA DE HOY</text>';
+  g += '<circle cx="' + tx + '" cy="' + ty + '" r="' + (R + 96) + '" fill="var(--fondo-2)" stroke="var(--punto)" stroke-width="3"/>';
+  g += '<g id="giro" style="transform-origin:' + tx + 'px ' + ty + 'px;animation:girar 80s linear infinite">';
+  E.forEach(function (e, i) { var an = -1.57 + i / E.length * 6.283, x = tx + R * Math.cos(an), y = ty + R * Math.sin(an); g += '<circle cx="' + x + '" cy="' + y + '" r="70" fill="var(--fondo)" stroke="var(--compra)" stroke-width="3"/><circle cx="' + x + '" cy="' + y + '" r="14" fill="var(--compra)"/>'; });
+  g += '</g><circle cx="' + tx + '" cy="' + ty + '" r="74" fill="var(--fondo)" stroke="var(--punto)" stroke-width="3"/>' + ic('aperture', tx - 44, ty - 44, 88);
+  E.forEach(function (e, i) {
+    var y = 174 + i * 92, f = i === 0 || i === 5;
+    g += ic(e[2], 1000, y - 42, 58, f ? 'var(--acento-texto)' : 'var(--tinta-2)') + '<text x="1080" y="' + (y - 16) + '" font-size="26" style="fill:var(--tinta-2);font-family:Consolas,monospace">' + e[0] + '</text><text class="t-n" x="1080" y="' + (y + 20) + '" font-size="35">' + e[1] + '</text>';
+  });
+  g = '<style>@keyframes girar { to { transform: rotate(360deg); } } @media (prefers-reduced-motion: reduce) { #giro { animation: none !important; } }</style>' + g;
+  CUR.poner('torreta', g);
+  /* Copias */
+  function cols(id, D, h) {
+    var m = Math.max.apply(0, D.map(function (d) { return d[1]; })), y0 = h - 28, s = '', w = 660 / D.length;
+    D.forEach(function (d, i) {
+      var v = d[1] / m * (h - 62), f = d[0] === 'Jue' || d[0] === 'Sáb';
+      s += '<rect x="' + (i * w + 16) + '" y="' + (y0 - v) + '" width="' + (w - 32) + '" height="' + v + '" fill="' + (f ? '#E85C0B' : '#b8ab9c') + '"/><text x="' + (i * w + w / 2) + '" y="' + (h - 6) + '" text-anchor="middle">' + d[0] + '</text>';
+      s += '<text x="' + (i * w + w / 2) + '" y="' + (y0 - v - 7) + '" text-anchor="middle" style="fill:#1c120c;font-weight:700">' + (d[1] ? '£' + (d[1] / 1e6).toFixed(2).replace('.', ',') + ' M' : 'sin ventas') + '</text>';
+    });
+    return s;
+  }
+  CUR.poner('fDias', cols('fDias', DIAS, 240));
+  /* País: barra de parte y todo, ancho proporcional */
+  (function () {
+    var Pz = [['Reino Unido',8209930],['P. Bajos',284662],['Irlanda',263277],['Alemania',221698],['Francia',197404],['Otros 33',592901]], tot = 9769872, x = 0, s = '';
+    Pz.forEach(function (p, i) { var w = p[1] / tot * 660; s += '<rect x="' + x + '" y="46" width="' + (w - 1) + '" height="110" fill="' + (i ? ['#8f7f70','#a69889','#b8ab9c','#c9bdb0','#d9cfc4'][i - 1] : '#E85C0B') + '"/>'; x += w; });
+    s += '<text x="12" y="112" style="fill:#fff;font-size:42px;font-weight:800">84,0 %</text><text x="0" y="186">Reino Unido</text><text x="660" y="186" text-anchor="end">Otros 37 países: 16,0 %</text><text x="0" y="216" style="font-size:15px">Barra proporcional a la venta neta. 38 valores de país en el archivo.</text>';
+    CUR.poner('fPais', s);
+  })();
+  (function () {
+    var P = [['REGENCY CAKESTAND 3 TIER',164762],['WHITE HANGING HEART T-LIGHT HOLDER',99847],['PARTY BUNTING',98303],['JUMBO BAG RED RETROSPOT',92356],['RABBIT NIGHT LIGHT',66757]], s = '';
+    P.forEach(function (p, i) { var y = 6 + i * 40, w = p[1] / 164762 * 230; s += '<text x="0" y="' + (y + 22) + '" style="font-size:15px">' + p[0] + '</text><rect x="330" y="' + (y + 5) + '" width="' + w + '" height="24" fill="' + (i ? '#b8ab9c' : '#E85C0B') + '"/><text x="' + (338 + w) + '" y="' + (y + 23) + '" style="fill:#1c120c;font-weight:700">£' + mil(p[1]) + '</text>'; });
+    s += '<text x="0" y="232" style="fill:#1c120c;font-weight:700;font-size:18px">Los 10 primeros: 8,2 % de la venta de 3.794 productos.</text>';
+    CUR.poner('fProd', s);
+  })();
+  (function () {
+    var H = {7:31009,8:281841,9:766734,10:1329057,11:1147438,12:1362484,13:1177506,14:1117337,15:1189458,16:729141,17:435444,18:140574,19:46325,20:16020}, k = Object.keys(H), p = k.map(function (h, i) { return [10 + i * 49, 210 - H[h] / 1362484 * 170]; }), d = CUR.suave(p);
+    var s = '<rect x="' + p[3][0] + '" y="20" width="' + (p[8][0] - p[3][0]) + '" height="190" fill="#E85C0B" opacity=".14"/><path d="' + d + '" fill="none" stroke="#E85C0B" stroke-width="4"/><line x1="0" x2="660" y1="210" y2="210" stroke="#8f7f70"/>';
+    k.forEach(function (h, i) { if (i % 2 === 0) s += '<text x="' + (10 + i * 49) + '" y="232" text-anchor="middle">' + h + ':00</text>'; });
+    s += '<text x="' + ((p[3][0] + p[8][0]) / 2) + '" y="16" text-anchor="middle" style="fill:#1c120c;font-weight:700">75,0 % de la venta neta</text>';
+    CUR.poner('fHora', s);
+  })();
+  /* Árbol */
+  var T = [['Comparar categorías','Barras ordenadas','bar-chart-3','¿Qué país vende más?'],['Ver cambio en el tiempo','Línea','chart-line','¿Cómo va cada mes?'],['Parte de un total','Barra apilada','layers','¿Cuánto pesa Reino Unido?'],['Ver una distribución','Histograma','grid-3x3','¿Cómo se reparten las facturas?'],['Relacionar dos medidas','Dispersión','spline','¿Más líneas, más importe?']], o = '<text class="t-n" x="88" y="104" font-size="58">La forma se elige por lo que el ojo debe hacer</text>';
+  var ox = 300, oy = 500;
+  o += '<circle cx="' + ox + '" cy="' + oy + '" r="84" fill="var(--fondo-2)" stroke="var(--compra)" stroke-width="4"/>' + ic('circle-help', ox - 46, oy - 46, 92) + '<text class="t-n" x="' + ox + '" y="' + (oy + 126) + '" text-anchor="middle" font-size="33">¿Cuál es</text><text class="t-n" x="' + ox + '" y="' + (oy + 164) + '" text-anchor="middle" font-size="33">la pregunta?</text>';
+  T.forEach(function (e, i) {
+    var y = 208 + i * 134;
+    o += '<g class="paso">' + luz('M' + (ox + 84) + ' ' + oy + 'C560 ' + oy + ' 500 ' + y + ' 690 ' + y, i * .4, 3.8) + '<text class="t-n" x="700" y="' + (y - 8) + '" font-size="32">' + e[0] + '</text><text class="t-s" x="700" y="' + (y + 30) + '" font-size="25">' + e[3] + '</text>' + ic(e[2], 1190, y - 42, 76) + '<text class="t-o" x="1284" y="' + (y + 10) + '" font-size="31">' + e[1] + '</text></g>';
+  });
+  CUR.poner('arbol', o);
+  /* Escalera de percepción */
+  var m = 284662;
+  CUR.poner('p1', PAIS.map(function (p, i) { var x = 18 + p[1] / m * 195; return '<line x1="10" x2="222" y1="' + (28 + i * 38) + '" y2="' + (28 + i * 38) + '" stroke="var(--regla)"/><circle cx="' + x + '" cy="' + (28 + i * 38) + '" r="11" fill="var(--compra)"/>'; }).join(''));
+  CUR.poner('p2', PAIS.map(function (p, i) { return '<rect x="10" y="' + (14 + i * 38) + '" width="' + (p[1] / m * 210) + '" height="26" fill="var(--compra)"/>'; }).join(''));
+  (function () { var tot = PAIS.reduce(function (a, p) { return a + p[1]; }, 0), a0 = -1.57, s = '', C = ['#ff6a1a', '#ff9a5c', '#c7734a', '#9a5a3c', '#6d3f2a']; PAIS.forEach(function (p, i) { var a1 = a0 + p[1] / tot * 6.283, l = a1 - a0 > 3.14 ? 1 : 0; s += '<path d="M115 105L' + (115 + 90 * Math.cos(a0)) + ' ' + (105 + 90 * Math.sin(a0)) + 'A90 90 0 ' + l + ' 1 ' + (115 + 90 * Math.cos(a1)) + ' ' + (105 + 90 * Math.sin(a1)) + 'Z" fill="' + C[i] + '" stroke="var(--fondo-2)" stroke-width="2"/>'; a0 = a1; }); CUR.poner('p3', s); })();
+  CUR.poner('p4', [[62, 58], [160, 62], [52, 160], [136, 160], [200, 148]].map(function (c, i) { return '<circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + (Math.sqrt(PAIS[i][1] / m) * 44) + '" fill="var(--compra)"/>'; }).join(''));
+  CUR.poner('p5', PAIS.map(function (p, i) { return '<rect x="10" y="' + (14 + i * 38) + '" width="210" height="28" fill="var(--compra)" opacity="' + ((p[1] - 90000) / (m - 90000)).toFixed(2) + '"/>'; }).join(''));
+  /* Gestalt */
+  var G = [['Proximidad','Lo cercano parece un grupo.', function () { var s=''; [0,1,2].forEach(function(c){[0,1,2].forEach(function(f){ s+='<circle cx="'+(16+c*22)+'" cy="'+(20+f*30)+'" r="8" fill="var(--tinta)"/><circle cx="'+(100+c*22)+'" cy="'+(20+f*30)+'" r="8" fill="var(--tinta)"/>';});}); return s; }],['Similitud','Lo parecido parece un grupo.', function () { var s=''; for(var c=0;c<6;c++)for(var f=0;f<3;f++) s+='<circle cx="'+(16+c*26)+'" cy="'+(20+f*30)+'" r="8" fill="'+(f===1?'var(--compra)':'var(--tinta)')+'"/>'; return s; }],['Encerramiento','Un borde o fondo agrupa.', function () { var s='<rect x="82" y="2" width="84" height="96" fill="var(--punto)" opacity=".35"/>'; for(var c=0;c<6;c++)for(var f=0;f<3;f++) s+='<circle cx="'+(16+c*26)+'" cy="'+(20+f*30)+'" r="8" fill="var(--tinta)"/>'; return s; }],['Cierre','Completamos lo que falta.', function () { return '<path d="M70 12A40 40 0 1 0 122 40" fill="none" stroke="var(--tinta)" stroke-width="6"/>'; }],['Continuidad','Seguimos la línea suave.', function () { return '<path d="M4 90C60 90 90 20 166 10" fill="none" stroke="var(--tinta)" stroke-width="6" stroke-dasharray="14 9"/>'; }],['Conexión','Lo unido por una línea se lee junto.', function () { var P=[[20,76],[60,30],[110,56],[150,16]],s='<polyline points="'+P.map(function(p){return p.join(',');}).join(' ')+'" fill="none" stroke="var(--compra)" stroke-width="4"/>'; P.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="9" fill="var(--tinta)"/>';}); return s; }]];
+  CUR.poner('gestalt', G.map(function (g) { return '<div class="paso"><svg viewBox="0 0 170 100">' + g[2]() + '</svg><p><b>' + g[0] + '</b><span>' + g[1] + '</span></p></div>'; }).join(''));
+  /* Limpieza */
+  (function () {
+    var y0 = 650, k = 470 / 2200000, w = 100, st = 122, s = '', C = ['#d7263d', '#3a86ff', '#ffbe0b', '#1b998b', '#8338ec', '#ccc', '#ff006e'];
+    s += '<text class="tit1 q4" data-r x="475" y="52" text-anchor="middle" style="font-size:34px;font-weight:700;fill:#1c120c">Ventas netas por día</text>';
+    s += '<text class="tit2" x="24" y="52" style="font-size:37px;font-weight:800;fill:#1c120c;opacity:0;transition:opacity .5s ease">Se vende más el jueves; el sábado, nada</text>';
+    for (var t = 0; t <= 2200000; t += 200000) { var yy = y0 - t * k; s += '<g class="q1" data-r><line x1="46" x2="900" y1="' + yy + '" y2="' + yy + '" stroke="#b8ab9c"/><text x="40" y="' + (yy + 5) + '" text-anchor="end" style="font-size:12px">' + (t / 1000) + 'k</text></g>'; }
+    DIAS.forEach(function (d, i) {
+      var x = 60 + i * st, h = d[1] * k, jue = i === 3;
+      s += '<path class="q1" data-r d="M' + (x + 14) + ' ' + (y0 - h - 14) + 'h' + w + 'v' + h + 'l-14 14h-' + w + 'v-' + h + 'z" fill="#00000030"/>';
+      s += '<rect class="bar" data-jue="' + (jue ? 1 : 0) + '" data-c="' + C[i] + '" x="' + x + '" y="' + (y0 - h) + '" width="' + w + '" height="' + h + '" fill="' + C[i] + '"/>';
+      s += '<text x="' + (x + w / 2) + '" y="' + (y0 - h - 12) + '" text-anchor="middle" style="font-size:' + (i === 5 ? 18 : 20) + 'px;font-weight:700;fill:#1c120c">' + (d[1] ? '£' + (d[1] / 1e6).toFixed(2).replace('.', ',') + ' M' : '£0') + '</text><text x="' + (x + w / 2) + '" y="' + (y0 + 28) + '" text-anchor="middle" style="font-size:22px;fill:#1c120c">' + d[0] + '</text>';
+      s += '<g class="q2" data-r><rect x="' + (120 + i * 110) + '" y="714" width="16" height="16" fill="' + C[i] + '"/><text x="' + (142 + i * 110) + '" y="729" style="font-size:16px">' + d[0] + '</text></g>';
+    });
+    CUR.poner('sucia', s);
+    var svg = document.getElementById('sucia');
+    window.alPaso = function (esc, n) {
+      if (!esc.contains(svg)) return;
+      svg.querySelectorAll('.bar').forEach(function (b) { b.setAttribute('fill', n >= 3 ? (b.getAttribute('data-jue') === '1' ? '#E85C0B' : '#b8ab9c') : b.getAttribute('data-c')); });
+      svg.querySelector('.tit2').style.opacity = n >= 4 ? 1 : 0;
+    };
+  })();
+  /* KPI */
+  (function () {
+    var s = '<rect x="0" y="40" width="640" height="440" fill="var(--papel)"/><text x="30" y="96" style="font-size:30px;font-weight:700;fill:#4b3a2e">Venta neta · noviembre de 2011</text><text x="30" y="194" style="font-size:88px;font-weight:800;fill:#1c120c">£1.461.756</text><text x="30" y="246" style="font-size:30px;fill:#4b3a2e">Meta supuesta: £700.000</text>';
+    var p = NET.map(function (v, i) { return [30 + i * 48, 450 - v / 1461756 * 150]; }), d = CUR.suave(p.slice(0, 12));
+    s += '<path d="' + d + '" fill="none" stroke="#E85C0B" stroke-width="5"/><path d="' + CUR.suave(p.slice(11)) + '" fill="none" stroke="#8f7f70" stroke-width="4" stroke-dasharray="6 7"/><circle cx="' + p[11][0] + '" cy="' + p[11][1] + '" r="9" fill="#E85C0B"/><line x1="30" x2="610" y1="' + (450 - 700000 / 1461756 * 150) + '" y2="' + (450 - 700000 / 1461756 * 150) + '" stroke="#1c120c" stroke-dasharray="4 6"/>';
+    var L = [['1','Medida base','£1.461.756, la suma de Importe',130,'bar-chart-3'],['2','Destino','£700.000, supuesto del caso',244,'target'],['3','Umbral y tendencia','Los 13 meses, con diciembre incompleto',378,'chart-line']];
+    L.forEach(function (e, i) {
+      var y = 120 + i * 150;
+      s += '<g class="paso"><path d="M640 ' + e[3] + 'C720 ' + e[3] + ' 720 ' + (y + 20) + ' 790 ' + (y + 20) + '" fill="none" stroke="var(--compra)" stroke-width="3"/>' + ic(e[4], 800, y - 16, 70) + '<text class="t-n" x="890" y="' + (y + 14) + '" font-size="36">' + e[1] + '</text><text class="t-s" x="890" y="' + (y + 54) + '" font-size="27">' + e[2] + '</text></g>';
+    });
+    s += '<g class="paso"><text class="t-o" x="0" y="560" font-size="35">Y una frase: ¿qué se hace?</text><text class="t-n" x="0" y="610" font-size="33">“Noviembre supera la meta: ¿alcanza el inventario para diciembre?”</text></g>';
+    CUR.poner('kpi', s);
+  })();
+  /* Audiencias */
+  CUR.poner('a1', DIAS.map(function (d, i) { var h = d[1] / 2112519 * 106; return '<rect x="' + (i * 78 + 8) + '" y="' + (118 - h) + '" width="60" height="' + h + '" fill="' + (i === 3 ? 'var(--compra)' : 'var(--punto)') + '"/>'; }).join('') + '<line x1="0" x2="560" y1="118" y2="118" stroke="var(--regla)"/>');
+  (function () { var p = NET.map(function (v, i) { return [10 + i * 45, 122 - v / 1461756 * 110]; }); CUR.poner('a2', '<path d="' + CUR.suave(p.slice(0, 12)) + '" fill="none" stroke="var(--compra)" stroke-width="5"/><path d="' + CUR.suave(p.slice(11)) + '" fill="none" stroke="var(--punto)" stroke-width="4" stroke-dasharray="6 7"/>'); })();
+  /* Plano */
+  (function () {
+    var s = '<text class="t-n" x="88" y="100" font-size="56">Dibuja el tablero antes de construirlo</text>', x = 100, y = 150, W = 900, H = 660;
+    s += '<rect x="' + x + '" y="' + y + '" width="' + W + '" height="' + H + '" fill="none" stroke="var(--tinta)" stroke-width="3"/>';
+    var B = [[20,20,280,120,'KPI 1'],[310,20,280,120,'KPI 2'],[600,20,280,120,'KPI 3'],[20,160,560,320,'La gráfica de la pregunta principal'],[600,160,280,320,'Apoyo'],[20,500,860,140,'Detalle y filtros']], Ti = [['Arriba a la izquierda, lo más importante','Sin otras pistas, se lee en zigzag.',0],['Una gráfica protagonista','Responde la pregunta principal.',3],['Apoyo y detalle','Explican el porqué, sin competir.',4]];
+    B.forEach(function (b, i) { s += '<g class="paso" style="transition-delay:' + (i * .05) + 's"><rect x="' + (x + b[0]) + '" y="' + (y + b[1]) + '" width="' + b[2] + '" height="' + b[3] + '" fill="' + (i === 3 ? 'var(--compra)' : 'var(--fondo-2)') + '" opacity="' + (i === 3 ? .55 : 1) + '" stroke="var(--punto)"/><text class="t-n" x="' + (x + b[0] + b[2] / 2) + '" y="' + (y + b[1] + b[3] / 2 + 9) + '" text-anchor="middle" font-size="25">' + b[4] + '</text></g>'; });
+    s += '<path d="M' + (x + 40) + ' ' + (y + 90) + 'L' + (x + 860) + ' ' + (y + 90) + 'L' + (x + 60) + ' ' + (y + 330) + 'L' + (x + 860) + ' ' + (y + 560) + '" fill="none" stroke="var(--acento-texto)" stroke-width="4" stroke-dasharray="12 12" opacity=".8"/>';
+    Ti.forEach(function (t, i) { var yy = 220 + i * 190; s += ic(['target','focus','layers'][i], 1050, yy - 34, 66) + '<text class="t-n" x="1130" y="' + (yy) + '" font-size="29">' + t[0].split(', ')[0] + (t[0].indexOf(', ') > 0 ? ',' : '') + '</text>' + (t[0].indexOf(', ') > 0 ? '<text class="t-n" x="1130" y="' + (yy + 36) + '" font-size="29">' + t[0].split(', ')[1] + '</text>' : '') + '<text class="t-s" x="1130" y="' + (yy + 74) + '" font-size="24">' + t[1] + '</text>'; });
+    CUR.poner('plano', s);
+  })();
+  /* Visor */
+  CUR.poner('visor', '<rect x="4" y="4" width="632" height="252" fill="none" stroke="var(--punto)" stroke-width="2"/><line x1="320" x2="320" y1="4" y2="256" stroke="var(--regla)"/><line x1="4" x2="636" y1="130" y2="130" stroke="var(--regla)"/><circle cx="320" cy="130" r="74" fill="none" stroke="var(--compra)" stroke-width="3"/>' + ic('aperture', 276, 86, 88) + '<text x="30" y="60" style="font-size:30px;font-weight:700;fill:var(--tinta)">base</text><text x="500" y="60" style="font-size:30px;font-weight:700;fill:var(--tinta)">target</text><text x="30" y="226" style="font-size:30px;font-weight:700;fill:var(--tinta)">threshold</text><text x="500" y="226" style="font-size:30px;font-weight:700;fill:var(--tinta)">trend</text>');
+  /* Taller */
+  (function () {
+    var T = [['scan-search','Critica','Un ejemplo oficial'],['sigma','Mide','Tus primeras medidas'],['bar-chart-3','Revela','Cuatro visuales'],['gauge','Marca','El KPI con meta'],['pencil-ruler','Dibuja','Boceto del Proyecto 1']], s = '<text class="t-n" x="88" y="104" font-size="56">Del ejemplo ajeno a tu propio boceto</text><text class="t-s" x="88" y="152" font-size="27">Taller individual · Power BI Desktop · entrega: boceto y justificación</text>';
+    var y = 250, h = 340, fw = 284;
+    s += '<rect x="0" y="' + (y - 40) + '" width="1600" height="' + (h + 80) + '" fill="#1c0c06"/>';
+    for (var i = 0; i < 44; i++) { s += '<rect x="' + (i * 37 + 8) + '" y="' + (y - 28) + '" width="20" height="16" fill="var(--fondo)"/><rect x="' + (i * 37 + 8) + '" y="' + (y + h + 12) + '" width="20" height="16" fill="var(--fondo)"/>'; }
+    T.forEach(function (e, k) { var x = 88 + k * (fw + 2); s += '<rect x="' + x + '" y="' + y + '" width="' + (fw - 14) + '" height="' + h + '" fill="var(--papel)"/>' + ic(e[0], x + 86, y + 42, 98, '#b94504') + '<text x="' + (x + 135) + '" y="' + (y + 208) + '" text-anchor="middle" style="font-size:36px;font-weight:800;fill:#1c120c">' + e[1] + '</text><text x="' + (x + 135) + '" y="' + (y + 250) + '" text-anchor="middle" style="font-size:22px;fill:#4b3a2e">' + e[2] + '</text>'; });
+    CUR.poner('tira', s);
+  })();
+  /* Conclusiones */
+  (function () {
+    var C = [['Primero la pregunta','La forma depende de lo que el ojo debe hacer.','circle-help',120,170,-2],['Luego, quitar','Cada estorbo fuera y un solo énfasis.','eraser',590,260,1.5],['Por último, la decisión','Un KPI con meta y una frase que diga qué hacer.','target',1060,170,-1]], s = '<text class="t-n" x="88" y="100" font-size="52">Tres copias para llevarte</text>';
+    s += luz(CUR.suave([[0, 300], [260, 300], [730, 400], [1200, 300], [1600, 300]]), 0, 6, 'fuerte');
+    C.forEach(function (e, i) { s += '<g class="paso" transform="rotate(' + e[5] + ' ' + (e[3] + 210) + ' ' + (e[4] + 230) + ')"><rect x="' + e[3] + '" y="' + e[4] + '" width="420" height="470" fill="var(--papel)"/>' + ic(e[2], e[3] + 150, e[4] + 40, 120, '#b94504') + '<text x="' + (e[3] + 210) + '" y="' + (e[4] + 222) + '" text-anchor="middle" style="font-size:37px;font-weight:800;fill:#1c120c">' + e[0] + '</text>' + e[1].split(' ').reduce(function (l, w) { var u = l[l.length - 1]; if ((u + ' ' + w).length > 25) l.push(w); else l[l.length - 1] = (u + ' ' + w).trim(); return l; }, ['']).map(function (t, k) { return '<text x="' + (e[3] + 210) + '" y="' + (e[4] + 280 + k * 38) + '" text-anchor="middle" style="font-size:29px;fill:#4b3a2e">' + t + '</text>'; }).join('') + '</g>'; });
+    s += '<text class="t-s" x="88" y="810" font-size="29">Próxima sesión: el tablero deja de ser una foto. Trae tu boceto.</text>';
+    CUR.poner('contacto', s);
+  })();
+})();
+</script>
+<script src="../assets/puntos/cine.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

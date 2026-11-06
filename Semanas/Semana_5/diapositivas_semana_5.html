@@ -1,283 +1,295 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 5</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides {
-            width: 95% !important;
-            height: 95% !important;
-            max-width: 1300px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 30px;
-            margin-top: 25px;
-        }
-        
-        .box-glass {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .box-glass:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 45px rgba(0, 56, 101, 0.2);
-        }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 800; }
-        .reveal h1 { font-size: 3.2em; }
-        .reveal h2 { font-size: 2.2em; margin-bottom: 20px; }
-        .highlight { color: var(--unab-orange); position: relative; display: inline-block; }
-        .highlight::after {
-            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
-            background: var(--unab-orange); opacity: 0.3; z-index: -1; border-radius: 4px;
-        }
-        
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.75em !important; line-height: 1.4; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #002240 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.8em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 12px; font-size: 1.4em; }
-        
-        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p { color: white !important; }
-        
-        /* Modal Glassmorphism */
-        .clickable-concept { cursor: pointer; position: relative; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -15px; right: -15px; background: var(--unab-orange); color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; box-shadow: 0 5px 15px rgba(232,92,11,0.4); opacity: 0; transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%);
-            width: 85%; max-width: 700px; background: rgba(255, 255, 255, 0.98); padding: 40px;
-            border-radius: 20px; box-shadow: 0 40px 80px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-        }
-        #concept-modal.show { opacity: 1; transform: translate(-50%, -50%); }
-        @keyframes popIn { 0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-        
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.85); backdrop-filter: blur(8px); z-index: 1999;
-            animation: fadeIn 0.3s ease forwards; opacity: 0;
-        }
-        #concept-modal-overlay.show { opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; font-size: 1.8em; color: #888; transition: color 0.2s; }
-        .modal-close:hover { color: var(--unab-orange); }
-        
-        #typed-container {
-            background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px; font-family: monospace;
-            color: #00ff00; margin-bottom: 20px; display: inline-block; border-left: 4px solid #00ff00; font-size: 0.6em;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 5 · El plano | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<link rel="stylesheet" href="../assets/puntos/transicion.css">
+<link rel="stylesheet" href="../assets/puntos/curso.css">
+<style>
+  /* Mundo: un plano de arquitecto. Primero se dibuja el modelo; después se construye. */
+  :root[data-mundo="plano"] { --fondo: #063560; --fondo-2: #0a4475; --tinta: #f4f9fd; --tinta-2: #b9d2e6; --regla: rgba(244,249,253,.3); --punto: #8fb7d6; --compra: #ff7a2e; --acento-texto: #ffab78; }
+  #escenario::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(244,249,253,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(244,249,253,.07) 1px, transparent 1px), linear-gradient(rgba(244,249,253,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(244,249,253,.035) 1px, transparent 1px); background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px; }
+  .caja rect { fill: var(--fondo); stroke: var(--tinta); stroke-width: 2.5; }
+  .caja.hecho rect { stroke: var(--compra); stroke-width: 4; }
+  .caja text { fill: var(--tinta); font-size: 24px; }
+  .caja .tit { font-weight: 800; font-size: 28px; }
+  .caja .n { fill: var(--acento-texto); font-weight: 700; font-size: 23px; }
+  .plana td, .plana th { font: 500 22px Consolas, 'Courier New', monospace; padding: 7px 14px 7px 0; white-space: nowrap; border-bottom: 1px solid var(--regla); }
+  .plana th { color: var(--tinta-2); }
+  .plana .rep { color: var(--acento-texto); }
+</style>
 </head>
-<body>
-    
-    <!-- Modal Interactivo -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
-        <h2 style="color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; display: flex; align-items: center; gap: 15px;">
-            <i id="modal-icon" class="fa-solid fa-lightbulb" style="color: var(--unab-orange);"></i> 
-            <span id="modal-title">Título</span>
-        </h2>
-        <p id="modal-text" style="font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px;">Texto explicativo</p>
-        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
-            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Implementación Práctica:</h4>
-            <code id="modal-example-text" style="font-size: 0.9em; background: #fff; padding: 10px; display: block; border-radius: 5px; color: #d946ef; font-weight: bold;">Ejemplo</code>
-        </div>
+<body data-mundo="plano">
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
+
+<section class="esc" data-mundo="plano">
+  <svg class="diagrama" id="estrellaPortada" viewBox="0 0 1600 900" aria-hidden="true" style="position:absolute;inset:0;width:1600px;height:900px"></svg>
+  <div style="position:absolute;left:88px;top:300px;width:700px">
+    <p class="sec" style="font-size:27px">El plano · Inteligencia de Negocios · Sesión 5</p>
+    <h1 style="font-size:96px;margin-top:14px">Primero el plano. <span class="acento">Luego el tablero.</span></h1>
+  </div>
+  <p class="pie" style="left:88px">Dudbil Olvasada Pabón Riaño · UNAB</p>
+  <aside class="notas">Nadie levanta un edificio sin plano. Un tablero sobre un mal modelo da cifras equivocadas con muy buena presentación.</aside>
+</section>
+
+<section class="esc" data-mundo="plano">
+  <div class="ancho alto" style="max-width:none">
+    <h2>El plan de hoy</h2>
+    <svg data-d="ruta" data-o='{"h":350,"amp":38,"dur":7,"items":[{"h":"10:00","t":"La tabla|enorme"},{"h":"10:25","t":"Dibujar|la estrella","foco":true},{"h":"11:00","t":"Pausa"},{"h":"11:15","t":"English|immersion"},{"h":"11:25","t":"Construir|el modelo"},{"h":"12:15","t":"Revisión|entre pares"},{"h":"12:50","t":"Cierre"}]}'></svg>
+    <p class="sec" style="font-size:30px">Traigan la consulta limpia de la sesión 4 y la de su proyecto.</p>
+  </div>
+  <aside class="notas">La revisión entre pares la pide el calendario. Reserve al menos 30 minutos.</aside>
+</section>
+
+<section class="esc" data-mundo="plano">
+  <div class="ancho">
+    <p class="sec">Resultado de aprendizaje 1.3</p>
+    <p class="frase" style="font-size:66px">Establece modelos de datos eficientes para análisis de negocio.</p>
+    <div class="tres" style="margin-top:12px">
+      <p class="regla-arriba">Identificas entidades, atributos y relaciones.</p>
+      <p class="regla-arriba">Dibujas un diagrama entidad-relación y lo construyes en estrella.</p>
+      <p class="regla-arriba">Revisas el modelo de un compañero con criterio.</p>
     </div>
+  </div>
+  <aside class="notas">Resultado textual del syllabus. Entra a la Evaluación 1 de la sesión 6 y al Proyecto 1.</aside>
+</section>
 
-    <div class="reveal">
-        <div class="slides">
+<section class="esc" data-mundo="plano">
+  <div class="ancho alto" style="max-width:none;gap:16px">
+    <h2 style="font-size:58px">Una tabla que se repite 492.979 veces</h2>
+    <table class="plana">
+      <tr><th>InvoiceNo</th><th>StockCode</th><th>Description</th><th>Qty</th><th>Customer</th><th>Country</th></tr>
+      <tr><td>536365</td><td>85123A</td><td class="rep">WHITE HANGING HEART T-LIGHT HOLDER</td><td>6</td><td>17850</td><td class="rep">United Kingdom</td></tr>
+      <tr><td>536373</td><td>85123A</td><td class="rep">WHITE HANGING HEART T-LIGHT HOLDER</td><td>6</td><td>17850</td><td class="rep">United Kingdom</td></tr>
+      <tr><td>536375</td><td>85123A</td><td class="rep">WHITE HANGING HEART T-LIGHT HOLDER</td><td>6</td><td>17850</td><td class="rep">United Kingdom</td></tr>
+    </table>
+    <p class="paso" style="font-size:37px"><b class="acento">492.979</b> filas repiten “United Kingdom”. <b class="acento">2.374</b> repiten el mismo portavelas.</p>
+    <p class="paso frase" style="font-size:44px">¿Y si el producto cambia de nombre? ¿En cuántas filas lo corriges?</p>
+  </div>
+  <p class="pie">Filas limpias de la sesión 4. Chen (2015), Online Retail, CC BY 4.0.</p>
+  <aside class="notas">Pregunte por el problema antes de dar la solución. Repetir ocupa espacio, pero el problema principal es otro: la misma verdad escrita en miles de lugares.</aside>
+</section>
 
-            <!-- 1. Portada -->
-            <section data-transition="zoom" class="dark-slide">
-                <div id="typed-container"><span id="typed-output"></span></div>
-                <br>
-                <i class="fa-solid fa-chart-pie" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
-                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Semana 5: KPIs y Dashboards (Diseño SMART)</h3>
-                <br>
-                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
-            </section>
-            
-            <!-- 2. RAE -->
-            <section data-transition="slide">
-                <h2 class="text-left" style="color: #003865;"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
-                <div class="box-glass text-left" style="border-top: 6px solid #003865; margin-top: 30px; padding: 40px;">
-                    <h3 style="color: #003865; margin-bottom: 20px;">Meta Analítica</h3>
-                    <p style="font-size: 1.2em; color: #333; line-height: 1.6;">
-                        <i class="fa-solid fa-check-double text-green-600" style="color: #E85C0B; margin-right: 15px;"></i>
-                        Diseñar Key Performance Indicators (KPIs) bajo la metodología SMART y consolidarlos en un Dashboard ejecutivo que facilite la toma de decisiones inmediata.
-                    </p>
-                </div>
-            </section>
-
-            <!-- 3. Conceptos Estructurales -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-cubes-stacked" style="color: #E85C0B;"></i> Conceptos Analíticos Clave</h2>
-                <div class="split-layout">
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Metodología SMART', 'fa-bullseye', 'Un KPI debe ser: Específico (Specific), Medible (Measurable), Alcanzable (Achievable), Relevante (Relevant) y con un límite de Tiempo (Time-bound).', ''Aumentar las ventas netas un 15% para el Q4 de 2026' en lugar de 'Vender más'.')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865;"><i class="fa-solid fa-bullseye"></i> Metodología SMART</h3>
-                        <p class="small-text" style="margin-top: 20px;">Un KPI debe ser: Específico (Specific), Medible (Measurable), Alcanzable (Achievable), Relevante (Relevant) y con un límite de Tiempo (Time-bound).</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #E85C0B; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Gestión del Espacio en Dashboards', 'fa-border-all', 'El principio de proximidad y el escaneo en patrón 'Z' o 'F' del ojo humano determinan dónde colocar la información. Los KPIs clave van arriba a la izquierda.', 'Top left: Tarjetas de KPI (Monto total). Bottom right: Tablas de detalle.')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-border-all"></i> Gestión del Espacio en Dashboards</h3>
-                        <p class="small-text" style="margin-top: 20px;">El principio de proximidad y el escaneo en patrón 'Z' o 'F' del ojo humano determinan dónde colocar la información. Los KPIs clave van arriba a la izquierda.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #003865; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4. Discusión Profunda Inyectada -->
-            
-        <section>
-            <h2>Arquitectura Cognitiva de un Dashboard</h2>
-            <div class="split-layout">
-                <div class="box-glass text-left" style="border-left: 5px solid #003865;">
-                    <h4 style="color: #003865;"><i class="fa-solid fa-eye"></i> Carga Cognitiva</h4>
-                    <p class="small-text">Los usuarios ejecutivos tienen menos de 10 segundos para entender un panel. Un diseño sobrecargado genera fatiga cognitiva. Regla de oro: Si requiere explicación, está mal diseñado. Minimiza colores, bordes y gráficos innecesarios (Data-to-Ink Ratio).</p>
-                </div>
-                <div class="box-glass text-left" style="border-left: 5px solid #E85C0B;">
-                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-layer-group"></i> Flujo de Navegación</h4>
-                    <p class="small-text">Organiza la información de forma piramidal:<br>1. <strong>Nivel Alto (Tarjetas):</strong> ¿Qué pasó? (KPIs globales).<br>2. <strong>Nivel Medio (Gráficos):</strong> ¿Por qué pasó? (Tendencias, categorías).<br>3. <strong>Nivel Bajo (Tablas):</strong> Detalle granular (Drill-down operativo).</p>
-                </div>
-            </div>
-        </section>
-        
-
-            <!-- 5. Taller Práctico -->
-            <section data-transition="slide" class="dark-slide">
-                <i class="fa-solid fa-laptop-code" style="font-size: 5em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1 style="color: white !important;">Taller Aplicado</h1>
-                <p style="font-size: 1.2em;">Migración de entorno teórico a plataforma práctica.</p>
-                <div class="box-glass" style="background: rgba(255,255,255,0.1); margin: 30px auto; max-width: 80%; text-align: center; border: 1px solid rgba(255,255,255,0.2);">
-                    <h4 style="color: white; margin-top: 0;">Flujo Técnico a ejecutar:</h4>
-                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 5</span>
-                </div>
-            </section>
-
-            <!-- 6. Glosario y Bibliografía -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-book-open"></i> Referencias Bibliográficas</h2>
-                <div class="box-glass text-left" style="border-top: 5px solid #003865;">
-                    <ul style="font-size: 0.8em; line-height: 1.8; color: #444;">
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Sharda, R., Delen, D., & Turban, E. (2020). <strong>Business Intelligence, Analytics, and Data Science: A Managerial Perspective.</strong> 4th Edition. Pearson.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Ferrari, A., & Russo, M. (2019). <strong>The Definitive Guide to DAX: Business intelligence for Microsoft Power BI.</strong> Microsoft Press.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Knaflic, C. N. (2015). <strong>Storytelling with Data: A Data Visualization Guide for Business Professionals.</strong> Wiley.</li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
+<section class="esc" data-mundo="plano">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:56px">El idioma del plano</h2>
+    <div class="filas" style="grid-template-columns:280px 1fr 1fr">
+      <div class="h">Pieza</div><div class="h">Qué es</div><div class="h">En este caso</div>
+      <div class="k">Entidad</div><div>Una cosa de la que guardas datos.</div><div>Cliente, producto, fecha, país</div>
+      <div class="k">Atributo</div><div>Una característica de la entidad.</div><div>Descripción del producto</div>
+      <div class="k">Clave</div><div>Lo que identifica una fila, sin repetirse.</div><div>StockCode en Producto</div>
+      <div class="k">Relación</div><div>Cómo se conectan dos entidades.</div><div>Un producto, muchas ventas</div>
     </div>
+    <svg class="diagrama paso" id="pata" viewBox="0 0 1424 150" role="img" aria-label="Relación uno a muchos entre Producto y Ventas" style="margin-top:8px"></svg>
+  </div>
+  <aside class="notas">El diagrama entidad-relación dibuja estas piezas. Codd (1970) propuso el modelo relacional, que ya vimos en la máquina del tiempo. El “1” va del lado que no se repite; el “*”, del lado que sí.</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        Reveal.initialize({
-            hash: true,
-            transition: 'slide',
-            controlsTutorial: false,
-            center: true,
-            progress: true,
-            slideNumber: 'c/t'
-        });
+<section class="esc" data-mundo="plano">
+  <div class="ancho alto" style="max-width:none;gap:0">
+    <h2 style="font-size:54px;margin-bottom:6px">La tabla se desarma en una estrella</h2>
+    <svg class="diagrama" id="estrella" viewBox="0 0 1424 650" role="img" aria-label="Modelo en estrella: Hecho Ventas al centro con Producto, Cliente, Fecha y País"></svg>
+  </div>
+  <p class="pie">El hecho guarda claves y cifras. Las dimensiones guardan descripciones, una sola vez.</p>
+  <aside class="notas">Avance una dimensión a la vez y pregunte qué columnas se llevaría cada una. Microsoft resume: las dimensiones filtran y agrupan, y los hechos resumen. Dim_Fecha tiene 396 días: incluye los días sin ventas, como los sábados, y completa diciembre de 2011.</aside>
+</section>
 
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+<section class="esc" data-mundo="plano">
+  <div class="ancho">
+    <p class="sec">La pregunta que ordena todo</p>
+    <h2 style="font-size:78px">¿Qué es una fila?</h2>
+    <p class="paso" style="font-size:40px">Aquí, <b>una línea de factura:</b> un producto dentro de una compra.</p>
+    <p class="paso" style="font-size:40px">Eso es el <b class="acento">grano</b>. Si una tabla mezcla líneas y facturas, las sumas fallan.</p>
+    <p class="paso sec">En la sesión 6 verás lo que pasa si se ignora: una venta 100 veces mayor.</p>
+  </div>
+  <aside class="notas">Microsoft: es importante que los hechos carguen con un grano consistente. Anticipo de la sesión 6: al unir mal líneas y facturas, £1,46 millones se convierten en £150 millones.</aside>
+</section>
 
-        // Typed.js para efecto hacker corporativo
-        new Typed('#typed-output', {
-            strings: [
-                '> ESTABLECIENDO CONEXIÓN SEGURA...',
-                '> CARGANDO DATOS MASIVOS (ETL)...',
-                '> OPTIMIZANDO MODELO DIMENSIONAL...',
-                '> PROTOCOLO DE INTELIGENCIA DE NEGOCIOS: ACTIVO'
-            ],
-            typeSpeed: 30,
-            backSpeed: 10,
-            backDelay: 1500,
-            loop: true,
-            showCursor: true,
-            cursorChar: '_'
-        });
+<section class="esc" data-mundo="plano">
+  <div class="par">
+    <div class="col">
+      <p class="sec">Anunciado en la sesión 3</p>
+      <h2 style="font-size:58px">15056bl y 15056BL rompen el modelo</h2>
+      <p class="paso">Power Query los ve <b>distintos</b>: pasan como dos filas únicas.</p>
+      <p class="paso">El motor del modelo <b>no distingue mayúsculas</b>: para él, es un duplicado en el lado “1”.</p>
+    </div>
+    <div class="col">
+      <div class="codigo paso" style="font-size:27px">Dim_Producto
+  15056BL   EDWARDIAN PARASOL BLACK
+  <span class="c">15056bl   EDWARDIAN PARASOL BLACK</span>
 
-        function openModal(title, iconClass, text, example) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-icon').className = 'fa-solid ' + iconClass;
-            document.getElementById('modal-text').innerText = text;
-            document.getElementById('modal-example-text').innerHTML = example;
-            
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('concept-modal-overlay').classList.add('show');
-                document.getElementById('concept-modal').classList.add('show');
-            }, 10);
-        }
+<span class="c">Relación: columna con duplicados</span></div>
+      <p class="paso frase" style="font-size:38px">Por eso los pasaste a mayúsculas en la sesión 4.</p>
+    </div>
+  </div>
+  <p class="pie">Microsoft Learn: el motor de Power BI “is case insensitive”. Son 110 códigos en este archivo.</p>
+  <aside class="notas">Si no se corrige, Power BI no permite la relación uno a varios, o se comporta de manera inesperada. El mensaje de error puede variar por versión. Vale la pena mostrarlo en vivo.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal').classList.remove('show');
-            document.getElementById('concept-modal-overlay').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('concept-modal').style.display = 'none';
-                document.getElementById('concept-modal-overlay').style.display = 'none';
-            }, 400);
-        }
-    </script>
+<section class="esc" data-mundo="plano">
+  <div class="ancho alto" style="max-width:none;gap:16px">
+    <h2 style="font-size:56px">Tres problemas reales que el plano debe resolver</h2>
+    <div class="filas" style="grid-template-columns:370px 1fr 1fr">
+      <div class="h">Lo que encuentras</div><div class="h">El riesgo</div><div class="h">Una decisión posible</div>
+      <div class="k">8 clientes en 2 países</div><div>El país no es atributo fijo del cliente.</div><div>País, como dimensión aparte.</div>
+      <div class="k">215 códigos con varios nombres</div><div>El mismo producto se agrupa partido.</div><div>Usar la descripción más frecuente.</div>
+      <div class="k">132.603 ventas sin cliente</div><div>No tienen fila en Dim_Cliente.</div><div>Se dejan y se ven como “en blanco”.</div>
+    </div>
+  </div>
+  <p class="pie">Ejemplos: cliente 12370, en Chipre y Austria; código 23196, con cuatro nombres: de “Vintage Leaf” a “Retro Leaves”.</p>
+  <aside class="notas">Ninguna es la única correcta; lo importante es que se decida y se documente. Las ventas sin cliente valen £1.469.806: si se ocultan, el total deja de cuadrar. Se verifican en la guía.</aside>
+</section>
+
+<section class="esc" data-mundo="plano">
+  <div class="par" style="grid-template-columns:600px 1fr">
+    <div class="col">
+      <h2 style="font-size:56px">El filtro corre en una dirección</h2>
+      <p>De la dimensión al hecho: del “1” a los “*”.</p>
+      <p class="paso sec">Si eliges un país, se filtran sus ventas. Las relaciones en ambas direcciones se usan solo cuando hay una razón.</p>
+    </div>
+    <svg class="diagrama" id="filtro" viewBox="0 0 760 420" role="img" aria-label="El filtro viaja desde País hacia Ventas"></svg>
+  </div>
+  <p class="pie">Microsoft Learn: Create and manage relationships; Understand star schema.</p>
+  <aside class="notas">Muestre la flecha en la vista de modelo de Power BI. La dirección Both puede crear ambigüedad en modelos con varias tablas de hechos.</aside>
+</section>
+
+<section class="esc" data-mundo="plano">
+  <div class="ancho alto" style="max-width:none;gap:18px">
+    <p class="sec">English immersion · 10 minutes · from Microsoft's documentation</p>
+    <p style="font-size:48px;line-height:1.16;font-weight:600">“Dimension tables enable <span class="acento">filtering and grouping</span>. Fact tables enable <span class="acento">summarization</span>.”</p>
+    <ol class="lista" style="margin-top:4px">
+      <li class="paso" style="font-size:32px">Point at a table in your model and say: “This is a ___ table because ___.”</li>
+      <li class="paso" style="font-size:32px">Describe the grain of your fact table in one sentence: “One row is ___.”</li>
+      <li class="paso" style="font-size:32px">Ask your partner one question about their model.</li>
+    </ol>
+    <p class="paso sec" style="font-size:25px">Words: <b>fact</b>, <b>dimension</b>, <b>key</b>, <b>grain</b>, <b>one-to-many</b>, <b>lookup table</b>. <a href="https://learn.microsoft.com/en-us/power-bi/guidance/star-schema" target="_blank" rel="noopener">Read the article</a>.</p>
+  </div>
+  <aside class="notas">Cita textual de Microsoft Learn, Understand star schema. Cinco minutos en parejas y cinco en plenaria.</aside>
+</section>
+
+<section class="esc" data-mundo="plano">
+  <div class="ancho">
+    <p class="sec">Taller · Power BI Desktop · entrega individual</p>
+    <h2>Dibuja y construye el modelo</h2>
+    <ol class="lista" style="margin-top:8px">
+      <li>Dibuja el diagrama en papel antes de abrir Power BI.</li>
+      <li>Crea dimensiones desde la consulta limpia.</li>
+      <li>Relaciona, y comprueba las cifras por país y cliente.</li>
+      <li>Haz lo mismo con tu proyecto.</li>
+    </ol>
+    <p style="margin-top:6px"><a class="boton" href="Guia_Laboratorio_Semana5.html" target="_blank" rel="noopener">Abrir la guía</a></p>
+  </div>
+  <aside class="notas">Exija el dibujo antes de construir. El punto de control clave es Países Bajos, con £284.662, y la fila en blanco de clientes, con £1.469.806.</aside>
+</section>
+
+<section class="esc" data-mundo="plano">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <p class="sec">Revisión entre pares · 30 minutos</p>
+    <h2 style="font-size:56px">Revisa el plano de otra persona</h2>
+    <ul class="lista" style="margin-top:6px">
+      <li class="paso"><b>Grano:</b> ¿puede decir en una frase qué es una fila del hecho?</li>
+      <li class="paso"><b>Claves:</b> ¿la clave no se repite en el lado “1”, ni siquiera por mayúsculas?</li>
+      <li class="paso"><b>Decisión:</b> ¿su pregunta analítica se responde con este modelo?</li>
+      <li class="paso"><b>Control:</b> ¿el total coincide con el de antes de modelar?</li>
+    </ul>
+    <p class="paso sec">Escribe una cosa que funciona y una que cambiarías. Critica el modelo, no a la persona.</p>
+  </div>
+  <aside class="notas">Cada estudiante entrega el comentario recibido y qué decidió hacer con él. El proyecto sigue siendo individual; la revisión es intercambio.</aside>
+</section>
+
+<section class="esc" data-mundo="plano">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:54px">Glosario de hoy</h2>
+    <dl class="glos">
+      <div><dt>Entidad</dt><dd>Algo de lo que se guardan datos.</dd></div>
+      <div><dt>Atributo</dt><dd>Característica de una entidad.</dd></div>
+      <div><dt>Diagrama entidad-relación</dt><dd>Dibujo de entidades y cómo se conectan.</dd></div>
+      <div><dt>Clave primaria</dt><dd>Columna que identifica cada fila, sin repetirse.</dd></div>
+      <div><dt>Clave foránea</dt><dd>Columna que apunta a la clave de otra tabla.</dd></div>
+      <div><dt>Cardinalidad</dt><dd>Cuántos de un lado corresponden a cuántos del otro: 1 a varios.</dd></div>
+      <div><dt>Tabla de hechos</dt><dd>Eventos con cifras: ventas, en este caso.</dd></div>
+      <div><dt>Tabla de dimensión</dt><dd>Describe entidades, y sirve para filtrar y agrupar.</dd></div>
+      <div><dt>Esquema en estrella</dt><dd>Un hecho al centro, rodeado de dimensiones.</dd></div>
+      <div><dt>Grano</dt><dd>Lo que representa una fila del hecho.</dd></div>
+    </dl>
+  </div>
+  <aside class="notas">Estos términos entran a la Evaluación 1.</aside>
+</section>
+
+<section class="esc" data-mundo="plano">
+  <div class="ancho">
+    <h2 style="font-size:60px">Tres cosas para llevarte</h2>
+    <ol class="lista" style="margin-top:6px">
+      <li class="paso" style="font-size:40px"><b>Dibuja antes de construir:</b> entidades, claves y relaciones.</li>
+      <li class="paso" style="font-size:40px"><b>Define el grano:</b> una frase que diga qué es una fila.</li>
+      <li class="paso" style="font-size:40px"><b>Comprueba las claves:</b> un duplicado invisible puede romperlo todo.</li>
+    </ol>
+    <p class="paso sec">Próxima sesión: hablarle a una base de datos con SQL, ver por qué escala un modelo y la Evaluación 1.</p>
+  </div>
+  <aside class="notas">Recuerde: Evaluación 1 en la sesión 6, 15 % de la nota, resultados 1.2 y 1.3.</aside>
+</section>
+
+<section class="esc" data-mundo="plano">
+  <div class="ancho alto bib" style="max-width:none;gap:5px">
+    <h2 style="font-size:50px;margin-bottom:8px">Bibliografía y fuentes</h2>
+    <p>Chen, D. (2015). <em>Online Retail</em> [conjunto de datos]. UCI Machine Learning Repository. CC BY 4.0. <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">doi:10.24432/C5BW33</a></p>
+    <p>Codd, E. F. (1970). A relational model of data for large shared data banks. <em>Communications of the ACM, 13</em>(6), 377-387. <a href="https://doi.org/10.1145/362384.362685" target="_blank" rel="noopener">doi:10.1145/362384.362685</a></p>
+    <p>Kimball, R. y Ross, M. (2013). <em>The Data Warehouse Toolkit</em> (3.ª ed.). Wiley. Recomendado por Microsoft Learn.</p>
+    <p>Microsoft Learn. <em>Understand star schema and the importance for Power BI</em>. <a href="https://learn.microsoft.com/en-us/power-bi/guidance/star-schema" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Create and manage relationships in Power BI Desktop</em>. <a href="https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-create-and-manage-relationships" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>DirectQuery in Power BI</em> (nota sobre mayúsculas). <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-directquery-about" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+  </div>
+  <aside class="notas">Cifras recalculadas con el archivo original: Material_Privado/Unidades_2_3/cifras_u23.json.</aside>
+</section>
+
+<div id="ayuda">Flechas para avanzar · F pantalla completa · N notas</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/curso.js"></script>
+<script>
+(function () {
+  var luz = CUR.luz;
+  function caja(x, y, w, h, tit, n, cols, hecho, cl) {
+    var s = '<g class="caja' + (hecho ? ' hecho' : '') + (cl ? ' ' + cl : '') + '"><rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="3"/><text class="tit" x="' + (x + 16) + '" y="' + (y + 36) + '">' + tit + '</text><text class="n" x="' + (x + w - 14) + '" y="' + (y + 36) + '" text-anchor="end">' + n + '</text><line x1="' + x + '" x2="' + (x + w) + '" y1="' + (y + 50) + '" y2="' + (y + 50) + '" stroke="var(--regla)" stroke-width="2"/>';
+    cols.forEach(function (c, i) { s += '<text x="' + (x + 16) + '" y="' + (y + 82 + i * 30) + '">' + c + '</text>'; });
+    return s + '</g>';
+  }
+  function linea(a, b, i) {
+    var mx = (a[0] + b[0]) / 2;
+    return luz('M' + a[0] + ' ' + a[1] + 'C' + mx + ' ' + a[1] + ' ' + mx + ' ' + b[1] + ' ' + b[0] + ' ' + b[1], i * .6, 4);
+  }
+  /* Portada */
+  var cx = 1180, cy = 450, P = [[930, 180], [1430, 180], [930, 720], [1430, 720]], s = '';
+  P.forEach(function (p, i) { s += linea(p, [cx, cy], i); s += '<rect class="nodo" x="' + (p[0] - 60) + '" y="' + (p[1] - 36) + '" width="120" height="72"/>'; });
+  s += '<rect class="nodo foco" x="' + (cx - 72) + '" y="' + (cy - 46) + '" width="144" height="92"/>';
+  CUR.poner('estrellaPortada', s);
+  /* Pata de gallo */
+  var t = '<g class="caja"><rect x="140" y="30" width="300" height="86" rx="3"/><text class="tit" x="290" y="83" text-anchor="middle">Producto</text></g><g class="caja hecho"><rect x="984" y="30" width="300" height="86" rx="3"/><text class="tit" x="1134" y="83" text-anchor="middle">Ventas</text></g>';
+  t += luz('M440 73L984 73', 0, 3, 'fuerte') + '<text class="t-nota" x="470" y="58" style="font-size:36px">1</text><text class="t-nota" x="946" y="60" style="font-size:40px">*</text>';
+  CUR.poner('pata', t);
+  /* Estrella */
+  var f = [520, 215, 384, 234], e = '';
+  var D = [[10, 26, 330, 170, 'Dim_Producto', '3.828', ['StockCode (clave)', 'Descripción', 'Clase'], [f[0], 290]], [1084, 26, 330, 170, 'Dim_Cliente', '4.371', ['CustomerID (clave)', 'País principal', 'Primera compra'], [f[0] + f[2], 290]], [10, 440, 330, 170, 'Dim_Fecha', '396', ['Fecha (clave)', 'Año, mes', 'Día de la semana'], [f[0], 390]], [1084, 440, 330, 170, 'Dim_País', '38', ['Country (clave)', 'Región, si la agregas'], [f[0] + f[2], 390]]];
+  D.forEach(function (d, i) {
+    var a = [i % 2 ? d[0] : d[0] + d[2], d[1] + d[3] / 2];
+    e += '<g class="paso">' + linea(a, d[7], i) + caja(d[0], d[1], d[2], d[3], d[4], d[5], d[6]) + '</g>';
+  });
+  e += caja(f[0], f[1], f[2], f[3], 'Hecho_Ventas', '539.392', ['InvoiceNo, Tipo', 'StockCode, CustomerID', 'Fecha, Country', 'Quantity, UnitPrice, Importe'], true);
+  CUR.poner('estrella', e);
+  /* Dirección del filtro */
+  var g = caja(10, 120, 250, 120, 'País', '38', ['Germany'], false) + caja(500, 120, 250, 120, 'Ventas', '539.392', ['solo Germany'], true);
+  g += luz('M260 180L500 180', 0, 2.4, 'fuerte') + '<text class="t-nota" x="380" y="160" text-anchor="middle">filtra</text>';
+  g += '<text class="t-eje" x="275" y="212">1</text><text class="t-eje" x="478" y="212" style="font-size:28px">*</text>';
+  CUR.poner('filtro', g);
+})();
+</script>
+<script src="../assets/puntos/diagramas.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

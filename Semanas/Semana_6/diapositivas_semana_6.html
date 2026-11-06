@@ -1,283 +1,243 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 6</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides {
-            width: 95% !important;
-            height: 95% !important;
-            max-width: 1300px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 30px;
-            margin-top: 25px;
-        }
-        
-        .box-glass {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .box-glass:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 45px rgba(0, 56, 101, 0.2);
-        }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 800; }
-        .reveal h1 { font-size: 3.2em; }
-        .reveal h2 { font-size: 2.2em; margin-bottom: 20px; }
-        .highlight { color: var(--unab-orange); position: relative; display: inline-block; }
-        .highlight::after {
-            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
-            background: var(--unab-orange); opacity: 0.3; z-index: -1; border-radius: 4px;
-        }
-        
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.75em !important; line-height: 1.4; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #002240 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.8em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 12px; font-size: 1.4em; }
-        
-        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p { color: white !important; }
-        
-        /* Modal Glassmorphism */
-        .clickable-concept { cursor: pointer; position: relative; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -15px; right: -15px; background: var(--unab-orange); color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; box-shadow: 0 5px 15px rgba(232,92,11,0.4); opacity: 0; transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%);
-            width: 85%; max-width: 700px; background: rgba(255, 255, 255, 0.98); padding: 40px;
-            border-radius: 20px; box-shadow: 0 40px 80px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-        }
-        #concept-modal.show { opacity: 1; transform: translate(-50%, -50%); }
-        @keyframes popIn { 0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-        
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.85); backdrop-filter: blur(8px); z-index: 1999;
-            animation: fadeIn 0.3s ease forwards; opacity: 0;
-        }
-        #concept-modal-overlay.show { opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; font-size: 1.8em; color: #888; transition: color 0.2s; }
-        .modal-close:hover { color: var(--unab-orange); }
-        
-        #typed-container {
-            background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px; font-family: monospace;
-            color: #00ff00; margin-bottom: 20px; display: inline-block; border-left: 4px solid #00ff00; font-size: 0.6em;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 6 · El archivo | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<link rel="stylesheet" href="../assets/puntos/transicion.css">
+<link rel="stylesheet" href="../assets/puntos/curso.css">
+<style>
+  /* Mundo: un archivo de fichas de madera y latón. SQL es la forma de pedirle algo al archivista. */
+  :root[data-mundo="archivo"] { --fondo: #2a1d14; --fondo-2: #3a2a1e; --tinta: #f6ecdd; --tinta-2: #c9b59c; --regla: rgba(246,236,221,.24); --punto: #8a7359; --compra: #ff8a3c; --acento-texto: #ffb27a; }
+  .frase-sql { font: 700 44px/1.5 Consolas, 'Courier New', monospace; }
+  .frase-sql div { transition: color .35s ease, opacity .35s ease, transform .4s cubic-bezier(.16,1,.3,1); }
+  .clausula { display: grid; grid-template-columns: 74px 1fr; gap: 12px; align-items: baseline; opacity: .3; transition: opacity .35s ease; }
+  .clausula.on { opacity: 1; }
+  .clausula i { font-style: normal; color: var(--acento-texto); font-size: 34px; font-weight: 800; }
+  .clausula code { font: 700 37px Consolas, monospace; color: var(--tinta); }
+  .clausula span { display: block; font-size: 25px; color: var(--tinta-2); }
+  .contador { font: 800 148px/1 Consolas, 'Courier New', monospace; letter-spacing: -.05em; color: var(--acento-texto); font-variant-numeric: tabular-nums; }
+  .res td, .res th { font: 500 30px Consolas, monospace; padding: 9px 26px 9px 0; }
+  .res th { color: var(--tinta-2); font-size: 25px; }
+  #ficheros .cajon { fill: var(--fondo-2); stroke: var(--punto); stroke-width: 2.5; }
+  #ficheros .tirador { fill: #c89a5a; }
+  #ficheros .tarjeta { fill: var(--tinta); }
+</style>
 </head>
-<body>
-    
-    <!-- Modal Interactivo -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
-        <h2 style="color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; display: flex; align-items: center; gap: 15px;">
-            <i id="modal-icon" class="fa-solid fa-lightbulb" style="color: var(--unab-orange);"></i> 
-            <span id="modal-title">Título</span>
-        </h2>
-        <p id="modal-text" style="font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px;">Texto explicativo</p>
-        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
-            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Implementación Práctica:</h4>
-            <code id="modal-example-text" style="font-size: 0.9em; background: #fff; padding: 10px; display: block; border-radius: 5px; color: #d946ef; font-weight: bold;">Ejemplo</code>
-        </div>
+<body data-mundo="archivo">
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
+
+<section class="esc" data-mundo="archivo">
+  <svg class="diagrama" id="ficheros" viewBox="0 0 1600 900" aria-hidden="true" style="position:absolute;inset:0;width:1600px;height:900px"></svg>
+  <div style="position:absolute;left:88px;top:230px;width:800px">
+    <p class="sec" style="font-size:27px">El archivo · Inteligencia de Negocios · Sesión 6</p>
+    <h1 style="font-size:100px;margin-top:14px">Aprende a pedirle algo <span class="acento">al archivo.</span></h1>
+  </div>
+  <p class="pie" style="left:88px">Dudbil Olvasada Pabón Riaño · UNAB</p>
+  <aside class="notas">Una base de datos es un archivo enorme con un archivista muy obediente: hace exactamente lo que se le pide, aunque esté mal pedido. Hoy verá las dos cosas.</aside>
+</section>
+
+<section class="esc" data-mundo="archivo">
+  <div class="ancho alto" style="max-width:none">
+    <h2>El plan de hoy</h2>
+    <svg data-d="ruta" data-o='{"h":350,"amp":38,"dur":7,"items":[{"h":"10:00","t":"Evaluación 1"},{"h":"11:00","t":"Pausa"},{"h":"11:15","t":"Retro-|alimentación"},{"h":"11:30","t":"English|immersion"},{"h":"11:40","t":"Principios|SQL","foco":true},{"h":"12:15","t":"Taller:|tu modelo"},{"h":"12:50","t":"Cierre"}]}'></svg>
+    <p class="sec" style="font-size:30px">Evaluación 1: individual, 15 % de la nota, resultados 1.2 y 1.3.</p>
+  </div>
+  <aside class="notas">El enunciado y la clave están en Material_Privado/Evaluaciones. Ajuste los tiempos: el calendario pide también retroalimentación en la misma sesión.</aside>
+</section>
+
+<section class="esc" data-mundo="archivo">
+  <div class="ancho">
+    <p class="sec">Resultado de aprendizaje 1.3</p>
+    <p class="frase" style="font-size:66px">Establece modelos de datos eficientes para análisis de negocio.</p>
+    <div class="tres" style="margin-top:12px">
+      <p class="regla-arriba">Lees y escribes una consulta SQL con filtro, grupo y unión.</p>
+      <p class="regla-arriba">Explicas por qué una unión mal hecha infla una cifra.</p>
+      <p class="regla-arriba">Revisas si tu modelo puede crecer.</p>
     </div>
+  </div>
+  <aside class="notas">Resultado textual del syllabus. Hoy también se evalúa el 1.2.</aside>
+</section>
 
-    <div class="reveal">
-        <div class="slides">
-
-            <!-- 1. Portada -->
-            <section data-transition="zoom" class="dark-slide">
-                <div id="typed-container"><span id="typed-output"></span></div>
-                <br>
-                <i class="fa-solid fa-palette" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
-                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Semana 6: Principios de Visualización de Datos</h3>
-                <br>
-                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
-            </section>
-            
-            <!-- 2. RAE -->
-            <section data-transition="slide">
-                <h2 class="text-left" style="color: #003865;"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
-                <div class="box-glass text-left" style="border-top: 6px solid #003865; margin-top: 30px; padding: 40px;">
-                    <h3 style="color: #003865; margin-bottom: 20px;">Meta Analítica</h3>
-                    <p style="font-size: 1.2em; color: #333; line-height: 1.6;">
-                        <i class="fa-solid fa-check-double text-green-600" style="color: #E85C0B; margin-right: 15px;"></i>
-                        Aplicar los principios de percepción visual (Gestalt) y elección correcta de gráficos para contar historias de datos evitando sesgos y engaños visuales.
-                    </p>
-                </div>
-            </section>
-
-            <!-- 3. Conceptos Estructurales -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-cubes-stacked" style="color: #E85C0B;"></i> Conceptos Analíticos Clave</h2>
-                <div class="split-layout">
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Principios Gestalt', 'fa-shapes', 'Leyes de la percepción (Proximidad, Similitud, Cierre, Continuidad) que explican cómo el cerebro humano agrupa elementos visuales. Vitales para organizar un reporte sin usar bordes saturados.', 'Usar espacios en blanco (White Space) en lugar de líneas negras duras para separar secciones de un dashboard.')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865;"><i class="fa-solid fa-shapes"></i> Principios Gestalt</h3>
-                        <p class="small-text" style="margin-top: 20px;">Leyes de la percepción (Proximidad, Similitud, Cierre, Continuidad) que explican cómo el cerebro humano agrupa elementos visuales. Vitales para organizar un reporte sin usar bordes saturados.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #E85C0B; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Data-to-Ink Ratio', 'fa-eraser', 'Concepto de Edward Tufte. La mayor parte de la tinta (o píxeles) de un gráfico debe dedicarse a mostrar los datos. Se deben eliminar cuadrículas pesadas, bordes y fondos decorativos.', 'Eliminar el eje Y si ya estás utilizando etiquetas de datos directamente en las barras.')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-eraser"></i> Data-to-Ink Ratio</h3>
-                        <p class="small-text" style="margin-top: 20px;">Concepto de Edward Tufte. La mayor parte de la tinta (o píxeles) de un gráfico debe dedicarse a mostrar los datos. Se deben eliminar cuadrículas pesadas, bordes y fondos decorativos.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #003865; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4. Discusión Profunda Inyectada -->
-            
-        <section>
-            <h2>El Arte de Elegir el Gráfico Correcto</h2>
-            <div class="split-layout">
-                <div class="box-glass text-left" style="border-left: 5px solid #003865;">
-                    <h4 style="color: #003865;"><i class="fa-solid fa-chart-column"></i> Comparación y Evolución</h4>
-                    <p class="small-text">Para comparar volúmenes absolutos entre categorías (Ej. Ventas por País), el <strong>Gráfico de Barras Horizontales</strong> es el rey absoluto por la facilidad de lectura de etiquetas. Para series de tiempo (Ej. Ventas por Mes), se exige el <strong>Gráfico de Líneas</strong> o Áreas para mostrar continuidad.</p>
-                </div>
-                <div class="box-glass text-left" style="border-left: 5px solid #E85C0B;">
-                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-ban"></i> Enemigos de la Percepción</h4>
-                    <p class="small-text">El cerebro humano no es bueno estimando ángulos ni áreas 3D. <strong>Evitar siempre:</strong><br>- Gráficos circulares con más de 3 categorías (el ojo no mide bien los ángulos).<br>- Gráficos en 3D (distorsionan la perspectiva y los volúmenes).<br>- Medidores (gauges) saturados.</p>
-                </div>
-            </div>
-        </section>
-        
-
-            <!-- 5. Taller Práctico -->
-            <section data-transition="slide" class="dark-slide">
-                <i class="fa-solid fa-laptop-code" style="font-size: 5em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1 style="color: white !important;">Taller Aplicado</h1>
-                <p style="font-size: 1.2em;">Migración de entorno teórico a plataforma práctica.</p>
-                <div class="box-glass" style="background: rgba(255,255,255,0.1); margin: 30px auto; max-width: 80%; text-align: center; border: 1px solid rgba(255,255,255,0.2);">
-                    <h4 style="color: white; margin-top: 0;">Flujo Técnico a ejecutar:</h4>
-                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 6</span>
-                </div>
-            </section>
-
-            <!-- 6. Glosario y Bibliografía -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-book-open"></i> Referencias Bibliográficas</h2>
-                <div class="box-glass text-left" style="border-top: 5px solid #003865;">
-                    <ul style="font-size: 0.8em; line-height: 1.8; color: #444;">
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Sharda, R., Delen, D., & Turban, E. (2020). <strong>Business Intelligence, Analytics, and Data Science: A Managerial Perspective.</strong> 4th Edition. Pearson.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Ferrari, A., & Russo, M. (2019). <strong>The Definitive Guide to DAX: Business intelligence for Microsoft Power BI.</strong> Microsoft Press.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Knaflic, C. N. (2015). <strong>Storytelling with Data: A Data Visualization Guide for Business Professionals.</strong> Wiley.</li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
+<section class="esc" data-mundo="archivo">
+  <div class="ancho alto" style="max-width:none;gap:16px">
+    <h2 style="font-size:54px">Una pregunta. Seis palabras clave.</h2>
+    <div class="dos" style="grid-template-columns:1.1fr 1fr;gap:50px">
+      <div class="codigo" style="font-size:34px;line-height:1.42"><span class="c">SELECT</span> pais, SUM(importe)
+<span class="c">FROM</span> facturas
+<span class="c">WHERE</span> tipo = 'Venta'
+<span class="c">GROUP BY</span> pais
+<span class="c">HAVING</span> SUM(importe) &gt; 100000
+<span class="c">ORDER BY</span> 2 DESC;</div>
+      <div class="col paso">
+        <p class="sec" style="font-size:28px">“Ventas por país, solo los que superan £100.000, de mayor a menor.”</p>
+        <p style="font-size:30px;margin-top:6px">SQL se lee casi como una frase en inglés. Por eso lleva 50 años vivo.</p>
+      </div>
     </div>
+  </div>
+  <p class="pie">Base del curso: online_retail.sqlite, derivada de Chen (2015), CC BY 4.0.</p>
+  <aside class="notas">Lea la consulta en voz alta en inglés. Codd propuso el modelo relacional en 1970; SQL nació en los años 70. Es un dato de contexto: no hace falta precisión aquí.</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        Reveal.initialize({
-            hash: true,
-            transition: 'slide',
-            controlsTutorial: false,
-            center: true,
-            progress: true,
-            slideNumber: 'c/t'
-        });
+<section class="esc" data-mundo="archivo">
+  <div class="par" style="grid-template-columns:600px 1fr">
+    <div class="col">
+      <h2 style="font-size:54px">Se escribe en un orden. Se ejecuta en otro.</h2>
+      <p class="paso sec">Por eso no puedes usar un resultado de grupo dentro de WHERE: cuando corre WHERE, los grupos aún no existen.</p>
+    </div>
+    <div class="col" id="orden" style="gap:13px"></div>
+  </div>
+  <p class="paso sin-texto"></p><p class="paso sin-texto"></p><p class="paso sin-texto"></p><p class="paso sin-texto"></p><p class="paso sin-texto"></p>
+  <aside class="notas">Avance paso a paso. Es el orden lógico de ejecución, que el motor puede optimizar por dentro. Sirve para entender los errores más comunes.</aside>
+</section>
 
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+<section class="esc" data-mundo="archivo">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:54px">Unir tablas también es decidir a quién dejas por fuera</h2>
+    <div class="dos" style="gap:60px">
+      <div class="col regla-arriba"><h3 class="acento">JOIN</h3><p style="font-size:28px">Solo las facturas que tienen cliente.</p><p class="mono" style="font-size:42px;font-weight:800">£8.300.066</p><p class="sec" style="font-size:25px">22.186 facturas</p></div>
+      <div class="col regla-arriba paso"><h3 class="acento">LEFT JOIN</h3><p style="font-size:28px">Todas las facturas, con o sin cliente.</p><p class="mono" style="font-size:42px;font-weight:800">£9.769.872</p><p class="sec" style="font-size:25px">23.796 facturas</p></div>
+    </div>
+    <p class="paso frase" style="font-size:42px">JOIN no da error: simplemente desaparecen £1,47 millones.</p>
+  </div>
+  <p class="pie">1.610 facturas no tienen cliente identificado. Venta neta del periodo.</p>
+  <aside class="notas">La diferencia es de £1.469.806, las mismas filas en blanco de la sesión 5. Es el error más silencioso: la consulta funciona y el número se ve bien.</aside>
+</section>
 
-        // Typed.js para efecto hacker corporativo
-        new Typed('#typed-output', {
-            strings: [
-                '> ESTABLECIENDO CONEXIÓN SEGURA...',
-                '> CARGANDO DATOS MASIVOS (ETL)...',
-                '> OPTIMIZANDO MODELO DIMENSIONAL...',
-                '> PROTOCOLO DE INTELIGENCIA DE NEGOCIOS: ACTIVO'
-            ],
-            typeSpeed: 30,
-            backSpeed: 10,
-            backDelay: 1500,
-            loop: true,
-            showCursor: true,
-            cursorChar: '_'
-        });
+<section class="esc" data-mundo="archivo">
+  <div class="ancho" style="max-width:none">
+    <p class="sec">Noviembre de 2011. Se unen líneas con facturas, y se suma el importe de la factura.</p>
+    <div class="contador" id="cont">£1.461.756</div>
+    <h2 class="paso" style="font-size:60px">Una unión mal hecha multiplicó las ventas <span class="acento">por 103.</span></h2>
+    <p class="paso" style="font-size:33px">Cada factura se repite una vez por cada línea, y su total se suma cada vez. No hay error ni advertencia.</p>
+    <p class="paso frase" style="font-size:40px">Antes de sumar, pregunta: ¿cuál es el grano de esta tabla?</p>
+  </div>
+  <aside class="notas">£150.284.141 frente a £1.461.756,25: 102,8 veces. 84.445 filas en ambos casos. Lo reproducen en el taller. Vuelve a la pregunta de la sesión 5: ¿qué es una fila? Si tiene tiempo, pregunte cómo lo habrían detectado: conciliar con el total conocido.</aside>
+</section>
 
-        function openModal(title, iconClass, text, example) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-icon').className = 'fa-solid ' + iconClass;
-            document.getElementById('modal-text').innerText = text;
-            document.getElementById('modal-example-text').innerHTML = example;
-            
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('concept-modal-overlay').classList.add('show');
-                document.getElementById('concept-modal').classList.add('show');
-            }, 10);
-        }
+<section class="esc" data-mundo="archivo">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:56px">Un modelo escalable sigue funcionando cuando crece</h2>
+    <div class="filas" style="grid-template-columns:340px 1fr 1fr">
+      <div class="h">Principio</div><div class="h">Por qué</div><div class="h">En este caso</div>
+      <div class="k">Separar en estrella</div><div>Cada dato vive en un lugar.</div><div>14 MB de nombres pasan a 0,1 MB</div>
+      <div class="k">Solo lo necesario</div><div>Menos filas y columnas, más velocidad.</div><div>Quitar lo que nadie usa</div>
+      <div class="k">Empujar a la fuente</div><div>Que la base haga el trabajo pesado.</div><div>Filtrar primero; ver la consulta nativa</div>
+      <div class="k">Claves simples</div><div>Unir por enteros es más rápido.</div><div>Cuidado con los códigos de texto</div>
+    </div>
+  </div>
+  <p class="pie">Texto de la columna de nombres, antes de la compresión del motor. Microsoft Learn: reducción de datos; plegado de consultas; DirectQuery.</p>
+  <aside class="notas">El motor de Power BI comprime mucho las columnas repetidas, así que los 14 MB no son el tamaño real en memoria: es una forma de ver lo repetido. El plegado de consultas: Power Query traduce sus pasos a SQL, si la fuente lo permite. Se ve con “Ver consulta nativa”.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal').classList.remove('show');
-            document.getElementById('concept-modal-overlay').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('concept-modal').style.display = 'none';
-                document.getElementById('concept-modal-overlay').style.display = 'none';
-            }, 400);
-        }
-    </script>
+<section class="esc" data-mundo="archivo">
+  <div class="ancho alto" style="max-width:none;gap:16px">
+    <p class="sec">English immersion · 10 minutes · SQL is almost English</p>
+    <div class="codigo" style="font-size:33px">SELECT pais, COUNT(*) FROM facturas WHERE tipo = 'Cancelación' GROUP BY pais;</div>
+    <ol class="lista" style="margin-top:4px">
+      <li class="paso" style="font-size:32px">Read this query aloud as an English sentence. What does it ask?</li>
+      <li class="paso" style="font-size:32px">Dictate a new question to your partner in English. They write the SQL.</li>
+      <li class="paso" style="font-size:32px">Explain: why can a JOIN make total sales look 100 times bigger?</li>
+    </ol>
+    <p class="paso sec" style="font-size:25px">Words: <b>query</b>, <b>table</b>, <b>row</b>, <b>to join</b>, <b>to group by</b>, <b>to scale</b>, <b>grain</b>.</p>
+  </div>
+  <aside class="notas">Cinco minutos en parejas y cinco en plenaria. Después de una evaluación, esta actividad baja la tensión: se puede hacer en voz alta y con humor.</aside>
+</section>
+
+<section class="esc" data-mundo="archivo">
+  <div class="ancho">
+    <p class="sec">Taller · SQL en el navegador y Power BI</p>
+    <h2>Consulta una base real, y rompe una suma</h2>
+    <ol class="lista" style="margin-top:8px">
+      <li>Abre la base: 4 tablas reales, sin instalar nada.</li>
+      <li>Escribe consultas con filtro, grupo y unión, con control.</li>
+      <li>Reproduce el error de las 103 veces, y corrígelo.</li>
+      <li>Audita la estructura de tu modelo.</li>
+    </ol>
+    <p style="margin-top:6px"><a class="boton" href="Guia_Laboratorio_Semana6.html" target="_blank" rel="noopener">Abrir la guía</a></p>
+  </div>
+  <aside class="notas">La base se puede abrir en SQLite Online o en DB Browser for SQLite. Compruebe el acceso desde la sala antes de la clase.</aside>
+</section>
+
+<section class="esc" data-mundo="archivo">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:54px">Glosario de hoy</h2>
+    <dl class="glos">
+      <div><dt>SQL</dt><dd>Lenguaje para consultar bases de datos relacionales.</dd></div>
+      <div><dt>Consulta</dt><dd>Una pregunta escrita para la base.</dd></div>
+      <div><dt>WHERE</dt><dd>Filtra filas, antes de agrupar.</dd></div>
+      <div><dt>GROUP BY</dt><dd>Agrupa filas para resumirlas.</dd></div>
+      <div><dt>HAVING</dt><dd>Filtra grupos, después de agrupar.</dd></div>
+      <div><dt>JOIN</dt><dd>Une tablas y conserva solo lo que coincide.</dd></div>
+      <div><dt>LEFT JOIN</dt><dd>Conserva todo lo de la izquierda, coincida o no.</dd></div>
+      <div><dt>Plegado de consultas</dt><dd>Power Query traduce sus pasos para que los ejecute la fuente.</dd></div>
+      <div><dt>Escalabilidad</dt><dd>Capacidad de seguir funcionando al crecer.</dd></div>
+      <div><dt>Conciliación</dt><dd>Comparar con un total conocido para detectar errores.</dd></div>
+    </dl>
+  </div>
+  <aside class="notas">Cierra la Unidad 2.</aside>
+</section>
+
+<section class="esc" data-mundo="archivo">
+  <div class="ancho">
+    <h2 style="font-size:60px">Tres cosas para llevarte</h2>
+    <ol class="lista" style="margin-top:6px">
+      <li class="paso" style="font-size:40px"><b>SQL es casi una frase:</b> de dónde, qué filas, qué grupos y qué columnas.</li>
+      <li class="paso" style="font-size:40px"><b>El peor error no avisa:</b> una unión puede perder millones, o multiplicarlos por 103.</li>
+      <li class="paso" style="font-size:40px"><b>Concilia:</b> un total conocido te salva de los dos.</li>
+    </ol>
+    <p class="paso sec">Próxima sesión: empieza la Unidad 3. Con el modelo listo, ¿qué gráfica le muestras a quién?</p>
+  </div>
+  <aside class="notas">Fin de la Unidad 2. El Proyecto 1 debe tener ya datos limpios y modelo.</aside>
+</section>
+
+<section class="esc" data-mundo="archivo">
+  <div class="ancho alto bib" style="max-width:none;gap:5px">
+    <h2 style="font-size:50px;margin-bottom:8px">Bibliografía y fuentes</h2>
+    <p>Chen, D. (2015). <em>Online Retail</em> [conjunto de datos]. UCI Machine Learning Repository. CC BY 4.0. <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">doi:10.24432/C5BW33</a></p>
+    <p>Codd, E. F. (1970). A relational model of data for large shared data banks. <em>Communications of the ACM, 13</em>(6), 377-387. <a href="https://doi.org/10.1145/362384.362685" target="_blank" rel="noopener">doi:10.1145/362384.362685</a></p>
+    <p>SQLite. <em>SELECT</em>. <a href="https://www.sqlite.org/lang_select.html" target="_blank" rel="noopener">sqlite.org</a></p>
+    <p>Microsoft Learn. <em>Data reduction techniques for Import modeling</em>. <a href="https://learn.microsoft.com/en-us/power-bi/guidance/import-modeling-data-reduction" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Power Query query folding</em>. <a href="https://learn.microsoft.com/en-us/power-query/query-folding-basics" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>DirectQuery in Power BI</em>: “Favor integer keys for joins”. <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-directquery-about" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+  </div>
+  <aside class="notas">Resultados recalculados sobre la base publicada: Material_Privado/Unidades_2_3/cifras_u23.json.</aside>
+</section>
+
+<div id="ayuda">Flechas para avanzar · F pantalla completa · N notas</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/curso.js"></script>
+<script>
+(function () {
+  var s = '', x0 = 1000, y0 = 90, W = 240, H = 120;
+  for (var f = 0; f < 6; f++) for (var c = 0; c < 2; c++) {
+    var x = x0 + c * (W + 18), y = y0 + f * (H + 12), abierto = c === 1 && f === 2;
+    s += '<rect class="cajon" x="' + x + '" y="' + y + '" width="' + W + '" height="' + H + '" rx="3"/><rect class="tirador" x="' + (x + W / 2 - 26) + '" y="' + (y + 54) + '" width="52" height="11" rx="5"/><rect x="' + (x + 50) + '" y="' + (y + 16) + '" width="' + (W - 100) + '" height="24" fill="none" stroke="var(--punto)"/>';
+    if (abierto) s += CUR.luz('M' + (x + W / 2) + ' ' + (y + 60) + 'C' + (x - 180) + ' ' + (y + 60) + ' ' + (x - 160) + ' 820 ' + (x - 500) + ' 760', 0, 4, 'fuerte');
+  }
+  CUR.poner('ficheros', s);
+  var O = [['FROM', 'De qué tabla'], ['WHERE', 'Qué filas'], ['GROUP BY', 'Qué grupos'], ['HAVING', 'Qué grupos quedan'], ['SELECT', 'Qué columnas'], ['ORDER BY', 'En qué orden']];
+  CUR.poner('orden', O.map(function (o, i) { return '<div class="clausula' + (i ? '' : ' on') + '"><i>' + (i + 1) + '</i><div><code>' + o[0] + '</code><span>' + o[1] + '</span></div></div>'; }).join(''));
+  var cont = document.getElementById('cont'), raf;
+  function correr(a, b) {
+    cancelAnimationFrame(raf);
+    var t0 = performance.now();
+    (function f(t) { var q = Math.min(1, (t - t0) / 1200), v = a + (b - a) * (q * q); cont.textContent = '£' + CUR.miles(v); if (q < 1) raf = requestAnimationFrame(f); })(t0);
+  }
+  window.alPaso = function (esc, n) {
+    var cl = esc.querySelectorAll('.clausula');
+    if (cl.length) cl.forEach(function (c, i) { c.classList.toggle('on', i <= n); });
+    if (esc.querySelector('#cont')) { if (n === 1) correr(1461756, 150284141); else cont.textContent = n ? '£150.284.141' : '£1.461.756'; }
+  };
+})();
+</script>
+<script src="../assets/puntos/diagramas.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

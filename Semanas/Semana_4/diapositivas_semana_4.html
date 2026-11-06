@@ -1,286 +1,299 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 4</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides {
-            width: 95% !important;
-            height: 95% !important;
-            max-width: 1300px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 30px;
-            margin-top: 25px;
-        }
-        
-        .box-glass {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .box-glass:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 45px rgba(0, 56, 101, 0.2);
-        }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 800; }
-        .reveal h1 { font-size: 3.2em; }
-        .reveal h2 { font-size: 2.2em; margin-bottom: 20px; }
-        .highlight { color: var(--unab-orange); position: relative; display: inline-block; }
-        .highlight::after {
-            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
-            background: var(--unab-orange); opacity: 0.3; z-index: -1; border-radius: 4px;
-        }
-        
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.75em !important; line-height: 1.4; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #002240 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.8em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 12px; font-size: 1.4em; }
-        
-        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p { color: white !important; }
-        
-        /* Modal Glassmorphism */
-        .clickable-concept { cursor: pointer; position: relative; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -15px; right: -15px; background: var(--unab-orange); color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; box-shadow: 0 5px 15px rgba(232,92,11,0.4); opacity: 0; transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%);
-            width: 85%; max-width: 700px; background: rgba(255, 255, 255, 0.98); padding: 40px;
-            border-radius: 20px; box-shadow: 0 40px 80px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-        }
-        #concept-modal.show { opacity: 1; transform: translate(-50%, -50%); }
-        @keyframes popIn { 0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-        
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.85); backdrop-filter: blur(8px); z-index: 1999;
-            animation: fadeIn 0.3s ease forwards; opacity: 0;
-        }
-        #concept-modal-overlay.show { opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; font-size: 1.8em; color: #888; transition: color 0.2s; }
-        .modal-close:hover { color: var(--unab-orange); }
-        
-        #typed-container {
-            background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px; font-family: monospace;
-            color: #00ff00; margin-bottom: 20px; display: inline-block; border-left: 4px solid #00ff00; font-size: 0.6em;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 4 · La planta | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<link rel="stylesheet" href="../assets/puntos/transicion.css">
+<link rel="stylesheet" href="../assets/puntos/curso.css">
+<style>
+  /* Mundo: una planta de procesamiento. Las filas pasan por estaciones y un contador las vigila. */
+  :root[data-mundo="planta"] { --fondo: #141c24; --fondo-2: #1f2a35; --tinta: #f2f4f6; --tinta-2: #a8b6c2; --regla: rgba(242,244,246,.2); --punto: #5d7183; --compra: #ff7a1f; --acento-texto: #ffa263; }
+  #escenario::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 14px; pointer-events: none; background: repeating-linear-gradient(-45deg, #ff7a1f 0 22px, #141c24 22px 44px); opacity: .85; }
+  .odo { font: 800 118px Consolas, 'Courier New', monospace; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--acento-texto); }
+  .estacion { display: grid; grid-template-columns: 58px 1fr 170px; gap: 18px; align-items: baseline; border-top: 2px solid var(--regla); padding: 20px 0; }
+  .estacion i { font-style: normal; font: 800 28px Consolas, monospace; color: var(--acento-texto); }
+  .estacion p { font-size: 35px; line-height: 1.16; }
+  .estacion span { font: 700 33px Consolas, monospace; text-align: right; color: var(--tinta); font-variant-numeric: tabular-nums; }
+  .jugada { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; }
+  .jugada h3 { color: var(--acento-texto); font-size: 42px; margin-bottom: 8px; }
+  .jugada p { font-size: 32px; }
+  .jugada .sec { font-size: 27px; margin-top: 10px; }
+  .bitacora td, .bitacora th { font-size: 28px; padding: 14px 18px 14px 0; line-height: 1.2; }
+</style>
 </head>
-<body>
-    
-    <!-- Modal Interactivo -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
-        <h2 style="color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; display: flex; align-items: center; gap: 15px;">
-            <i id="modal-icon" class="fa-solid fa-lightbulb" style="color: var(--unab-orange);"></i> 
-            <span id="modal-title">Título</span>
-        </h2>
-        <p id="modal-text" style="font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px;">Texto explicativo</p>
-        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
-            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Implementación Práctica:</h4>
-            <code id="modal-example-text" style="font-size: 0.9em; background: #fff; padding: 10px; display: block; border-radius: 5px; color: #d946ef; font-weight: bold;">Ejemplo</code>
-        </div>
+<body data-mundo="planta">
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
+
+<section class="esc" data-mundo="planta">
+  <svg class="diagrama" id="cinta" viewBox="0 0 1600 900" aria-hidden="true" style="position:absolute;inset:0;width:1600px;height:900px"></svg>
+  <div style="position:absolute;left:88px;top:100px;width:1300px">
+    <p class="sec" style="font-size:28px">La planta · Inteligencia de Negocios · Sesión 4</p>
+    <h1 style="font-size:112px;margin-top:14px">Limpiar también <span class="acento">es decidir.</span></h1>
+  </div>
+  <p class="pie" style="left:88px">Dudbil Olvasada Pabón Riaño · UNAB</p>
+  <aside class="notas">Cada estación transforma las filas. Entra el archivo crudo y sale una tabla lista para modelar. Ninguna estación es neutra: cada una decide algo.</aside>
+</section>
+
+<section class="esc" data-mundo="planta">
+  <div class="ancho alto" style="max-width:none">
+    <h2>El plan de hoy</h2>
+    <svg data-d="ruta" data-o='{"h":350,"amp":38,"dur":7,"items":[{"h":"10:00","t":"Cuatro|jugadas"},{"h":"10:30","t":"La planta","foco":true},{"h":"11:00","t":"Pausa"},{"h":"11:15","t":"English|immersion"},{"h":"11:25","t":"Laboratorio"},{"h":"12:20","t":"Tutoría:|viabilidad"},{"h":"12:50","t":"Cierre"}]}'></svg>
+    <p class="sec" style="font-size:30px">Traigan la ficha de diagnóstico de la sesión 3 y la consulta conectada.</p>
+  </div>
+  <aside class="notas">La tutoría individual revisa fuentes y viabilidad del proyecto, como pide el calendario. Mientras tanto, el resto sigue en el laboratorio; continúa en las tutorías de martes y jueves.</aside>
+</section>
+
+<section class="esc" data-mundo="planta">
+  <div class="ancho">
+    <p class="sec">Resultado de aprendizaje 1.2</p>
+    <p class="frase" style="font-size:66px">Conecta y transforma datos utilizando herramientas de BI como Power BI.</p>
+    <div class="tres" style="margin-top:12px">
+      <p class="regla-arriba">Transformas datos en Power Query, paso a paso.</p>
+      <p class="regla-arriba">Compruebas que el total cuadra antes y después.</p>
+      <p class="regla-arriba">Documentas y justificas cada decisión.</p>
     </div>
+  </div>
+  <aside class="notas">Resultado textual del syllabus. Documentar y justificar es requisito expreso del calendario, y parte de la rúbrica del Proyecto 1.</aside>
+</section>
 
-    <div class="reveal">
-        <div class="slides">
-
-            <!-- 1. Portada -->
-            <section data-transition="zoom" class="dark-slide">
-                <div id="typed-container"><span id="typed-output"></span></div>
-                <br>
-                <i class="fa-solid fa-calendar-alt" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
-                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Semana 4: Time Intelligence (Inteligencia de Tiempo)</h3>
-                <br>
-                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
-            </section>
-            
-            <!-- 2. RAE -->
-            <section data-transition="slide">
-                <h2 class="text-left" style="color: #003865;"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
-                <div class="box-glass text-left" style="border-top: 6px solid #003865; margin-top: 30px; padding: 40px;">
-                    <h3 style="color: #003865; margin-bottom: 20px;">Meta Analítica</h3>
-                    <p style="font-size: 1.2em; color: #333; line-height: 1.6;">
-                        <i class="fa-solid fa-check-double text-green-600" style="color: #E85C0B; margin-right: 15px;"></i>
-                        Desarrollar análisis temporales complejos (YTD, MTD, SAMEPERIODLASTYEAR) mediante expresiones DAX avanzadas y la construcción de una Dimensión de Calendario robusta.
-                    </p>
-                </div>
-            </section>
-
-            <!-- 3. Conceptos Estructurales -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-cubes-stacked" style="color: #E85C0B;"></i> Conceptos Analíticos Clave</h2>
-                <div class="split-layout">
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Dimensión Calendario', 'fa-table-cells', 'Tabla central para análisis temporal. Debe tener una fila continua por cada día (sin saltos), marcada oficialmente como 'Tabla de Fechas' en Power BI para habilitar las funciones de Time Intelligence.', 'Dim_Calendar = CALENDAR(MIN(Ventas[Fecha]), MAX(Ventas[Fecha]))')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865;"><i class="fa-solid fa-table-cells"></i> Dimensión Calendario</h3>
-                        <p class="small-text" style="margin-top: 20px;">Tabla central para análisis temporal. Debe tener una fila continua por cada día (sin saltos), marcada oficialmente como 'Tabla de Fechas' en Power BI para habilitar las funciones de Time Intelligence.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #E85C0B; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('CALCULATE', 'fa-bolt', 'La función más poderosa y compleja de DAX. Es la única función que puede alterar o sobrescribir el Contexto de Filtro existente en una visualización.', 'Ventas_Ayer = CALCULATE([Ventas_Total], PREVIOUSDAY(Calendario[Date]))')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-bolt"></i> CALCULATE</h3>
-                        <p class="small-text" style="margin-top: 20px;">La función más poderosa y compleja de DAX. Es la única función que puede alterar o sobrescribir el Contexto de Filtro existente en una visualización.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #003865; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4. Discusión Profunda Inyectada -->
-            
-        <section>
-            <h2>El Motor Analítico Temporal (DAX)</h2>
-            <div class="split-layout">
-                <div class="box-glass text-left" style="border-left: 5px solid #003865;">
-                    <h4 style="color: #003865;"><i class="fa-solid fa-chart-line"></i> Análisis Acumulados</h4>
-                    <p class="small-text">Las empresas no solo ven el día a día. Evalúan el acumulado del año (YTD - Year To Date), trimestre (QTD) o mes (MTD). DAX resuelve esto con funciones optimizadas que desplazan el filtro hasta el inicio del periodo correspondiente.</p>
-                </div>
-                <div class="box-glass text-left" style="border-left: 5px solid #E85C0B;">
-                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-scale-balanced"></i> Comparación Histórica (YoY)</h4>
-                    <p class="small-text">Para saber si estamos creciendo, debemos comparar las ventas de este mes con el *mismo mes del año anterior*. La función <code>SAMEPERIODLASTYEAR</code> retrocede dinámicamente el contexto de filtro exactamente un año en el calendario.</p>
-                </div>
-            </div>
-            <div class="pro-tip" style="margin-top: 15px;">
-                <i class="fa-solid fa-triangle-exclamation"></i> <strong>Cuidado:</strong> Si tu tabla de calendario tiene 'huecos' (faltan días) o no está marcada como tabla de fechas, las funciones de Time Intelligence arrojarán errores silenciosos o valores incorrectos.
-            </div>
-        </section>
-        
-
-            <!-- 5. Taller Práctico -->
-            <section data-transition="slide" class="dark-slide">
-                <i class="fa-solid fa-laptop-code" style="font-size: 5em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1 style="color: white !important;">Taller Aplicado</h1>
-                <p style="font-size: 1.2em;">Migración de entorno teórico a plataforma práctica.</p>
-                <div class="box-glass" style="background: rgba(255,255,255,0.1); margin: 30px auto; max-width: 80%; text-align: center; border: 1px solid rgba(255,255,255,0.2);">
-                    <h4 style="color: white; margin-top: 0;">Flujo Técnico a ejecutar:</h4>
-                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 4</span>
-                </div>
-            </section>
-
-            <!-- 6. Glosario y Bibliografía -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-book-open"></i> Referencias Bibliográficas</h2>
-                <div class="box-glass text-left" style="border-top: 5px solid #003865;">
-                    <ul style="font-size: 0.8em; line-height: 1.8; color: #444;">
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Sharda, R., Delen, D., & Turban, E. (2020). <strong>Business Intelligence, Analytics, and Data Science: A Managerial Perspective.</strong> 4th Edition. Pearson.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Ferrari, A., & Russo, M. (2019). <strong>The Definitive Guide to DAX: Business intelligence for Microsoft Power BI.</strong> Microsoft Press.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Knaflic, C. N. (2015). <strong>Storytelling with Data: A Data Visualization Guide for Business Professionals.</strong> Wiley.</li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
+<section class="esc" data-mundo="planta">
+  <div class="ancho">
+    <p class="sec">Hay 5.268 filas idénticas, por £21.741</p>
+    <h2 style="font-size:72px">¿Las borras?</h2>
+    <div class="dos" style="margin-top:6px">
+      <div class="col paso regla-arriba"><h3 class="acento">Si son un error</h3><p>Borrarlas corrige una venta inflada.</p></div>
+      <div class="col paso regla-arriba"><h3 class="acento">Si son reales</h3><p>Alguien registró dos veces el mismo producto en una factura. Borrarlas elimina ventas que sí ocurrieron.</p></div>
     </div>
+    <p class="paso frase" style="font-size:44px">El archivo no dice cuál es. Decidas lo que decidas, tienes que escribirlo.</p>
+  </div>
+  <aside class="notas">Haga votar antes de avanzar. En el curso se conservan, porque no hay evidencia de que sean errores y pesan 0,2 % de la venta neta: sin ellas serían £9.748.131. Otra decisión es válida si se justifica y se declara su efecto.</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        Reveal.initialize({
-            hash: true,
-            transition: 'slide',
-            controlsTutorial: false,
-            center: true,
-            progress: true,
-            slideNumber: 'c/t'
-        });
+<section class="esc" data-mundo="planta">
+  <div class="ancho alto" style="max-width:none;gap:24px">
+    <h2 style="font-size:60px">Ante cada hallazgo hay cuatro jugadas</h2>
+    <div class="jugada" style="margin-top:8px">
+      <div class="paso"><h3>Excluir</h3><p>Lo que no pertenece al análisis.</p><p class="sec">2.517 filas de ajustes sin venta: “check”, “damaged”, “?”.</p></div>
+      <div class="paso"><h3>Corregir</h3><p>Lo que está mal escrito, si es seguro.</p><p class="sec">15056bl pasa a 15056BL. Quitar espacios en la descripción.</p></div>
+      <div class="paso"><h3>Marcar</h3><p>Lo que importa distinguir.</p><p class="sec">Tipo: Venta o Cancelación. Clase: producto, envío, comisión.</p></div>
+      <div class="paso"><h3>Dejar</h3><p>Lo que es real, aunque incomode.</p><p class="sec">Clientes vacíos: son 24,93&nbsp;%, y se declara.</p></div>
+    </div>
+    <p class="paso frase" style="font-size:40px;margin-top:10px">Rellenar un cliente vacío con “desconocido” está bien. Inventar uno, no.</p>
+  </div>
+  <aside class="notas">Ninguna jugada es buena o mala en abstracto: depende de la pregunta. Si se analizan clientes, las filas sin cliente no se pueden usar; si se analiza venta total, sí.</aside>
+</section>
 
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+<section class="esc selector" data-mundo="planta" style="">
+  <div class="ancho alto" style="max-width:none;gap:6px">
+    <div style="display:grid;grid-template-columns:1fr auto;align-items:end;margin-bottom:10px"><h2 style="font-size:54px">Pasa por la planta</h2><div class="odo" id="odo">541.909</div></div>
+    <div id="estaciones"></div>
+  </div>
+  <p class="paso sin-texto" data-n="1"></p><p class="paso sin-texto" data-n="2"></p><p class="paso sin-texto" data-n="3"></p><p class="paso sin-texto" data-n="4"></p>
+  <aside class="notas">Avance estación por estación. Solo una estación cambia el número de filas. Las demás cambian qué significa cada fila, y eso también es transformar.</aside>
+</section>
 
-        // Typed.js para efecto hacker corporativo
-        new Typed('#typed-output', {
-            strings: [
-                '> ESTABLECIENDO CONEXIÓN SEGURA...',
-                '> CARGANDO DATOS MASIVOS (ETL)...',
-                '> OPTIMIZANDO MODELO DIMENSIONAL...',
-                '> PROTOCOLO DE INTELIGENCIA DE NEGOCIOS: ACTIVO'
-            ],
-            typeSpeed: 30,
-            backSpeed: 10,
-            backDelay: 1500,
-            loop: true,
-            showCursor: true,
-            cursorChar: '_'
-        });
+<section class="esc" data-mundo="planta">
+  <div class="ancho alto" style="max-width:none;gap:10px">
+    <h2 style="font-size:58px">Si no cuadra, no está limpio</h2>
+    <svg class="diagrama" id="cuadre" viewBox="0 0 1424 500" role="img" aria-label="541.909 filas se dividen en 530.104 ventas, 9.288 cancelaciones y 2.517 excluidas. La venta neta es 9.769.872,05 libras"></svg>
+    <p class="paso frase" style="font-size:42px">Es la misma cifra de la sesión 1, calculada por otro camino.</p>
+  </div>
+  <p class="pie">Altura proporcional a las filas. Las excluidas no suman ni restan en el importe neto calculado.</p>
+  <aside class="notas">Conciliar es la costumbre más barata de un analista: un total conocido antes y después. Si un paso cambia el total sin que usted lo haya decidido, hay un error.</aside>
+</section>
 
-        function openModal(title, iconClass, text, example) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-icon').className = 'fa-solid ' + iconClass;
-            document.getElementById('modal-text').innerText = text;
-            document.getElementById('modal-example-text').innerHTML = example;
-            
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('concept-modal-overlay').classList.add('show');
-                document.getElementById('concept-modal').classList.add('show');
-            }, 10);
-        }
+<section class="esc" data-mundo="planta">
+  <div class="par" style="grid-template-columns:520px 1fr">
+    <div class="col">
+      <h2 style="font-size:54px">Detrás de cada clic hay una receta</h2>
+      <p>Power Query escribe los pasos en lenguaje M. No hay que memorizarlo: hay que poder leerlo.</p>
+      <p class="paso sec">Si un paso falla al actualizar, aquí se ve cuál fue.</p>
+    </div>
+    <div class="codigo" style="font-size:24.5px">let
+  Origen = Excel.Workbook(...),
+  ...
+  <span class="c">SoloValidas</span> = Table.SelectRows(Tipos,
+    each Text.StartsWith([InvoiceNo], "C")
+      or ([Quantity] &gt; 0 and [UnitPrice] &gt; 0)),
+  <span class="c">Mayus</span> = Table.TransformColumns(SoloValidas,
+    {{"StockCode", Text.Upper, type text}}),
+  <span class="c">Importe</span> = Table.AddColumn(Mayus, "Importe",
+    each [Quantity] * [UnitPrice], type number)
+in
+  Importe</div>
+  </div>
+  <p class="pie">Fragmento. La consulta completa está en la guía. Se abre en Inicio &gt; Editor avanzado.</p>
+  <aside class="notas">Lea una línea en voz alta: “selecciona las filas que empiezan por C, o las que tienen cantidad y precio positivos”. Eso es una regla de negocio escrita, que cualquiera puede auditar.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal').classList.remove('show');
-            document.getElementById('concept-modal-overlay').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('concept-modal').style.display = 'none';
-                document.getElementById('concept-modal-overlay').style.display = 'none';
-            }, 400);
-        }
-    </script>
+<section class="esc" data-mundo="planta">
+  <div class="ancho alto" style="max-width:none;gap:16px">
+    <h2 style="font-size:56px">Tres botones que parecen inocentes</h2>
+    <div class="filas" style="grid-template-columns:330px 1fr 1fr">
+      <div class="h">Botón</div><div class="h">Qué hace</div><div class="h">Cómo evitar el daño</div>
+      <div class="k">Quitar errores</div><div>Borra la fila entera si una celda falla.</div><div>Mira primero por qué falla.</div>
+      <div class="k">Quitar duplicados</div><div>Compara solo las columnas que seleccionaste.</div><div>Con una columna elegida, puedes perder ventas.</div>
+      <div class="k">Tipo automático</div><div>Deduce el tipo con una muestra de filas.</div><div>Revisa cada columna; cuidado con decimales y fechas.</div>
+    </div>
+    <p class="paso frase" style="font-size:40px;margin-top:8px">Después de cada paso delicado, mira el conteo y el total.</p>
+  </div>
+  <aside class="notas">Demuestre en vivo: seleccionar solo InvoiceNo y quitar duplicados deja 23.796 filas, una por factura, y se pierde casi todo. En la guía se comprueba.</aside>
+</section>
+
+<section class="esc" data-mundo="planta">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:56px">Lo que no se documenta, no se puede defender</h2>
+    <table class="bitacora">
+      <tr><th>Paso</th><th>Qué hice</th><th class="d">Filas</th><th>Por qué</th><th>Qué podría estar mal</th></tr>
+      <tr><td>1</td><td>Quité ajustes sin venta</td><td class="d">−2.517</td><td>Cantidad o precio no positivos, y no son cancelaciones</td><td>Podría haber alguna venta mal digitada</td></tr>
+      <tr class="paso"><td>2</td><td>Pasé códigos a mayúsculas</td><td class="d">0</td><td>15056bl y 15056BL son el mismo código</td><td>Quizá alguna minúscula era otra variante</td></tr>
+      <tr class="paso"><td>3</td><td>Conservé los duplicados</td><td class="d">0</td><td>No hay evidencia de error; pesan 0,2&nbsp;%</td><td>Sobrestima hasta £21.741</td></tr>
+    </table>
+    <p class="paso sec" style="font-size:30px">La última columna es la que da credibilidad.</p>
+  </div>
+  <aside class="notas">Esta tabla es parte de la entrega de hoy y de la rúbrica del Proyecto 1.</aside>
+</section>
+
+<section class="esc" data-mundo="planta">
+  <div class="ancho alto" style="max-width:none;gap:18px">
+    <p class="sec">English immersion · 10 minutes · from Microsoft's documentation</p>
+    <p style="font-size:42px;line-height:1.2;font-weight:600">“Power Query records transformations as query steps and applies them when the query runs; <span class="acento">it doesn't modify the source data.</span>”</p>
+    <ol class="lista" style="margin-top:4px">
+      <li class="paso" style="font-size:32px">Why is that sentence good news for an analyst?</li>
+      <li class="paso" style="font-size:32px">Explain one of your cleaning decisions: “I removed ___ because ___.”</li>
+      <li class="paso" style="font-size:32px">Your partner asks: “What could go wrong with that decision?” Answer in English.</li>
+    </ol>
+    <p class="paso sec" style="font-size:25px">Words: <b>to clean</b>, <b>to filter out</b>, <b>to keep</b>, <b>to trim</b>, <b>outlier</b>, <b>to reconcile</b>.</p>
+  </div>
+  <aside class="notas">Cita textual de Microsoft Learn, What is Power Query? Cinco minutos en parejas y cinco en plenaria.</aside>
+</section>
+
+<section class="esc" data-mundo="planta">
+  <div class="ancho">
+    <p class="sec">Laboratorio · Power BI Desktop · entrega individual</p>
+    <h2>Lleva el archivo crudo hasta la tabla lista</h2>
+    <ol class="lista" style="margin-top:8px">
+      <li>Ejecuta las estaciones en Online Retail, con punto de control en cada una.</li>
+      <li>Concilia: 539.392 filas y £9.769.872,05.</li>
+      <li>Rompe algo a propósito y encuentra el error.</li>
+      <li>Limpia los datos de tu proyecto y escribe la bitácora.</li>
+    </ol>
+    <p style="margin-top:6px"><a class="boton" href="Guia_Laboratorio_Semana4.html" target="_blank" rel="noopener">Abrir la guía</a></p>
+  </div>
+  <aside class="notas">Pase por las mesas en el punto de conciliación. Quien no llegue a 539.392 suele haber escrito mal el filtro con “y” en lugar de “o”.</aside>
+</section>
+
+<section class="esc" data-mundo="planta">
+  <div class="ancho">
+    <p class="sec">Tutoría individual · 5 minutos por persona</p>
+    <h2>¿Tu proyecto se puede hacer con estos datos?</h2>
+    <ul class="lista" style="margin-top:8px">
+      <li><b>Fuente:</b> ¿existe, es accesible y tiene licencia o permiso?</li>
+      <li><b>Pregunta:</b> ¿las columnas permiten responderla?</li>
+      <li><b>Volumen y periodo:</b> ¿alcanzan para comparar?</li>
+      <li><b>Calidad:</b> ¿lo que falta impide la decisión?</li>
+    </ul>
+    <p class="paso frase" style="font-size:40px;margin-top:6px">Cambiar de datos hoy cuesta una tarde. En la sesión 8 cuesta el proyecto.</p>
+  </div>
+  <aside class="notas">Registre el acuerdo de cada estudiante. Sigue en las tutorías de martes y jueves, de 10:00 a 11:00.</aside>
+</section>
+
+<section class="esc" data-mundo="planta">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:54px">Glosario de hoy</h2>
+    <dl class="glos">
+      <div><dt>Transformación</dt><dd>Cambio aplicado a los datos antes de cargarlos.</dd></div>
+      <div><dt>ETL</dt><dd>Extraer, transformar y cargar.</dd></div>
+      <div><dt>Lenguaje M</dt><dd>Lenguaje en que Power Query escribe sus pasos.</dd></div>
+      <div><dt>Columna personalizada</dt><dd>Columna nueva calculada con una fórmula.</dd></div>
+      <div><dt>Conciliar</dt><dd>Comprobar que un total conocido se mantiene tras transformar.</dd></div>
+      <div><dt>Bitácora de transformaciones</dt><dd>Registro de qué se hizo, cuántas filas cambió, por qué y qué podría fallar.</dd></div>
+      <div><dt>Grano</dt><dd>Lo que representa una fila: aquí, una línea de factura.</dd></div>
+      <div><dt>Configuración regional</dt><dd>Reglas de idioma que definen decimales y fechas.</dd></div>
+    </dl>
+  </div>
+  <aside class="notas">Estos términos entran a la Evaluación 1 de la sesión 6.</aside>
+</section>
+
+<section class="esc" data-mundo="planta">
+  <div class="ancho">
+    <h2 style="font-size:60px">Tres cosas para llevarte</h2>
+    <ol class="lista" style="margin-top:6px">
+      <li class="paso" style="font-size:40px"><b>Cada limpieza es una decisión:</b> excluir, corregir, marcar o dejar.</li>
+      <li class="paso" style="font-size:40px"><b>Concilia siempre:</b> si no cuadra, no está limpio.</li>
+      <li class="paso" style="font-size:40px"><b>Escribe por qué,</b> y qué podría estar mal.</li>
+    </ol>
+    <p class="paso sec">Próxima sesión: de una tabla enorme a un modelo. Y por qué 15056bl importaba tanto.</p>
+  </div>
+  <aside class="notas">Cierre con una pregunta: ¿qué decisión de limpieza cambió más su resultado?</aside>
+</section>
+
+<section class="esc" data-mundo="planta">
+  <div class="ancho alto bib" style="max-width:none;gap:5px">
+    <h2 style="font-size:50px;margin-bottom:8px">Bibliografía y fuentes</h2>
+    <p>Chen, D. (2015). <em>Online Retail</em> [conjunto de datos]. UCI Machine Learning Repository. CC BY 4.0. <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">doi:10.24432/C5BW33</a></p>
+    <p>Microsoft Learn. <em>What is Power Query?</em> <a href="https://learn.microsoft.com/en-us/power-query/power-query-what-is-power-query" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Clean, transform, and load data in Power BI</em> [módulo de formación]. <a href="https://learn.microsoft.com/en-us/training/modules/clean-data-power-bi/" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Power Query M formula language</em>. <a href="https://learn.microsoft.com/en-us/powerquery-m/" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+  </div>
+  <aside class="notas">Cifras recalculadas con el archivo original: Material_Privado/Unidades_2_3/cifras_u23.json.</aside>
+</section>
+
+<div id="ayuda">Flechas para avanzar · F pantalla completa · N notas</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/curso.js"></script>
+<script>
+(function () {
+  var luz = CUR.luz, s = '', y = 640, k;
+  s += '<rect x="0" y="' + (y - 7) + '" width="1600" height="14" fill="var(--fondo-2)"/>';
+  for (k = 0; k < 42; k++) s += '<circle cx="' + (k * 40 + 18) + '" cy="' + (y + 22) + '" r="10" fill="none" stroke="var(--punto)" stroke-width="3"/>';
+  var E = [260, 620, 980, 1340];
+  E.forEach(function (x, i) {
+    s += '<path d="M' + (x - 90) + ' ' + (y - 16) + 'V' + (y - 190) + 'Q' + (x - 90) + ' ' + (y - 210) + ' ' + (x - 70) + ' ' + (y - 210) + 'H' + (x + 70) + 'Q' + (x + 90) + ' ' + (y - 210) + ' ' + (x + 90) + ' ' + (y - 190) + 'V' + (y - 16) + '" fill="none" stroke="var(--punto)" stroke-width="4"/>';
+    s += '<text class="t-f" x="' + x + '" y="' + (y - 140) + '" text-anchor="middle" style="font-size:25px">' + ['Excluir', 'Corregir', 'Marcar', 'Conciliar'][i] + '</text>';
+  });
+  s += luz('M0 ' + (y - 26) + 'L1600 ' + (y - 26), 0, 5, 'fuerte');
+  CUR.poner('cinta', s);
+
+  var P = [['Conectar el Excel y fijar tipos', '541.909', 541909], ['Excluir lo que no es venta ni cancelación', '539.392', 539392], ['Código en mayúsculas y descripción sin espacios', '539.392', 539392], ['Agregar Importe y Tipo', '539.392', 539392], ['Marcar clase: producto, envío o comisión', '539.392', 539392]];
+  CUR.poner('estaciones', P.map(function (p, i) { return '<div class="estacion" data-est="' + i + '" style="opacity:' + (i ? .22 : 1) + ';transition:opacity .4s ease"><i>' + (i + 1) + '</i><p>' + p[0] + '</p><span>' + p[1] + '</span></div>'; }).join(''));
+  var odo = document.getElementById('odo'), actual = 541909, raf;
+  function correr(a) {
+    cancelAnimationFrame(raf);
+    var d = actual, t0 = performance.now();
+    (function f(t) { var q = Math.min(1, (t - t0) / 700); var v = Math.round(d + (a - d) * (1 - Math.pow(1 - q, 3))); odo.textContent = CUR.miles(v); if (q < 1) raf = requestAnimationFrame(f); else actual = a; })(t0);
+  }
+  window.alPaso = function (esc, n) {
+    if (!esc.querySelector('#odo')) return;
+    var f = esc.querySelectorAll('.estacion');
+    f.forEach(function (x, i) { x.style.opacity = i <= n ? 1 : .22; });
+    correr(n >= 1 ? 539392 : 541909);
+  };
+  /* Cuadre */
+  var X = 330, W = 180, H = 400, T = 541909, top = 40;
+  var c = '<rect x="0" y="' + top + '" width="' + W + '" height="' + H + '" fill="var(--punto)"/><text class="t-g" x="' + (W + 18) + '" y="' + (top + 46) + '" style="font-size:34px">541.909</text><text class="t-eje" x="' + (W + 18) + '" y="' + (top + 78) + '">filas de origen</text>';
+  var P2 = [[530104, 'ventas', 'var(--compra)'], [9288, 'cancelaciones', '#fff'], [2517, 'excluidas', 'var(--tinta-2)']], yy = top;
+  var yt = [top + 60, top + 240, top + 330];
+  P2.forEach(function (p, i) {
+    var h = Math.max(2, p[0] / T * H), xx = 760;
+    c += '<rect x="' + xx + '" y="' + yy + '" width="' + W + '" height="' + h + '" fill="' + p[2] + '"/>';
+    c += '<path d="M' + (xx + W + 6) + ' ' + (yy + h / 2) + 'C' + (xx + W + 40) + ' ' + (yy + h / 2) + ' ' + (xx + W + 40) + ' ' + yt[i] + ' ' + (xx + W + 70) + ' ' + yt[i] + '" fill="none" stroke="var(--punto)" stroke-width="2"/>';
+    c += '<text class="t-f" x="' + (xx + W + 82) + '" y="' + (yt[i] + 9) + '" style="font-size:34px">' + CUR.miles(p[0]) + '</text><text class="t-eje" x="' + (xx + W + 82) + '" y="' + (yt[i] + 40) + '">' + p[1] + (i === 0 ? ': +£10.666.684,54' : i === 1 ? ': −£896.812,49' : ': fuera') + '</text>';
+    yy += h;
+  });
+  c += luz('M' + (W + 2) + ' ' + (top + H / 2) + 'C' + (W + 210) + ' ' + (top + H / 2) + ' 550 ' + (top + H / 2) + ' 756 ' + (top + H / 2), 0, 4, 'fuerte');
+  c += '<text class="t-nota" x="' + (W + 18) + '" y="' + (top + 360) + '" style="font-size:38px">Neto: £9.769.872,05</text>';
+  CUR.poner('cuadre', c);
+})();
+</script>
+<script src="../assets/puntos/diagramas.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

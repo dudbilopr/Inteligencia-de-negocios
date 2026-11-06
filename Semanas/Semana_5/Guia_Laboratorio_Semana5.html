@@ -1,117 +1,190 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 5 - KPIs y Dashboards (Diseño SMART)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B', dark: '#0f172a' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.08); }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller sesión 5: del plano al modelo | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+<style>@media (max-width: 900px) { .marco { grid-template-columns: minmax(0, 1fr); } } li code { overflow-wrap: anywhere; }</style>
 </head>
-<body class="text-gray-800 antialiased p-4 md:p-8">
-    
-    <div class="max-w-5xl mx-auto space-y-8">
-        
-        <!-- Header -->
-        <div class="bg-gradient-to-br from-primary to-[#002240] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
-            <!-- Deco -->
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            
-            <div class="relative z-10">
-                <div class="flex items-center gap-5 mb-6">
-                    <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-chart-pie text-3xl text-secondary"></i>
-                    </div>
-                    <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 5</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Construcción de un Panel Ejecutivo SMART</h1>
-                    </div>
-                </div>
-                <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> La junta directiva necesita un reporte. Han estado usando un Excel confuso durante años. Tu misión es diseñar un Dashboard ejecutivo impecable en Power BI, definiendo KPIs claros con formato condicional semántico (Rojo/Verde) y utilizando principios de UX/UI institucionales.</p>
-                </div>
-            </div>
-        </div>
+<body>
+<header class="portada">
+  <h1>Del plano al modelo</h1>
+  <p>Convierte una tabla plana de 539.392 filas en un modelo en estrella. Primero lo dibuja, después lo construye y comprueba que las cifras siguen cuadrando. Por último, revisa el modelo de un compañero.</p>
+  <div class="datos-clase"><span><b>Sesión</b>5</span><span><b>Modalidad</b>Individual, con revisión entre pares</span><span><b>Herramienta</b>Papel y Power BI Desktop</span><span><b>Resultado</b>1.3</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#datos">Antes de empezar</a></li>
+  <li><a href="#e1">1. Dibujar</a></li>
+  <li><a href="#e2">2. Dimensiones</a></li>
+  <li><a href="#e3">3. Fecha</a></li>
+  <li><a href="#e4">4. Relacionar</a></li>
+  <li><a href="#e5">5. Comprobar</a></li>
+  <li><a href="#e6">6. Su proyecto</a></li>
+  <li><a href="#e7">7. Revisión entre pares</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Metodologia Paso a Paso -->
-        <div class="glass-card rounded-2xl p-8 md:p-12">
-            <h2 class="text-2xl font-bold text-primary mb-10 flex items-center gap-3 border-b border-gray-200 pb-4">
-                <i class="fas fa-layer-group text-secondary"></i> Flujo de Implementación Técnica
-            </h2>
-            
-            <div class="mt-8">
-                
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    1
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Definición de Tarjetas KPI</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Insertar visualizaciones de tipo 'Tarjeta KPI'. Asignar la métrica base (Ventas_Totales), el eje de tendencia (Mes_Num) y el objetivo (Ventas_Target). Ajustar el color (Verde para valores buenos, Rojo para alertas).</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    2
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Diseño de Layout Institucional</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Insertar formas base (rectángulos) para segmentar el panel. Crear una barra superior oscura (Navy) para el título y logos, y tarjetas blancas con sombras ligeras para los KPIs. Usar alineación y distribución milimétrica.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    3
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Implementación de Tooltips Inteligentes</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">En los gráficos de barras, habilitar tooltips (información sobre herramientas) para que al pasar el mouse se despliegue no solo el monto, sino el margen y el YoY, aportando contexto sin contaminar visualmente el gráfico principal.</p>
-                </div>
-            </div>
-            </div>
-        </div>
+<section id="datos">
+  <h2>Antes de empezar</h2>
+  <p>Necesita la consulta limpia de la <a href="../Semana_4/Guia_Laboratorio_Semana4.html#m">sesión 4</a>, con 539.392 filas y £9.769.872,05 de neto. Datos: Chen, D. (2015). Online Retail. UCI, CC BY 4.0. Cámbiele el nombre a la consulta: <code>Hecho_Ventas</code>.</p>
+</section>
 
-        <!-- Reto de Práctica Autónoma -->
-        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl border-l-8 border-secondary relative overflow-hidden transform transition hover:scale-[1.01] duration-300">
-            <div class="absolute top-0 right-0 p-8 opacity-10">
-                <i class="fas fa-rocket text-8xl"></i>
-            </div>
-            <div class="relative z-10">
-                <div class="inline-block bg-secondary text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4 shadow-lg">
-                    Actividad Autónoma
-                </div>
-                <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                    <i class="fas fa-brain text-secondary"></i> Reto Arquitectónico Avanzado
-                </h2>
-                <div class="bg-white/10 rounded-xl p-6 border border-white/10">
-                    <p class="text-gray-300 text-lg leading-relaxed">
-                        Diseñar e implementar un formato condicional dinámico en DAX utilizando códigos HEX de colores institucionales (`#003865` y `#E85C0B`). Si el margen es inferior al objetivo dinámico del mes, cambiar el color del gráfico de barras automáticamente.
-                    </p>
-                </div>
-                
-                <div class="mt-8 bg-blue-900/40 border border-blue-500/30 rounded-lg p-5 flex gap-4">
-                    <i class="fas fa-circle-info text-blue-400 text-xl mt-1"></i>
-                    <p class="text-sm text-blue-200">
-                        <strong>Criterio de Evaluación Institucional:</strong> Este reto exige aplicar la documentación oficial, foros de la comunidad técnica y fundamentos teóricos de la clase magistral. Asegúrate de comentar y estructurar bien tu código DAX o M para sustentarlo en la revisión.
-                    </p>
-                </div>
-            </div>
-        </div>
+<section id="e1">
+  <h2><span class="num">1.</span> Dibujar antes de construir</h2>
+  <p class="meta">15 minutos. Con papel y lápiz, sin Power BI.</p>
+  <ol class="pasos">
+    <li>Escriba en una frase qué representa una fila de <code>Hecho_Ventas</code>.</li>
+    <li>Mire las columnas y decida qué entidades hay.</li>
+    <li>Para cada entidad, escriba su clave y sus atributos.</li>
+    <li>Dibuje las relaciones. Marque con 1 el lado que no se repite y con * el que sí.</li>
+    <li>Pregúntese: ¿el país es un atributo del cliente? Compruébelo con el cliente 12370.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p><b>Grano:</b> una fila es una línea de factura, un producto dentro de una compra o cancelación.</p>
+    <p><b>Entidades:</b> Producto (<code>StockCode</code>), Cliente (<code>CustomerID</code>), Fecha y País (<code>Country</code>). <code>InvoiceNo</code> puede quedarse en el hecho.</p>
+    <p>El cliente 12370 aparece en Chipre, 159 filas, y Austria, 8. Hay 8 clientes así. Además, las filas sin cliente sí tienen país. Por eso País va como dimensión propia.</p>
+  </div></details>
+</section>
 
-    </div>
+<section id="e2">
+  <h2><span class="num">2.</span> Crear las dimensiones</h2>
+  <p class="meta">30 minutos. En Power Query, clic derecho sobre <code>Hecho_Ventas</code> &gt; <em>Referencia</em>; así la dimensión se actualiza si cambia el hecho.</p>
+  <h3>Dim_País</h3>
+  <ol class="pasos">
+    <li>Cree una referencia y llámela <code>Dim_Pais</code>. Clic derecho en <code>Country</code> &gt; <em>Quitar otras columnas</em>.</li>
+    <li><span class="ruta">Inicio &gt; Quitar filas &gt; Quitar duplicados</span>. Cuente filas.</li>
+  </ol>
+  <h3>Dim_Producto</h3>
+  <p>Un código puede tener varios nombres. Se agrupa por código y se toma el nombre más frecuente. Cree una referencia, llámela <code>Dim_Producto</code>, abra el <span class="ruta">Editor avanzado</span> y escriba:</p>
+  <pre><code>let
+    Origen = Hecho_Ventas,
+    Agrupado = Table.Group(Origen, {"StockCode"}, {
+        {"Producto", each List.Mode(List.RemoveNulls([Description])), type text},
+        {"Clase", each List.First([Clase]), type text}})
+in
+    Agrupado</code></pre>
+  <h3>Dim_Cliente</h3>
+  <pre><code>let
+    Origen = Hecho_Ventas,
+    ConCliente = Table.SelectRows(Origen, each [CustomerID] &lt;&gt; null),
+    Agrupado = Table.Group(ConCliente, {"CustomerID"}, {
+        {"Pais principal", each List.Mode([Country]), type text},
+        {"Primera compra", each List.Min([Fecha]), type date}})
+in
+    Agrupado</code></pre>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th>Tabla</th><th class="d">Filas</th><th>Clave</th></tr>
+      <tr><td><code>Dim_Pais</code></td><td class="d">38</td><td><code>Country</code></td></tr>
+      <tr><td><code>Dim_Producto</code></td><td class="d">3.828</td><td><code>StockCode</code></td></tr>
+      <tr><td><code>Dim_Cliente</code></td><td class="d">4.371</td><td><code>CustomerID</code></td></tr>
+    </table></div>
+    <p>Si <code>Dim_Producto</code> le da 3.938, le faltó pasar los códigos a mayúsculas en la sesión 4. Si hay un nombre <code>null</code>, revise que no se hayan colado filas sin descripción.</p>
+  </div></details>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Crear la tabla de fechas</h2>
+  <p class="meta">10 minutos.</p>
+  <ol class="pasos">
+    <li>Pulse <span class="ruta">Inicio &gt; Cerrar y aplicar</span>.</li>
+    <li>Vaya a <span class="ruta">Modelado &gt; Nueva tabla</span> y escriba:</li>
+  </ol>
+  <pre><code>Dim_Fecha =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2010, 12, 1 ), DATE ( 2011, 12, 31 ) ),
+    "Año", YEAR ( [Date] ),
+    "Mes num", MONTH ( [Date] ),
+    "Mes", FORMAT ( [Date], "yyyy-MM" ),
+    "Dia semana", WEEKDAY ( [Date], 2 )
+)</code></pre>
+  <ol class="pasos">
+    <li>Seleccione la tabla y márquela con <span class="ruta">Herramientas de tablas &gt; Marcar como tabla de fechas</span>, usando <code>Date</code>.</li>
+    <li>¿Por qué no sacarla del hecho con Quitar duplicados, como las otras?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p><code>Dim_Fecha</code> tiene <b>396 filas</b>: 31 de diciembre de 2010 más 365 de 2011. El hecho solo tiene ventas en 305 fechas. Una tabla de fechas no debe tener huecos, o los días sin venta desaparecen de las gráficas.</p>
+  </div></details>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Relacionar</h2>
+  <p class="meta">10 minutos. En la vista de modelo.</p>
+  <ol class="pasos">
+    <li>Elimine cualquier relación automática equivocada.</li>
+    <li>Arrastre para crear cuatro relaciones hacia <code>Hecho_Ventas</code>: <code>StockCode</code>, <code>CustomerID</code>, <code>Fecha</code> con <code>Dim_Fecha[Date]</code>, y <code>Country</code>.</li>
+    <li>En cada una, compruebe <em>Varios a uno</em> y dirección <em>Única</em>.</li>
+    <li>Oculte en la vista de informe las columnas del hecho que ya están en las dimensiones.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Las cuatro flechas apuntan hacia <code>Hecho_Ventas</code>. Si Power BI se niega porque ambas columnas tienen duplicados, revise la clave de la dimensión. Si el problema está en <code>StockCode</code>, seguramente hay códigos que solo cambian en mayúsculas o minúsculas: el motor del modelo no las distingue.</p>
+  </div></details>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Comprobar</h2>
+  <p class="meta">15 minutos.</p>
+  <ol class="pasos">
+    <li>Cree una medida en <code>Hecho_Ventas</code>: <code>Venta Neta = SUM ( Hecho_Ventas[Importe] )</code>.</li>
+    <li>Cree tres tablas: por <code>Dim_Pais[Country]</code>, por <code>Dim_Fecha[Mes]</code> y por <code>Dim_Cliente[CustomerID]</code>.</li>
+    <li>Compare con el control.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th>Corte</th><th class="d">Venta neta</th></tr>
+      <tr><td>Total</td><td class="d">£9.769.872,05</td></tr>
+      <tr><td>United Kingdom</td><td class="d">£8.209.930,48</td></tr>
+      <tr><td>Netherlands</td><td class="d">£284.661,54</td></tr>
+      <tr><td>Noviembre, 2011-11</td><td class="d">£1.461.756,25</td></tr>
+      <tr><td>Cliente 14646</td><td class="d">£279.489,02</td></tr>
+      <tr><td>Cliente en blanco</td><td class="d">£1.469.806,24</td></tr>
+    </table></div>
+    <p>La fila en blanco son las 132.603 líneas sin cliente. Si la oculta con un filtro, el total deja de cuadrar: mejor rotúlela y explíquela.</p>
+  </div></details>
+</section>
+
+<section id="e6" class="reto">
+  <h2><span class="num">6.</span> Su proyecto</h2>
+  <p class="meta">Es lo que se entrega.</p>
+  <ol class="pasos">
+    <li>Dibuje el diagrama entidad-relación de su proyecto. Una foto del papel es válida.</li>
+    <li>Escriba el grano de su tabla de hechos en una frase.</li>
+    <li>Construya el modelo en estrella. Si su caso no encaja en una estrella, explique por qué.</li>
+    <li>Incluya una tabla de fechas si analiza tiempo.</li>
+    <li>Defina una medida y un total de control, y demuestre que cuadra.</li>
+    <li>Compruebe que el modelo responde su pregunta analítica. Si no, ¿qué falta?</li>
+  </ol>
+</section>
+
+<section id="e7">
+  <h2><span class="num">7.</span> Revisión entre pares</h2>
+  <p class="meta">30 minutos, 15 por modelo. La retroalimentación es entre pares; el proyecto sigue siendo individual.</p>
+  <div class="tablon"><table>
+    <tr><th>Criterio</th><th>Pregunta</th><th>Sí o no, y por qué</th></tr>
+    <tr><td>Grano</td><td>¿Puede decir en una frase qué es una fila?</td><td></td></tr>
+    <tr><td>Claves</td><td>¿La clave no se repite en el lado 1, ni por mayúsculas?</td><td></td></tr>
+    <tr><td>Relaciones</td><td>¿Son varios a uno y en una dirección, salvo razón explícita?</td><td></td></tr>
+    <tr><td>Decisión</td><td>¿Este modelo responde su pregunta analítica?</td><td></td></tr>
+    <tr><td>Control</td><td>¿El total coincide con el de antes de modelar?</td><td></td></tr>
+  </table></div>
+  <p>Escriba una cosa que funciona y una que cambiaría. Quien recibe anota qué decide hacer con ese comentario.</p>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <ul>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/guidance/star-schema" target="_blank" rel="noopener">Understand star schema and the importance for Power BI</a>.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-create-and-manage-relationships" target="_blank" rel="noopener">Create and manage relationships in Power BI Desktop</a>.</li>
+    <li>Kimball, R. y Ross, M. (2013). <em>The Data Warehouse Toolkit</em> (3.ª ed.). Wiley.</li>
+    <li>Codd, E. F. (1970). <a href="https://doi.org/10.1145/362384.362685" target="_blank" rel="noopener">A relational model of data for large shared data banks</a>.</li>
+  </ul>
+</section>
+
+</main>
+</div>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

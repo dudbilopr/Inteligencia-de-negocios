@@ -1,0 +1,93 @@
+/* Transiciones cinematográficas: la cámara viaja entre escenas. Reemplaza a transicion.css.
+   Uso: <link> después de puntos.css, <script src="cine.js"> antes de puntos.js, y <body data-cine="dolly">.
+   Movimientos: dolly (atraviesa), paneo (lateral), grua (vertical), orbita (gira), pagina (pasa la hoja), abrir (el telón se abre desde el centro). Cada escena puede cambiarlo con data-cine. */
+@property --fondo { syntax: '<color>'; inherits: true; initial-value: #00213d; }
+@property --fondo-2 { syntax: '<color>'; inherits: true; initial-value: #002c50; }
+@property --tinta { syntax: '<color>'; inherits: true; initial-value: #ffffff; }
+@property --tinta-2 { syntax: '<color>'; inherits: true; initial-value: #b7cbdc; }
+@property --regla { syntax: '<color>'; inherits: true; initial-value: rgba(255, 255, 255, .22); }
+@property --punto { syntax: '<color>'; inherits: true; initial-value: #7f9db6; }
+@property --compra { syntax: '<color>'; inherits: true; initial-value: #ff6d1f; }
+@property --acento-texto { syntax: '<color>'; inherits: true; initial-value: #ff9a63; }
+:root {
+  --cine: cubic-bezier(.62, .02, .18, 1); --dur: 1.15s;
+  transition: --fondo var(--dur) var(--cine), --fondo-2 var(--dur) var(--cine), --tinta var(--dur) var(--cine), --tinta-2 var(--dur) var(--cine),
+    --regla var(--dur) var(--cine), --punto var(--dur) var(--cine), --compra var(--dur) var(--cine), --acento-texto var(--dur) var(--cine);
+}
+#escenario { perspective: 1500px; perspective-origin: 50% 46%; }
+.esc { backface-visibility: hidden; transform-style: preserve-3d; will-change: transform, opacity;
+  transition: transform var(--dur) var(--cine), opacity calc(var(--dur) * .62) ease, visibility 0s linear var(--dur); }
+.esc.activa { transform: none; transition: transform var(--dur) var(--cine), opacity calc(var(--dur) * .7) ease calc(var(--dur) * .22), visibility 0s; }
+/* El contenido llega después de que la cámara se detiene */
+.esc.activa > *, .esc.activa .col > * { animation-duration: .8s; animation-delay: calc(var(--dur) * .55); }
+.esc.activa > *:nth-child(2), .esc.activa .col > *:nth-child(2) { animation-delay: calc(var(--dur) * .63); }
+.esc.activa > *:nth-child(3), .esc.activa .col > *:nth-child(3) { animation-delay: calc(var(--dur) * .7); }
+.esc.activa > *:nth-child(n+4), .esc.activa .col > *:nth-child(n+4) { animation-delay: calc(var(--dur) * .76); }
+
+/* antes: la escena ya pasó. despues: la escena viene. */
+.esc[data-c="dolly"][data-pos="antes"] { transform: translateZ(760px); }
+.esc[data-c="dolly"][data-pos="despues"] { transform: translateZ(-1500px); }
+.esc[data-c="paneo"][data-pos="antes"] { transform: translateX(-108%); }
+.esc[data-c="paneo"][data-pos="despues"] { transform: translateX(108%); }
+.esc[data-c="grua"][data-pos="antes"] { transform: translateY(-104%); }
+.esc[data-c="grua"][data-pos="despues"] { transform: translateY(104%); }
+.esc[data-c="orbita"] { transform-origin: 50% 50% -700px; }
+.esc[data-c="orbita"][data-pos="antes"] { transform: rotateY(62deg); }
+.esc[data-c="orbita"][data-pos="despues"] { transform: rotateY(-62deg); }
+.esc[data-c="pagina"] { transform-origin: 0 50%; }
+.esc[data-c="pagina"][data-pos="antes"] { transform: rotateY(-88deg); }
+.esc[data-c="pagina"][data-pos="despues"] { transform: translateZ(-260px); }
+.esc[data-c="abrir"][data-pos="antes"] { transform: scale(1.5); clip-path: inset(0 50% 0 50%); }
+.esc[data-c="abrir"][data-pos="despues"] { clip-path: inset(0 50% 0 50%); }
+.esc[data-c="abrir"] { transition: transform var(--dur) var(--cine), clip-path var(--dur) var(--cine), opacity calc(var(--dur) * .4) ease, visibility 0s linear var(--dur); clip-path: inset(0 0 0 0); }
+.esc[data-c="abrir"].activa { transition: transform var(--dur) var(--cine), clip-path var(--dur) var(--cine), opacity .2s ease, visibility 0s; }
+
+/* Capas de fondo que se mueven a distinta velocidad según la escena */
+.plx { position: absolute; pointer-events: none; z-index: 0; transition: transform calc(var(--dur) * 1.25) var(--cine); will-change: transform; }
+
+/* Iconos de línea que se dibujan al entrar */
+.ico { display: inline-block; width: 1em; height: 1em; vertical-align: -.14em; color: var(--acento-texto); }
+.ico svg { display: block; width: 100%; height: 100%; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ico svg > * { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.esc.activa .ico svg > * { animation: trazo 1s var(--cine) forwards; animation-delay: calc(var(--dur) * .7); }
+.esc.activa .paso .ico svg > * { animation: none; }
+.esc.activa .paso.visto .ico svg > * { animation: trazo .8s var(--cine) forwards; }
+@keyframes trazo { to { stroke-dashoffset: 0; } }
+
+/* Ilustración vectorizada con movimiento lento de cámara */
+.lamina { position: absolute; overflow: hidden; }
+.lamina img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.esc.activa .lamina img { animation: lento 16s linear forwards; }
+@keyframes lento { from { transform: scale(1.08); } to { transform: scale(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  :root, .esc, .esc.activa, .plx { transition: none !important; }
+  .esc { transform: none !important; clip-path: none !important; }
+  .ico svg > * { stroke-dashoffset: 0 !important; animation: none !important; }
+  .esc.activa .lamina img { animation: none; }
+}
+
+/* Escáner: un haz cruza la pantalla y revela la escena siguiente a su paso */
+.esc[data-c="escaner"] { opacity: 1; clip-path: inset(0 0 0 0); transition: clip-path var(--dur) var(--cine), visibility 0s linear var(--dur); }
+.esc[data-c="escaner"].activa { transition: clip-path var(--dur) var(--cine), visibility 0s; }
+.esc[data-c="escaner"][data-pos="antes"] { clip-path: inset(0 0 0 100%); }
+.esc[data-c="escaner"][data-pos="despues"] { clip-path: inset(0 100% 0 0); }
+#haz { position: absolute; top: 0; bottom: 0; left: 0; width: 5px; z-index: 6; pointer-events: none; opacity: 0; background: #fff; box-shadow: 0 0 22px 8px var(--acento-texto), 0 0 90px 30px color-mix(in srgb, var(--acento-texto) 45%, transparent); }
+#haz.adelante { animation: haz-ad var(--dur) var(--cine); }
+#haz.atras { animation: haz-at var(--dur) var(--cine); }
+@keyframes haz-ad { 0% { left: 0; opacity: 1; } 96% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+@keyframes haz-at { 0% { left: 100%; opacity: 1; } 96% { opacity: 1; } 100% { left: 0; opacity: 0; } }
+
+/* Iconos dentro de un SVG */
+.icov { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+.icov > * { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.esc.activa .icov > * { animation: trazo 1.1s var(--cine) forwards; animation-delay: calc(var(--dur) * .7); }
+.esc.activa .paso .icov > * { animation: none; }
+.esc.activa .paso.visto .icov > * { animation: trazo .8s var(--cine) forwards; }
+@media (prefers-reduced-motion: reduce) { .icov > * { stroke-dashoffset: 0 !important; animation: none !important; } #haz { display: none; } .esc[data-c="escaner"] { clip-path: none !important; } }
+
+/* Diafragma: la escena nueva se abre desde el centro, en forma de octágono */
+.esc[data-c="iris"] { opacity: 1; clip-path: polygon(30% -40%, 70% -40%, 140% 20%, 140% 80%, 70% 140%, 30% 140%, -40% 80%, -40% 20%); transition: clip-path var(--dur) var(--cine), visibility 0s linear var(--dur); }
+.esc[data-c="iris"].activa { transition: clip-path var(--dur) var(--cine), visibility 0s; }
+.esc[data-c="iris"][data-pos="despues"] { clip-path: polygon(49% 49%, 51% 49%, 52% 50%, 52% 50%, 51% 51%, 49% 51%, 48% 50%, 48% 50%); }
+@media (prefers-reduced-motion: reduce) { .esc[data-c="iris"] { clip-path: none !important; } }

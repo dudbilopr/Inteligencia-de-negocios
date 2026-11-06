@@ -1,0 +1,30 @@
+/* Transición suave entre escenas y mundos: los colores se funden en lugar de saltar.
+   Se activa enlazando este archivo después de puntos.css y quitando <div id="cortina"> de la presentación. */
+@property --fondo { syntax: '<color>'; inherits: true; initial-value: #00213d; }
+@property --fondo-2 { syntax: '<color>'; inherits: true; initial-value: #002c50; }
+@property --tinta { syntax: '<color>'; inherits: true; initial-value: #ffffff; }
+@property --tinta-2 { syntax: '<color>'; inherits: true; initial-value: #b7cbdc; }
+@property --regla { syntax: '<color>'; inherits: true; initial-value: rgba(255, 255, 255, .22); }
+@property --punto { syntax: '<color>'; inherits: true; initial-value: #7f9db6; }
+@property --compra { syntax: '<color>'; inherits: true; initial-value: #ff6d1f; }
+@property --acento-texto { syntax: '<color>'; inherits: true; initial-value: #ff9a63; }
+
+:root {
+  --dur-mundo: .85s;
+  transition: --fondo var(--dur-mundo) cubic-bezier(.45, 0, .25, 1), --fondo-2 var(--dur-mundo) cubic-bezier(.45, 0, .25, 1),
+    --tinta var(--dur-mundo) cubic-bezier(.45, 0, .25, 1), --tinta-2 var(--dur-mundo) cubic-bezier(.45, 0, .25, 1),
+    --regla var(--dur-mundo) cubic-bezier(.45, 0, .25, 1), --punto var(--dur-mundo) cubic-bezier(.45, 0, .25, 1),
+    --compra var(--dur-mundo) cubic-bezier(.45, 0, .25, 1), --acento-texto var(--dur-mundo) cubic-bezier(.45, 0, .25, 1);
+}
+
+/* La escena que sale se desvanece antes de que entre la siguiente */
+.esc { transition: opacity .3s ease, visibility 0s linear .3s; }
+.esc.activa { transition: opacity .55s ease .24s, visibility 0s; }
+.esc.activa > *, .esc.activa .col > * { animation-duration: .7s; animation-delay: .24s; }
+.esc.activa > *:nth-child(2), .esc.activa .col > *:nth-child(2) { animation-delay: .3s; }
+.esc.activa > *:nth-child(3), .esc.activa .col > *:nth-child(3) { animation-delay: .36s; }
+.esc.activa > *:nth-child(n+4), .esc.activa .col > *:nth-child(n+4) { animation-delay: .42s; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root, .esc, .esc.activa { transition: none; }
+}

@@ -1,255 +1,170 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taller 3: Pipeline de Limpieza ETL</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: { 
-                    colors: { primary: '#0F172A', secondary: '#F97316', accent: '#0284C7', success: '#10B981' }, 
-                    fontFamily: { sans: ['Inter', 'sans-serif'] } 
-                }
-            }
-        }
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
-    </script>
-    <style>
-        body { background-color: #F8FAFC; }
-        .code-box { background: #1E293B; color: #E2E8F0; padding: 15px; border-radius: 8px; font-family: monospace; overflow-x: auto; position: relative; }
-        .copy-btn { position: absolute; top: 10px; right: 10px; background: #334155; border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em; transition: background 0.2s; }
-        .copy-btn:hover { background: #475569; }
-        .checklist-item input:checked + span { text-decoration: line-through; color: #94A3B8; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller sesión 3: conectar y diagnosticar | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+<style>@media (max-width: 900px) { .marco { grid-template-columns: minmax(0, 1fr); } } li code { overflow-wrap: anywhere; }</style>
 </head>
-<body class="text-gray-800 antialiased p-4 md:p-8">
+<body>
+<header class="portada">
+  <h1>Conectar y diagnosticar</h1>
+  <p>Hoy no se limpia nada. Conecta tres fuentes reales a Power BI y averigua qué tiene cada archivo, con evidencia. Luego hace lo mismo con los datos de su proyecto.</p>
+  <div class="datos-clase"><span><b>Sesión</b>3</span><span><b>Modalidad</b>Individual, con los datos de cada estudiante</span><span><b>Herramienta</b>Power BI Desktop</span><span><b>Resultado</b>1.2</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#datos">Los datos</a></li>
+  <li><a href="#e1">1. Conectar el Excel</a></li>
+  <li><a href="#e2">2. Perfilar todo</a></li>
+  <li><a href="#e3">3. Buscar lo que no se ve</a></li>
+  <li><a href="#e4">4. CSV y API</a></li>
+  <li><a href="#e5">5. Su diagnóstico</a></li>
+  <li><a href="#bd">Conectar una base de datos</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-    <div class="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
-        
-        <!-- ENCABEZADO Y FICHA -->
-        <header class="bg-primary text-white p-8 md:p-12 relative">
-            <div class="absolute top-0 right-0 p-8 opacity-10"><i class="fas fa-database text-9xl"></i></div>
-            <h1 class="text-3xl md:text-5xl font-extrabold mb-4 z-10 relative">Taller 3: Pipeline de Limpieza ETL</h1>
-            <h2 class="text-xl md:text-2xl text-accent font-semibold mb-8 z-10 relative">Power Query y Construcción de Modelo Dimensional</h2>
-            
-            <div class="grid md:grid-cols-2 gap-6 relative z-10">
-                <!-- Contexto -->
-                <div class="bg-white/10 p-6 rounded-xl border border-white/20 backdrop-blur-sm">
-                    <h3 class="text-secondary font-bold text-lg mb-2"><i class="fas fa-briefcase mr-2"></i>Contexto de Negocio</h3>
-                    <p class="text-sm text-gray-300">Asumes el rol de Data Engineer en un comercio Retail. Tu objetivo es procesar las transacciones crudas para alimentar un modelo analítico ejecutivo robusto.</p>
-                </div>
-                
-                <!-- Ficha -->
-                <div class="bg-white/10 p-6 rounded-xl border border-white/20 backdrop-blur-sm">
-                    <h3 class="text-secondary font-bold text-lg mb-2"><i class="fas fa-file-csv mr-2"></i>Ficha Técnica del Dataset</h3>
-                    <ul class="text-sm text-gray-300 space-y-1">
-                        <li><strong>Archivo:</strong> <code>Ventas_Retail_Sucio.csv</code></li>
-                        <li><strong>Volumen:</strong> 5,500 filas | 8 columnas</li>
-                        <li><strong>Formato:</strong> Delimitador de punto y coma (<code>;</code>)</li>
-                        <li><a href="Datos/Ventas_Retail_Sucio.csv" download class="inline-block mt-3 bg-secondary hover:bg-orange-600 text-white font-bold py-2 px-4 rounded transition-colors text-xs"><i class="fas fa-download mr-2"></i>Descargar Dataset</a></li>
-                    </ul>
-                </div>
-            </div>
+<section id="datos">
+  <h2>Los datos</h2>
+  <div class="descargas"><a class="boton" href="Datos/Online_Retail.xlsx" download>Online Retail original (24 MB)</a><a class="boton sec" href="../Semana_2/Datos/Resenas_Amazon.csv" download>Reseñas (CSV)</a></div>
+  <p class="meta">Chen, D. (2015). Online Retail. UCI Machine Learning Repository. CC BY 4.0. Es el archivo publicado, sin cambios. En las sesiones 1 y 2 trabajó con una versión resumida; esta es la real.</p>
+  <div class="tablon"><table>
+    <tr><th>Columna</th><th>Qué es</th><th>Unidad</th></tr>
+    <tr><td><code>InvoiceNo</code></td><td>Factura. Si empieza por C, es una cancelación</td><td>Texto</td></tr>
+    <tr><td><code>StockCode</code></td><td>Código de producto</td><td>Texto</td></tr>
+    <tr><td><code>Description</code></td><td>Nombre del producto</td><td>Texto</td></tr>
+    <tr><td><code>Quantity</code></td><td>Unidades de la línea</td><td>Unidades</td></tr>
+    <tr><td><code>InvoiceDate</code></td><td>Fecha y hora</td><td>Fecha y hora</td></tr>
+    <tr><td><code>UnitPrice</code></td><td>Precio por unidad</td><td>Libras esterlinas</td></tr>
+    <tr><td><code>CustomerID</code></td><td>Cliente</td><td>Número de 5 cifras</td></tr>
+    <tr><td><code>Country</code></td><td>País del cliente</td><td>Texto</td></tr>
+  </table></div>
+  <div class="aviso">Los menús pueden cambiar según la versión y el idioma de Power BI. Si no encuentra una opción, búsquela por su nombre en inglés, que aparece en la documentación enlazada.</div>
+</section>
 
-            <!-- Nota Histórica -->
-            <div class="mt-8 bg-blue-900/50 p-4 rounded-lg border-l-4 border-blue-400 text-sm text-blue-100 relative z-10">
-                <p><strong><i class="fas fa-history text-blue-300 mr-2"></i>Nota Histórica:</strong> Power Query (Lenguaje M) revolucionó la analítica al reemplazar las complejas e inestables macros de VBA en Excel por un motor ETL declarativo, inmutable y 100% auditable.</p>
-            </div>
-        </header>
+<section id="e1">
+  <h2><span class="num">1.</span> Conectar el Excel</h2>
+  <p class="meta">10 minutos.</p>
+  <ol class="pasos">
+    <li>En Power BI Desktop, vaya a <span class="ruta">Inicio &gt; Obtener datos &gt; Libro de Excel</span> y elija <code>Online_Retail.xlsx</code>.</li>
+    <li>Marque la hoja <code>Online Retail</code>. Elija <b>Transformar datos</b>, no <em>Cargar</em>: así se abre Power Query.</li>
+    <li>Mire el panel <em>Pasos aplicados</em>. ¿Qué pasos creó Power BI sin que usted se lo pidiera?</li>
+    <li>Abajo a la izquierda, lea cuántas columnas y filas dice que tiene.</li>
+    <li>Revise el icono de tipo en cada columna. ¿<code>InvoiceNo</code> quedó como texto o como número? Si quedó como número, las facturas con C darán error: cámbiela a texto y elija <em>Reemplazar actual</em>.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>8 columnas. El contador suele decir “999+ filas” mientras no se cargue todo; el total real es <b>541.909</b>, y lo comprobará en el ejercicio 2. Los pasos automáticos suelen ser Origen, Navegación, Encabezados promovidos y Tipo cambiado.</p>
+  </div></details>
+</section>
 
-        <div class="p-8 md:p-12 space-y-12">
-            
-            <!-- FASE 0 -->
-            <section>
-                <div class="flex items-center gap-4 mb-6 border-b pb-4">
-                    <span class="bg-gray-200 text-gray-700 w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">0</span>
-                    <h2 class="text-2xl font-bold text-primary">Configuración e Ingestión de Datos</h2>
-                </div>
-                
-                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
-                    <ol class="list-decimal pl-5 space-y-4 text-gray-700">
-                        <li>Abre Power BI Desktop y haz clic en <strong>Transformar Datos</strong> para lanzar Power Query.</li>
-                        <li>Ve a <strong>Nuevo Origen > Texto/CSV</strong> y selecciona el archivo descargado.</li>
-                        <li>En la ventana de previsualización, asegúrate de seleccionar:
-                            <ul class="list-disc pl-5 mt-2 text-sm text-gray-600">
-                                <li>Origen de archivo: <strong>UTF-8</strong></li>
-                                <li>Delimitador: <strong>Punto y coma (;)</strong></li>
-                                <li>Detección de tipo de datos: <strong>Basado en todo el conjunto de datos</strong> <span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-bold ml-2">¡CRÍTICO!</span></li>
-                            </ul>
-                        </li>
-                        <li>Activa las herramientas de auditoría visual en la pestaña <strong>Vista</strong>: <em>Calidad de columnas</em>, <em>Distribución de columnas</em> y <em>Perfil de columna</em>.</li>
-                    </ol>
-                    <a href="https://learn.microsoft.com/power-query/data-profiling-tools" target="_blank" class="inline-block mt-4 text-accent hover:underline text-sm"><i class="fas fa-external-link-alt mr-1"></i> Documentación Oficial: Data Profiling</a>
-                </div>
-            </section>
+<section id="e2">
+  <h2><span class="num">2.</span> Perfilar todo el archivo</h2>
+  <p class="meta">15 minutos.</p>
+  <ol class="pasos">
+    <li>Vaya a <span class="ruta">Vista</span> y active <em>Calidad de columna</em>, <em>Distribución de columnas</em> y <em>Perfil de columnas</em>.</li>
+    <li>Lea el porcentaje de vacíos de <code>CustomerID</code>. Anótelo.</li>
+    <li>Abajo a la izquierda, haga clic en <em>Generación de perfiles de columnas basada en 1000 filas superiores</em> y cambie a <em>todo el conjunto de datos</em>. Espere.</li>
+    <li>Lea otra vez el mismo porcentaje. ¿Cuánto cambió?</li>
+    <li>Seleccione <code>Country</code> y lea en el perfil cuántos valores distintos hay. Haga lo mismo con <code>InvoiceDate</code>: mínimo y máximo.</li>
+    <li>Seleccione <code>Quantity</code> y <code>UnitPrice</code>. Lea el mínimo y el máximo. ¿Algo es imposible?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th>Medida</th><th class="d">Primeras 1.000</th><th class="d">Todo el archivo</th></tr>
+      <tr><td>Vacíos en <code>CustomerID</code></td><td class="d">1 (0,1&nbsp;%)</td><td class="d">135.080 (24,93&nbsp;%)</td></tr>
+      <tr><td>Países</td><td class="d">4</td><td class="d">38</td></tr>
+      <tr><td>Periodo</td><td class="d">Una mañana</td><td class="d">1-dic-2010 a 9-dic-2011</td></tr>
+    </table></div>
+    <p>Power Query redondea los porcentajes en pantalla. <code>Quantity</code> va de −80.995 a 80.995; <code>UnitPrice</code>, de −11.062,06 a 38.970. Un precio negativo es imposible en una venta normal.</p>
+  </div></details>
+</section>
 
-            <!-- FASE 1 -->
-            <section>
-                <div class="flex items-center gap-4 mb-6 border-b pb-4">
-                    <span class="bg-accent text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">1</span>
-                    <h2 class="text-2xl font-bold text-primary">Pipeline Paso a Paso (Transformación)</h2>
-                </div>
+<section id="e3">
+  <h2><span class="num">3.</span> Buscar lo que no se ve</h2>
+  <p class="meta">20 minutos. Filtre, mire y deshaga con la X del paso; todavía no limpia nada.</p>
+  <ol class="pasos">
+    <li><b>Cancelaciones.</b> Filtre <code>InvoiceNo</code> con <em>Filtros de texto &gt; Comienza por</em> y la letra C. Lea el conteo en el perfil.</li>
+    <li><b>Precios raros.</b> Filtre <code>UnitPrice</code> a menor o igual que 0. ¿Qué dice <code>Description</code> en esas filas?</li>
+    <li><b>Mayúsculas.</b> Busque en <code>StockCode</code> el código <code>15056BL</code> y luego <code>15056bl</code>. ¿Son el mismo producto?</li>
+    <li><b>Países.</b> En el perfil de <code>Country</code>, ubique EIRE, RSA, Unspecified y European Community. ¿Qué significa cada uno?</li>
+    <li><b>Semana.</b> Agregue una columna con <span class="ruta">Agregar columna &gt; Fecha &gt; Día &gt; Nombre del día</span> sobre <code>InvoiceDate</code> y mire su distribución. ¿Falta algún día?</li>
+    <li>Elimine los pasos de prueba del panel para dejar la consulta como estaba.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <ul>
+      <li>Cancelaciones: <b>9.288</b> filas.</li>
+      <li>Precio cero: 2.515 filas, con notas como <code>check</code>, <code>damaged</code>, <code>?</code> o <code>found</code>. Precio negativo: 2 filas de ajuste contable.</li>
+      <li><code>15056BL</code> aparece en minúsculas y mayúsculas: es el mismo código escrito de dos formas. Hay 4.070 códigos distintos, y 3.958 sin distinguir mayúsculas.</li>
+      <li>EIRE es Irlanda; RSA, Sudáfrica. Unspecified no se puede asignar.</li>
+      <li>No hay ninguna fila en sábado. Los datos no dicen por qué; no es un error de archivo.</li>
+    </ul>
+  </div></details>
+</section>
 
-                <div class="space-y-8">
-                    <!-- Paso 1.1 -->
-                    <div class="bg-white border rounded-xl shadow-sm overflow-hidden">
-                        <div class="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
-                            <h3 class="font-bold text-lg text-primary"><i class="fas fa-font text-accent mr-2"></i>Paso 1: Normalización de Textos</h3>
-                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded font-bold">Dificultad: Básica</span>
-                        </div>
-                        <div class="p-6">
-                            <p class="text-gray-700 mb-4"><strong>Objetivo:</strong> Limpiar `Ciudad_Origen` y `Cliente_Nombre` eliminando espacios fantasma (Trim) y aplicando mayúscula inicial (Proper).</p>
-                            <p class="text-gray-700 mb-4 text-sm">Adicionalmente, realiza los siguientes reemplazos de valores (Reemplazar los valores erróneos por los correctos):</p>
-                            <ul class="list-disc pl-5 mb-4 text-sm text-gray-600 grid grid-cols-2 gap-2">
-                                <li>'BGA' ➔ 'Bucaramanga'</li>
-                                <li>'Barranqilla' ➔ 'Barranquilla'</li>
-                                <li>'Bogo-ta' ➔ 'Bogotá'</li>
-                                <li>'Bio-Health' ➔ 'Bio Health'</li>
-                                <li>'N3o Systems' ➔ 'Neo Systems'</li>
-                            </ul>
-                            <div class="code-box">
-                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-                                <code>= Table.TransformColumns(PasoAnterior, {{"Ciudad_Origen", Text.Trim, type text}, {"Ciudad_Origen", Text.Proper, type text}})</code>
-                            </div>
-                        </div>
-                    </div>
+<section id="e4">
+  <h2><span class="num">4.</span> Conectar un CSV y una API</h2>
+  <p class="meta">20 minutos.</p>
+  <h3>CSV</h3>
+  <ol class="pasos">
+    <li><span class="ruta">Inicio &gt; Nuevo origen &gt; Texto/CSV</span>, elija <code>Resenas_Amazon.csv</code>. Confirme delimitador coma y origen UTF-8.</li>
+    <li>Compruebe que queden 2 columnas y 1.000 filas, y que las tildes y símbolos se lean bien.</li>
+  </ol>
+  <h3>API de la TRM</h3>
+  <ol class="pasos">
+    <li><span class="ruta">Inicio &gt; Nuevo origen &gt; Web</span>. Pegue esta dirección y elija acceso anónimo:</li>
+  </ol>
+  <pre><code>https://www.datos.gov.co/resource/32sa-8pi3.json</code></pre>
+  <ol class="pasos">
+    <li>Se abre una lista de registros. Pulse <em>A la tabla</em> y expanda la columna con el botón de flechas.</li>
+    <li>Mire cuántas filas trajo y el tipo de la columna <code>valor</code>. Anótelo.</li>
+    <li>Cambie el tipo de <code>valor</code> a número decimal. Si salen errores, use <span class="ruta">Cambiar tipo &gt; Usando configuración regional</span> e inglés (Estados Unidos), porque el dato trae punto decimal.</li>
+    <li>Ahora vaya a <span class="ruta">Origen</span> y agregue esto al final de la dirección: <code>?$limit=10000</code>. ¿Cuántas filas hay ahora?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>La API entrega <b>1.000 registros</b> si no se le pide otra cosa, y la tabla tiene más de 8.000. Otra vez: mirar solo una parte parece mirar todo. El total crece cada día, así que su cifra puede ser mayor que 8.382, la que había cuando se escribió esta guía.</p>
+    <p>El campo <code>valor</code> llega como texto. Si no se convierte, no se puede promediar.</p>
+  </div></details>
+</section>
 
-                    <!-- Paso 1.2 -->
-                    <div class="bg-white border rounded-xl shadow-sm overflow-hidden">
-                        <div class="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
-                            <h3 class="font-bold text-lg text-primary"><i class="fas fa-coins text-secondary mr-2"></i>Paso 2: Saneamiento Numérico y Monedas</h3>
-                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded font-bold">Dificultad: Intermedia</span>
-                        </div>
-                        <div class="p-6">
-                            <p class="text-gray-700 mb-2"><strong>Objetivo 1:</strong> Reemplazar comas (<code>,</code>) por puntos (<code>.</code>) en 190 filas de `Precio_Unitario_USD` y convertir el tipo de dato a <strong>Moneda</strong> (<code>Currency.Type</code>).</p>
-                            <p class="text-gray-700 mb-4"><strong>Objetivo 2:</strong> Corregir 99 cantidades negativas en `Unidades_Vendidas` aplicando el valor absoluto.</p>
-                            <div class="code-box">
-                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-                                <code>= Table.TransformColumns(PasoAnterior, {{"Unidades_Vendidas", Number.Abs, type number}})</code>
-                            </div>
-                        </div>
-                    </div>
+<section id="e5" class="reto">
+  <h2><span class="num">5.</span> Diagnóstico de sus datos</h2>
+  <p class="meta">45 minutos. Es lo que se entrega. Sirve de base para el Proyecto 1.</p>
+  <p>Conecte los datos de su proyecto y llene la ficha con cifras, sobre <b>todo el conjunto de datos</b>. Si sus datos no son viables, dígalo: es el mejor momento para cambiarlos, y hay tutoría para revisarlo.</p>
+  <div class="tablon"><table>
+    <tr><th>Campo</th><th>Qué escribir</th></tr>
+    <tr><td>Fuente</td><td>Nombre, enlace, autor o dueño, licencia o permiso.</td></tr>
+    <tr><td>Tamaño</td><td>Filas, columnas y qué representa una fila.</td></tr>
+    <tr><td>Completo</td><td>Qué columnas tienen vacíos y cuántos. ¿Vacío significa cero, desconocido o no aplica?</td></tr>
+    <tr><td>Único</td><td>¿Hay filas repetidas? ¿Cuál debería ser la columna única?</td></tr>
+    <tr><td>Válido</td><td>Valores imposibles: negativos, fechas futuras, texto donde va número.</td></tr>
+    <tr><td>Consistente</td><td>Lo mismo escrito de dos formas: categorías, ciudades, mayúsculas.</td></tr>
+    <tr><td>Cubre</td><td>Fecha mínima y máxima. ¿Hay meses incompletos? ¿A quién deja por fuera?</td></tr>
+    <tr><td>Viabilidad</td><td>¿Estos datos permiten responder su pregunta analítica de la sesión 2? ¿Qué le falta?</td></tr>
+  </table></div>
+  <p>No borre ni corrija nada todavía: en la sesión 4 decidirá qué hacer con cada hallazgo y lo justificará.</p>
+</section>
 
-                    <!-- Paso 1.3 -->
-                    <div class="bg-white border rounded-xl shadow-sm overflow-hidden">
-                        <div class="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
-                            <h3 class="font-bold text-lg text-primary"><i class="fas fa-eraser text-purple-500 mr-2"></i>Paso 3: Depuración de Incompletos y Nulos</h3>
-                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded font-bold">Dificultad: Intermedia</span>
-                        </div>
-                        <div class="p-6">
-                            <p class="text-gray-700 mb-2"><strong>Objetivo 1:</strong> Tratamiento de 89 filas que contienen el texto literal <code>"N/A"</code> en `Descuento_Aplicado`. Debes reemplazarlos por el valor especial <code>null</code> y luego tipar la columna como <strong>Porcentaje</strong>.</p>
-                            <p class="text-gray-700 mb-4"><strong>Objetivo 2:</strong> Depurar (eliminar) 82 registros que tengan valores nulos o vacíos en la columna crítica `Fecha_Venta`.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<section id="bd">
+  <h2>Conectar una base de datos</h2>
+  <p class="meta">Para consultar cuando su proyecto use una base de datos.</p>
+  <p>Con <span class="ruta">Obtener datos &gt; Base de datos</span>, Power BI suele pedir el servidor, el nombre de la base y el modo de conexión. Use Importar, salvo que tenga una razón para DirectQuery. Pida las credenciales al dueño de los datos, no las escriba en el informe y no las comparta.</p>
+  <p>En la sesión 6 consultará una base SQLite real con SQL.</p>
+</section>
 
-            <!-- FASE 2 -->
-            <section>
-                <div class="flex items-center gap-4 mb-6 border-b pb-4">
-                    <span class="bg-secondary text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">2</span>
-                    <h2 class="text-2xl font-bold text-primary">Construcción del Modelo en Estrella (Star Schema)</h2>
-                </div>
-                
-                <div class="bg-orange-50 border-l-4 border-secondary p-6 rounded-r-xl mb-8">
-                    <h4 class="font-bold text-secondary text-lg mb-2">Duplicar vs Referenciar</h4>
-                    <p class="text-sm text-gray-700 mb-2"><strong>Duplicar:</strong> Copia todo el script M y lo vuelve a ejecutar desde cero de forma aislada. Útil para crear dimensiones independientes que apliquen plegado (Query Folding) directo al servidor.</p>
-                    <p class="text-sm text-gray-700"><strong>Referenciar:</strong> Apunta al resultado final de una consulta previa. Útil si la limpieza original fue muy pesada localmente y quieres reciclarla sin reprocesar todo desde el origen.</p>
-                </div>
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <ul>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-query/data-profiling-tools" target="_blank" rel="noopener">Using the data profiling tools</a>.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-query/power-query-what-is-power-query" target="_blank" rel="noopener">What is Power Query?</a></li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-directquery-about" target="_blank" rel="noopener">DirectQuery in Power BI</a>.</li>
+    <li>Chen, D. (2015). <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">Online Retail</a>. UCI Machine Learning Repository.</li>
+  </ul>
+</section>
 
-                <div class="grid md:grid-cols-2 gap-8 mb-8">
-                    <div class="space-y-4">
-                        <h3 class="font-bold text-xl text-primary">Instrucciones de Modelado</h3>
-                        <ol class="list-decimal pl-5 space-y-3 text-gray-700 text-sm">
-                            <li><strong>Dim_Clientes:</strong> Duplica la consulta limpia. Elimina todas las columnas excepto <code>Cliente_Nombre</code>. Elimina duplicados (<code>Table.Distinct</code>). Agrega una Columna de Índice desde 1 (Llamada <code>Cliente_ID</code>).</li>
-                            <li><strong>Dim_Geografia:</strong> Duplica la consulta limpia. Mantén <code>Ciudad_Origen</code>. Elimina duplicados. Agrega un Índice (<code>Ciudad_ID</code>).</li>
-                            <li><strong>Fact_Ventas:</strong> En tu tabla principal, haz un <em>Merge</em> (Combinar Consultas) con las dos dimensiones recién creadas para traer <code>Cliente_ID</code> y <code>Ciudad_ID</code>. Luego elimina las columnas de texto originales.</li>
-                        </ol>
-                        <a href="https://learn.microsoft.com/power-bi/guidance/star-schema" target="_blank" class="inline-block mt-4 text-accent hover:underline text-sm"><i class="fas fa-book mr-1"></i> Documentación: Understand Star Schema</a>
-                    </div>
-                    
-                    <div class="bg-white p-4 rounded-xl shadow border border-gray-200">
-                        <h3 class="font-bold text-sm text-center text-gray-500 mb-2 uppercase">Diagrama Entidad-Relación Esperado</h3>
-                        <div class="mermaid text-center text-sm">
-                            erDiagram
-                                Dim_Clientes ||--o{ Fact_Ventas : "1-a-Muchos"
-                                Dim_Geografia ||--o{ Fact_Ventas : "1-a-Muchos"
-                                
-                                Dim_Clientes {
-                                    int Cliente_ID PK
-                                    string Cliente_Nombre
-                                }
-                                Dim_Geografia {
-                                    int Ciudad_ID PK
-                                    string Ciudad_Origen
-                                }
-                                Fact_Ventas {
-                                    string Transaction_ID PK
-                                    int Cliente_ID FK
-                                    int Ciudad_ID FK
-                                    date Fecha_Venta
-                                    int Unidades_Vendidas
-                                }
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-primary text-white p-5 rounded-lg shadow-md">
-                    <p class="m-0 font-bold"><i class="fas fa-lightbulb text-yellow-400 mr-2"></i>Tip Arquitectónico:</p>
-                    <p class="m-0 mt-1 text-sm text-blue-200">Las relaciones 1:N con filtro de dirección única garantizan que la propagación del contexto de filtro en DAX sea eficiente y sin ambigüedades. ¡Nunca uses relaciones N:N directamente!</p>
-                </div>
-            </section>
-
-            <!-- CHECKLIST -->
-            <section class="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
-                <h2 class="text-2xl font-bold text-primary mb-6 border-b pb-4"><i class="fas fa-clipboard-check text-success mr-2"></i>Checklist de Autoevaluación Final</h2>
-                
-                <div class="space-y-3">
-                    <label class="checklist-item flex items-center p-3 hover:bg-gray-50 rounded cursor-pointer transition-colors border border-transparent hover:border-gray-200">
-                        <input type="checkbox" class="w-5 h-5 text-success rounded focus:ring-success mr-4">
-                        <span class="text-gray-700">Las 3 vistas de perfilado muestran 0% de errores y 0% de vacíos.</span>
-                    </label>
-                    <label class="checklist-item flex items-center p-3 hover:bg-gray-50 rounded cursor-pointer transition-colors border border-transparent hover:border-gray-200">
-                        <input type="checkbox" class="w-5 h-5 text-success rounded focus:ring-success mr-4">
-                        <span class="text-gray-700">Absolutamente todas las columnas tienen un tipo de dato asignado explícitamente (No hay tipos "Cualquiera" o "ABC/123").</span>
-                    </label>
-                    <label class="checklist-item flex items-center p-3 hover:bg-gray-50 rounded cursor-pointer transition-colors border border-transparent hover:border-gray-200">
-                        <input type="checkbox" class="w-5 h-5 text-success rounded focus:ring-success mr-4">
-                        <span class="text-gray-700">Existen 3 consultas finales en el panel izquierdo (Fact_Ventas, Dim_Clientes, Dim_Geografia).</span>
-                    </label>
-                    <label class="checklist-item flex items-center p-3 hover:bg-gray-50 rounded cursor-pointer transition-colors border border-transparent hover:border-gray-200">
-                        <input type="checkbox" class="w-5 h-5 text-success rounded focus:ring-success mr-4">
-                        <span class="text-gray-700">El modelo de datos final tiene una estructura perfecta de Estrella (Star Schema) conectando llaves primarias y foráneas.</span>
-                    </label>
-                </div>
-            </section>
-
-        </div>
-    </div>
-
-    <script>
-        function copyCode(btn) {
-            const codeBlock = btn.nextElementSibling;
-            const textArea = document.createElement('textarea');
-            textArea.value = codeBlock.innerText;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            
-            const originalText = btn.innerText;
-            btn.innerText = '¡Copiado!';
-            btn.style.background = '#10B981';
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = '#334155';
-            }, 2000);
-        }
-    </script>
+</main>
+</div>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

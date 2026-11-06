@@ -1,642 +1,549 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 2 · La sala de control | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<link rel="stylesheet" href="../assets/puntos/transicion.css">
+<style>
+  /* Mundo de esta sesión: una sala de control. El color solo cambia para los titulares de prensa. */
+  :root[data-mundo="sala"] { --fondo: #00182c; --fondo-2: #00233f; --tinta: #fff; --tinta-2: #a9c0d3; --regla: rgba(169,192,211,.28); --punto: #5f819c; --compra: #ff6d1f; --acento-texto: #ff9a63; }
+  :root[data-mundo="diario"] { --fondo: #f4f1e6; --fondo-2: #e6e1d0; --tinta: #14212c; --tinta-2: #56626b; --regla: rgba(20,33,44,.35); --punto: #8f9aa1; --compra: #e85c0b; --acento-texto: #b94504; }
+  #escenario::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .85s ease; background-image: linear-gradient(rgba(169,192,211,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(169,192,211,.05) 1px, transparent 1px); background-size: 40px 40px; }
+  :root[data-mundo="sala"] #escenario::before { opacity: 1; }
+  :root[data-mundo="sala"] #lienzo { display: none; }
 
-    <title>Inteligencia de Negocios - Semana 1</title>
+  .pared-bg { position: absolute; inset: 0; width: 1600px; height: 900px; pointer-events: none; }
+  .aro { fill: none; stroke: var(--punto); stroke-width: 1.5; opacity: .55; }
+  .tic { stroke: var(--punto); stroke-width: 1.2; opacity: .45; }
+  .aro.vivo { stroke: var(--compra); stroke-width: 5; opacity: 1; filter: drop-shadow(0 0 7px var(--compra)); }
+  .aguja { stroke: var(--compra); stroke-width: 4; stroke-linecap: round; filter: drop-shadow(0 0 5px var(--compra)); }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  /* Titulares */
+  .tres-t { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 6px solid var(--tinta); }
+  .tres-t > div { padding: 22px 34px 0 0; border-right: 1px solid var(--regla); margin-right: 34px; }
+  .tres-t > div:last-child { border: 0; margin: 0; }
+  .tres-t h3 { font-family: Georgia, 'Times New Roman', serif; font-size: 50px; line-height: 1.05; font-weight: 700; letter-spacing: -.012em; min-height: 166px; }
+  .tres-t .cifra { font-size: 136px; margin: 12px 0; font-family: Georgia, 'Times New Roman', serif; font-weight: 700; }
+  .tres-t p { font-size: 26px; color: var(--tinta-2); }
 
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides {
-            width: 90% !important;
-            height: 90% !important;
-            max-width: 1200px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-screen {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 100%;
-            gap: 30px;
-        }
-        .split-left, .split-right { width: 48%; }
-        
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-top: 20px;
-        }
-        .grid-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            border-top: 5px solid var(--unab-blue);
-            text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
-        .reveal h1 { font-size: 2.8em; }
-        .reveal h2 { font-size: 1.8em; margin-bottom: 20px; }
-        .highlight { color: var(--unab-orange); }
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.7em !important; line-height: 1.2; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #005091 100%);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.7em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-            transition: transform 0.3s ease;
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 10px; font-size: 1.2em; }
-        
-        ul.styled-list li { margin-bottom: 12px; font-size: 0.8em; }
-        .icon { color: var(--unab-orange); margin-right: 15px; }
-        
-        .chart-container { 
-            position: relative; 
-            height: 260px; 
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15);
-            transition: transform 0.3s ease;
-        }
-        
-        .dark-slide {
-            background-color: var(--unab-blue) !important;
-            color: white !important;
-        }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3 { color: white !important; }
-        
-        .scrollable {
-            max-height: 60vh;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
+  /* Días */
+  .dias { display: grid; grid-template-columns: repeat(31, 1fr); gap: 7px; }
+  .dias i { display: block; height: 52px; background: var(--punto); opacity: .75; }
+  .dias i.vacio { background: transparent; outline: 2px dashed var(--regla); outline-offset: -2px; opacity: 1; }
+  .fila-dias { display: grid; grid-template-columns: 220px 1fr 180px; gap: 26px; align-items: center; margin-bottom: 26px; }
+  .fila-dias b { font-size: 34px; }
+  .fila-dias .v { font-size: 40px; font-weight: 800; text-align: right; font-variant-numeric: tabular-nums; }
 
-        /* Sistema de Mini Ventanas Explicativas (Modales) */
-        .clickable-concept {
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
-        }
-        .clickable-concept:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.3) !important;
-            z-index: 10;
-        }
-        .clickable-concept::after {
-            content: '\f0a6'; /* Hand pointer icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: var(--unab-orange);
-            color: white;
-            width: 30px; height: 30px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after {
-            opacity: 1;
-        }
+  /* Tres formas del dato */
+  .formas { display: grid; grid-template-columns: 1.05fr 1fr 1fr; gap: 44px; }
+  .formas h3 { color: var(--acento-texto); font-size: 34px; margin-bottom: 4px; }
+  .formas .caja { font-size: 23px; line-height: 1.34; min-height: 296px; padding-top: 16px; border-top: 2px solid var(--regla); }
+  .formas .sec { font-size: 25px; }
+  .mono { font-family: Consolas, 'Cascadia Mono', 'Courier New', monospace; font-variant-numeric: tabular-nums; }
+  .formas table td, .formas table th { font-size: 22px; padding: 5px 12px 5px 0; line-height: 1.2; }
 
-        #concept-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.98);
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: 0 30px 60px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange);
-            z-index: 2000; /* Asegurar que sobrepasa a Reveal.js */
-            text-align: left;
-            font-family: sans-serif;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes popIn {
-            0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
+  .diagrama .t-eje { font-size: 23px; fill: var(--tinta-2); }
+  .diagrama .t-nota { font-size: 28px; font-weight: 700; fill: var(--acento-texto); }
+  .diagrama .t-g { font-size: 42px; font-weight: 800; fill: var(--tinta); letter-spacing: -.015em; }
+  .diagrama .t-f { font-size: 27px; font-weight: 700; fill: var(--tinta); }
 
-        #concept-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 1999;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; } to { opacity: 1; }
-        }
+  /* Pared de métricas */
+  .pared { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px 6px; }
+  .dial { text-align: center; transition: opacity .5s ease, filter .5s ease; }
+  .dial svg { width: 112px; height: 112px; display: block; margin: 0 auto; overflow: visible; }
+  .dial .val { font: 800 21px 'Schibsted Grotesk', sans-serif; fill: var(--tinta); }
+  .dial span { display: block; font-size: 19.5px; line-height: 1.1; color: var(--tinta-2); margin-top: 3px; min-height: 42px; }
+  .dial.quitado { opacity: .13; filter: grayscale(1); }
+  .dial.vivo circle.aro { stroke: var(--compra); stroke-width: 5; opacity: 1; filter: drop-shadow(0 0 8px var(--compra)); }
+  .dial.vivo span { color: var(--tinta); font-weight: 700; }
+  .preg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; margin-top: 8px; }
+  .preg p { font-size: 28px; font-weight: 700; border-top: 3px solid var(--compra); padding-top: 8px; line-height: 1.14; }
 
-        .modal-close {
-            position: absolute;
-            top: 20px; right: 20px;
-            cursor: pointer;
-            font-size: 1.5em;
-            color: #888;
-            transition: color 0.2s;
-        }
-        .modal-close:hover { color: var(--unab-orange); }
-        .modal-title { color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; font-weight: bold; display: flex; align-items: center; gap: 15px;}
-        .modal-body { font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px; }
-        .modal-content.show {
-            transform: scale(1);
-            opacity: 1;
-        }
+  /* KPI */
+  .kpi3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 46px; }
+  .kpi3 svg { width: 320px; height: 256px; display: block; overflow: visible; margin-bottom: 8px; }
+  .kpi3 h3 { font-size: 33px; margin-bottom: 8px; }
+  .kpi3 dl { margin: 0; display: grid; grid-template-columns: 120px 1fr; gap: 3px 10px; font-size: 25px; line-height: 1.2; }
+  .kpi3 dt { color: var(--tinta-2); }
+  .kpi3 dd { margin: 0; }
 
-        /* --- AI Disclaimer Slide Styles --- */
-        .ai-slide {
-            background-color: #050510 !important; /* Deep space/cyber blue-black */
-        }
-        .ai-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-top: -30px;
-        }
-        .ai-icon {
-            font-size: 2.5em;
-            color: #00ffcc; /* Cyber cyan */
-            margin-bottom: 10px;
-            animation: pulse-glow 2s infinite alternate;
-            z-index: 2;
-        }
-        .ai-title {
-            color: white;
-            font-weight: 900;
-            font-size: 1.6em !important;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #E85C0B, #00ffcc, #E85C0B);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: gradient-text 3s linear infinite;
-        }
-        .ai-glass-box {
-            position: relative;
-            padding: 2px; /* Space for the animated border */
-            border-radius: 12px;
-            background: linear-gradient(45deg, #E85C0B, #00ffcc, #003865, #E85C0B);
-            background-size: 300% 300%;
-            animation: gradient-border 4s ease infinite;
-            max-width: 90%;
-            box-shadow: 0 0 40px rgba(0, 255, 204, 0.15);
-        }
-        .ai-content {
-            background: rgba(10, 10, 22, 0.95);
-            padding: 20px 25px;
-            border-radius: 9px;
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-        }
-        .ai-text {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65em !important;
-            color: #00ffcc;
-            line-height: 1.6;
-            margin: 0;
-            text-shadow: 0 0 5px rgba(0,255,204,0.4);
-        }
-        .highlight-ai {
-            color: #E85C0B;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(232,92,11,0.7);
-        }
-        .blinking-cursor { display: none; } /* Disabled as Typed.js provides its own cursor */
-        
-        /* Typed.js custom cursor color */
-        .typed-cursor {
-            color: #00ffcc;
-            text-shadow: 0 0 8px #00ffcc;
-            font-size: 1.2em;
-        }
+  /* Traductor */
+  .trad { display: grid; grid-template-columns: 370px 610px 1fr; gap: 16px 40px; align-items: center; }
+  .trad .h { font-size: 24px; color: var(--tinta-2); font-weight: 700; border-bottom: 2px solid var(--regla); padding-bottom: 8px; }
+  .trad .q { font-family: 'Caveat', cursive; font-size: 44px; font-weight: 700; line-height: 1.02; color: var(--tinta); }
+  .trad .a { font-size: 28px; line-height: 1.2; }
+  .trad .r b { display: block; font-size: 58px; color: var(--acento-texto); line-height: 1; font-weight: 800; letter-spacing: -.02em; }
+  .trad .r span { font-size: 22px; color: var(--tinta-2); line-height: 1.15; display: block; margin-top: 4px; }
 
-        @keyframes pulse-glow {
-            0% { text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc; transform: translateY(0px) scale(1); }
-            100% { text-shadow: 0 0 20px #00ffcc, 0 0 40px #00ffcc, 0 0 60px #00ffcc; transform: translateY(-10px) scale(1.05); }
-        }
-        @keyframes gradient-text {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
-        }
-        @keyframes gradient-border {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-    </style>
+  .smart { display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; }
+  .smart b { display: block; font-size: 84px; font-weight: 800; color: var(--acento-texto); line-height: 1; }
+  .smart span { font-size: 25px; line-height: 1.16; display: block; }
+  .glos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 56px; }
+  .glos dt { font-weight: 800; font-size: 27px; color: var(--acento-texto); }
+  .glos dd { margin: 0 0 4px; font-size: 25px; line-height: 1.22; }
+  .bib p { font-size: 22.5px; line-height: 1.24; margin-bottom: 8px; }
+  .res p { font-size: 28px; line-height: 1.22; font-style: italic; }
+</style>
 </head>
-<body>
-    
-    <!-- Modal Interactivo Global -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
-        <div class="modal-title"><i id="modal-icon" class="fa-solid fa-lightbulb"></i> <span id="modal-title">Título</span></div>
-        <div class="modal-body" id="modal-text">Texto explicativo</div>
-        <div class="modal-example">
-            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Ejemplo Práctico:</h4>
-            <span id="modal-example-text">Ejemplo</span>
-        </div>
+<body data-mundo="sala">
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
+
+<!-- 1 Portada -->
+<section class="esc" data-mundo="sala">
+  <svg class="pared-bg diagrama" id="paredPortada" viewBox="0 0 1600 900" aria-hidden="true"></svg>
+  <div style="position:absolute;left:88px;top:300px;width:900px;background:var(--fondo);padding:30px 34px 34px 0;box-shadow:0 0 60px 30px var(--fondo)">
+    <h1 style="font-size:112px">Mide menos. <span class="acento">Decide más.</span></h1>
+    <p class="sec" style="font-size:27px;margin-top:20px">La sala de control · Inteligencia de Negocios · Sesión 2<br>Dudbil Olvasada Pabón Riaño · UNAB</p>
+  </div>
+  <aside class="notas">Una pared llena de diales y solo tres encendidos. Esa es la clase: qué datos existen, de dónde salen y cuáles merecen una aguja.</aside>
+</section>
+
+<!-- 2 Agenda -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto" style="max-width:none">
+    <h2>El plan de hoy</h2>
+    <svg data-d="ruta" data-o='{"h":350,"amp":38,"dur":7,"items":[{"h":"10:00","t":"Tres|titulares","foco":true},{"h":"10:30","t":"Tipos y|fuentes"},{"h":"11:00","t":"Pausa"},{"h":"11:15","t":"English|immersion"},{"h":"11:25","t":"Métrica|y KPI"},{"h":"11:55","t":"Taller"},{"h":"12:50","t":"Cierre"}]}'></svg>
+    <p class="sec" style="font-size:30px">Traigan el Excel de la sesión 1 y el problema candidato para su proyecto.</p>
+  </div>
+  <aside class="notas">Ajuste los tiempos al grupo. En el cierre se anuncia el Quiz 1 de la sesión 3.</aside>
+</section>
+
+<!-- 3 Resultado -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho">
+    <p class="sec">Resultado de aprendizaje 1.1</p>
+    <p class="frase" style="font-size:66px">Identifica fuentes de datos estructuradas y no estructuradas en entornos empresariales.</p>
+    <div class="tres" style="margin-top:12px">
+      <p class="regla-arriba">Clasificas fuentes reales y dices qué decisión apoya cada una.</p>
+      <p class="regla-arriba">Separas una métrica de un KPI con meta, dueño y decisión.</p>
+      <p class="regla-arriba">Conviertes una queja del gerente en una pregunta que los datos pueden responder.</p>
     </div>
+  </div>
+  <aside class="notas">El resultado 1.1 es textual del syllabus; los tres logros son de esta sesión. También aportan a la definición preliminar de problema y KPI del Proyecto 1.</aside>
+</section>
 
-                    <div class="reveal">
-            <div class="slides">
+<!-- 4 Titulares -->
+<section class="esc" data-mundo="diario">
+  <div class="ancho alto" style="max-width:none;gap:20px">
+    <p class="sec">Mismo minorista · mismos datos · mismo diciembre · ¿cuál publicarías?</p>
+    <div class="tres-t">
+      <div><h3>Las ventas se hunden en diciembre</h3><p class="cifra c">−22&nbsp;%</p></div>
+      <div class="paso"><h3>Un diciembre histórico</h3><p class="cifra">+46&nbsp;%</p></div>
+      <div class="paso"><h3>Diciembre crece, sin mucho ruido</h3><p class="cifra">+15&nbsp;%</p></div>
+    </div>
+    <p class="paso frase" style="font-size:46px;margin-top:6px">Las tres cuentas están bien hechas. Solo una sirve para decidir.</p>
+  </div>
+  <p class="pie">Datos: Chen (2015), Online Retail, UCI, CC BY 4.0. Los titulares son un ejercicio de clase, no noticias reales.</p>
+  <aside class="notas">Muestre uno por uno y haga votar antes de explicar. Las cifras exactas son −22,5 %, +45,6 % y +14,9 %. No revele todavía cuál es cuál.</aside>
+</section>
 
-            <!-- 1. Título -->
-            <section data-transition="fade" class="dark-slide">
-                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
-                    <i class="fa-solid fa-bullseye" style="font-size: 3em; color: #E85C0B; margin-bottom: 20px;"></i>
-                    <h1>Métricas y KPIs</h1>
-                    <h3>El puente entre el Negocio y los Datos</h3>
-                    <p style="color: #ccc;">Unidad 1 - Semana 2</p>
-                </div>
-            </section>
+<!-- 5 Días -->
+<section class="esc" data-mundo="diario">
+  <div class="ancho" style="max-width:none">
+    <p class="sec">Primer titular: −22&nbsp;%</p>
+    <h2>Compara un mes de 31 días con uno de 9</h2>
+    <div style="margin-top:20px">
+      <div class="fila-dias"><b>Dic. 2010</b><div class="dias" id="diasA"></div><div class="v">£823.746</div></div>
+      <div class="fila-dias"><b>Dic. 2011</b><div class="dias" id="diasB"></div><div class="v acento">£638.793</div></div>
+    </div>
+    <p class="paso" style="font-size:38px">Los datos terminan el 9 de diciembre. <b>El hundimiento es un corte del archivo.</b></p>
+    <p class="paso sec">Lo primero al recibir una fuente: ¿qué periodo cubre de verdad?</p>
+  </div>
+  <p class="pie">Ventas facturadas antes de cancelaciones. Cada rectángulo es un día del mes.</p>
+  <aside class="notas">£638.793 frente a £823.746 es −22,5 %. Es una comparación técnicamente correcta y totalmente engañosa. En Excel, una tabla por mes no avisa que un mes está incompleto.</aside>
+</section>
 
-            <!-- 2. RAE -->
-            <section data-transition="zoom" class="dark-slide">
-                <h2 style="color: #E85C0B; margin-top: -30px;"><i class="fa-solid fa-bullseye" style="color: white;"></i> Objetivos de Aprendizaje (RAE)</h2>
-                <div class="grid-layout" style="grid-template-columns: 1fr; gap: 15px; margin-top: 20px;">
-                    <div class="grid-card" style="border-left: 8px solid #E85C0B; padding: 15px;">
-                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1em;"><i class="fa-solid fa-database"></i> 1. Clasificación de Datos</h4>
-                        <p style="margin-top: 5px; font-size: 0.85em; color: #333 !important; line-height: 1.2;">Distinguir entre fuentes organizacionales y los diferentes tipos de datos.</p>
-                    </div>
-                    <div class="grid-card" style="border-left: 8px solid #E85C0B; padding: 15px;">
-                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1em;"><i class="fa-solid fa-chart-line"></i> 2. Formulación de KPIs</h4>
-                        <p style="margin-top: 5px; font-size: 0.85em; color: #333 !important; line-height: 1.2;">Comprender los fundamentos de Key Performance Indicators (KPIs) y su impacto estratégico.</p>
-                    </div>
-                    <div class="grid-card" style="border-left: 8px solid #E85C0B; padding: 15px;">
-                        <h4 style="color: var(--unab-blue); margin: 0; font-size: 1em;"><i class="fa-solid fa-comments"></i> 3. El Lenguaje Analítico</h4>
-                        <p style="margin-top: 5px; font-size: 0.85em; color: #333 !important; line-height: 1.2;">Traducir problemas abstractos de negocio en preguntas analíticas accionables.</p>
-                    </div>
-                </div>
-            </section>
+<!-- 6 Doce minutos -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <p class="sec">Segundo titular: +46&nbsp;% al comparar del 1 al 9 de diciembre</p>
+    <h2 style="font-size:60px">Las dos ventas más grandes del año duraron 12 y 16 minutos</h2>
+    <svg class="diagrama" id="minutos" viewBox="0 0 1424 480" role="img" aria-label="Dos facturas de venta muy grandes canceladas minutos después"></svg>
+  </div>
+  <p class="pie">Facturas 581483 y C581484; 541431 y C541433. Por qué se cancelaron, no lo dicen los datos: puede ser un error de digitación.</p>
+  <aside class="notas">Del 1 al 9 de diciembre: £438.853 en 2010 frente a £638.793 en 2011 son +45,6 %. Pero £168.469,60 de esa suma se reversaron 12 minutos después. No afirme la causa: el conjunto no la registra. Los datos solo muestran misma cantidad, mismo cliente, signo contrario.</aside>
+</section>
 
-            <!-- 3. Tipos de Datos -->
-            <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-server icon"></i> La Materia Prima: Tipos de Datos</h2>
-                <p class="small-text text-left">Antes de modelar, debemos entender qué forma tienen los datos.</p>
-                <div class="grid-layout">
-                    <!-- Estructurados -->
-                    <div class="grid-card clickable-concept" onclick="openModal('Datos Estructurados', 'fa-table', 'Datos altamente organizados, formateados en tablas de filas y columnas, listos para bases de datos relacionales.', 'Bases de datos SQL, Tablas de Excel, Archivos CSV. Ej: El historial de facturación.')">
-                        <i class="fa-solid fa-table" style="font-size: 2.5em; color: #003865;"></i>
-                        <h4 style="color: #003865; margin-top: 15px;">Estructurados (20%)</h4>
-                        <ul class="styled-list">
-                            <li>Esquema rígido (Filas/Columnas).</li>
-                            <li>Fáciles de consultar (SQL).</li>
-                            <li>Numéricos y categóricos precisos.</li>
-                        </ul>
-                    </div>
-                    <!-- No Estructurados -->
-                    <div class="grid-card clickable-concept" onclick="openModal('Datos No Estructurados', 'fa-file-audio', 'Datos sin un modelo predefinido o esquema tabular. Difíciles de analizar sin herramientas de IA (Procesamiento de Lenguaje Natural o Visión por Computadora).', 'Correos electrónicos, llamadas grabadas de servicio al cliente, PDFs, Posts de Twitter/X.')">
-                        <i class="fa-solid fa-file-audio" style="font-size: 2.5em; color: #E85C0B;"></i>
-                        <h4 style="color: #003865; margin-top: 15px;">No Estructurados (80%)</h4>
-                        <ul class="styled-list">
-                            <li>Sin formato fijo.</li>
-                            <li>Texto libre, Audio, Video, Imágenes.</li>
-                            <li>Requieren Inteligencia Artificial / NLP.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+<!-- 7 Pendientes -->
+<section class="esc" data-mundo="sala">
+  <div style="display:grid;grid-template-columns:520px 1fr;gap:40px;height:100%;align-items:center">
+    <div class="col" style="gap:22px">
+      <h2 style="font-size:58px">Misma empresa, mismo mes. <span class="acento">La definición decide.</span></h2>
+      <p class="paso">Mismos días y sin cancelaciones: <b>+14,9&nbsp;%</b>.</p>
+      <p class="paso sec">Es la mejor de las tres, y sigue siendo limitada: las cancelaciones de un mes pueden ser de ventas de otro, y son solo 9 días.</p>
+    </div>
+    <svg class="diagrama" id="pendientes" viewBox="0 0 880 680" role="img" aria-label="Tres pendientes entre 2010 y 2011: bajada de 22 por ciento, subida de 46 y subida de 15"></svg>
+  </div>
+  <aside class="notas">Gráfico de pendientes: cada línea es una manera de medir. Escala común, desde cero. Las dos primeras llegan al mismo punto: £638.793. Conclusión: antes de discutir un número, se discute cómo se define. Eso es lo que hace un KPI.</aside>
+</section>
 
-            <!-- 4. Fuentes Organizacionales -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-building icon"></i> Fuentes Organizacionales</h2>
-                <div class="pro-tip">
-                    <i class="fa-solid fa-hand-pointer"></i> <strong>Pro-Tip:</strong> Da clic en cada sigla para ver su significado. ¿De dónde sacamos los datos en una empresa real?
-                </div>
-                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    
-                    <div class="clickable-concept" onclick="openModal('ERP (Enterprise Resource Planning)', 'fa-industry', 'El software central que gestiona la facturación, contabilidad, inventarios y nómina.', 'SAP, Oracle, Microsoft Dynamics. Aquí encuentras las Ventas Crudas.')" style="background: white; padding: 25px; border-radius: 12px; border-bottom: 5px solid #003865; width: 45%; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                        <h3 style="color: #003865; margin-bottom: 5px;">ERP</h3>
-                        <p class="small-text">Sistemas Transaccionales Core.</p>
-                    </div>
+<!-- 8 Tres formas -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto" style="max-width:none;gap:18px">
+    <h2 style="font-size:58px">El dato llega con tres formas, y cada una exige algo distinto</h2>
+    <div class="formas">
+      <div><h3>Estructurado</h3><p class="sec">Filas y columnas fijas.</p>
+        <div class="caja"><table class="mono"><tr><th>Factura</th><th>Cliente</th><th class="d">GBP</th></tr><tr><td>536365</td><td>17850</td><td class="d">139,12</td></tr><tr><td>536366</td><td>17850</td><td class="d">22,20</td></tr><tr><td>536367</td><td>13047</td><td class="d">278,73</td></tr></table><p style="font-size:23px;margin-top:12px">Online Retail. Se suma y se filtra sin más.</p></div></div>
+      <div class="paso"><h3>Semiestructurado</h3><p class="sec">Etiquetas, sin tabla fija.</p>
+        <div class="caja mono">{ "valor": "3228.26",<br>&nbsp;&nbsp;"unidad": "COP",<br>&nbsp;&nbsp;"vigenciadesde":<br>&nbsp;&nbsp;&nbsp;&nbsp;"2026-11-06T00:00:00" }<p style="font-size:23px;margin-top:12px;font-family:'Schibsted Grotesk',sans-serif">TRM, datos.gov.co. Mira: el valor viene como texto.</p></div></div>
+      <div class="paso"><h3>No estructurado</h3><p class="sec">Texto, audio, imagen.</p>
+        <div class="caja res"><p>“Tied to charger for conversations lasting more than 45 minutes. MAJOR PROBLEMS!!”</p><p style="font-size:23px;margin-top:12px;font-style:normal">Reseña real de Amazon. Hay que convertirla para contarla.</p></div></div>
+    </div>
+    <p class="paso frase" style="font-size:38px">No clasifiques por el archivo, sino por cuánta estructura trae el contenido.</p>
+  </div>
+  <p class="pie">Fuentes: Chen (2015); Superintendencia Financiera, TRM, CC BY-SA 4.0; Kotzias (2015), CC BY 4.0.</p>
+  <aside class="notas">Un CSV con un comentario libre mezcla formas. IBM estima que el 90 % de los datos empresariales es no estructurado; es una estimación de un proveedor y no una medición. Por eso quitamos del material anterior la afirmación de “80 %” sin fuente.</aside>
+</section>
 
-                    <div class="clickable-concept" onclick="openModal('CRM (Customer Relationship Management)', 'fa-users', 'El software donde vive la relación con el cliente: llamadas, correos, quejas y cotizaciones.', 'Salesforce, HubSpot. Aquí encuentras el motivo por el cual los clientes se van (Churn).')" style="background: white; padding: 25px; border-radius: 12px; border-bottom: 5px solid #E85C0B; width: 45%; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                        <h3 style="color: #E85C0B; margin-bottom: 5px;">CRM</h3>
-                        <p class="small-text">Gestión de Clientes.</p>
-                    </div>
-                    
-                    <div class="clickable-concept" onclick="openModal('Flat Files (Archivos Planos)', 'fa-file-excel', 'Las famosas hojas de cálculo que muchas empresas aún usan como base de datos por accidente.', 'Archivos Excel, CSVs exportados, Google Sheets.')" style="background: white; padding: 25px; border-radius: 12px; border-bottom: 5px solid #003865; width: 45%; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                        <h3 style="color: #003865; margin-bottom: 5px;">Archivos Planos</h3>
-                        <p class="small-text">CSVs y Hojas de Cálculo.</p>
-                    </div>
+<!-- 9 Texto a números -->
+<section class="esc" data-mundo="sala">
+  <div style="display:grid;grid-template-columns:510px 1fr;gap:44px;height:100%;align-items:center">
+    <div class="col" style="gap:20px">
+      <h2 style="font-size:56px">El texto también habla, si le preguntas bien</h2>
+      <p>De 1.000 reseñas reales, las que mencionan <em>charg</em> son negativas el 64&nbsp;%; las de <em>price</em>, el 9&nbsp;%.</p>
+      <p class="paso sec">Ojo: el archivo tiene 500 y 500 por diseño. Sirve para comparar palabras, no para saber cuántos clientes están molestos.</p>
+    </div>
+    <svg class="diagrama" id="palabras" viewBox="0 0 880 560" role="img" aria-label="Porcentaje de reseñas negativas por palabra: charg 64, batter 51, quality 37, sound 36, price 9"></svg>
+  </div>
+  <p class="pie">Kotzias (2015), reseñas de Amazon, CC BY 4.0. Búsqueda simple de texto; grupos pequeños, de 33 a 49 reseñas.</p>
+  <aside class="notas">Es la conversión más simple posible: palabra clave y conteo. “Charg” también captura charger y recharge; no distingue “no charger problems”. La diferencia es orientativa, y sirve para mostrar que lo no estructurado se puede volver indicador con cuidado.</aside>
+</section>
 
-                    <div class="clickable-concept" onclick="openModal('APIs Externas', 'fa-cloud-bolt', 'Conexiones a servicios en la nube para traer datos externos que enriquecen nuestra base local.', 'API del clima (para ver si las lluvias afectan las ventas) o API del Banco de la República (para ver la TRM del dólar).')" style="background: white; padding: 25px; border-radius: 12px; border-bottom: 5px solid #E85C0B; width: 45%; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                        <h3 style="color: #E85C0B; margin-bottom: 5px;">APIs Externas</h3>
-                        <p class="small-text">Datos en la nube (Clima, Dólar, RRSS).</p>
-                    </div>
+<!-- 10 Fuentes -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto" style="max-width:none;gap:10px">
+    <h2 style="font-size:58px">Toda fuente vale por la decisión que apoya</h2>
+    <svg class="diagrama" id="fuentes" viewBox="0 0 1424 640" role="img" aria-label="Fuentes internas y externas que confluyen en una decisión"></svg>
+  </div>
+  <p class="pie">Esquema general: Online Retail no revela qué sistemas usa la empresa.</p>
+  <aside class="notas">ERP: gestión de la operación. CRM: gestión de clientes. Pida a cada pareja ubicar su proyecto: ¿de cuál fuente saldrían sus datos? ¿Quién es el dueño? ¿Pueden acceder legalmente? En datos personales, en Colombia aplica la Ley 1581 de 2012.</aside>
+</section>
 
-                </div>
-            </section>
+<!-- 11 Pared -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto" style="max-width:none;gap:10px">
+    <h2 style="font-size:50px">24 métricas reales de esta empresa. ¿Cuáles merecen una aguja?</h2>
+    <div class="pared" id="pared"></div>
+    <div class="preg">
+      <p class="paso" data-quita=".q1">1. ¿Tiene una meta con la que compararse?</p>
+      <p class="paso" data-quita=".q2">2. ¿Alguien responde por ella?</p>
+      <p class="paso" data-quita=".q3" data-clase=".kpi|vivo">3. ¿Cambia una decisión?</p>
+    </div>
+  </div>
+  <aside class="notas">Avance pregunta por pregunta y pida defender a alguna antes de apagarla. Es un criterio, no un cálculo: otra audiencia o decisión dejaría otras. Todo KPI es una métrica; muy pocas métricas son KPI. Todas las cifras salen de los datos: mire “Producto top” y “Mejor día”, que vienen en la escena siguiente.</aside>
+</section>
 
-            <!-- 5. Métricas vs KPIs -->
-            <section data-transition="slide" class="dark-slide">
-                <h2 style="color: white;"><i class="fa-solid fa-gauge-high" style="color: #E85C0B;"></i> Métrica vs K.P.I.</h2>
-                <p class="small-text text-left">No todos los números importan. Un gerente no tiene tiempo de ver 500 métricas.</p>
-                
-                <div class="split-layout" style="margin-top: 30px; display: flex; gap: 30px;">
-                    <div style="flex: 1; background: rgba(255,255,255,0.1); padding: 25px; border-radius: 12px; border-top: 5px solid white;">
-                        <h4 style="color: white; margin-top: 0;"><i class="fa-solid fa-ruler"></i> Métrica</h4>
-                        <p class="small-text">Es simplemente un número cuantificable. Mide algo que pasó.</p>
-                        <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; font-family: monospace; font-size: 0.7em; color: #ccc;">
-                            - "Tuvimos 5,000 visitas en la web."<br>
-                            - "Vendimos 200 zapatos hoy."
-                        </div>
-                        <p style="font-size: 0.6em; margin-top: 15px; color: #aaa;">¿Es bueno o malo? Por sí sola, la métrica no lo dice.</p>
-                    </div>
-                    
-                    <div style="flex: 1; background: rgba(232, 92, 11, 0.1); padding: 25px; border-radius: 12px; border-top: 5px solid #E85C0B;">
-                        <h4 style="color: #E85C0B; margin-top: 0;"><i class="fa-solid fa-star"></i> K.P.I.</h4>
-                        <p class="small-text"><em>Key Performance Indicator</em>. Es una métrica **atada a un objetivo estratégico** de la empresa.</p>
-                        <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; font-family: monospace; font-size: 0.7em; color: #fff;">
-                            - "Tasa de Conversión: 4% (Meta: 5%)" ❌<br>
-                            - "Costo de Adquisición de Cliente (CAC) bajó un 10%" ✅
-                        </div>
-                        <p style="font-size: 0.6em; margin-top: 15px; color: #E85C0B; font-weight: bold;">Un KPI te obliga a tomar una decisión.</p>
-                    </div>
-                </div>
-                <div style="margin-top: 30px; text-align: center;">
-                    <a href="diapositivas_kpi_semrush.html" target="_blank" style="display: inline-block; background: #E85C0B; color: white; padding: 10px 20px; border-radius: 8px; font-size: 0.6em; text-decoration: none; font-weight: bold; transition: background 0.3s;"><i class="fas fa-external-link-alt"></i> Ver Material Complementario (Semrush)</a>
-                </div>
-            </section>
+<!-- 12 Vanidad -->
+<section class="esc" data-mundo="diario">
+  <div class="ancho" style="max-width:none">
+    <p class="sec">Métricas de vanidad: lucen bien, y no sirven para actuar</p>
+    <div class="dos">
+      <div class="col"><p class="cifra" style="font-size:112px">£200.921</p><p style="font-size:36px;font-weight:700;line-height:1.14">“Nuestro mejor día del año.”</p><p class="paso">De eso, <b class="acento">£168.470</b> se cancelaron 12 minutos después. Quedan £32.451.</p></div>
+      <div class="col"><p class="cifra" style="font-size:112px">£206.249</p><p style="font-size:36px;font-weight:700;line-height:1.14">“Nuestro producto más vendido.”</p><p class="paso">Se llama <b class="acento">DOTCOM POSTAGE</b>. Es el cobro de envíos.</p></div>
+    </div>
+    <p class="paso frase" style="font-size:46px;margin-top:10px">Si no sabes qué harías distinto mañana, no es un KPI.</p>
+  </div>
+  <aside class="notas">Mejor día: ventas facturadas del 9 de diciembre de 2011. La misma lógica aplica a likes, visitas y seguidores: pueden ser útiles como insumo, pero solas no indican acción.</aside>
+</section>
 
-            <!-- 6. El Arte de Preguntar -->
-            <section data-transition="zoom">
-                <h2 class="text-left"><i class="fa-solid fa-comment-dots icon"></i> Preguntas Analíticas</h2>
-                <div class="pro-tip">
-                    <i class="fa-solid fa-language"></i> <strong>Traductor:</strong> La habilidad más valiosa de un analista no es programar en Python o Power BI. Es traducir una queja de negocio a una pregunta con datos.
-                </div>
-                
-                <table style="width: 100%; font-size: 0.7em; border-collapse: collapse; margin-top: 30px;">
-                    <thead>
-                        <tr style="background: #003865; color: white;">
-                            <th style="padding: 15px; border-radius: 8px 0 0 0;">Lo que dice el Gerente (Negocio)</th>
-                            <th style="padding: 15px; background: #E85C0B;">Lo que debes buscar en la Base de Datos (Analítica)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #ccc;">
-                            <td style="padding: 15px;">"La gente no está comprando este mes."</td>
-                            <td style="padding: 15px; background: #fff5f0;">¿Cuál es la variación porcentual de ventas de este mes vs el mes anterior, segmentada por línea de producto?</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #ccc;">
-                            <td style="padding: 15px;">"Se nos están yendo los clientes buenos."</td>
-                            <td style="padding: 15px; background: #fff5f0;">¿Cuál es el <em>Churn Rate</em> (Tasa de Abandono) de los clientes en el cuartil superior de compras (Q4) en el último trimestre?</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 15px;">"Nuestras campañas de Facebook no sirven."</td>
-                            <td style="padding: 15px; background: #fff5f0;">¿Cuál es el Costo de Adquisición de Cliente (CAC) y el Retorno de Inversión (ROI) específico del canal orgánico vs canal pago?</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+<!-- 13 KPI -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:56px">Un KPI tiene fórmula, meta, dueño y decisión</h2>
+    <div class="kpi3" id="kpis"></div>
+  </div>
+  <p class="pie" style="color:var(--acento-texto)">Arco: valor real. Raya blanca: meta. Escalas: £0 a £1 M, 0 a 100 %, 0 a 20 %. Metas, dueños y decisiones son supuestos: la fuente no los trae.</p>
+  <aside class="notas">Retención: 1.871 de 2.724 clientes del primer semestre de 2011 volvieron a comprar desde julio hasta el 9 de diciembre. Cancelación: 8,4 %; sin las dos facturas de 12 y 16 minutos sería 6,2 %. Venta neta: promedio de febrero a agosto. Pregunte qué pasa si no hay meta: el número no puede ser ni bueno ni malo.</aside>
+</section>
 
-            <!-- 7. Taller Práctico Teórico -->
-            <section data-transition="slide" class="dark-slide">
-                <i class="fa-solid fa-users-gear" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1 style="color: white !important;">Laboratorio de Negocio</h1>
-                <p>Ve a la plataforma y abre la actividad: <strong>Taller de Preguntas Analíticas</strong>.</p>
-                <div class="grid-card" style="background: rgba(255,255,255,0.1); margin: 0 auto; max-width: 70%; text-align: center;">
-                    <h4 style="color: white; margin-top: 0;">Flujo Técnico</h4>
-                    <span style="color: #E85C0B; font-weight: bold;">Lectura de Caso ➔ Traducción a Pregunta Analítica ➔ Definición de 3 KPIs Clave</span>
-                </div>
-            </section>
+<!-- 14 SMART -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho" style="max-width:none;gap:24px">
+    <h2 style="font-size:58px">Una meta se puede escribir bien o escribir mal</h2>
+    <div class="smart">
+      <div><b>S</b><span>Específica: qué área y qué cambia</span></div>
+      <div><b>M</b><span>Medible: con cifra y fórmula</span></div>
+      <div><b>A</b><span>Asignable: quién responde</span></div>
+      <div><b>R</b><span>Realista: posible con estos recursos</span></div>
+      <div><b>T</b><span>Temporal: para cuándo</span></div>
+    </div>
+    <p class="paso regla-arriba sec" style="font-size:36px;text-decoration:line-through;text-decoration-color:var(--compra)">Mejorar la fidelidad de los clientes.</p>
+    <p class="paso" style="font-size:38px;font-weight:700;line-height:1.18">Subir la retención semestral de 68,7&nbsp;% a 72&nbsp;% en dos semestres. Responde la jefatura de clientes.</p>
+  </div>
+  <p class="pie">Doran (1981), con sus letras originales. Hoy muchas guías usan <em>Achievable</em> y <em>Relevant</em>. La meta del ejemplo es un supuesto.</p>
+  <aside class="notas">Doran propuso assignable y realistic; las versiones modernas cambian letras. No se discute la versión, sino que la meta se pueda verificar. Pida reescribir en dos minutos: “Vender más en temporada”.</aside>
+</section>
 
-            <!-- 8. Conclusiones -->
-            <section data-transition="slide">
-                <h2 class="text-left"><i class="fa-solid fa-flag-checkered icon"></i> Conclusiones</h2>
-                <ul class="styled-list" style="margin-bottom: 30px;">
-                    <li>El 80% de los datos del mundo son no estructurados, pero el BI tradicional arranca atacando el 20% estructurado (ERP/CRM).</li>
-                    <li><strong>Vanity Metrics:</strong> Cuidado con las métricas vanidosas (ej. Likes en un post). Si el número no te dice qué hacer a continuación, no es un KPI.</li>
-                    <li>El analista de BI es un puente: debe hablar el idioma del gerente (Ganancias, Estrategia) y el idioma del ingeniero (SQL, Bases de datos, ETL).</li>
-                </ul>
-            </section>
+<!-- 15 Traductor -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:54px">Lo que dice el gerente no es lo que se le pregunta a los datos</h2>
+    <div class="trad">
+      <div class="h">Queja</div><div class="h">Pregunta analítica</div><div class="h">Respuesta</div>
+      <div class="q">“Diciembre se hundió.”</div><div class="a paso">¿Cómo varía la venta neta del 1 al 9 de diciembre frente a esos días del año anterior?</div><div class="r paso"><b>+14,9&nbsp;%</b><span>£433.668 contra £377.488</span></div>
+      <div class="q">“Se nos van los clientes.”</div><div class="a paso">De quienes compraron de enero a junio, ¿qué porcentaje volvió de julio en adelante?</div><div class="r paso"><b>68,7&nbsp;%</b><span>1.871 de 2.724; sin un año de comparación</span></div>
+      <div class="q">“Dependemos de muy pocos.”</div><div class="a paso">¿Qué parte de la venta neta traen el 10&nbsp;% de clientes mayores?</div><div class="r paso"><b>59,7&nbsp;%</b><span>432 de 4.317 clientes</span></div>
+    </div>
+  </div>
+  <p class="pie">Quejas inventadas para el ejercicio. Datos reales: Chen (2015).</p>
+  <aside class="notas">Una buena pregunta analítica dice qué se mide, sobre quién, en qué periodo y contra qué. Note que la primera queja era falsa, la segunda no se puede juzgar sin referencia y la tercera se confirma.</aside>
+</section>
 
-            </div>
-        </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        // Modal functions
-        function openModal(title, iconClass, text, example) {
-            document.getElementById('modal-icon').className = `fa-solid ${iconClass}`;
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-text').innerHTML = text;
-            document.getElementById('modal-example-text').innerHTML = example;
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-        }
-        function closeModal() {
-            document.getElementById('concept-modal-overlay').style.display = 'none';
-            document.getElementById('concept-modal').style.display = 'none';
-        }
+<!-- 16 EMI -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto" style="max-width:none;gap:16px">
+    <p class="sec">English immersion · 10 minutes · real customer reviews</p>
+    <div class="dos res" style="gap:34px 56px">
+      <p>“Good case, Excellent value.”</p>
+      <p>“Who in their right mind is gonna buy this battery?”</p>
+      <p>“Clear Skype Calls, Long Battery Life, Long Range.”</p>
+      <p>“I have to jiggle the plug to get it to line up right to get decent volume.”</p>
+    </div>
+    <ol class="lista" style="margin-top:6px">
+      <li class="paso" style="font-size:31px">Positive or negative? Which product feature is it about?</li>
+      <li class="paso" style="font-size:31px">Is this data structured? How would you turn it into a metric?</li>
+      <li class="paso" style="font-size:31px">Propose one KPI in English: “We want to raise ___ from ___ to ___ by ___.”</li>
+    </ol>
+    <p class="paso sec" style="font-size:25px">Words: <b>feature</b>, <b>complaint</b>, <b>target</b>, <b>owner</b>, <b>vanity metric</b>. Watch after class: <a href="https://www.youtube.com/watch?v=ItZlTixh6Bs" target="_blank" rel="noopener">What are KPIs and Metrics? (Alex The Analyst, 5:47)</a></p>
+  </div>
+  <aside class="notas">Reseñas textuales de Kotzias (2015), sin corregir; se ajustó un signo de puntuación. Cinco minutos en parejas y cinco en plenaria, solo en inglés. El video queda como trabajo independiente y también está en la pestaña Material Audiovisual; su transcripción se revisó.</aside>
+</section>
 
-        // Configurar Simulaciones Interactivas con Chart.js
-        function initCharts() {
-            const ctxBad = document.getElementById('badChart');
-            if (ctxBad) {
-                new Chart(ctxBad.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: ['Norte', 'Sur', 'Este', 'Oeste', 'Centro'],
-                        datasets: [{
-                            label: 'Ventas 2026',
-                            data: [120, 190, 80, 210, 150],
-                            backgroundColor: ['red','blue','yellow','green','purple'],
-                            borderColor: 'black',
-                            borderWidth: 3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: { grid: { color: 'rgba(0,0,0,1)', lineWidth: 3 } },
-                            x: { grid: { color: 'rgba(0,0,0,1)', lineWidth: 3 } }
-                        }
-                    }
-                });
-            }
+<!-- 17 Taller -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho">
+    <p class="sec">Taller en parejas · Excel y navegador</p>
+    <h2>Tres fuentes reales, tres titulares y tu primer KPI</h2>
+    <ol class="lista" style="margin-top:8px">
+      <li>Clasifica fuentes y abre una API pública en vivo.</li>
+      <li>Cuenta palabras en 1.000 reseñas.</li>
+      <li>Reproduce los tres titulares de diciembre.</li>
+      <li>Calcula la retención y escribe tres KPI completos.</li>
+      <li>Traduce el correo del gerente a preguntas analíticas.</li>
+    </ol>
+    <p style="margin-top:6px"><a class="boton" href="Guia_Laboratorio_Semana2.html" target="_blank" rel="noopener">Abrir la guía</a></p>
+  </div>
+  <aside class="notas">Punto de control clave: +14,9 % en el ejercicio 3. Si obtienen otra cifra, revisar si filtraron por día en ambos años y si incluyeron cancelaciones.</aside>
+</section>
 
-            const ctxGood = document.getElementById('goodChart');
-            if (ctxGood) {
-                new Chart(ctxGood.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: ['Oeste', 'Sur', 'Centro', 'Norte', 'Este'],
-                        datasets: [{
-                            label: 'Ventas 2026',
-                            data: [210, 190, 150, 120, 80],
-                            backgroundColor: ['#E85C0B', '#003865', '#003865', '#003865', '#003865'],
-                            borderWidth: 0,
-                            borderRadius: 6
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            y: { grid: { display: false }, border: { display: false } },
-                            x: { grid: { display: false }, border: { display: false }, display: false }
-                        },
-                        animation: { duration: 2000, easing: 'easeOutBounce' }
-                    }
-                });
-            }
+<!-- 18 Proyecto -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho">
+    <p class="sec">Avance del Proyecto 1 · para la sesión 3</p>
+    <h2>Tu problema ya debe poder responder esto</h2>
+    <ul class="lista" style="margin-top:8px">
+      <li><b>Decisión:</b> quién, qué decide, y cuándo.</li>
+      <li><b>Pregunta analítica:</b> qué, sobre quién, periodo y comparación.</li>
+      <li><b>Fuentes:</b> tipo, dueño, enlace, licencia y qué periodo cubren de verdad.</li>
+      <li><b>KPI preliminar:</b> fórmula, meta justificada, responsable.</li>
+    </ul>
+    <p class="sec" style="font-size:28px">En la sesión 3 empezarás a conectar y a limpiar esos datos. También habrá Quiz 1 sobre las sesiones 1 y 2.</p>
+  </div>
+  <aside class="notas">Según el calendario: Quiz 1 en la sesión 3, con 10 % de la nota, resultado 1.1.</aside>
+</section>
 
-            // 7.1 Line Charts
-            const ctxBadLine = document.getElementById('badLineChart');
-            if (ctxBadLine) {
-                new Chart(ctxBadLine.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May'],
-                        datasets: [
-                            { label: 'Norte', data: [10, 25, 40, 50, 70], borderColor: 'blue', borderWidth: 3 },
-                            { label: 'Sur', data: [15, 20, 30, 45, 60], borderColor: 'red', borderWidth: 3 },
-                            { label: 'Este', data: [12, 18, 25, 30, 35], borderColor: 'green', borderWidth: 3 },
-                            { label: 'Oeste', data: [5, 10, 15, 25, 40], borderColor: 'purple', borderWidth: 3 }
-                        ]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { color: 'rgba(0,0,0,1)' } }, y: { grid: { color: 'rgba(0,0,0,1)' } } } }
-                });
-            }
+<!-- 19 Glosario -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto" style="max-width:none;gap:14px">
+    <h2 style="font-size:54px">Glosario de hoy</h2>
+    <dl class="glos" style="margin:0">
+      <div><dt>Dato estructurado</dt><dd>Sigue un esquema fijo de filas y columnas.</dd></div>
+      <div><dt>Dato semiestructurado</dt><dd>Tiene etiquetas, sin tabla fija: JSON, XML.</dd></div>
+      <div><dt>Dato no estructurado</dt><dd>Sin formato predefinido: texto libre, audio, imagen.</dd></div>
+      <div><dt>ERP y CRM</dt><dd>Sistemas de gestión de la operación y de los clientes.</dd></div>
+      <div><dt>API</dt><dd>Interfaz para que un programa pida datos a otro.</dd></div>
+      <div><dt>Métrica</dt><dd>Cualquier medida cuantificable de una actividad.</dd></div>
+      <div><dt>KPI</dt><dd>Métrica clave ligada a una meta, un responsable y una decisión.</dd></div>
+      <div><dt>Métrica de vanidad</dt><dd>Luce bien pero no indica qué hacer.</dd></div>
+      <div><dt>Retención</dt><dd>Parte de los clientes de un periodo que vuelve en el siguiente.</dd></div>
+      <div><dt>Pregunta analítica</dt><dd>Qué se mide, sobre quién, en qué periodo y contra qué.</dd></div>
+    </dl>
+  </div>
+  <aside class="notas">Estos términos entran al Quiz 1.</aside>
+</section>
 
-            const ctxGoodLine = document.getElementById('goodLineChart');
-            if (ctxGoodLine) {
-                new Chart(ctxGoodLine.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May'],
-                        datasets: [
-                            { label: 'Norte', data: [10, 25, 40, 50, 70], borderColor: '#E85C0B', borderWidth: 6, tension: 0.3 },
-                            { label: 'Sur', data: [15, 20, 30, 45, 60], borderColor: '#ccc', borderWidth: 2, pointRadius: 0 },
-                            { label: 'Este', data: [12, 18, 25, 30, 35], borderColor: '#ccc', borderWidth: 2, pointRadius: 0 },
-                            { label: 'Oeste', data: [5, 10, 15, 25, 40], borderColor: '#ccc', borderWidth: 2, pointRadius: 0 }
-                        ]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { display: false }, border: { display: false }, display: false } } }
-                });
-            }
+<!-- 20 Conclusiones -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho">
+    <h2 style="font-size:60px">Tres cosas para llevarte</h2>
+    <ol class="lista" style="margin-top:6px">
+      <li class="paso" style="font-size:40px"><b>Conoce tu fuente antes de creerle:</b> qué forma tiene, quién la produce, qué periodo cubre.</li>
+      <li class="paso" style="font-size:40px"><b>Un KPI se define antes de calcularse.</b> El mismo diciembre dio −22, +46 y +15.</li>
+      <li class="paso" style="font-size:40px"><b>Pocos diales, cada uno con dueño.</b> Lo que no cambia una decisión, se apaga.</li>
+    </ol>
+    <p class="paso sec">Próxima sesión: conectar datos y limpiarlos, con Power Query. Y Quiz 1.</p>
+  </div>
+  <aside class="notas">Cierre preguntando: ¿qué KPI apagarían de su propio proyecto?</aside>
+</section>
 
-            // 7.2 Pie/Donut Charts
-            const ctxBadPie = document.getElementById('badPieChart');
-            if (ctxBadPie) {
-                new Chart(ctxBadPie.getContext('2d'), {
-                    type: 'pie',
-                    data: {
-                        labels: ['Prod A', 'Prod B', 'Prod C', 'Prod D', 'Prod E'],
-                        datasets: [{ data: [18, 21, 19, 22, 20], backgroundColor: ['#3b5998', '#4b69a8', '#2b4988', '#5b79b8', '#1b3978'] }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-                });
-            }
+<!-- 21 Bibliografía -->
+<section class="esc" data-mundo="sala">
+  <div class="ancho alto bib" style="max-width:none;gap:5px">
+    <h2 style="font-size:50px;margin-bottom:8px">Bibliografía y fuentes</h2>
+    <p>Chen, D. (2015). <em>Online Retail</em> [conjunto de datos]. UCI Machine Learning Repository. CC BY 4.0. <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">doi:10.24432/C5BW33</a></p>
+    <p>Doran, G. T. (1981). There's a S.M.A.R.T. way to write management's goals and objectives. <em>Management Review, 70</em>(11), 35-36.</p>
+    <p>IBM. <em>Structured vs. unstructured data: What's the difference?</em> <a href="https://www.ibm.com/think/topics/structured-vs-unstructured-data" target="_blank" rel="noopener">ibm.com/think</a></p>
+    <p>Kotzias, D. (2015). <em>Sentiment Labelled Sentences</em> [conjunto de datos]. UCI Machine Learning Repository. CC BY 4.0. <a href="https://doi.org/10.24432/C57604" target="_blank" rel="noopener">doi:10.24432/C57604</a></p>
+    <p>Kotzias, D., Denil, M., de Freitas, N. y Smyth, P. (2015). From group to individual labels using deep features. <em>Proceedings of KDD '15</em>, 597-606. <a href="https://doi.org/10.1145/2783258.2783380" target="_blank" rel="noopener">doi:10.1145/2783258.2783380</a></p>
+    <p>Parmenter, D. (2015). <em>Key Performance Indicators</em> (3.ª ed.). Wiley. <a href="https://doi.org/10.1002/9781119019855" target="_blank" rel="noopener">doi:10.1002/9781119019855</a></p>
+    <p>Superintendencia Financiera de Colombia. <em>Tasa de Cambio Representativa del Mercado (TRM)</em> [API]. Datos Abiertos Colombia. CC BY-SA 4.0. <a href="https://www.datos.gov.co/resource/32sa-8pi3.json" target="_blank" rel="noopener">datos.gov.co</a></p>
+    <p>Alex The Analyst. <em>What are KPIs and Metrics? Data Fundamental for Beginners</em> [video]. <a href="https://www.youtube.com/watch?v=ItZlTixh6Bs" target="_blank" rel="noopener">YouTube</a></p>
+  </div>
+  <aside class="notas">Los DOI se comprobaron en Crossref; la API y el video, por respuesta directa. El artículo de Doran no se abrió directamente: sus datos se confirmaron en fuentes secundarias.</aside>
+</section>
 
-            const ctxGoodDonut = document.getElementById('goodDonutChart');
-            if (ctxGoodDonut) {
-                new Chart(ctxGoodDonut.getContext('2d'), {
-                    type: 'bar', // La mejor alternativa a un mal pie chart
-                    data: {
-                        labels: ['Prod D', 'Prod B', 'Prod E', 'Prod C', 'Prod A'],
-                        datasets: [{ data: [22, 21, 20, 19, 18], backgroundColor: ['#E85C0B', '#003865', '#003865', '#003865', '#003865'], borderRadius: 5 }]
-                    },
-                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { display: false } } } }
-                });
-            }
-        }
+<div id="ayuda">Flechas para avanzar · F pantalla completa · N notas</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
 
-        document.addEventListener("DOMContentLoaded", function() {
-            Reveal.initialize({
-                hash: true,
-                transition: 'slide',
-                backgroundTransition: 'zoom',
-                slideNumber: 'c/t',
-                controls: true,
-                progress: true,
-                center: true,
-                width: "100%",
-                height: "100%",
-                margin: 0.05,
-                minScale: 0.5,
-                maxScale: 2.0
-            }).then(() => {
-                initCharts();
-            });
-            
-            // Add listener to trigger Typed.js ONLY when the AI Slide is visited
-            Reveal.on('slidechanged', event => {
-                if (event.currentSlide.classList.contains('ai-slide')) {
-                    if (!window.typedAI) {
-                        window.typedAI = new Typed('#typed-ai-text', {
-                            strings: ['> INICIANDO PROTOCOLO DE TRANSPARENCIA...<br><br>> El diseño visual, la arquitectura interactiva y la síntesis cognitiva de esta presentación fueron <span class="highlight-ai">co-creados utilizando Inteligencia Artificial Avanzada (LLMs)</span>.<br><br>> <span style="color: white;">Misión:</span> Aplicar heurísticas de neuroeducación y <em>Storytelling con Datos</em> para maximizar la retención y el impacto en el aula.<br><br>> FIN DE TRANSMISIÓN.'],
-                            typeSpeed: 25,
-                            showCursor: true,
-                            cursorChar: '█'
-                        });
-                    }
-                }
-            });
-        });
-    </script>
+<script>
+window.PUNTOS_DATOS = [];  /* Esta sesión no usa los puntos de la Unidad 4: tiene su propio mundo. */
+(function () {
+  function luz(d, r, dur, cl) {
+    var e = 'animation-delay:' + (r || 0) + 's;animation-duration:' + (dur || 3.4) + 's';
+    return '<path class="via ' + (cl || '') + '" d="' + d + '"/><path class="estela" d="' + d + '" pathLength="100" style="' + e + '"/><path class="nucleo" d="' + d + '" pathLength="100" style="' + e + '"/>';
+  }
+  function dialSvg(cx, cy, r, vivo) {
+    var s = '<circle class="aro' + (vivo ? ' vivo' : '') + '" cx="' + cx + '" cy="' + cy + '" r="' + r + '"/>';
+    for (var a = 0; a < 24; a++) {
+      var t = a / 24 * 2 * Math.PI, c = Math.cos(t), n = Math.sin(t);
+      s += '<line class="tic" x1="' + (cx + c * (r - 6)).toFixed(1) + '" y1="' + (cy + n * (r - 6)).toFixed(1) + '" x2="' + (cx + c * (r - 2)).toFixed(1) + '" y2="' + (cy + n * (r - 2)).toFixed(1) + '"/>';
+    }
+    return s;
+  }
+
+  /* Portada: pared de diales, tres encendidos unidos por luz */
+  (function () {
+    var s = '', r = 42, dx = 106, dy = 106, luces = [[11, 1], [12, 4], [13, 6]], P = [];
+    for (var j = 0; j < 9; j++) for (var i = 0; i < 16; i++) {
+      var cx = 18 + i * dx, cy = 22 + j * dy, on = luces.some(function (l) { return l[0] === i && l[1] === j; });
+      s += dialSvg(cx, cy, r, on);
+      if (on) { P.push([cx, cy]); s += '<line class="aguja" x1="' + cx + '" y1="' + cy + '" x2="' + (cx + 24) + '" y2="' + (cy - 18) + '"/>'; }
+    }
+    P.sort(function (a, b) { return a[1] - b[1]; });
+    for (var k = 1; k < P.length; k++) {
+      var a = P[k - 1], b = P[k], my = (a[1] + b[1]) / 2;
+      s += luz('M' + a[0] + ' ' + (a[1] + r) + 'C' + a[0] + ' ' + my + ' ' + b[0] + ' ' + my + ' ' + b[0] + ' ' + (b[1] - r), k * .9, 4, 'fuerte');
+    }
+    document.getElementById('paredPortada').innerHTML = s;
+  })();
+
+  /* Días */
+  function dias(id, n) { var h = ''; for (var i = 0; i < 31; i++) h += i < n ? '<i></i>' : '<i class="vacio"></i>'; document.getElementById(id).innerHTML = h; }
+  dias('diasA', 31); dias('diasB', 9);
+
+  /* Doce minutos */
+  (function () {
+    var C = [['Enero de 2011 · cliente 12346', '74.215 frascos de cerámica', 'Factura 541431', '10:01', '+£77.183,60', '10:17', '−£77.183,60', '16 minutos', 110],
+             ['Diciembre de 2011 · cliente 16446', '80.995 kits de papel', 'Factura 581483', '09:15', '+£168.469,60', '09:27', '−£168.469,60', '12 minutos', 340]];
+    var s = '';
+    C.forEach(function (c, i) {
+      var y = c[8], xa = 180, xb = 1240;
+      s += '<text class="t-eje" x="0" y="' + (y - 78) + '">' + c[0] + ' · ' + c[1] + '</text>';
+      s += '<g' + (i ? ' class="paso"' : '') + '>';
+      s += luz('M' + xa + ' ' + y + 'C' + (xa + 300) + ' ' + (y - 68) + ' ' + (xb - 300) + ' ' + (y - 68) + ' ' + xb + ' ' + y, i * .4, 3.6, 'fuerte');
+      s += '<circle class="nodo foco" cx="' + xa + '" cy="' + y + '" r="14"/><circle class="nodo" cx="' + xb + '" cy="' + y + '" r="14"/>';
+      s += '<text class="t-g" x="' + (xa - 180) + '" y="' + (y + 14) + '">' + c[3] + '</text><text class="t-g" x="' + (xb + 32) + '" y="' + (y + 14) + '">' + c[5] + '</text>';
+      s += '<text class="t-f" x="' + (xa - 180) + '" y="' + (y + 56) + '">' + c[4] + '</text><text class="t-f" x="' + (xb - 90) + '" y="' + (y + 56) + '">' + c[6] + '</text>';
+      s += '<text class="t-nota" x="' + ((xa + xb) / 2) + '" y="' + (y - 24) + '" text-anchor="middle">' + c[7] + '</text>';
+      s += '</g>';
+    });
+    document.getElementById('minutos').innerHTML = s;
+  })();
+
+  /* Pendientes */
+  (function () {
+    var L = [['Mes completo contra 9 días', 823746, 638793, '−22,5 %', 'var(--punto)', false], ['Solo 9 días, con la venta cancelada', 438853, 638793, '+45,6 %', 'var(--punto)', false], ['9 días y sin cancelaciones', 377488, 433668, '+14,9 %', 'var(--compra)', true]];
+    var x0 = 180, x1 = 620, Y = function (v) { return 620 - v / 900000 * 590; }, s = '', miles = function (n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); };
+    s += '<line x1="' + x0 + '" x2="' + x0 + '" y1="30" y2="630" stroke="var(--regla)" stroke-width="2"/><line x1="' + x1 + '" x2="' + x1 + '" y1="30" y2="630" stroke="var(--regla)" stroke-width="2"/>';
+    s += '<text class="t-eje" x="' + x0 + '" y="664" text-anchor="middle">Dic. 2010</text><text class="t-eje" x="' + x1 + '" y="664" text-anchor="middle">Dic. 2011</text>';
+    L.forEach(function (l, i) {
+      var g = '<g' + (i === 2 ? ' class="paso"' : '') + '>';
+      g += '<path d="M' + x0 + ' ' + Y(l[1]) + 'L' + x1 + ' ' + Y(l[2]) + '" fill="none" stroke="' + l[4] + '" stroke-width="' + (l[5] ? 7 : 4) + '"/>';
+      g += '<circle cx="' + x0 + '" cy="' + Y(l[1]) + '" r="8" fill="' + l[4] + '"/><circle cx="' + x1 + '" cy="' + Y(l[2]) + '" r="8" fill="' + l[4] + '"/>';
+      g += '<text class="t-eje" x="' + (x0 - 18) + '" y="' + (Y(l[1]) + 8) + '" text-anchor="end">£' + miles(l[1]) + '</text>';
+      var yt = i === 0 ? Y(l[2]) - 34 : i === 1 ? Y(l[2]) + 40 : Y(l[2]) + 12;
+      g += '<text class="' + (l[5] ? 't-nota' : 't-f') + '" x="' + (x1 + 18) + '" y="' + yt + '">' + l[3] + '</text>';
+      g += '<text class="t-eje" x="' + (x1 + 18) + '" y="' + (yt + 25) + '" style="font-size:20px">' + (i === 0 ? 'mes contra 9 días' : i === 1 ? 'solo 9 días' : 'sin cancelaciones') + '</text>';
+      s += g + '</g>';
+    });
+    document.getElementById('pendientes').innerHTML = s;
+  })();
+
+  /* Palabras */
+  (function () {
+    var D = [['charg', 64.3, 27, 42], ['batter', 51.1, 24, 47], ['quality', 36.7, 18, 49], ['sound', 36.4, 16, 44], ['price', 9.1, 3, 33]];
+    var x0 = 150, W = 650, X = function (v) { return x0 + v / 100 * W; }, s = '', y = 60;
+    s += '<line x1="' + X(50) + '" x2="' + X(50) + '" y1="20" y2="510" stroke="var(--tinta-2)" stroke-width="2" stroke-dasharray="6 7"/>';
+    s += '<text class="t-eje" x="' + X(50) + '" y="540" text-anchor="middle">50 %: lo que da el archivo completo</text>';
+    D.forEach(function (d, i) {
+      var f = i === 0 || i === 4;
+      s += '<text class="t-f" x="' + (x0 - 22) + '" y="' + (y + 9) + '" text-anchor="end">' + d[0] + '</text>';
+      s += '<line x1="' + X(50) + '" x2="' + X(d[1]) + '" y1="' + y + '" y2="' + y + '" stroke="' + (f ? 'var(--compra)' : 'var(--punto)') + '" stroke-width="' + (f ? 7 : 4) + '"/>';
+      s += '<circle cx="' + X(d[1]) + '" cy="' + y + '" r="' + (f ? 15 : 11) + '" fill="' + (f ? 'var(--compra)' : 'var(--punto)') + '"/>';
+      var dcha = d[1] >= 50, tx = dcha ? X(d[1]) + 24 : X(d[1]), al = dcha ? 'start' : 'middle';
+      s += '<text class="' + (f ? 't-nota' : 't-eje') + '" x="' + tx + '" y="' + (dcha ? y + 9 : y - 24) + '" text-anchor="' + al + '">' + d[1].toString().replace('.', ',') + ' %</text>';
+      s += '<text class="t-eje" x="' + tx + '" y="' + (dcha ? y + 36 : y + 44) + '" text-anchor="' + al + '" style="font-size:19px">' + d[2] + ' de ' + d[3] + '</text>';
+      y += 100;
+    });
+    document.getElementById('palabras').innerHTML = s;
+  })();
+
+  /* Fuentes */
+  (function () {
+    var F = [['ERP', 'Facturas, inventario, costos', 'Interna · estructurada', '¿Cuánto pido?'], ['CRM', 'Clientes y contactos', 'Interna · estructurada', '¿A quién retengo?'], ['Web y comercio', 'Sesiones, carritos, registros', 'Interna · semiestructurada', '¿Dónde se caen?'], ['Atención al cliente', 'Reseñas, llamadas, correos', 'Interna · no estructurada', '¿De qué se quejan?'], ['Hojas de cálculo', 'Metas, presupuestos, listas', 'Interna · estructurada, frágil', '¿Quién la mantiene?'], ['APIs y datos abiertos', 'TRM, DANE, datos.gov.co', 'Externa · semiestructurada', '¿Qué pasa afuera?']];
+    var s = '', fin = [1270, 320], h = 104;
+    F.forEach(function (f, i) {
+      var y = 44 + i * h;
+      s += '<text class="t-f" x="0" y="' + y + '" style="font-size:31px">' + f[0] + '</text><text class="t-eje" x="0" y="' + (y + 31) + '">' + f[1] + '</text><text class="t-eje" x="0" y="' + (y + 59) + '" style="font-size:20px;opacity:.82">' + f[2] + '</text>';
+      s += '<text class="t-eje" x="480" y="' + (y + 12) + '" style="fill:var(--tinta);font-size:27px">' + f[3] + '</text>';
+      s += luz('M745 ' + (y + 6) + 'C950 ' + (y + 6) + ' 1040 ' + fin[1] + ' ' + (fin[0] - 22) + ' ' + fin[1], i * .55, 4);
+    });
+    s += '<circle class="nodo foco" cx="' + fin[0] + '" cy="' + fin[1] + '" r="22"/><text class="t-g" x="' + (fin[0] - 60) + '" y="' + (fin[1] + 74) + '">Decisión</text>';
+    document.getElementById('fuentes').innerHTML = s;
+  })();
+
+  /* Pared de métricas: valores de cifras_u1.json */
+  (function () {
+    var M = [['541.909', 'Filas', 'q1'], ['38', 'Países', 'q1'], ['3.922', 'Códigos de producto', 'q1'], ['305', 'Días con venta', 'q1'], ['5,59 M', 'Unidades', 'q1'], ['£3,91', 'Precio medio por línea', 'q1'], ['26,6', 'Líneas por factura', 'q1'], ['280', 'Unidades por factura', 'q1'],
+             ['10:00', 'Hora pico', 'q1'], ['£200.921', 'Mejor día', 'q2'], ['£206.249', 'Producto top', 'q2'], ['19.960', 'Facturas', 'q2'], ['3.836', 'Cancelaciones', 'q2'], ['84,6 %', 'Reino Unido', 'q2'], ['4.317', 'Clientes', 'q2'], ['£10,67 M', 'Venta bruta', 'q2'],
+             ['£658', 'Cliente mediano', 'q2'], ['£534', 'Valor por factura', 'q3'], ['34,4 %', 'Compran una sola vez', 'q3'], ['59,7 %', 'Peso del 10 % mayor', 'q3'], ['1.495', 'Clientes nuevos, 2.º sem.', 'q3'], ['£639.300', 'Venta neta mensual', 'kpi'], ['68,7 %', 'Retención semestral', 'kpi'], ['8,4 %', 'Cancelación', 'kpi']];
+    /* Para que los tres KPI no queden juntos al final, se reparten en la pared. */
+    var orden = [0, 1, 21, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 22, 12, 13, 14, 15, 16, 17, 18, 19, 23, 20];
+    document.getElementById('pared').innerHTML = orden.map(function (i) {
+      var m = M[i];
+      return '<div class="dial ' + m[2] + '"><svg viewBox="0 0 112 112" aria-hidden="true">' + dialSvg(56, 56, 50, false) + '<text class="val" x="56" y="63" text-anchor="middle"' + (m[0].length > 7 ? ' style="font-size:17px"' : '') + '>' + m[0] + '</text></svg><span>' + m[1] + '</span></div>';
+    }).join('');
+  })();
+
+  /* Tres KPI */
+  (function () {
+    function arco(p, meta) {
+      var cx = 125, cy = 130, r = 104;
+      function pt(f) { var a = Math.PI + f * Math.PI; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
+      function ar(a, b) { var A = pt(a), B = pt(b); return 'M' + A[0].toFixed(1) + ' ' + A[1].toFixed(1) + 'A' + r + ' ' + r + ' 0 0 1 ' + B[0].toFixed(1) + ' ' + B[1].toFixed(1); }
+      var mA = pt(meta), M2 = [cx + (r + 16) * Math.cos(Math.PI + meta * Math.PI), cy + (r + 16) * Math.sin(Math.PI + meta * Math.PI)], M1 = [cx + (r - 16) * Math.cos(Math.PI + meta * Math.PI), cy + (r - 16) * Math.sin(Math.PI + meta * Math.PI)];
+      return '<path d="' + ar(0, 1) + '" fill="none" stroke="var(--punto)" stroke-width="16" opacity=".35"/><path d="' + ar(0, p) + '" fill="none" stroke="var(--compra)" stroke-width="16" style="filter:drop-shadow(0 0 7px var(--compra))"/>' +
+        '<line x1="' + M1[0].toFixed(1) + '" y1="' + M1[1].toFixed(1) + '" x2="' + M2[0].toFixed(1) + '" y2="' + M2[1].toFixed(1) + '" stroke="#fff" stroke-width="5"/>';
+    }
+    var K = [
+      ['Venta neta mensual', '£639.300', '<text font-size="20" x="125" y="168" text-anchor="middle" style="fill:var(--tinta-2)">prom. feb a ago</text>', 639300 / 1000000, .7, 'Ventas menos cancelaciones, por mes', 'Más de £700.000', 'Dirección comercial', '¿Refuerzo campañas en temporada baja?'],
+      ['Retención semestral', '68,7 %', '<text font-size="20" x="125" y="168" text-anchor="middle" style="fill:var(--tinta-2)">1.871 de 2.724</text>', .687, .72, 'Clientes que vuelven / clientes del semestre anterior', '72 %', 'Jefatura de clientes', '¿Lanzo un plan para recompra?'],
+      ['Tasa de cancelación', '8,4 %', '<text font-size="20" x="125" y="168" text-anchor="middle" style="fill:var(--tinta-2)">6,2 % sin 2 facturas</text>', .084 / .2, .25, 'Importe cancelado / venta bruta', 'Máximo 5 %', 'Jefatura de operaciones', '¿Valido pedidos muy grandes antes de facturar?']
+    ];
+    document.getElementById('kpis').innerHTML = K.map(function (k) {
+      return '<div><svg viewBox="0 0 250 200" role="img" aria-label="' + k[0] + ': ' + k[1] + ', meta ' + k[6] + '">' + arco(k[3], k[4]) + '<text x="125" y="136" text-anchor="middle" font-size="35" font-weight="800" style="fill:var(--tinta)">' + k[1] + '</text>' + k[2] + '</svg><h3>' + k[0] + '</h3><dl><dt>Fórmula</dt><dd>' + k[5] + '</dd><dt>Meta</dt><dd>' + k[6] + '</dd><dt>Dueño</dt><dd>' + k[7] + '</dd><dt>Decisión</dt><dd>' + k[8] + '</dd></dl></div>';
+    }).join('');
+  })();
+})();
+</script>
+<script src="../assets/puntos/diagramas.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

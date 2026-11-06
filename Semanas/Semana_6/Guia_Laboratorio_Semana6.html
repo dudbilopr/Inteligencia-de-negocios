@@ -1,117 +1,184 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 6 - Principios de Visualización de Datos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B', dark: '#0f172a' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.08); }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller sesión 6: SQL y modelos escalables | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+<style>@media (max-width: 900px) { .marco { grid-template-columns: minmax(0, 1fr); } } li code { overflow-wrap: anywhere; }</style>
 </head>
-<body class="text-gray-800 antialiased p-4 md:p-8">
-    
-    <div class="max-w-5xl mx-auto space-y-8">
-        
-        <!-- Header -->
-        <div class="bg-gradient-to-br from-primary to-[#002240] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
-            <!-- Deco -->
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            
-            <div class="relative z-10">
-                <div class="flex items-center gap-5 mb-6">
-                    <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-palette text-3xl text-secondary"></i>
-                    </div>
-                    <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 6</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Refactorización Visual y Limpieza de Reportes</h1>
-                    </div>
-                </div>
-                <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> Te entregan un reporte antiguo saturado de colores neón, gráficos 3D y tablas ilegibles. Tu tarea es aplicar Data-to-Ink ratio, rediseñar la paleta de colores a un estándar corporativo serio y corregir los engaños visuales (ejes truncados, ángulos engañosos).</p>
-                </div>
-            </div>
-        </div>
+<body>
+<header class="portada">
+  <h1>Pedirle algo al archivo</h1>
+  <p>Consulta una base de datos real con SQL, comprueba cada respuesta, provoca el error que multiplica las ventas por 103 y audita la estructura de su modelo.</p>
+  <div class="datos-clase"><span><b>Sesión</b>6</span><span><b>Modalidad</b>Individual</span><span><b>Herramienta</b>SQLite y Power BI</span><span><b>Resultados</b>1.2 y 1.3</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#datos">La base</a></li>
+  <li><a href="#e1">1. Mirar</a></li>
+  <li><a href="#e2">2. Filtrar y agrupar</a></li>
+  <li><a href="#e3">3. Unir</a></li>
+  <li><a href="#e4">4. Romper una suma</a></li>
+  <li><a href="#e5">5. Grupos con HAVING</a></li>
+  <li><a href="#e6">6. Auditar su modelo</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Metodologia Paso a Paso -->
-        <div class="glass-card rounded-2xl p-8 md:p-12">
-            <h2 class="text-2xl font-bold text-primary mb-10 flex items-center gap-3 border-b border-gray-200 pb-4">
-                <i class="fas fa-layer-group text-secondary"></i> Flujo de Implementación Técnica
-            </h2>
-            
-            <div class="mt-8">
-                
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    1
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Limpieza (Decluttering)</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Tomar un gráfico de líneas sobresaturado. Eliminar el fondo gris, quitar las líneas de cuadrícula secundarias, remover el borde del marco y colocar etiquetas al final de la línea en lugar de una leyenda confusa.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    2
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Transformación a Barras Horizontales</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Convertir un gráfico circular ilegible (con 15 países) en un gráfico de barras horizontales ordenado de mayor a menor, donde solo el Top 3 esté resaltado en color corporativo (naranja) y el resto en gris neutro.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    3
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Paletas Semánticas (Color-Blind Friendly)</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Implementar un tema JSON en Power BI que reemplace los colores predeterminados por una paleta adaptada a personas con daltonismo, garantizando accesibilidad y seriedad institucional.</p>
-                </div>
-            </div>
-            </div>
-        </div>
+<section id="datos">
+  <h2>La base</h2>
+  <div class="descargas"><a class="boton" href="Datos/online_retail.sqlite" download>Descargar online_retail.sqlite (7,6 MB)</a></div>
+  <p>Ábrala en <a href="https://sqliteonline.com" target="_blank" rel="noopener">SQLite Online</a>, en el navegador, con <em>File &gt; Open DB</em>; o en <a href="https://sqlitebrowser.org/dl/" target="_blank" rel="noopener">DB Browser for SQLite</a>, si puede instalarlo.</p>
+  <p class="meta">Derivada de Chen, D. (2015). Online Retail. UCI, CC BY 4.0. Se limpió como en la sesión 4 y se separó en tablas. Son los mismos datos de la unidad, en otra forma.</p>
+  <div class="tablon"><table>
+    <tr><th>Tabla</th><th class="d">Filas</th><th>Una fila es</th><th>Columnas</th></tr>
+    <tr><td><code>facturas</code></td><td class="d">23.796</td><td>Una factura</td><td><code>factura, fecha, mes, id_cliente, pais, tipo, lineas, unidades, importe</code></td></tr>
+    <tr><td><code>clientes</code></td><td class="d">4.371</td><td>Un cliente</td><td><code>id_cliente, pais_principal, primera_compra</code></td></tr>
+    <tr><td><code>productos</code></td><td class="d">3.828</td><td>Un producto</td><td><code>id_producto, descripcion</code></td></tr>
+    <tr><td><code>lineas_nov2011</code></td><td class="d">84.445</td><td>Una línea de factura, solo de noviembre de 2011</td><td><code>factura, fecha, id_cliente, id_producto, cantidad, precio, importe</code></td></tr>
+  </table></div>
+  <p class="meta">Importes en libras. Las cancelaciones llevan signo negativo.</p>
+</section>
 
-        <!-- Reto de Práctica Autónoma -->
-        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl border-l-8 border-secondary relative overflow-hidden transform transition hover:scale-[1.01] duration-300">
-            <div class="absolute top-0 right-0 p-8 opacity-10">
-                <i class="fas fa-rocket text-8xl"></i>
-            </div>
-            <div class="relative z-10">
-                <div class="inline-block bg-secondary text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4 shadow-lg">
-                    Actividad Autónoma
-                </div>
-                <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                    <i class="fas fa-brain text-secondary"></i> Reto Arquitectónico Avanzado
-                </h2>
-                <div class="bg-white/10 rounded-xl p-6 border border-white/10">
-                    <p class="text-gray-300 text-lg leading-relaxed">
-                        Crear un gráfico combinado (Líneas y Columnas Apiladas) que comparta el eje X, pero manejar escalas relativas independientes (porcentaje de margen en línea vs volumen de venta en barras) de manera que ninguna visualización aplaste a la otra.
-                    </p>
-                </div>
-                
-                <div class="mt-8 bg-blue-900/40 border border-blue-500/30 rounded-lg p-5 flex gap-4">
-                    <i class="fas fa-circle-info text-blue-400 text-xl mt-1"></i>
-                    <p class="text-sm text-blue-200">
-                        <strong>Criterio de Evaluación Institucional:</strong> Este reto exige aplicar la documentación oficial, foros de la comunidad técnica y fundamentos teóricos de la clase magistral. Asegúrate de comentar y estructurar bien tu código DAX o M para sustentarlo en la revisión.
-                    </p>
-                </div>
-            </div>
-        </div>
+<section id="e1">
+  <h2><span class="num">1.</span> Mirar antes de preguntar</h2>
+  <p class="meta">5 minutos.</p>
+  <pre><code>SELECT * FROM facturas LIMIT 5;
+SELECT COUNT(*) FROM facturas;</code></pre>
+  <details><summary>Punto de control</summary><div><p><code>facturas</code> tiene <b>23.796</b> filas, igual que el libro de la sesión 1.</p></div></details>
+</section>
 
-    </div>
+<section id="e2">
+  <h2><span class="num">2.</span> Filtrar y agrupar</h2>
+  <p class="meta">20 minutos. Intente escribir cada consulta antes de abrir la respuesta.</p>
+  <ol class="pasos">
+    <li>¿Cuántas cancelaciones hay, y por cuánto en total?</li>
+    <li>Venta neta por mes, en orden cronológico.</li>
+    <li>Los tres países con mayor venta neta.</li>
+  </ol>
+  <details><summary>Respuesta y punto de control</summary><div>
+    <pre><code>SELECT COUNT(*), ROUND(SUM(importe), 2) FROM facturas WHERE tipo = 'Cancelación';
+
+SELECT mes, ROUND(SUM(importe)) FROM facturas GROUP BY mes ORDER BY mes;
+
+SELECT pais, ROUND(SUM(importe), 2) FROM facturas GROUP BY pais ORDER BY 2 DESC LIMIT 3;</code></pre>
+    <ul>
+      <li>Cancelaciones: <b>3.836</b> facturas, <b>−£896.812,49</b>.</li>
+      <li>Noviembre de 2011: <b>£1.461.756</b>, los mismos 13 números de la sesión 1.</li>
+      <li>United Kingdom £8.209.930,48; Netherlands £284.661,54; EIRE £263.276,82.</li>
+    </ul>
+  </div></details>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Unir tablas</h2>
+  <p class="meta">20 minutos.</p>
+  <ol class="pasos">
+    <li>Sume la venta neta uniendo <code>facturas</code> con <code>clientes</code> mediante JOIN.</li>
+    <li>Repita con LEFT JOIN. ¿Qué cambió?</li>
+    <li>Encuentre cuánto vale lo que JOIN dejó por fuera.</li>
+    <li>Por país principal del cliente, ¿cuántos clientes y cuánta venta tienen los tres mayores?</li>
+  </ol>
+  <details><summary>Respuesta y punto de control</summary><div>
+    <pre><code>SELECT ROUND(SUM(f.importe), 2), COUNT(*)
+FROM facturas f JOIN clientes c ON c.id_cliente = f.id_cliente;
+
+SELECT ROUND(SUM(f.importe), 2), COUNT(*)
+FROM facturas f LEFT JOIN clientes c ON c.id_cliente = f.id_cliente;
+
+SELECT ROUND(SUM(f.importe), 2), COUNT(*)
+FROM facturas f LEFT JOIN clientes c ON c.id_cliente = f.id_cliente
+WHERE c.id_cliente IS NULL;
+
+SELECT c.pais_principal, COUNT(DISTINCT f.id_cliente), ROUND(SUM(f.importe))
+FROM facturas f JOIN clientes c ON c.id_cliente = f.id_cliente
+GROUP BY 1 ORDER BY 3 DESC LIMIT 3;</code></pre>
+    <div class="tablon"><table>
+      <tr><th>Consulta</th><th class="d">Venta neta</th><th class="d">Facturas</th></tr>
+      <tr><td>JOIN</td><td class="d">£8.300.065,81</td><td class="d">22.186</td></tr>
+      <tr><td>LEFT JOIN</td><td class="d">£9.769.872,05</td><td class="d">23.796</td></tr>
+      <tr><td>Sin cliente</td><td class="d">£1.469.806,24</td><td class="d">1.610</td></tr>
+    </table></div>
+    <p>Por país principal: United Kingdom 3.949 clientes y £6.767.873; Netherlands 9 y £284.662; EIRE 3 y £250.285. ¿Por qué 3 clientes de Irlanda pesan tanto? Lo verá en la sesión 8.</p>
+  </div></details>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Romper una suma</h2>
+  <p class="meta">20 minutos. Este es el ejercicio más importante.</p>
+  <ol class="pasos">
+    <li>Sume el importe de noviembre de dos formas correctas: desde <code>facturas</code> y desde <code>lineas_nov2011</code>. Deben coincidir.</li>
+    <li>Ahora una unión mal hecha. Ejecútela:</li>
+  </ol>
+  <pre><code>SELECT COUNT(*), ROUND(SUM(f.importe))
+FROM lineas_nov2011 l
+JOIN facturas f ON f.factura = l.factura;</code></pre>
+  <ol class="pasos">
+    <li>Compare. ¿Cuántas veces mayor es? ¿Hubo algún mensaje de error?</li>
+    <li>Explique con la palabra “grano” por qué pasó.</li>
+    <li>Corrija la consulta para que dé el valor real, sin dejar de unir las dos tablas.</li>
+    <li>Escriba: ¿cómo lo habría detectado si no supiera la cifra real?</li>
+  </ol>
+  <details><summary>Respuesta y punto de control</summary><div>
+    <p>Correcto: <b>£1.461.756</b>. Con la unión mal hecha: <b>£150.284.141</b>, unas 103 veces más, sin ningún aviso.</p>
+    <p>Cada línea trae consigo el total de su factura. Una factura con 100 líneas suma su total 100 veces. El hecho tiene grano de línea; <code>facturas.importe</code>, de factura. La corrección es sumar la columna del grano correcto:</p>
+    <pre><code>SELECT COUNT(*), ROUND(SUM(l.importe))
+FROM lineas_nov2011 l
+JOIN facturas f ON f.factura = l.factura;</code></pre>
+    <p>Se detecta conciliando con un total conocido. En Power BI, por eso el modelo guarda el importe en el grano de línea.</p>
+  </div></details>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Filtrar grupos con HAVING</h2>
+  <p class="meta">10 minutos.</p>
+  <ol class="pasos">
+    <li>¿Cuántos clientes identificados superan £100.000 de venta neta? ¿Quiénes son?</li>
+    <li>Intente hacerlo con WHERE en lugar de HAVING. ¿Qué mensaje da y por qué?</li>
+    <li>Los tres productos de mayor venta en noviembre. ¿Todos son productos?</li>
+  </ol>
+  <details><summary>Respuesta y punto de control</summary><div>
+    <pre><code>SELECT id_cliente, ROUND(SUM(importe)) FROM facturas
+WHERE id_cliente IS NOT NULL
+GROUP BY id_cliente HAVING SUM(importe) &gt; 100000 ORDER BY 2 DESC;
+
+SELECT p.descripcion, ROUND(SUM(l.importe))
+FROM lineas_nov2011 l JOIN productos p ON p.id_producto = l.id_producto
+GROUP BY p.id_producto ORDER BY 2 DESC LIMIT 3;</code></pre>
+    <p><b>6 clientes:</b> 14646, 18102, 17450, 14911, 12415 y 14156. WHERE corre antes de agrupar: aún no existe <code>SUM</code>.</p>
+    <p>Productos: DOTCOM POSTAGE, £36.905; RABBIT NIGHT LIGHT, £34.422; PAPER CHAIN KIT 50'S CHRISTMAS, £28.883. El primero es el cobro de envío, la misma trampa de la sesión 2.</p>
+  </div></details>
+</section>
+
+<section id="e6" class="reto">
+  <h2><span class="num">6.</span> Audite la estructura de su modelo</h2>
+  <p class="meta">Taller aplicado. Es lo que se entrega.</p>
+  <div class="tablon"><table>
+    <tr><th>Pregunta</th><th>Su respuesta, con evidencia</th></tr>
+    <tr><td>¿El hecho tiene un solo grano? Escríbalo.</td><td></td></tr>
+    <tr><td>¿Cada relación es varios a uno, y la clave no se repite?</td><td></td></tr>
+    <tr><td>¿Hay columnas o filas que nadie usa? Quítelas y anote cuántas.</td><td></td></tr>
+    <tr><td>¿Hay valores sin coincidencia en la dimensión? ¿Cuánto valen?</td><td></td></tr>
+    <tr><td>Si los datos se multiplican por 10, ¿qué se rompe primero?</td><td></td></tr>
+    <tr><td>Total de control antes y después del modelo.</td><td></td></tr>
+    <tr><td>Escriba en SQL, aunque sea a mano, la consulta que responde su pregunta analítica.</td><td></td></tr>
+  </table></div>
+  <p>Si su fuente es una base de datos, en Power Query revise si un paso se pliega: clic derecho en el paso &gt; <em>Ver consulta nativa</em>. Si la opción está inactiva, ese paso no se traduce a la fuente.</p>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <ul>
+    <li>SQLite. <a href="https://www.sqlite.org/lang_select.html" target="_blank" rel="noopener">SELECT</a>.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/guidance/import-modeling-data-reduction" target="_blank" rel="noopener">Data reduction techniques for Import modeling</a>.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-query/query-folding-basics" target="_blank" rel="noopener">Power Query query folding</a>.</li>
+    <li>Codd, E. F. (1970). <a href="https://doi.org/10.1145/362384.362685" target="_blank" rel="noopener">A relational model of data for large shared data banks</a>.</li>
+  </ul>
+</section>
+
+</main>
+</div>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

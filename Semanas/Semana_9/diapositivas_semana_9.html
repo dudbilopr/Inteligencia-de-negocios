@@ -1,283 +1,326 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 9</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides {
-            width: 95% !important;
-            height: 95% !important;
-            max-width: 1300px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 30px;
-            margin-top: 25px;
-        }
-        
-        .box-glass {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .box-glass:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 45px rgba(0, 56, 101, 0.2);
-        }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 800; }
-        .reveal h1 { font-size: 3.2em; }
-        .reveal h2 { font-size: 2.2em; margin-bottom: 20px; }
-        .highlight { color: var(--unab-orange); position: relative; display: inline-block; }
-        .highlight::after {
-            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
-            background: var(--unab-orange); opacity: 0.3; z-index: -1; border-radius: 4px;
-        }
-        
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.75em !important; line-height: 1.4; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #002240 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.8em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 12px; font-size: 1.4em; }
-        
-        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3, .dark-slide p { color: white !important; }
-        
-        /* Modal Glassmorphism */
-        .clickable-concept { cursor: pointer; position: relative; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -15px; right: -15px; background: var(--unab-orange); color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; box-shadow: 0 5px 15px rgba(232,92,11,0.4); opacity: 0; transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%);
-            width: 85%; max-width: 700px; background: rgba(255, 255, 255, 0.98); padding: 40px;
-            border-radius: 20px; box-shadow: 0 40px 80px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-        }
-        #concept-modal.show { opacity: 1; transform: translate(-50%, -50%); }
-        @keyframes popIn { 0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-        
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.85); backdrop-filter: blur(8px); z-index: 1999;
-            animation: fadeIn 0.3s ease forwards; opacity: 0;
-        }
-        #concept-modal-overlay.show { opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; font-size: 1.8em; color: #888; transition: color 0.2s; }
-        .modal-close:hover { color: var(--unab-orange); }
-        
-        #typed-container {
-            background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px; font-family: monospace;
-            color: #00ff00; margin-bottom: 20px; display: inline-block; border-left: 4px solid #00ff00; font-size: 0.6em;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 9 · El puente | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<link rel="stylesheet" href="../assets/puntos/cine.css">
+<link rel="stylesheet" href="../assets/puntos/curso.css">
+<style>
+  /* Mundo: una obra a cielo abierto. La cámara recorre el puente de orilla a orilla, con capas a distinta velocidad. Dirección de arte: propuesta de Gemini, adaptada. */
+  :root { --fondo: #e4eff5; --fondo-2: #cfe0ea; --tinta: #06283f; --tinta-2: #3f5a6b; --regla: rgba(6,40,63,.26); --punto: #7f9db0; --compra: #e85c0b; --acento-texto: #b94504; --dur: 1.4s; }
+  .rot { font: 800 22px 'Schibsted Grotesk', sans-serif; letter-spacing: .16em; color: #00558c; text-transform: uppercase; }
+  svg text { font-family: inherit; }
+  .t-n { fill: var(--tinta); font-weight: 800; } .t-s { fill: var(--tinta-2); } .t-o { fill: var(--acento-texto); font-weight: 800; }
+  .plx.lejos { left: 0; bottom: 120px; width: 4200px; height: 300px; }
+  .plx.cerca { left: 0; bottom: 0; width: 6400px; height: 150px; }
+  .esc { background: transparent; z-index: 2; }
+  .placa { background: rgba(255,255,255,.93); padding: 26px 32px; border-left: 8px solid var(--compra); }
+  .rub { display: grid; grid-template-columns: 1fr 300px 110px 72px; gap: 17px 22px; align-items: center; font-size: 28px; }
+  .rub .h { font-size: 21px; font-weight: 700; color: var(--tinta-2); border-bottom: 2px solid var(--regla); padding-bottom: 5px; }
+  .rub b { font-size: 31px; }
+  .rub input[type=range] { width: 100%; accent-color: #e85c0b; }
+  .rub input[type=number] { width: 86px; font: 700 24px 'Schibsted Grotesk', sans-serif; padding: 3px 6px; border: 2px solid var(--punto); background: #fff; color: var(--tinta); }
+  .rub output { font: 800 27px Consolas, monospace; text-align: right; }
+  .total { font: 800 76px Consolas, monospace; color: var(--acento-texto); line-height: 1; }
+  .cron { font: 800 240px Consolas, monospace; letter-spacing: -.05em; line-height: .9; font-variant-numeric: tabular-nums; }
+  .ctrl button { font: 700 26px 'Schibsted Grotesk', sans-serif; border: 3px solid var(--tinta); background: #fff; color: var(--tinta); padding: 10px 20px; cursor: pointer; margin-right: 8px; }
+  .ctrl button:focus-visible, .rub input:focus-visible { outline: 3px solid var(--compra); outline-offset: 2px; }
+  .ctrl button:active { transform: scale(.97); }
+  .remaches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .remaches div { background: rgba(255,255,255,.93); padding: 18px 18px 24px; min-height: 240px; border-top: 7px solid #00558c; }
+  .gr3 b { font-size: 58px !important; color: var(--acento-texto); } .gr3 span { font-size: 29px !important; } .gr3 .ico { font-size: 72px !important; } .gr3 div { background: var(--fondo); min-height: 500px; }
+  .remaches .ico { font-size: 62px; color: #00558c; }
+  .remaches b { display: block; font-size: 31px; line-height: 1.08; margin: 6px 0; }
+  .remaches span { font-size: 27px; line-height: 1.16; color: var(--tinta-2); display: block; }
+</style>
 </head>
-<body>
-    
-    <!-- Modal Interactivo -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></span>
-        <h2 style="color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; display: flex; align-items: center; gap: 15px;">
-            <i id="modal-icon" class="fa-solid fa-lightbulb" style="color: var(--unab-orange);"></i> 
-            <span id="modal-title">Título</span>
-        </h2>
-        <p id="modal-text" style="font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px;">Texto explicativo</p>
-        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
-            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--unab-blue);"><i class="fa-solid fa-rocket"></i> Implementación Práctica:</h4>
-            <code id="modal-example-text" style="font-size: 0.9em; background: #fff; padding: 10px; display: block; border-radius: 5px; color: #d946ef; font-weight: bold;">Ejemplo</code>
-        </div>
+<body data-cine="paneo">
+<div id="escenario">
+<!-- Fondo que se mueve con la cámara: montañas lejanas y orilla cercana -->
+<svg class="plx lejos" id="lejos" data-vx="90" viewBox="0 0 4200 300" preserveAspectRatio="none" aria-hidden="true"></svg>
+<svg class="plx cerca" id="cerca" data-vx="240" viewBox="0 0 6400 150" preserveAspectRatio="none" aria-hidden="true"></svg>
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
+
+<!-- 1 -->
+<section class="esc">
+  <svg class="diagrama" id="obra" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Puente de seis tramos entre la orilla del problema y la orilla de la decisión"></svg>
+  <div style="position:absolute;left:88px;top:56px;width:1200px">
+    <p class="rot">El puente · Sesión 9 · Cierre del Proyecto 1</p>
+    <h1 style="font-size:92px;margin-top:10px">Del problema a la decisión, <span class="acento">sin tramos sueltos.</span></h1>
+    <p class="sec" style="font-size:25px;margin-top:12px">Inteligencia de Negocios · Dudbil Olvasada Pabón Riaño · UNAB</p>
+  </div>
+  <aside class="notas">Hoy no hay tema nuevo: hoy se cruza el puente. Cada estudiante presenta su solución completa. El calendario pide: problema, datos, modelo, KPI, dashboard y decisiones que puede apoyar, con retroalimentación y reflexión.</aside>
+</section>
+
+<!-- 2 Agenda: montaje -->
+<section class="esc">
+  <svg class="diagrama" id="montaje" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Agenda: cadena y rúbrica, inglés, presentaciones, retroalimentación, reflexión"></svg>
+  <aside class="notas">Ajuste al número de estudiantes. El calendario no fija minutos por persona: defínalo antes y dígalo hoy. El cronómetro de la escena 8 se configura. En un grupo grande, puede que las presentaciones continúen después de la pausa sin otro bloque.</aside>
+</section>
+
+<!-- 3 Resultados -->
+<section class="esc">
+  <div class="placa" style="position:absolute;left:88px;top:64px;width:1424px">
+    <p class="rot">Resultados de aprendizaje que se evalúan hoy · Proyecto 1 · 25 %</p>
+    <div class="remaches gr3" style="margin-top:18px">
+      <div><i class="ico" data-i="database"></i><b>1.1</b><span>Identifica fuentes de datos estructuradas y no estructuradas en entornos empresariales.</span></div>
+      <div><i class="ico" data-i="filter"></i><b>1.2</b><span>Conecta y transforma datos utilizando herramientas de BI como Power BI.</span></div>
+      <div><i class="ico" data-i="spline"></i><b>1.3</b><span>Establece modelos de datos eficientes para análisis de negocio.</span></div>
+      <div><i class="ico" data-i="gauge"></i><b>2.1</b><span>Diseña dashboards enfocados en la visualización de KPI relevantes.</span></div>
     </div>
+  </div>
+  <aside class="notas">Texto y porcentaje de la guía de aprendizaje. El proyecto es individual; la retroalimentación puede ser entre pares.</aside>
+</section>
 
-    <div class="reveal">
-        <div class="slides">
+<!-- 4 Seis tramos -->
+<section class="esc">
+  <svg class="diagrama" id="tramos" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Seis tramos del puente, cada uno con la sesión donde se trabajó"></svg>
+  <aside class="notas">Avance tramo por tramo y pregunte a alguien qué debe poder decir en cada uno. El orden es el del calendario: problema, datos, modelo, KPI, dashboard, decisiones. Cada tramo nombra la sesión en la que se trabajó, por si alguien necesita repasarla.</aside>
+</section>
 
-            <!-- 1. Portada -->
-            <section data-transition="zoom" class="dark-slide">
-                <div id="typed-container"><span id="typed-output"></span></div>
-                <br>
-                <i class="fa-solid fa-brain" style="font-size: 4em; color: #E85C0B; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(232,92,11,0.6));"></i>
-                <h1 style="text-shadow: 0 10px 20px rgba(0,0,0,0.5);">Inteligencia de <span class="highlight">Negocios</span></h1>
-                <h3>Semana 9: Analítica Avanzada (Clustering y Forecasting)</h3>
-                <br>
-                <p><small>Docente: Dudbil Olvasada Pabón Riaño</small></p>
-            </section>
-            
-            <!-- 2. RAE -->
-            <section data-transition="slide">
-                <h2 class="text-left" style="color: #003865;"><i class="fa-solid fa-bullseye" style="color: #E85C0B;"></i> Resultados de Aprendizaje (RAE)</h2>
-                <div class="box-glass text-left" style="border-top: 6px solid #003865; margin-top: 30px; padding: 40px;">
-                    <h3 style="color: #003865; margin-bottom: 20px;">Meta Analítica</h3>
-                    <p style="font-size: 1.2em; color: #333; line-height: 1.6;">
-                        <i class="fa-solid fa-check-double text-green-600" style="color: #E85C0B; margin-right: 15px;"></i>
-                        Aplicar algoritmos integrados de machine learning en herramientas de BI para detectar grupos ocultos (Clustering), patrones anómalos y predecir tendencias futuras (Forecasting).
-                    </p>
-                </div>
-            </section>
+<!-- 5 Ejemplo: el caso cruza el puente -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:44px;width:1424px"><p class="rot">Ejemplo: Online Retail cruza el puente</p><h2 style="font-size:50px;margin:4px 0 14px">Una frase por tramo, con evidencia</h2></div>
+  <div style="position:absolute;left:88px;top:176px;width:1424px;display:grid;grid-template-columns:230px 1fr;gap:11px 22px;font-size:29px;line-height:1.16" id="cruce"></div>
+  <p class="pie">Datos reales: Chen (2015), CC BY 4.0. La pregunta, la gerencia y la meta de £700.000 son supuestos del caso. Es un modelo de estructura, no una respuesta para copiar.</p>
+  <aside class="notas">Lea el ejemplo como si fuera una presentación. Es la estructura que se espera, con cifras de todas las sesiones anteriores. Fíjese en la última línea: la decisión viene con su límite.</aside>
+</section>
 
-            <!-- 3. Conceptos Estructurales -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-cubes-stacked" style="color: #E85C0B;"></i> Conceptos Analíticos Clave</h2>
-                <div class="split-layout">
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Clustering (K-Means)', 'fa-object-group', 'Algoritmo de aprendizaje no supervisado. Encuentra grupos (clusters) de puntos de datos similares (ej. Segmentación de clientes) basándose en proximidad euclidiana u otras métricas, automatizado nativamente en visualizaciones de dispersión.', 'Power BI agrupa automáticamente a clientes con altos ingresos y baja frecuencia de compra en un cluster 'Retención Urgente'.')" style="border-top: 5px solid #003865;">
-                        <h3 style="color: #003865;"><i class="fa-solid fa-object-group"></i> Clustering (K-Means)</h3>
-                        <p class="small-text" style="margin-top: 20px;">Algoritmo de aprendizaje no supervisado. Encuentra grupos (clusters) de puntos de datos similares (ej. Segmentación de clientes) basándose en proximidad euclidiana u otras métricas, automatizado nativamente en visualizaciones de dispersión.</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #E85C0B; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                    <div class="box-glass text-left clickable-concept" onclick="openModal('Forecasting (Suavizado Exponencial)', 'fa-chart-line', 'Predicción probabilística de eventos futuros basada en la estacionalidad y tendencia de una serie de tiempo. Utiliza intervalos de confianza para trazar márgenes de error estadístico (bandas grises).', 'Predecir las ventas del próximo trimestre con un intervalo de confianza del 95%.')" style="border-top: 5px solid #E85C0B;">
-                        <h3 style="color: #E85C0B;"><i class="fa-solid fa-chart-line"></i> Forecasting (Suavizado Exponencial)</h3>
-                        <p class="small-text" style="margin-top: 20px;">Predicción probabilística de eventos futuros basada en la estacionalidad y tendencia de una serie de tiempo. Utiliza intervalos de confianza para trazar márgenes de error estadístico (bandas grises).</p>
-                        <div style="margin-top: 20px; font-weight: bold; color: #003865; font-size: 0.8em;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para profundizar</div>
-                    </div>
-                </div>
-            </section>
+<!-- 6 Prueba de carga -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:50px;width:1424px"><h2 style="font-size:54px">La prueba de carga: si este tramo falla, todo lo que sigue cae</h2></div>
+  <div class="remaches" style="position:absolute;left:88px;top:176px;width:1424px;grid-template-columns:repeat(3,1fr);gap:18px">
+    <div class="paso"><i class="ico" data-i="calendar-off"></i><b>Periodo sin revisar</b><span>Un diciembre de 9 días se lee como caída de 22,5 %.</span></div>
+    <div class="paso"><i class="ico" data-i="scan-line"></i><b>Perfil de 1.000 filas</b><span>Se ven 0,1 % de clientes vacíos; hay 24,93 %.</span></div>
+    <div class="paso"><i class="ico" data-i="case-sensitive"></i><b>Clave con mayúsculas</b><span>15056bl impide una relación uno a varios limpia.</span></div>
+    <div class="paso"><i class="ico" data-i="git-merge"></i><b>Unión de otro grano</b><span>Noviembre pasa de £1,46 M a £150 M.</span></div>
+    <div class="paso"><i class="ico" data-i="target"></i><b>KPI sin meta ni dueño</b><span>68,7 % de retención no es bueno ni malo.</span></div>
+    <div class="paso"><i class="ico" data-i="zoom-in"></i><b>Total sin bajar de nivel</b><span>Países Bajos parece fuerte; 98,2 % es un cliente.</span></div>
+  </div>
+  <p class="paso frase" style="position:absolute;left:88px;bottom:68px;width:1424px;font-size:38px">Antes de presentar: ¿cuál de estas podría estar en tu proyecto?</p>
+  <aside class="notas">Cada fisura es real y se vio en una sesión anterior (2, 3, 5, 6, 2 y 8). Dé dos minutos para que cada quien revise la suya. Es la lista que usará el jurado para preguntar.</aside>
+</section>
 
-            <!-- 4. Discusión Profunda Inyectada -->
-            
-        <section>
-            <h2>Capacidades Predictivas Nativas</h2>
-            <div class="split-layout">
-                <div class="box-glass text-left" style="border-left: 5px solid #003865;">
-                    <h4 style="color: #003865;"><i class="fa-solid fa-wand-magic-sparkles"></i> Influenciadores Clave</h4>
-                    <p class="small-text">Usa modelos de regresión lineal o logística internos. Responde a preguntas complejas como <em>¿Qué influye en que un cliente abandone el servicio (Churn)?</em> El motor analiza correlaciones fuertes, aislando variables para presentar hallazgos en lenguaje natural (NLG).</p>
-                </div>
-                <div class="box-glass text-left" style="border-left: 5px solid #E85C0B;">
-                    <h4 style="color: #E85C0B;"><i class="fa-solid fa-triangle-exclamation"></i> Detección de Anomalías</h4>
-                    <p class="small-text">Monitorea series temporales buscando picos o caídas estadísticamente improbables basándose en el historial. Permite configurar la sensibilidad del modelo y, al detectar una anomalía, ejecuta análisis subyacentes para proponer posibles causas raíz en dimensiones secundarias.</p>
-                </div>
-            </div>
-        </section>
-        
+<!-- 7 Rúbrica interactiva -->
+<section class="esc">
+  <div class="placa" style="position:absolute;left:88px;top:30px;width:1424px;padding:18px 28px">
+    <div style="display:grid;grid-template-columns:1fr auto;align-items:end;margin-bottom:6px"><div><p class="rot" style="font-size:19px">Rúbrica del Proyecto 1 · Calculadora para el docente</p><h2 style="font-size:40px">Siete galgas de la guía de aprendizaje</h2></div><div style="text-align:right"><div class="total" id="tot">0,0</div><span class="sec" style="font-size:20px">sobre 5,0</span></div></div>
+    <div class="rub" id="rub"></div>
+  </div>
+  <p class="pie" style="bottom:22px;color:var(--acento-texto);font-weight:700">Los criterios son de la guía de aprendizaje. Los pesos (casi iguales, para sumar 100) y la escala de 0 a 5 son una propuesta: ajústelos. No guarda datos.</p>
+  <aside class="notas">La guía de aprendizaje lista siete criterios sin asignar pesos: pertinencia de fuentes, transformación y limpieza, modelado, KPI, funcionalidad del dashboard, diseño visual y usabilidad, y capacidad para explicar decisiones. Mueva las barras y cambie los pesos; deben sumar 100. Revise que la escala coincida con la de la universidad antes de usarla para calificar.</aside>
+</section>
 
-            <!-- 5. Taller Práctico -->
-            <section data-transition="slide" class="dark-slide">
-                <i class="fa-solid fa-laptop-code" style="font-size: 5em; color: #E85C0B; margin-bottom: 20px;"></i>
-                <h1 style="color: white !important;">Taller Aplicado</h1>
-                <p style="font-size: 1.2em;">Migración de entorno teórico a plataforma práctica.</p>
-                <div class="box-glass" style="background: rgba(255,255,255,0.1); margin: 30px auto; max-width: 80%; text-align: center; border: 1px solid rgba(255,255,255,0.2);">
-                    <h4 style="color: white; margin-top: 0;">Flujo Técnico a ejecutar:</h4>
-                    <span style="color: #E85C0B; font-weight: bold; font-size: 1.2em; letter-spacing: 2px;">ABRIR GUÍA DE LABORATORIO 9</span>
-                </div>
-            </section>
-
-            <!-- 6. Glosario y Bibliografía -->
-            <section data-transition="convex">
-                <h2 class="text-left"><i class="fa-solid fa-book-open"></i> Referencias Bibliográficas</h2>
-                <div class="box-glass text-left" style="border-top: 5px solid #003865;">
-                    <ul style="font-size: 0.8em; line-height: 1.8; color: #444;">
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Sharda, R., Delen, D., & Turban, E. (2020). <strong>Business Intelligence, Analytics, and Data Science: A Managerial Perspective.</strong> 4th Edition. Pearson.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Ferrari, A., & Russo, M. (2019). <strong>The Definitive Guide to DAX: Business intelligence for Microsoft Power BI.</strong> Microsoft Press.</li>
-                        <li><i class="fa-solid fa-bookmark" style="color: #E85C0B; margin-right: 10px;"></i> Knaflic, C. N. (2015). <strong>Storytelling with Data: A Data Visualization Guide for Business Professionals.</strong> Wiley.</li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
+<!-- 8 Cronómetro -->
+<section class="esc" data-cine="dolly">
+  <div style="position:absolute;left:88px;top:60px;width:1424px;display:grid;grid-template-columns:1fr 460px;gap:40px;align-items:center">
+    <div>
+      <p class="rot">Presentación individual</p>
+      <div class="cron" id="cron">10:00</div>
+      <div class="ctrl" style="margin-top:22px"><button type="button" id="cT">Iniciar o pausar</button><button type="button" id="cR">Reiniciar</button><label style="font-size:26px;margin-left:12px">Minutos: <input id="cM" type="number" min="1" max="60" value="10" style="width:90px;font:700 26px 'Schibsted Grotesk',sans-serif;padding:6px;border:2px solid var(--punto)"></label></div>
     </div>
+    <ol class="lista placa">
+      <li style="font-size:29px">Problema y decisión</li><li style="font-size:29px">Datos y fuentes</li><li style="font-size:29px">Limpieza y modelo</li><li style="font-size:29px">KPI y metas</li><li style="font-size:29px">Dashboard, en vivo</li><li style="font-size:29px">Decisiones que apoya, y límites</li>
+    </ol>
+  </div>
+  <svg class="diagrama" id="barraC" viewBox="0 0 1424 90" style="position:absolute;left:88px;bottom:70px;width:1424px;height:90px" aria-hidden="true"></svg>
+  <aside class="notas">Cronómetro real. El calendario no fija una duración: 10 minutos es solo un valor inicial que usted cambia. La barra muestra el avance sobre los seis tramos, repartidos por igual solo como guía. En el último minuto se pone naranja.</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        Reveal.initialize({
-            hash: true,
-            transition: 'slide',
-            controlsTutorial: false,
-            center: true,
-            progress: true,
-            slideNumber: 'c/t'
-        });
+<!-- 9 Preguntas -->
+<section class="esc">
+  <svg class="diagrama" id="preguntas" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Preguntas para sustentar, una por tramo"></svg>
+  <aside class="notas">Escoja una o dos por estudiante, según lo más débil. No busca que falle: busca que pueda defender su puente. Se pueden delegar en los compañeros, como jurado.</aside>
+</section>
 
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+<!-- 10 EMI -->
+<section class="esc" data-cine="dolly">
+  <div class="placa" style="position:absolute;left:150px;top:64px;width:1300px;height:720px">
+    <p class="rot">English immersion · 10 minutes · The elevator pitch</p>
+    <p style="font-size:46px;font-weight:800;line-height:1.1;margin:14px 0 20px">Defend your project in 60 seconds, in English.</p>
+    <p class="codigo" style="white-space:normal;font-size:38px;background:var(--fondo-2);color:var(--tinta)">“My audience is <b>___</b>. They need to decide <b>___</b>. I used data from <b>___</b>. My main KPI is <b>___</b>, and it shows <b>___</b>. I recommend <b>___</b>. One limitation is <b>___</b>.”</p>
+    <ol class="lista" style="margin-top:20px">
+      <li class="paso" style="font-size:36px">Say it to a partner. They time you and ask one question: “So what?”</li>
+      <li class="paso" style="font-size:36px">Switch roles.</li>
+      <li class="paso" style="font-size:31px;color:var(--tinta-2)">Words: <b>stakeholder</b>, <b>finding</b>, <b>to recommend</b>, <b>limitation</b>, <b>so what?</b></li>
+    </ol>
+  </div>
+  <aside class="notas">Plantilla creada para esta clase, con la secuencia del calendario. Cinco minutos en parejas y cinco para voluntarios, solo en inglés. Puede hacerse antes de presentar, para calentar. La actividad EMI está en la pestaña Juego Didáctico.</aside>
+</section>
 
-        // Typed.js para efecto hacker corporativo
-        new Typed('#typed-output', {
-            strings: [
-                '> ESTABLECIENDO CONEXIÓN SEGURA...',
-                '> CARGANDO DATOS MASIVOS (ETL)...',
-                '> OPTIMIZANDO MODELO DIMENSIONAL...',
-                '> PROTOCOLO DE INTELIGENCIA DE NEGOCIOS: ACTIVO'
-            ],
-            typeSpeed: 30,
-            backSpeed: 10,
-            backDelay: 1500,
-            loop: true,
-            showCursor: true,
-            cursorChar: '_'
-        });
+<!-- 11 Retroalimentación -->
+<section class="esc">
+  <div style="position:absolute;left:88px;top:50px;width:1424px"><h2 style="font-size:54px">Retroalimentar es señalar la fisura y proponer el refuerzo</h2></div>
+  <svg class="diagrama" id="fisura" viewBox="0 0 1424 640" style="position:absolute;left:88px;top:170px;width:1424px;height:640px" role="img" aria-label="Tres pasos de la retroalimentación: lo que vi, por qué importa, qué probaría"></svg>
+  <aside class="notas">Es un formato sencillo para que los pares comenten el trabajo y no a la persona. En la guía hay una tabla. El docente da la retroalimentación con la rúbrica.</aside>
+</section>
 
-        function openModal(title, iconClass, text, example) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-icon').className = 'fa-solid ' + iconClass;
-            document.getElementById('modal-text').innerText = text;
-            document.getElementById('modal-example-text').innerHTML = example;
-            
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('concept-modal-overlay').classList.add('show');
-                document.getElementById('concept-modal').classList.add('show');
-            }, 10);
-        }
+<!-- 12 Reflexión -->
+<section class="esc" data-cine="dolly">
+  <div style="position:absolute;left:88px;top:90px;width:1424px;display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:start">
+    <div>
+      <p class="rot">Reflexión · 5 minutos, por escrito</p>
+      <h2 style="font-size:60px;margin-top:10px">¿Qué cruzarías distinto la próxima vez?</h2>
+      <p class="sec" style="font-size:29px;margin-top:18px">El Proyecto 2 empieza en la sesión 12, con un problema nuevo.</p>
+      <div class="lamina" style="position:relative;width:640px;height:360px;margin-top:24px"><img src="../assets/vector/s09_banco_galgas.svg" alt="Un tramo de puente bajo prensas con medidores"></div>
+    </div>
+    <ol class="lista">
+      <li class="paso" style="font-size:36px">¿Cuál fue tu tramo más débil? ¿Cómo lo sabes?</li>
+      <li class="paso" style="font-size:36px">¿Qué decisión de limpieza o modelo cambió más tu resultado?</li>
+      <li class="paso" style="font-size:36px">¿Quién usaría de verdad tu tablero? ¿Para qué?</li>
+      <li class="paso" style="font-size:36px">¿Dónde usaste IA, para qué, y cómo la verificaste?</li>
+    </ol>
+  </div>
+  <aside class="notas">La reflexión la pide el calendario. La cuarta pregunta sigue la guía de aprendizaje: el uso de IA se declara, con herramienta, para qué y cómo se verificó.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal').classList.remove('show');
-            document.getElementById('concept-modal-overlay').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('concept-modal').style.display = 'none';
-                document.getElementById('concept-modal-overlay').style.display = 'none';
-            }, 400);
-        }
-    </script>
+<!-- 13 Glosario -->
+<section class="esc">
+  <div class="placa" style="position:absolute;left:88px;top:44px;width:1424px;bottom:64px">
+    <p class="rot">Rótulo de la obra</p><h2 style="font-size:46px;margin:2px 0 16px">Vocabulario para sustentar</h2>
+    <div class="remaches" id="glo" style="gap:10px"></div>
+  </div>
+  <aside class="notas">Repaso del vocabulario de las sesiones anteriores, en el orden del puente. Pida que lo usen al presentar.</aside>
+</section>
+
+<!-- 14 Conclusión -->
+<section class="esc" data-cine="dolly">
+  <svg class="diagrama" id="carga" viewBox="0 0 1600 900" style="position:absolute;inset:0;width:1600px;height:900px" role="img" aria-label="Una carga cruza el puente terminado; tres ideas de cierre"></svg>
+  <aside class="notas">Cierre del Proyecto 1. Próxima sesión: que el tablero se actualice solo, con el Quiz 2. Registre las calificaciones con la rúbrica impresa.</aside>
+</section>
+
+<!-- 15 Fuentes -->
+<section class="esc">
+  <div class="placa bib" style="position:absolute;left:88px;top:50px;width:1424px">
+    <p class="rot">Planos de referencia</p><h2 style="font-size:46px;margin:2px 0 12px">Bibliografía y fuentes</h2>
+    <p>Chen, D. (2015). <em>Online Retail</em> [conjunto de datos]. UCI. CC BY 4.0. <a href="https://doi.org/10.24432/C5BW33" target="_blank" rel="noopener">doi:10.24432/C5BW33</a></p>
+    <p>Knaflic, C. N. (2015). <em>Storytelling with Data</em>. Wiley. <a href="https://doi.org/10.1002/9781119055259" target="_blank" rel="noopener">doi:10.1002/9781119055259</a></p>
+    <p>Microsoft Learn. <em>Understand star schema and the importance for Power BI</em>. <a href="https://learn.microsoft.com/en-us/power-bi/guidance/star-schema" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>Microsoft Learn. <em>Key Performance Indicator (KPI) visuals</em>. <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-kpi" target="_blank" rel="noopener">learn.microsoft.com</a></p>
+    <p>UNAB. Guía de aprendizaje de Inteligencia de Negocios: calendario, resultados y recomendaciones de rúbrica. Documento del curso.</p>
+    <p>Iconos: Lucide, licencia ISC. Dirección de arte e ilustraciones: generadas con Gemini, vectorizadas y adaptadas; las ilustraciones no contienen datos. Gráficas hechas con los datos reales.</p>
+  </div>
+  <aside class="notas">Las cifras del ejemplo provienen de las sesiones 1 a 8, y se recalcularon con el archivo original.</aside>
+</section>
+
+<div id="ayuda">Flechas para avanzar · F pantalla completa · N notas</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/iconos.js"></script>
+<script src="../assets/puntos/curso.js"></script>
+<script>
+(function () {
+  var luz = CUR.luz, ic = CUR.ic;
+  /* Fondo con paralaje */
+  var s = '', x = 0, seed = 3;
+  function rn() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  var d = 'M0 300', i;
+  for (i = 0; i <= 28; i++) { var xx = i * 150, yy = 90 + rn() * 170; d += 'L' + xx + ' ' + yy; }
+  d += 'L4200 300Z';
+  CUR.poner('lejos', '<path d="' + d + '" fill="#b6cedc" opacity=".55"/>');
+  var c = '<rect x="0" y="60" width="6400" height="90" fill="#7f9db0" opacity=".32"/>';
+  for (i = 0; i < 64; i++) c += '<rect x="' + (i * 100) + '" y="20" width="16" height="70" fill="#7f9db0" opacity=".42"/>';
+  CUR.poner('cerca', c);
+  var TR = [['Problema','file-search'],['Datos','database'],['Modelo','spline'],['KPI','gauge'],['Dashboard','bar-chart-3'],['Decisión','flag']];
+  function puente(y, cae) {
+    var s = '<path d="M0 ' + (y + 160) + 'C60 ' + (y + 70) + ' 120 ' + y + ' 160 ' + y + 'H240V' + (y + 200) + 'H0Z" fill="#00558c"/><path d="M1600 ' + (y + 160) + 'C1540 ' + (y + 70) + ' 1480 ' + y + ' 1440 ' + y + 'H1360V' + (y + 200) + 'H1600Z" fill="#00558c"/>';
+    return s;
+  }
+  /* Portada */
+  var y = 590, o = puente(y);
+  o += '<path d="M240 ' + y + 'H1360" stroke="#06283f" stroke-width="4"/>';
+  TR.forEach(function (t, i) {
+    var x = 240 + i * 186.6;
+    o += '<path d="M' + x + ' ' + y + 'h184v46l-14 16h-156l-14 -16z" fill="' + (i === 5 ? '#e85c0b' : '#06283f') + '"/>' + ic(t[1], x + 64, y - 66, 56, i === 5 ? '#e85c0b' : '#00558c') + '<text x="' + (x + 92) + '" y="' + (y + 34) + '" text-anchor="middle" style="font-size:22px;font-weight:700;fill:#fff">' + t[0] + '</text>';
+    if (i) o += '<path d="M' + x + ' ' + (y + 62) + 'V' + (y + 190) + '" stroke="#06283f" stroke-width="10"/>';
+  });
+  o += '<path d="M240 ' + (y - 110) + 'C' + 500 + ' ' + (y - 10) + ' ' + 1100 + ' ' + (y - 10) + ' 1360 ' + (y - 110) + '" fill="none" stroke="#06283f" stroke-width="3"/>' + luz('M240 ' + (y - 8) + 'L1360 ' + (y - 8), 0, 5, 'fuerte');
+  CUR.poner('obra', o);
+  /* Montaje: agenda como viga */
+  var E = [['10:00','Encaje y rúbrica',20,'list-checks'],['10:20','English',10,'languages'],['10:30','Presentaciones',30,'presentation'],['11:00','Pausa',15,'coffee'],['11:15','Presentaciones',75,'presentation'],['12:30','Retroalimentación',15,'heart-handshake'],['12:45','Reflexión y cierre',15,'stamp']], g = '<text class="t-n" x="88" y="100" font-size="56">El montaje de hoy</text><text class="t-s" x="88" y="146" font-size="27">Cada dovela mide su tiempo. Es una propuesta, según cuántos presenten.</text>';
+  var xx0 = 88, k = 1424 / 180, vy = 190;
+  g += '<rect x="60" y="' + (vy - 14) + '" width="1480" height="14" fill="#06283f"/>';
+  E.forEach(function (e, i) {
+    var w = e[2] * k, foco = e[1] === 'Presentaciones', yy = vy + 18 + i * 88, cx = xx0 + w / 2, der = xx0 + w + 300 < 1560;
+    g += '<line x1="' + cx + '" x2="' + cx + '" y1="' + vy + '" y2="' + yy + '" stroke="#06283f" stroke-width="2"/>';
+    g += '<rect x="' + xx0 + '" y="' + yy + '" width="' + (w - 4) + '" height="74" fill="' + (foco ? '#e85c0b' : '#fff') + '" stroke="#06283f" stroke-width="2"/>' + ic(e[3], cx - 24, yy + 13, 48, foco ? '#fff' : '#00558c');
+    g += '<text class="t-n" x="' + (der ? xx0 + w + 12 : xx0 - 12) + '" y="' + (yy + 47) + '" text-anchor="' + (der ? 'start' : 'end') + '" font-size="29">' + e[0] + ' · ' + e[1] + '</text>';
+    xx0 += w;
+  });
+  CUR.poner('montaje', g);
+  /* Tramos */
+  var D = [['Problema','¿Quién decide qué?','Sesiones 1 y 2'],['Datos','¿De dónde salen y qué tienen?','Sesiones 2 y 3'],['Limpieza y modelo','¿Qué transformaste y por qué?','Sesiones 4, 5 y 6'],['KPI','¿Con qué se compara?','Sesiones 2 y 7'],['Dashboard','¿Responde? ¿Se entiende?','Sesiones 7 y 8'],['Decisión','¿Qué haría alguien distinto?','Hoy']], t = '<text class="t-n" x="88" y="100" font-size="56">Seis tramos. Faltando uno, no se cruza.</text>';
+  y = 520; t += puente(y);
+  D.forEach(function (e, i) {
+    var x = 240 + i * 186.6, ic0 = TR[i][1], alto = i % 2 ? 300 : 180;
+    t += '<g class="paso"><path d="M' + x + ' ' + y + 'h184v46l-14 16h-156l-14 -16z" fill="' + (i === 5 ? '#e85c0b' : '#06283f') + '"/>' + ic(ic0, x + 62, y + 2, 58, '#fff');
+    t += '<line x1="' + (x + 92) + '" x2="' + (x + 92) + '" y1="' + (y - 4) + '" y2="' + (y - alto + 106) + '" stroke="#06283f" stroke-width="1.5"/>';
+    var yt = y - alto;
+    t += '<text class="t-n" x="' + (x + 92) + '" y="' + (yt + 22) + '" text-anchor="middle" font-size="25">' + e[0] + '</text>' + e[1].split(' ').reduce(function (l, w) { var u = l[l.length - 1]; if ((u + ' ' + w).length > 18) l.push(w); else l[l.length - 1] = (u + ' ' + w).trim(); return l; }, ['']).map(function (q, k) { return '<text class="t-s" x="' + (x + 92) + '" y="' + (yt + 52 + k * 26) + '" text-anchor="middle" font-size="21">' + q + '</text>'; }).join('');
+    t += '<text class="t-o" x="' + (x + 92) + '" y="' + (y + 240) + '" text-anchor="middle" font-size="21">' + e[2] + '</text></g>';
+  });
+  CUR.poner('tramos', t);
+  /* Ejemplo */
+  var EJ = [['Problema','La gerencia comercial debe decidir antes de septiembre cuánto inventario negociar para la temporada.'],['Datos','Online Retail, UCI, CC BY 4.0: 541.909 filas, del 1-dic-2010 al 9-dic-2011. El 24,93 % sin cliente.'],['Modelo','Excluí 2.517 filas sin venta; hecho de 539.392 líneas y cuatro dimensiones; neto de £9.769.872,05, que cuadra.'],['KPI','Venta neta mensual contra una meta supuesta de £700.000. Promedio de febrero a agosto: £639.300.'],['Dashboard','Noviembre llega a £1.461.756; de septiembre a noviembre, 36,4 % del periodo. Filtros por país; detalle por cliente.'],['Decisión','Negociar el inventario antes de septiembre. Límite: solo hay un año de datos y no hay márgenes.']];
+  CUR.poner('cruce', EJ.map(function (e, i) { return '<b class="paso" style="color:' + (i === 5 ? 'var(--acento-texto)' : '#00558c') + ';font-size:31px">' + e[0] + '</b><p class="paso placa" style="font-size:28.5px;padding:10px 18px;line-height:1.14;border-left-width:6px">' + e[1] + '</p>'; }).join(''));
+  /* Rúbrica */
+  var RU = ['Pertinencia de fuentes','Transformación y limpieza','Modelado','KPI','Funcionalidad del dashboard','Diseño visual y usabilidad','Explicar decisiones soportadas'], rub = document.getElementById('rub'), h = '<div class="h">Criterio</div><div class="h">Puntaje, de 0 a 5</div><div class="h">Peso %</div><div class="h"></div>';
+  RU.forEach(function (r, i) { h += '<b>' + r + '</b><input type="range" min="0" max="5" step=".1" value="0" data-v aria-label="Puntaje de ' + r + '"><input type="number" min="0" max="100" value="' + (i < 2 ? 14 : i === 6 ? 16 : 14) + '" data-p aria-label="Peso de ' + r + '"><output>0,0</output>'; });
+  rub.innerHTML = h;
+  function calc() {
+    var v = rub.querySelectorAll('[data-v]'), p = rub.querySelectorAll('[data-p]'), o = rub.querySelectorAll('output'), sum = 0, sp = 0;
+    v.forEach(function (x, i) { o[i].textContent = (+x.value).toFixed(1).replace('.', ','); sum += +x.value * +p[i].value; sp += +p[i].value; });
+    var tt = document.getElementById('tot');
+    tt.textContent = sp === 100 ? (sum / 100).toFixed(1).replace('.', ',') : 'Pesos: ' + sp;
+    tt.style.fontSize = sp === 100 ? '' : '36px';
+  }
+  rub.addEventListener('input', calc);
+  ['click', 'keydown', 'mousedown'].forEach(function (ev) { rub.addEventListener(ev, function (e) { e.stopPropagation(); }); });
+  calc();
+  /* Cronómetro */
+  var seg = 600, total = 600, corre = false, t0, cron = document.getElementById('cron'), bar = document.getElementById('barraC'), mins = document.getElementById('cM');
+  function pinta() {
+    var m = Math.floor(seg / 60), ss = Math.floor(seg % 60);
+    cron.textContent = m + ':' + (ss < 10 ? '0' : '') + ss;
+    cron.style.color = seg <= 60 ? 'var(--compra)' : '';
+    var av = 1 - seg / total, w = 1424 / 6, s = '';
+    TR.forEach(function (t, i) { var hecho = av >= i / 6; s += '<rect x="' + (i * w) + '" y="28" width="' + (w - 6) + '" height="46" fill="' + (av >= (i + 1) / 6 ? '#06283f' : hecho ? '#e85c0b' : '#fff') + '" stroke="#06283f" stroke-width="2"/><text x="' + (i * w + w / 2) + '" y="60" text-anchor="middle" style="font-size:21px;font-weight:700;fill:' + (hecho ? '#fff' : '#06283f') + '">' + t[0] + '</text>'; });
+    bar.innerHTML = s;
+  }
+  function tic() { if (!corre) return; var ahora = performance.now(); seg = Math.max(0, seg - (ahora - t0) / 1000); t0 = ahora; pinta(); if (seg > 0) requestAnimationFrame(tic); else corre = false; }
+  document.getElementById('cT').addEventListener('click', function () { corre = !corre; t0 = performance.now(); if (corre) tic(); });
+  function rein() { corre = false; total = seg = Math.max(1, +mins.value || 10) * 60; pinta(); }
+  document.getElementById('cR').addEventListener('click', rein);
+  mins.addEventListener('change', rein);
+  ['click', 'keydown'].forEach(function (ev) { mins.addEventListener(ev, function (e) { e.stopPropagation(); }); });
+  pinta();
+  /* Preguntas */
+  var P = [['Problema','¿Qué haría distinto esa persona si la cifra saliera al revés?'],['Datos','¿Qué periodo cubren? ¿Quién queda por fuera?'],['Modelo','¿Qué es una fila? ¿Cómo sabes que el total sigue siendo correcto?'],['KPI','¿De dónde sale la meta? ¿Quién responde si no se cumple?'],['Dashboard','Muéstrame cómo llegar al detalle. ¿Hay filtros que no se ven?'],['Decisión','¿Qué no permiten afirmar estos datos?']], q = '<text class="t-n" x="88" y="100" font-size="56">“¿Y entonces qué?”: una pregunta por tramo</text>';
+  P.forEach(function (e, i) { var col = i % 2, yy = 190 + Math.floor(i / 2) * 215, xx = 88 + col * 730; q += '<g class="paso">' + ic(TR[i][1], xx, yy, 86, i === 5 ? '#e85c0b' : '#00558c') + '<text class="t-o" x="' + (xx + 108) + '" y="' + (yy + 28) + '" font-size="32">' + e[0] + '</text>' + e[1].split(' ').reduce(function (l, w) { var u = l[l.length - 1]; if ((u + ' ' + w).length > 34) l.push(w); else l[l.length - 1] = (u + ' ' + w).trim(); return l; }, ['']).map(function (t, k) { return '<text class="t-n" x="' + (xx + 108) + '" y="' + (yy + 70 + k * 38) + '" font-size="29" style="font-weight:600">' + t + '</text>'; }).join('') + '</g>'; });
+  CUR.poner('preguntas', q);
+  /* Retroalimentación */
+  var F = [['eye','Lo que vi','“El título dice ‘Ventas por mes’.”',60],['triangle-alert','Por qué importa','“La gerente no sabe qué concluir.”',500],['wrench','Qué probaría','“Decir en el título que noviembre fue el pico.”',940]], fi = '';
+  F.forEach(function (e, i) { fi += '<g class="paso">' + ic(e[0], e[3] + 110, 70, 150, i === 2 ? '#e85c0b' : '#00558c') + '<text class="t-n" x="' + (e[3] + 185) + '" y="290" text-anchor="middle" font-size="40">' + e[1] + '</text>' + e[2].split(' ').reduce(function (l, w) { var u = l[l.length - 1]; if ((u + ' ' + w).length > 26) l.push(w); else l[l.length - 1] = (u + ' ' + w).trim(); return l; }, ['']).map(function (t, k) { return '<text class="t-s" x="' + (e[3] + 185) + '" y="' + (346 + k * 38) + '" text-anchor="middle" font-size="29">' + t + '</text>'; }).join('') + '</g>'; if (i < 2) fi += luz('M' + (e[3] + 290) + ' 145C' + (e[3] + 360) + ' 90 ' + (e[3] + 400) + ' 90 ' + (e[3] + 490) + ' 145', i, 3, 'fuerte'); });
+  fi += '<text class="t-n" x="712" y="560" text-anchor="middle" font-size="36">Se critica el puente, no a quien lo construyó.</text>';
+  CUR.poner('fisura', fi);
+  /* Glosario */
+  var GL = [['Fuente','Origen de los datos, con dueño y licencia.','database'],['Diagnóstico','Revisar si está completo, único, válido y consistente.','scan-search'],['Bitácora','Qué transformé, por qué y qué podría fallar.','clipboard-list'],['Conciliar','Comprobar un total conocido.','scale'],['Grano','Lo que representa una fila.','grid-3x3'],['Estrella','Un hecho rodeado de dimensiones.','star'],['KPI','Métrica con meta, dueño y decisión.','gauge'],['Drill-down','Bajar de nivel en un visual.','zoom-in'],['Usabilidad','Si otra persona logra la tarea.','user-round-check'],['Límite','Lo que los datos no permiten afirmar.','triangle-alert'],['Audiencia','Un cargo que decide.','users'],['Sustentar','Defender cada tramo con evidencia.','presentation']];
+  CUR.poner('glo', GL.map(function (e) { return '<div style="min-height:0;padding:10px 14px 14px;background:var(--fondo)"><svg width="40" height="40" viewBox="0 0 24 24" class="icov" style="color:#00558c">' + (window.ICONOS[e[2]] || '').replace(/<(path|circle|rect|line|polyline|polygon|ellipse) /g, '<$1 pathLength="1" ') + '</svg><b style="font-size:26px">' + e[0] + '</b><span>' + e[1] + '</span></div>'; }).join(''));
+  /* Conclusión */
+  var yc = 620, k1 = puente(yc), S2 = '';
+  TR.forEach(function (t, i) { var x = 240 + i * 186.6; S2 += '<path d="M' + x + ' ' + yc + 'h184v46l-14 16h-156l-14 -16z" fill="#06283f"/>'; if (i) S2 += '<path d="M' + x + ' ' + (yc + 62) + 'V' + (yc + 200) + '" stroke="#06283f" stroke-width="10"/>'; });
+  k1 += S2 + '<g style="animation:cruzar 9s cubic-bezier(.45,0,.55,1) infinite"><rect x="170" y="' + (yc - 46) + '" width="110" height="46" fill="#e85c0b"/><text x="225" y="' + (yc - 16) + '" text-anchor="middle" style="font-size:19px;font-weight:800;fill:#fff">decisión</text></g><style>@keyframes cruzar { 0% { transform: translateX(0); } 100% { transform: translateX(1200px); } } @media (prefers-reduced-motion: reduce) { g[style*="cruzar"] { animation: none !important; } }</style>';
+  k1 += '<text class="t-n" x="88" y="100" font-size="52">Tres cosas para llevarte</text>';
+  [['El valor está en la cadena.','Un tablero precioso sobre datos sin revisar no sostiene una decisión.'],['Explicar es parte del producto.','Si no puedes defender un tramo, ese tramo no está terminado.'],['Declara los límites.','Decir lo que los datos no permiten afirmar te hace creíble.']].forEach(function (e, i) { k1 += '<g class="paso"><text class="t-o" x="88" y="' + (190 + i * 110) + '" font-size="35">' + (i + 1) + '. ' + e[0] + '</text><text class="t-s" x="88" y="' + (232 + i * 110) + '" font-size="28">' + e[1] + '</text></g>'; });
+  CUR.poner('carga', k1);
+})();
+</script>
+<script src="../assets/puntos/cine.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

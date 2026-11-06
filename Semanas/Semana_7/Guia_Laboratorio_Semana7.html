@@ -1,117 +1,167 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 7 - Interactividad UX (Drill-through, Tooltips)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B', dark: '#0f172a' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.08); }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller sesión 7: elegir, limpiar, bocetar | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+<style>@media (max-width: 900px) { .marco { grid-template-columns: minmax(0, 1fr); } } li code { overflow-wrap: anywhere; }</style>
 </head>
-<body class="text-gray-800 antialiased p-4 md:p-8">
-    
-    <div class="max-w-5xl mx-auto space-y-8">
-        
-        <!-- Header -->
-        <div class="bg-gradient-to-br from-primary to-[#002240] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
-            <!-- Deco -->
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            
-            <div class="relative z-10">
-                <div class="flex items-center gap-5 mb-6">
-                    <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-hand-pointer text-3xl text-secondary"></i>
-                    </div>
-                    <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 7</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Diseño de una App Analítica Interactiva</h1>
-                    </div>
-                </div>
-                <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> Vamos a transformar un reporte estático y aburrido en una aplicación web analítica (App-like). Incorporaremos menús de navegación laterales, ventanas emergentes dinámicas y exploración profunda para analizar las causas raíz de la pérdida de rentabilidad.</p>
-                </div>
-            </div>
-        </div>
+<body>
+<header class="portada">
+  <h1>Elegir, limpiar, bocetar</h1>
+  <p>Critica un tablero ajeno, construye cuatro visuales con el modelo de la sesión 5, marca un KPI con meta y dibuja el diseño inicial del dashboard de su Proyecto 1.</p>
+  <div class="datos-clase"><span><b>Sesión</b>7</span><span><b>Modalidad</b>Individual</span><span><b>Herramienta</b>Power BI Desktop y papel</span><span><b>Resultados</b>2.1 y 2.2</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#datos">Antes de empezar</a></li>
+  <li><a href="#e1">1. Criticar</a></li>
+  <li><a href="#e2">2. Medir</a></li>
+  <li><a href="#e3">3. Cuatro visuales</a></li>
+  <li><a href="#e4">4. Quitar estorbos</a></li>
+  <li><a href="#e5">5. Marcar un KPI</a></li>
+  <li><a href="#e6">6. Su boceto</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Metodologia Paso a Paso -->
-        <div class="glass-card rounded-2xl p-8 md:p-12">
-            <h2 class="text-2xl font-bold text-primary mb-10 flex items-center gap-3 border-b border-gray-200 pb-4">
-                <i class="fas fa-layer-group text-secondary"></i> Flujo de Implementación Técnica
-            </h2>
-            
-            <div class="mt-8">
-                
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    1
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Configuración de un Report Page Tooltip</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear una nueva página, configurar el lienzo a tamaño 'Información sobre herramientas'. Diseñar un mini-gráfico de tendencia temporal. Enlazar esta página a los gráficos de barras de la página principal para visualizar la tendencia mensual al posar el mouse.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    2
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Implementación de Menú de Navegación</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Ocultar las pestañas estándar del reporte. Diseñar una barra lateral oscura usando formas rectangulares, importar iconos SVG y asignar 'Acciones de Navegación de Página' para emular el flujo de un sitio web.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    3
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Desarrollo de Drill-through</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear la página 'Ficha del Empleado'. Configurar la ranura de obtención de detalles insertando el campo 'Nombre_Empleado'. Añadir un botón automático de retroceso (Back button). Testear el salto de página.</p>
-                </div>
-            </div>
-            </div>
-        </div>
+<section id="datos">
+  <h2>Antes de empezar</h2>
+  <p>Necesita el modelo en estrella de la <a href="../Semana_5/Guia_Laboratorio_Semana5.html">sesión 5</a>: <code>Hecho_Ventas</code>, <code>Dim_Pais</code>, <code>Dim_Producto</code>, <code>Dim_Cliente</code> y <code>Dim_Fecha</code>, con la medida <code>Venta Neta</code>. Datos: Chen, D. (2015). Online Retail. UCI, CC BY 4.0. Los importes son libras esterlinas.</p>
+  <div class="aviso">Compruebe primero el total: <b>£9.769.872,05</b>. Si no da, vuelva a la sesión 5 antes de seguir.</div>
+</section>
 
-        <!-- Reto de Práctica Autónoma -->
-        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl border-l-8 border-secondary relative overflow-hidden transform transition hover:scale-[1.01] duration-300">
-            <div class="absolute top-0 right-0 p-8 opacity-10">
-                <i class="fas fa-rocket text-8xl"></i>
-            </div>
-            <div class="relative z-10">
-                <div class="inline-block bg-secondary text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4 shadow-lg">
-                    Actividad Autónoma
-                </div>
-                <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                    <i class="fas fa-brain text-secondary"></i> Reto Arquitectónico Avanzado
-                </h2>
-                <div class="bg-white/10 rounded-xl p-6 border border-white/10">
-                    <p class="text-gray-300 text-lg leading-relaxed">
-                        Diseñar un menú colapsable tipo 'Hamburguesa' utilizando el panel de Selección y Marcadores (Bookmarks) para mostrar u ocultar un panel de filtros avanzado mediante transiciones suaves sin ocupar espacio en el lienzo principal.
-                    </p>
-                </div>
-                
-                <div class="mt-8 bg-blue-900/40 border border-blue-500/30 rounded-lg p-5 flex gap-4">
-                    <i class="fas fa-circle-info text-blue-400 text-xl mt-1"></i>
-                    <p class="text-sm text-blue-200">
-                        <strong>Criterio de Evaluación Institucional:</strong> Este reto exige aplicar la documentación oficial, foros de la comunidad técnica y fundamentos teóricos de la clase magistral. Asegúrate de comentar y estructurar bien tu código DAX o M para sustentarlo en la revisión.
-                    </p>
-                </div>
-            </div>
-        </div>
+<section id="e1">
+  <h2><span class="num">1.</span> Criticar un ejemplo oficial</h2>
+  <p class="meta">20 minutos. Estos tableros usan datos ficticios: sirven para practicar la crítica, no para concluir sobre un negocio.</p>
+  <ol class="pasos">
+    <li>Abra <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-retail-analysis" target="_blank" rel="noopener">Retail Analysis sample</a> o <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-sales-and-marketing" target="_blank" rel="noopener">Sales and Marketing sample</a> y mire las capturas de la página, o descargue el archivo que ofrecen.</li>
+    <li>Sin leer el texto, mire una página durante 5 segundos y escriba qué recuerda.</li>
+    <li>Responda con evidencia: ¿qué pregunta responde?, ¿para quién?, ¿qué quitaría sin perder nada?, ¿cada cifra se compara con algo?</li>
+    <li>Elija el visual que mejor y el que peor responde a su tarea. Diga por qué con una palabra de la clase: posición, longitud, ángulo, área, color, proximidad, similitud.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>No hay una respuesta única. Una crítica sirve si señala un elemento concreto y dice qué le pasa a quien lee. “Se ve feo” no cuenta; “con siete colores sin significado, tengo que ir a la leyenda para leer cada barra” sí.</p>
+  </div></details>
+</section>
 
-    </div>
+<section id="e2">
+  <h2><span class="num">2.</span> Crear las medidas</h2>
+  <p class="meta">15 minutos. En <code>Hecho_Ventas</code>, <span class="ruta">Modelado &gt; Nueva medida</span>.</p>
+  <pre><code>Clientes = DISTINCTCOUNTNOBLANK ( Hecho_Ventas[CustomerID] )
+
+% Reino Unido =
+DIVIDE (
+    CALCULATE ( [Venta Neta], Dim_Pais[Country] = "United Kingdom" ),
+    CALCULATE ( [Venta Neta], ALL ( Dim_Pais ) )
+)
+
+Meta Mensual = 700000</code></pre>
+  <p>En <code>Dim_Fecha</code>, agregue una columna para el nombre del día, con <span class="ruta">Herramientas de tablas &gt; Nueva columna</span>:</p>
+  <pre><code>Dia = FORMAT ( Dim_Fecha[Date], "ddd" )</code></pre>
+  <p>Seleccione <code>Dia</code> y use <span class="ruta">Ordenar por columna &gt; Dia semana</span>, para que no quede en orden alfabético. <code>Dia semana</code> se creó en la sesión 5.</p>
+  <details><summary>Punto de control</summary><div>
+    <ul>
+      <li><code>% Reino Unido</code>, con formato de porcentaje: <b>84,0&nbsp;%</b>.</li>
+      <li><code>Clientes</code> en total: <b>4.371</b>. En noviembre de 2011: <b>1.710</b>.</li>
+    </ul>
+    <p><code>Meta Mensual</code> es un <b>supuesto del caso</b>: los datos no traen metas. Use <code>DISTINCTCOUNTNOBLANK</code>; <code>DISTINCTCOUNT</code> contaría el cliente en blanco como uno más.</p>
+  </div></details>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Cuatro preguntas, cuatro visuales</h2>
+  <p class="meta">30 minutos. Una página por pregunta, o todo en una si le cabe bien.</p>
+  <div class="tablon"><table>
+    <tr><th>Pregunta</th><th>Tarea del ojo</th><th>Campos</th></tr>
+    <tr><td>¿Qué día se vende más?</td><td>Comparar</td><td><code>Dim_Fecha[Dia]</code>, <code>[Venta Neta]</code></td></tr>
+    <tr><td>¿Cómo va cada mes?</td><td>Ver cambio en el tiempo</td><td><code>Dim_Fecha[Mes]</code>, <code>[Venta Neta]</code></td></tr>
+    <tr><td>¿Qué países fuera de Reino Unido venden más?</td><td>Comparar y ordenar</td><td><code>Dim_Pais[Country]</code>, <code>[Venta Neta]</code>, con filtro que excluya United Kingdom</td></tr>
+    <tr><td>¿Qué productos venden más?</td><td>Ordenar</td><td><code>Dim_Producto[Producto]</code>, <code>[Venta Neta]</code>; filtro <code>Clase</code> = Producto y N superior 10</td></tr>
+  </table></div>
+  <ol class="pasos">
+    <li>Elija usted el visual según la tarea, y escriba por qué en una línea.</li>
+    <li>En cada uno, ponga un título que diga la conclusión.</li>
+    <li>En la gráfica por mes, marque que diciembre de 2011 está incompleto, por ejemplo en el título o en una nota.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th>Corte</th><th class="d">Venta neta</th></tr>
+      <tr><td>Jueves</td><td class="d">£2.112.519</td></tr>
+      <tr><td>Sábado</td><td class="d">Sin filas</td></tr>
+      <tr><td>Domingo</td><td class="d">£805.679</td></tr>
+      <tr><td>Países Bajos</td><td class="d">£284.662</td></tr>
+      <tr><td>REGENCY CAKESTAND 3 TIER, código 22423</td><td class="d">£164.762</td></tr>
+    </table></div>
+    <p>El sábado no aparece en la gráfica porque no tiene filas. Si lo quiere visible, active <em>Mostrar elementos sin datos</em> en el campo <code>Dia</code>. Esconder ese hallazgo sería perder información.</p>
+  </div></details>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Quitar estorbos</h2>
+  <p class="meta">15 minutos.</p>
+  <ol class="pasos">
+    <li>Tome su gráfica por día. Duplíquela con <kbd>Ctrl</kbd>+<kbd>C</kbd> y <kbd>Ctrl</kbd>+<kbd>V</kbd> para comparar antes y después.</li>
+    <li>En la copia, quite las líneas de cuadrícula.</li>
+    <li>Quite el eje de valores si puso etiquetas de datos. No deje ambos.</li>
+    <li>Ponga todas las columnas en gris y solo el jueves en naranja, <code>#E85C0B</code>: en <em>Columnas</em>, elija la categoría.</li>
+    <li>Cubra el título y pida a alguien que le diga qué concluye. Después destápelo. ¿Coincide?</li>
+  </ol>
+  <p class="meta">Referencia: Knaflic (2015), sobre desorden y atención.</p>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Marcar un KPI</h2>
+  <p class="meta">15 minutos.</p>
+  <ol class="pasos">
+    <li>Agregue un visual de <em>KPI</em>. Valor: <code>[Venta Neta]</code>. Eje de tendencia: <code>Dim_Fecha[Mes]</code>. Destino: <code>[Meta Mensual]</code>.</li>
+    <li>Compruebe el valor que muestra. ¿Es el último mes con datos?</li>
+    <li>Ese último mes tiene solo 9 días. Filtre el visual a meses hasta 2011-11 y vuelva a mirar.</li>
+    <li>Escriba debajo una frase que diga qué se haría con esta cifra.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Sin filtro, el KPI muestra diciembre: <b>£433.668</b>, y parece una caída por debajo de la meta. Con el filtro muestra noviembre: <b>£1.461.756</b>. Es la misma trampa de la sesión 2: un mes incompleto, ahora dentro de un tablero.</p>
+    <p>Microsoft Learn: un visual de KPI requiere medida base, destino y umbral.</p>
+  </div></details>
+</section>
+
+<section id="e6" class="reto">
+  <h2><span class="num">6.</span> Diseño inicial de su Proyecto 1</h2>
+  <p class="meta">Es lo que se entrega. Primero en papel; todavía no construya.</p>
+  <ol class="pasos">
+    <li>Escriba la decisión, el cargo de su audiencia y la pregunta principal, tomados de su ficha.</li>
+    <li>Dibuje el tablero. ¿Qué va arriba a la izquierda? ¿Cuál es la gráfica protagonista?</li>
+    <li>Para cada visual, llene la tabla.</li>
+    <li>Muestre el boceto a alguien durante 5 segundos. ¿Qué recordó? Anótelo y ajuste.</li>
+  </ol>
+  <div class="tablon"><table>
+    <tr><th>Visual</th><th>Pregunta que responde</th><th>Tarea del ojo</th><th>Por qué esta forma</th><th>Campos y medida</th></tr>
+    <tr><td>1</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>3</td><td></td><td></td><td></td><td></td></tr>
+  </table></div>
+  <p>Traiga el boceto a la sesión 8: allí lo construirá y le agregará filtros y navegación.</p>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/ZL8WbJn3_uI" title="Cómo seleccionar el gráfico o visualización más adecuada, Ricardo Contreras" allowfullscreen></iframe></div>
+  <p class="meta">Cómo seleccionar el gráfico o visualización más adecuada. Ec. Ricardo Contreras, MBA, 8:28, en español.</p>
+  <ul>
+    <li><a href="https://www.youtube.com/watch?v=fBgk_cNCnsk" target="_blank" rel="noopener">How to Choose the Best Chart for Your Data Visualization.</a> Maven Analytics, 6:08, en inglés.</li>
+    <li><a href="https://www.youtube.com/watch?v=Qp6W3ctVh3I" target="_blank" rel="noopener">Cómo usar KPIs para medir desempeño en dashboards.</a> DataBoosters, 7:14, en español.</li>
+    <li>From Data to Viz. <a href="https://www.data-to-viz.com/" target="_blank" rel="noopener">Árbol de decisión de gráficas</a>.</li>
+    <li>Storytelling with Data. <a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener">Guía de gráficos</a>.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-kpi" target="_blank" rel="noopener">Key Performance Indicator (KPI) visuals</a>.</li>
+    <li>Knaflic, C. N. (2015). <a href="https://doi.org/10.1002/9781119055259" target="_blank" rel="noopener"><em>Storytelling with Data</em></a>. Wiley.</li>
+    <li>Bach, B. y otros (2022). <a href="https://doi.org/10.1109/tvcg.2022.3209448" target="_blank" rel="noopener">Dashboard design patterns</a>. <em>IEEE TVCG</em>.</li>
+    <li>Cleveland, W. S. y McGill, R. (1984). <a href="https://doi.org/10.1080/01621459.1984.10478080" target="_blank" rel="noopener">Graphical perception</a>. <em>JASA, 79</em>(387), 531-554.</li>
+  </ul>
+</section>
+
+</main>
+</div>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

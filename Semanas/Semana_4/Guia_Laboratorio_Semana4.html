@@ -1,117 +1,197 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Semana 4 - Time Intelligence (Inteligencia de Tiempo)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B', dark: '#0f172a' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0, 56, 101, 0.08); }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio sesión 4: de crudo a listo | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+<style>@media (max-width: 900px) { .marco { grid-template-columns: minmax(0, 1fr); } } li code { overflow-wrap: anywhere; }</style>
 </head>
-<body class="text-gray-800 antialiased p-4 md:p-8">
-    
-    <div class="max-w-5xl mx-auto space-y-8">
-        
-        <!-- Header -->
-        <div class="bg-gradient-to-br from-primary to-[#002240] rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden">
-            <!-- Deco -->
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            
-            <div class="relative z-10">
-                <div class="flex items-center gap-5 mb-6">
-                    <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                        <i class="fas fa-calendar-alt text-3xl text-secondary"></i>
-                    </div>
-                    <div>
-                        <p class="text-secondary font-bold tracking-wider text-sm mb-1 uppercase">Inteligencia de Negocios • Semana 4</p>
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Laboratorio: Análisis Comparativo e Inteligencia Temporal</h1>
-                    </div>
-                </div>
-                <div class="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur-sm">
-                    <p class="text-blue-100 text-sm md:text-base leading-relaxed"><i class="fas fa-bullseye text-secondary mr-2"></i><strong>Objetivo Táctico:</strong> En este escenario, el Director Financiero (CFO) te ha pedido un informe detallado que muestre el desempeño de ventas contra el año pasado, evaluando estacionalidad y crecimiento. Aprenderás a dominar CALCULATE y a construir una tabla de fechas paramétrica.</p>
-                </div>
-            </div>
-        </div>
+<body>
+<header class="portada">
+  <h1>De crudo a listo</h1>
+  <p>Transforma el archivo con Power Query, comprueba que cuadra al centavo, provoca un error para aprender a encontrarlo y documenta sus decisiones. Luego aplica lo mismo a su proyecto.</p>
+  <div class="datos-clase"><span><b>Sesión</b>4</span><span><b>Modalidad</b>Individual, con tutoría de viabilidad</span><span><b>Herramienta</b>Power BI Desktop</span><span><b>Resultado</b>1.2</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#datos">Antes de empezar</a></li>
+  <li><a href="#e1">1. Tipos</a></li>
+  <li><a href="#e2">2. Excluir</a></li>
+  <li><a href="#e3">3. Corregir</a></li>
+  <li><a href="#e4">4. Marcar</a></li>
+  <li><a href="#e5">5. Conciliar</a></li>
+  <li><a href="#e6">6. Romper y arreglar</a></li>
+  <li><a href="#e7">7. Su proyecto</a></li>
+  <li><a href="#m">Consulta completa</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Metodologia Paso a Paso -->
-        <div class="glass-card rounded-2xl p-8 md:p-12">
-            <h2 class="text-2xl font-bold text-primary mb-10 flex items-center gap-3 border-b border-gray-200 pb-4">
-                <i class="fas fa-layer-group text-secondary"></i> Flujo de Implementación Técnica
-            </h2>
-            
-            <div class="mt-8">
-                
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    1
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Construcción del Calendario en DAX</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear una nueva tabla utilizando DAX: <code>Calendario = ADDCOLUMNS(CALENDARAUTO(), "Año", YEAR([Date]), "Mes_Num", MONTH([Date]), "Mes_Nombre", FORMAT([Date], "MMMM"))</code>. Marcarla como tabla de fechas oficial.</p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    2
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Métricas Acumuladas</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear las medidas base acumulativas para comprender la tracción del negocio:<br><code>Ventas_YTD = TOTALYTD([Ventas_Total], Calendario[Date])</code></p>
-                </div>
-            </div>
-            <div class="relative pl-10 border-l-2 border-primary/20 pb-10">
-                <div class="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md">
-                    3
-                </div>
-                <h3 class="text-xl font-bold text-primary mb-3">Métricas de Crecimiento (YoY)</h3>
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-gray-700 shadow-inner">
-                    <p class="leading-relaxed">Crear la comparativa interanual y calcular la variación porcentual:<br><code>Ventas_LY = CALCULATE([Ventas_Total], SAMEPERIODLASTYEAR(Calendario[Date]))</code><br><code>Crecimiento_YoY = DIVIDE([Ventas_Total] - [Ventas_LY], [Ventas_LY])</code></p>
-                </div>
-            </div>
-            </div>
-        </div>
+<section id="datos">
+  <h2>Antes de empezar</h2>
+  <p>Abra la consulta de la sesión 3 con <a href="../Semana_3/Datos/Online_Retail.xlsx" download>Online_Retail.xlsx</a> y actívele el perfilado sobre todo el conjunto de datos. Chen, D. (2015). UCI, CC BY 4.0. El significado de cada columna está en la <a href="../Semana_3/Guia_Laboratorio_Semana3.html#datos">guía de la sesión 3</a>.</p>
+  <p>Vaya llenando su bitácora mientras trabaja, no al final:</p>
+  <div class="tablon"><table>
+    <tr><th>Paso</th><th>Qué hice</th><th>Filas antes y después</th><th>Por qué</th><th>Qué podría estar mal</th></tr>
+    <tr><td>1</td><td></td><td></td><td></td><td></td></tr>
+  </table></div>
+</section>
 
-        <!-- Reto de Práctica Autónoma -->
-        <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-10 text-white shadow-2xl border-l-8 border-secondary relative overflow-hidden transform transition hover:scale-[1.01] duration-300">
-            <div class="absolute top-0 right-0 p-8 opacity-10">
-                <i class="fas fa-rocket text-8xl"></i>
-            </div>
-            <div class="relative z-10">
-                <div class="inline-block bg-secondary text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4 shadow-lg">
-                    Actividad Autónoma
-                </div>
-                <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                    <i class="fas fa-brain text-secondary"></i> Reto Arquitectónico Avanzado
-                </h2>
-                <div class="bg-white/10 rounded-xl p-6 border border-white/10">
-                    <p class="text-gray-300 text-lg leading-relaxed">
-                        Diseñar una medida avanzada que calcule un promedio móvil de ventas de los últimos 30 días, manejando contextos de fechas dinámicos mediante las funciones CALCULATE, DATESINPERIOD y LASTDATE, para suavizar la curva de tendencia estacional.
-                    </p>
-                </div>
-                
-                <div class="mt-8 bg-blue-900/40 border border-blue-500/30 rounded-lg p-5 flex gap-4">
-                    <i class="fas fa-circle-info text-blue-400 text-xl mt-1"></i>
-                    <p class="text-sm text-blue-200">
-                        <strong>Criterio de Evaluación Institucional:</strong> Este reto exige aplicar la documentación oficial, foros de la comunidad técnica y fundamentos teóricos de la clase magistral. Asegúrate de comentar y estructurar bien tu código DAX o M para sustentarlo en la revisión.
-                    </p>
-                </div>
-            </div>
-        </div>
+<section id="e1">
+  <h2><span class="num">1.</span> Fijar los tipos</h2>
+  <p class="meta">10 minutos.</p>
+  <ol class="pasos">
+    <li>Fije cada tipo haciendo clic en el icono de la columna: <code>InvoiceNo</code>, <code>StockCode</code>, <code>Description</code> y <code>Country</code> como texto; <code>Quantity</code> y <code>CustomerID</code> como número entero; <code>InvoiceDate</code> como fecha y hora; <code>UnitPrice</code> como número decimal.</li>
+    <li>Revise la calidad de cada columna. ¿Alguna tiene errores?</li>
+    <li>¿Por qué <code>CustomerID</code> es un número y aun así no conviene sumarlo?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Siguen 541.909 filas y ninguna columna debe mostrar errores. Si <code>InvoiceNo</code> queda como número, las facturas con C dan error. <code>CustomerID</code> es un identificador: sumarlo no significa nada.</p>
+  </div></details>
+</section>
 
-    </div>
+<section id="e2">
+  <h2><span class="num">2.</span> Excluir lo que no es venta ni cancelación</h2>
+  <p class="meta">15 minutos.</p>
+  <p><b>Regla:</b> se conservan las cancelaciones, y las demás filas solo si tienen cantidad y precio positivos.</p>
+  <ol class="pasos">
+    <li>Antes de filtrar, anote el conteo de <code>Quantity</code> menor o igual a 0 que no sea cancelación, filtrando y deshaciendo. ¿Qué dice <code>Description</code> en esas filas?</li>
+    <li>Use <span class="ruta">Inicio &gt; Mantener filas &gt;</span> o escriba el filtro en la barra de fórmulas con este paso:</li>
+  </ol>
+  <pre><code>= Table.SelectRows(#"Paso anterior", each Text.StartsWith([InvoiceNo], "C") or ([Quantity] &gt; 0 and [UnitPrice] &gt; 0))</code></pre>
+  <ol class="pasos">
+    <li>Reemplace <code>#"Paso anterior"</code> por el nombre de su último paso. Agregue un paso con el botón <em>fx</em>.</li>
+    <li>Cuente las filas: <span class="ruta">Transformar &gt; Contar filas</span>. Anote el número y elimine ese paso de conteo.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Quedan <b>539.392</b> filas: salen 2.517. Casi todas tienen precio cero y notas como <code>check</code> o <code>damaged</code>; también salen 2 ajustes con precio negativo. Si le quedan muchas menos, escribió <code>and</code> en lugar de <code>or</code> y perdió las cancelaciones.</p>
+  </div></details>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Corregir lo que está mal escrito</h2>
+  <p class="meta">10 minutos.</p>
+  <ol class="pasos">
+    <li>Seleccione <code>StockCode</code> y use <span class="ruta">Transformar &gt; Formato &gt; MAYÚSCULAS</span>.</li>
+    <li>Seleccione <code>Description</code> y use <span class="ruta">Transformar &gt; Formato &gt; Recortar</span>.</li>
+    <li>Con el perfil sobre todo el conjunto, lea cuántos valores distintos tiene <code>StockCode</code> ahora.</li>
+    <li>¿Conviene poner <code>Description</code> en mayúsculas? Mire <code>Manual</code> y <code>Next Day Carriage</code> antes de decidir.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p><code>StockCode</code>: <b>3.828</b> valores distintos en las filas que quedaron, frente a 3.938 antes de pasar a mayúsculas. Son 110 códigos que solo diferían en la letra. Sigue en 539.392 filas.</p>
+  </div></details>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Marcar lo que importa distinguir</h2>
+  <p class="meta">15 minutos.</p>
+  <ol class="pasos">
+    <li><span class="ruta">Agregar columna &gt; Columna personalizada</span>. Nombre: <code>Importe</code>. Fórmula: <code>[Quantity] * [UnitPrice]</code>. Fije el tipo número decimal.</li>
+    <li>Otra columna, <code>Tipo</code>: <code>if Text.StartsWith([InvoiceNo], "C") then "Cancelación" else "Venta"</code>.</li>
+    <li>Otra, <code>Clase</code>, para separar lo que no es mercancía:</li>
+  </ol>
+  <pre><code>if List.Contains({"POST","DOT","M","B","C2","D","CRUK","S","AMAZONFEE","BANK CHARGES","PADS"}, [StockCode]) then "No producto" else "Producto"</code></pre>
+  <ol class="pasos">
+    <li>Agregue <code>Fecha</code>: seleccione <code>InvoiceDate</code> y use <span class="ruta">Agregar columna &gt; Fecha &gt; Solo fecha</span>.</li>
+    <li><b>No</b> rellene los clientes vacíos con un número inventado. Anote en su bitácora qué decidió hacer con ellos.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Filas con <code>Tipo</code> Venta: <b>530.104</b>. Cancelación: <b>9.288</b>. <code>Clase</code> No producto: <b>2.899</b> filas, con importe neto de −£23.522,64. Ese neto pequeño esconde mucho: los envíos suman +£272.476 (POST y DOT) y las comisiones de Amazon restan −£221.520. Por eso conviene marcarlas y no borrarlas.</p>
+  </div></details>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Conciliar</h2>
+  <p class="meta">10 minutos. Es la prueba de que todo lo anterior está bien.</p>
+  <ol class="pasos">
+    <li>Pulse <span class="ruta">Inicio &gt; Cerrar y aplicar</span>. Espere a que cargue.</li>
+    <li>Agregue un objeto visual de tarjeta con <code>Importe</code>, en Suma, y una tabla con <code>Tipo</code> e <code>Importe</code>.</li>
+    <li>Compare con la tabla de control.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th>Medida</th><th class="d">Valor</th></tr>
+      <tr><td>Filas</td><td class="d">539.392</td></tr>
+      <tr><td>Venta</td><td class="d">£10.666.684,54</td></tr>
+      <tr><td>Cancelación</td><td class="d">−£896.812,49</td></tr>
+      <tr><td>Neto</td><td class="d">£9.769.872,05</td></tr>
+    </table></div>
+    <p>Es el mismo neto de la sesión 1. Si conservó los duplicados, debe coincidir al centavo. Si los quitó, su neto será £9.748.131,07, y debe decirlo en su bitácora.</p>
+  </div></details>
+</section>
+
+<section id="e6">
+  <h2><span class="num">6.</span> Romper y arreglar</h2>
+  <p class="meta">15 minutos. Hágalo sobre una copia: clic derecho en la consulta y <em>Duplicar</em>.</p>
+  <ol class="pasos">
+    <li>Seleccione solo <code>InvoiceNo</code> y use <span class="ruta">Inicio &gt; Quitar filas &gt; Quitar duplicados</span>. ¿Cuántas filas quedan? ¿Cuánto da ahora la suma de <code>Importe</code>?</li>
+    <li>Elimine ese paso. Haga clic en un paso anterior y arrastre <code>Importe</code> por encima de donde se calcula: ¿qué mensaje aparece? Deshágalo.</li>
+    <li>Cambie el nombre de <code>Quantity</code> en el primer paso, para simular que la fuente cambió. Vaya al último paso: ¿dónde está el error y cómo lo ubica?</li>
+    <li>Escriba en dos líneas cómo encontraría estos errores en sus propios datos.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <p>Quitando duplicados solo por <code>InvoiceNo</code> queda <b>una fila por factura: 23.796</b>, y el total deja de cuadrar. Es el error más común de este botón.</p>
+    <p>Un paso que usa una columna renombrada falla con un mensaje que nombra la columna. Se recorre el panel de pasos hasta hallar el primero con error.</p>
+  </div></details>
+</section>
+
+<section id="e7" class="reto">
+  <h2><span class="num">7.</span> Su proyecto: limpieza y bitácora</h2>
+  <p class="meta">Es lo que se entrega. Continúa como trabajo independiente.</p>
+  <ol class="pasos">
+    <li>Tome su ficha de diagnóstico de la sesión 3. Para cada hallazgo, decida: excluir, corregir, marcar o dejar.</li>
+    <li>Aplíquelo en Power Query, con nombres de paso claros. Clic derecho en un paso &gt; <em>Cambiar nombre</em>.</li>
+    <li>Defina un total de control antes de empezar, y concilie al final.</li>
+    <li>Escriba la bitácora, con al menos cinco filas y la columna “Qué podría estar mal” completa.</li>
+    <li>Lleve a la tutoría: ¿sus datos permiten responder su pregunta? Anote el acuerdo.</li>
+  </ol>
+  <h3>Tutoría de viabilidad</h3>
+  <ul>
+    <li><b>Fuente:</b> ¿existe, es accesible y tiene licencia o permiso?</li>
+    <li><b>Pregunta:</b> ¿las columnas permiten responderla?</li>
+    <li><b>Volumen y periodo:</b> ¿alcanzan para comparar?</li>
+    <li><b>Calidad:</b> ¿lo que falta impide la decisión?</li>
+  </ul>
+</section>
+
+<section id="m">
+  <h2>Consulta completa, para comparar</h2>
+  <p class="meta">En <span class="ruta">Inicio &gt; Editor avanzado</span>. Cambie la ruta del archivo por la suya.</p>
+  <pre><code>let
+    Origen = Excel.Workbook(File.Contents("C:\Datos\Online_Retail.xlsx"), null, true),
+    Hoja = Origen{[Item="Online Retail",Kind="Sheet"]}[Data],
+    Encabezados = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+    Tipos = Table.TransformColumnTypes(Encabezados, {
+        {"InvoiceNo", type text}, {"StockCode", type text}, {"Description", type text},
+        {"Quantity", Int64.Type}, {"InvoiceDate", type datetime}, {"UnitPrice", type number},
+        {"CustomerID", Int64.Type}, {"Country", type text}}),
+    SoloValidas = Table.SelectRows(Tipos, each Text.StartsWith([InvoiceNo], "C")
+        or ([Quantity] &gt; 0 and [UnitPrice] &gt; 0)),
+    Mayus = Table.TransformColumns(SoloValidas, {{"StockCode", Text.Upper, type text}}),
+    Recorte = Table.TransformColumns(Mayus, {{"Description", Text.Trim, type text}}),
+    Importe = Table.AddColumn(Recorte, "Importe", each [Quantity] * [UnitPrice], type number),
+    Tipo = Table.AddColumn(Importe, "Tipo", each if Text.StartsWith([InvoiceNo], "C")
+        then "Cancelación" else "Venta", type text),
+    Clase = Table.AddColumn(Tipo, "Clase", each if List.Contains({"POST","DOT","M","B","C2",
+        "D","CRUK","S","AMAZONFEE","BANK CHARGES","PADS"}, [StockCode])
+        then "No producto" else "Producto", type text),
+    Fecha = Table.AddColumn(Clase, "Fecha", each DateTime.Date([InvoiceDate]), type date)
+in
+    Fecha</code></pre>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <ul>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/training/modules/clean-data-power-bi/" target="_blank" rel="noopener">Clean, transform, and load data in Power BI</a>. Módulo de formación.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/powerquery-m/" target="_blank" rel="noopener">Power Query M formula language</a>.</li>
+    <li>Microsoft Learn. <a href="https://learn.microsoft.com/en-us/power-query/power-query-what-is-power-query" target="_blank" rel="noopener">What is Power Query?</a></li>
+  </ul>
+</section>
+
+</main>
+</div>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>
