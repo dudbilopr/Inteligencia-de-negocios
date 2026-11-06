@@ -1,416 +1,356 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 11</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js & Typed.js & Mermaid -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --r-link-color-hover: #c94b07;
-            --r-selection-background-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides {
-            width: 90% !important;
-            height: 90% !important;
-            max-width: 1200px !important;
-            margin: auto;
-        }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-screen {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 100%;
-            gap: 30px;
-        }
-        .split-left, .split-right { width: 48%; }
-        
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-top: 20px;
-        }
-        .grid-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            border-top: 5px solid var(--unab-blue);
-            text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .grid-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 56, 101, 0.2);
-        }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
-        .reveal h1 { font-size: 2.8em; }
-        .reveal h2 { font-size: 1.8em; margin-bottom: 20px; }
-        .highlight { color: var(--unab-orange); }
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.7em !important; line-height: 1.2; }
-        
-        .pro-tip {
-            background: linear-gradient(135deg, #003865 0%, #005091 100%);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            border-left: 8px solid var(--unab-orange);
-            font-size: 0.7em;
-            text-align: left;
-            margin: 20px 0;
-            box-shadow: 0 15px 30px rgba(0,56,101,0.3);
-            transition: transform 0.3s ease;
-        }
-        .pro-tip i { color: var(--unab-orange); margin-right: 10px; font-size: 1.2em; }
-        
-        ul.styled-list li { margin-bottom: 12px; font-size: 0.8em; }
-        .icon { color: var(--unab-orange); margin-right: 15px; }
-        
-        .chart-container { 
-            position: relative; 
-            height: 350px; 
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15);
-        }
-        
-        .dark-slide {
-            background-color: var(--unab-blue) !important;
-            color: white !important;
-        }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3 { color: white !important; }
-        
-        /* Modal Styles */
-        .clickable-concept {
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
-        }
-        .clickable-concept:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 20px 40px rgba(232, 92, 11, 0.3) !important;
-            z-index: 10;
-        }
-        .clickable-concept::after {
-            content: '\f0a6'; /* Hand pointer icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: var(--unab-orange);
-            color: white;
-            width: 30px; height: 30px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.98);
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: 0 30px 60px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange);
-            z-index: 2000;
-            text-align: left;
-            font-family: sans-serif;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes popIn {
-            0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-
-        #concept-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 1999;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; } to { opacity: 1; }
-        }
-        .modal-close {
-            position: absolute;
-            top: 20px; right: 20px;
-            cursor: pointer;
-            font-size: 1.5em;
-            color: #888;
-            transition: color 0.2s;
-        }
-        .modal-close:hover { color: var(--unab-orange); }
-        .modal-title { color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; font-weight: bold; display: flex; align-items: center; gap: 15px;}
-        .modal-body { font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px; }
-
-        /* Footnote */
-        .ai-footer {
-            position: fixed;
-            bottom: 10px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 0.45em;
-            color: #888;
-            z-index: 1000;
-            font-family: monospace;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 11 · 12.330 sesiones reales | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
 </head>
 <body>
+<div id="escenario">
+<canvas id="lienzo" aria-hidden="true"></canvas>
 
-    <div class="reveal">
-        <div class="slides">
+<section class="esc" data-p='{"f":"texto","t":"300","tam":430,"area":[730,150,850,600]}'>
+  <div class="izq" style="width:640px">
+    <h1 style="font-size:92px">¿Qué le dices a tu jefe?</h1>
+    <p class="sec">Comunicación de resultados y narrativa visual</p>
+    <p class="sec" style="font-size:26px">Inteligencia de Negocios · Sesión 11<br>Dudbil Olvasada Pabón Riaño · UNAB</p>
+  </div>
+  <aside class="notas">Pregunta de apertura. Los puntos forman 300: una muestra al azar de sesiones reales. Teclas: F pantalla completa, L tema claro si hay luz en el salón, N estas notas.</aside>
+</section>
 
-            <!-- PORTADA -->
-            <section class="dark-slide" data-transition="zoom">
-                <i class="fa-solid fa-chart-pie" style="font-size: 4.5em; color: var(--unab-orange); margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(232,92,11,0.5));"></i>
-                <h1 style="margin-bottom: 10px;">Storytelling con Datos</h1>
-                <h3 style="font-weight: 300; opacity: 0.9; color: #e0e0e0 !important;">Comunicación Analítica y Narrativa Visual</h3>
-                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
-                    <p style="margin: 0; font-size: 0.8em; letter-spacing: 1px;">Inteligencia de Negocios - Semana 11</p>
-                    <p style="margin: 5px 0 0 0; font-size: 0.6em; opacity: 0.7; color: var(--unab-orange);">Universidad Autónoma de Bucaramanga</p>
-                </div>
-            </section>
+<section class="esc" data-p='{"f":"nube","r":9}'>
+  <div class="ancho" style="justify-content:flex-end;padding-bottom:30px">
+    <h2 style="background:var(--fondo);padding:18px 26px 22px;width:fit-content;max-width:1160px">12.330 visitas reales a una tienda en línea, durante un año. <span class="paso sec">Cada punto representa unas 41.</span></h2>
+  </div>
+  <aside class="notas">Estos datos existen: Online Shoppers Purchasing Intention Dataset, UCI, publicado por Sakar y Kastro. Cada sesión es de un usuario distinto. Ya no son datos de ejemplo.</aside>
+</section>
 
-            <!-- RAE -->
-            <section data-transition="slide-in fade-out">
-                <h2><i class="fa-solid fa-bullseye icon"></i> Resultado de Aprendizaje</h2>
-                <div class="split-screen">
-                    <div class="split-left text-left">
-                        <div class="grid-card" style="border-left: 5px solid var(--unab-orange); border-top: none;">
-                            <h3 style="color: var(--unab-blue); font-size: 1.2em;">RAE 3.1</h3>
-                            <p style="font-size: 0.9em;">
-                                "Interpreta hallazgos a partir de visualizaciones para diferentes audiencias."
-                            </p>
-                            <p class="small-text" style="color: #666; margin-top: 15px;">
-                                Los datos puros rara vez persuaden. Transformaremos el <em>Business Intelligence</em> en una herramienta narrativa y ejecutiva basada en metodologías como <strong>Storytelling with Data</strong> de Cole Nussbaumer.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="split-right">
-                        <div style="font-size: 3em; color: #ddd; display: flex; flex-direction: column; align-items: center; gap: 20px;">
-                            <i class="fa-solid fa-database"></i>
-                            <i class="fa-solid fa-arrow-down" style="color: var(--unab-orange); font-size: 0.5em;"></i>
-                            <i class="fa-solid fa-comments"></i>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<section class="esc" data-p='{"f":"reja","area":[720,110,800,620]}'>
+  <div class="izq">
+    <div class="cifra c">1.908</div>
+    <h2>terminaron en compra.</h2>
+    <p class="sec">Solo el 15,5&nbsp;%. Los otros 10.422 se fueron sin comprar.</p>
+  </div>
+  <p class="pie">Fuente: Sakar y Kastro (2018), UCI Machine Learning Repository, CC BY 4.0. Laura, la gerente de esta historia, es ficticia; los datos no.</p>
+  <aside class="notas">Presente el caso: Laura, gerente de mercadeo, tiene presupuesto para atender solo a una parte de las sesiones con una campaña de cierre. ¿Dónde lo pone? La tienda es anónima en la fuente.</aside>
+</section>
 
-            <!-- CONTEXTO Y AUDIENCIA -->
-            <section data-transition="slide">
-                <h2><i class="fa-solid fa-users icon"></i> El Contexto y la Audiencia</h2>
-                <p class="text-left small-text">Antes de crear cualquier visualización, debemos hacernos tres preguntas fundamentales:</p>
-                
-                <div class="grid-layout">
-                    <div class="grid-card clickable-concept" onclick="openModal('¿Quién?', 'Conocer a tu audiencia es vital. ¿A quién te diriges? ¿Qué relación tienes con ellos? ¿Son tomadores de decisión (C-Level), operativos o técnicos? El nivel de detalle técnico varía drásticamente según la audiencia.', 'fa-user-tie')">
-                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-user-tie icon"></i> ¿A Quién?</h3>
-                        <p class="small-text">Tu audiencia objetivo.</p>
-                    </div>
-                    <div class="grid-card clickable-concept" onclick="openModal('¿Qué?', '¿Qué quieres que tu audiencia sepa o haga? Todo reporte de Inteligencia de Negocios debe incitar a la acción. Si los datos no generan una decisión, solo son ruido visual.', 'fa-lightbulb')">
-                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-lightbulb icon"></i> ¿Qué?</h3>
-                        <p class="small-text">La acción deseada (Call to Action).</p>
-                    </div>
-                    <div class="grid-card clickable-concept" style="grid-column: span 2;" onclick="openModal('¿Cómo?', '¿Cómo utilizarás los datos para apoyar tu punto? Aquí es donde seleccionas los KPIs adecuados y el gráfico pertinente para transmitir el Big Idea.', 'fa-chart-bar')">
-                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-chart-bar icon"></i> ¿Cómo?</h3>
-                        <p class="small-text">Los datos que respaldan tu argumento central (The Big Idea).</p>
-                    </div>
-                </div>
-            </section>
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2>Hoy: de los datos a una decisión</h2>
+    <svg data-d="ruta" data-o='{"h":350,"items":[{"h":"10:00","t":"Explorar no|es explicar"},{"h":"10:40","t":"Audiencia y|Gran Idea"},{"h":"11:10","t":"Pausa"},{"h":"11:25","t":"Quitar|desorden"},{"h":"11:40","t":"Taller: seis|ejercicios","foco":true},{"h":"12:40","t":"English|immersion"},{"h":"12:50","t":"Tres historias|y cierre"}]}' style="margin-top:70px"></svg>
+  </div>
+  <aside class="notas">Acuerdos: se puede preguntar en cualquier momento; el uso de IA se declara. Ajuste los tiempos al grupo.</aside>
+</section>
 
-            <!-- ELIMINAR EL DESORDEN -->
-            <section data-transition="slide">
-                <h2><i class="fa-solid fa-eraser icon"></i> Carga Cognitiva y el "Clutter"</h2>
-                <div class="split-screen">
-                    <div class="split-left text-left">
-                        <p class="small-text">
-                            La <span class="highlight">Carga Cognitiva</span> es el esfuerzo mental necesario para procesar información. Nuestro objetivo es reducirla eliminando el "Desorden" (Clutter).
-                        </p>
-                        <div class="pro-tip">
-                            <i class="fa-solid fa-scissors"></i> Principio de Gestalt: Elimina bordes gruesos, cuadrículas pesadas y colores innecesarios. Maximiza el <strong>Data-Ink Ratio</strong> (Tinta de Datos).
-                        </div>
-                    </div>
-                    <div class="split-right">
-                        <div class="chart-container">
-                            <canvas id="clutterChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TYPED.JS INTERACTIVE -->
-            <section data-transition="zoom" class="dark-slide">
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
-                    <i class="fa-solid fa-quote-left" style="font-size: 2em; color: var(--unab-orange); opacity: 0.7; margin-bottom: 20px;"></i>
-                    <h2 style="font-size: 1.5em; text-align: center; line-height: 1.4;">
-                        <span id="typed-quote"></span>
-                    </h2>
-                </div>
-            </section>
-
-            <!-- GLOSARIO -->
-            <section data-transition="slide">
-                <h2><i class="fa-solid fa-book icon"></i> Glosario Clave</h2>
-                <div class="grid-layout">
-                    <div class="grid-card">
-                        <h3 style="font-size: 1em; color: var(--unab-blue);">Exploratorio vs. Explicativo</h3>
-                        <p class="small-text"><strong>Exploratorio:</strong> Lo que haces para encontrar la historia en los datos (ej. buscar perlas en las ostras).<br><br><strong>Explicativo:</strong> Lo que presentas a la audiencia (mostrar solo las perlas encontradas).</p>
-                    </div>
-                    <div class="grid-card">
-                        <h3 style="font-size: 1em; color: var(--unab-blue);">Atributos Preatentivos</h3>
-                        <p class="small-text">Elementos visuales (color, tamaño, forma) que nuestro cerebro procesa inconscientemente en milisegundos. Usados para dirigir la atención rápidamente en un Dashboard.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CONCLUSIONES -->
-            <section data-transition="slide" class="dark-slide">
-                <h2><i class="fa-solid fa-flag-checkered highlight"></i> Conclusiones</h2>
-                <ul class="styled-list" style="color: #eee; font-size: 0.9em; line-height: 1.5;">
-                    <li><strong class="highlight">1.</strong> Los dashboards no deben ser un "volcado de datos"; deben contar una historia con un principio, medio y final (llamado a la acción).</li>
-                    <li><strong class="highlight">2.</strong> Conoce a tu audiencia: Un gerente de marketing y un ingeniero de datos no consumen la misma visualización.</li>
-                    <li><strong class="highlight">3.</strong> Elimina sistemáticamente el desorden (clutter) para reducir la carga cognitiva del usuario final.</li>
-                </ul>
-            </section>
-
-            <!-- BIBLIOGRAFIA -->
-            <section data-transition="slide">
-                <h2><i class="fa-solid fa-book-open icon"></i> Bibliografía</h2>
-                <div class="grid-card text-left" style="margin-top: 30px;">
-                    <ul class="styled-list" style="margin: 0; padding-left: 20px;">
-                        <li><strong>Nussbaumer Knaflic, C.</strong> (2015). <em>Storytelling with Data: A Data Visualization Guide for Business Professionals</em>. Wiley.</li>
-                        <li><strong>UNAB</strong> (2026). Syllabus Oficial - Curso de Inteligencia de Negocios. (Dudbil Pabon).</li>
-                        <li>Tufte, E. R. (2001). <em>The Visual Display of Quantitative Information</em>. Graphics Press.</li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <p class="sec">Resultado de aprendizaje 3.1 del curso</p>
+    <p class="frase" style="font-size:58px">Interpreta hallazgos a partir de visualizaciones para diferentes audiencias.</p>
+    <svg data-d="enlace" style="margin-bottom:-14px"></svg>
+    <div class="tres">
+      <p>Distingues análisis exploratorio de explicativo.</p>
+      <p>Resumes un hallazgo en una Gran Idea de una oración.</p>
+      <p>Limpias una gráfica y diriges la mirada a lo que importa.</p>
     </div>
+  </div>
+  <aside class="notas">El resultado 3.1 es textual del syllabus. Los tres logros son los de esta sesión.</aside>
+</section>
 
-    <!-- Modales para Conceptos -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <i class="fa-solid fa-times modal-close" onclick="closeModal()"></i>
-        <div class="modal-title" id="modal-title"></div>
-        <div class="modal-body" id="modal-body"></div>
+<section class="esc" data-p='{"f":"dispersion","area":[740,90,790,720]}'>
+  <div class="izq">
+    <h2>Esto es explorar.</h2>
+    <p>Abres los datos y los miras de muchas formas: tiempo, rebote, compras.</p>
+    <p class="sec">Sirve para encontrar. No sirve para convencer. Si muestras esto, Laura tiene que hacer tu trabajo.</p>
+  </div>
+  <aside class="notas">Pregunte qué le dice esta gráfica a Laura. La respuesta honesta: casi nada a primera vista. El eje de tiempo es logarítmico porque unos pocos pasan horas.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="izq" style="width:600px">
+    <h2 style="font-size:62px">A tu audiencia no le muestras las ostras.</h2>
+    <p><strong>Exploratorio:</strong> <span class="sec">lo que haces para entender los datos y encontrar qué vale la pena.</span></p>
+    <p><strong>Explicativo:</strong> <span class="sec">lo que presentas: algo específico que quieres explicar.</span></p>
+    <p class="sec" style="font-size:24px">Metáfora de Knaflic (2015), cap. 1.</p>
+  </div>
+  <svg data-d="ostras" style="position:absolute;right:50px;top:110px;width:880px"></svg>
+  <aside class="notas">La metáfora es de Knaflic, capítulo 1: se abren 100 ostras para encontrar dos perlas. Advierte el error común: mostrar las 100 ostras como evidencia de todo el trabajo hecho.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"reloj","area":[700,20,860,850]}'>
+  <div class="izq" style="width:600px">
+    <h2>Primera perla: la tienda tiene estaciones.</h2>
+    <p class="sec paso">Cada rayo es un mes. Su largo, la tasa de compra.</p>
+    <p class="paso">En noviembre compra el <em class="c">25,4&nbsp;%</em>. En febrero, el <em class="c">1,6&nbsp;%</em>.</p>
+    <span class="paso sin-texto" data-p='{"f":"reloj","area":[700,20,860,850],"foco":["Nov","Feb"]}'></span>
+  </div>
+  <p class="pie">Calculado sobre las 12.330 sesiones. La fuente no incluye enero ni abril.</p>
+  <aside class="notas">Reloj del año: cambia el gráfico de barras de siempre por una forma que recuerda el calendario. Al avanzar, todo se apaga menos los dos meses que importan: atributos de atención previa en acción. Pregunte qué pasa en noviembre: en este dataset no sabemos la causa; hay que decirlo.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <p class="frase">Si solo pudieras atender a 1 de cada 5 visitas, ¿a cuál le apuestas?</p>
+    <p class="sec paso">Levanten la mano: la que pasa más tiempo, la recurrente, la nueva, la que no rebota. Digan por qué.</p>
+    <p class="paso">Dato para discutir: los visitantes <em class="c">nuevos</em> compran 24,9&nbsp;%; los recurrentes, 13,9&nbsp;%.</p>
+  </div>
+  <aside class="notas">Predicción antes del resultado. Casi todos apuestan por los recurrentes, y los datos dicen lo contrario. Esa sorpresa es la materia prima de una historia.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="izq" style="width:480px">
+    <h2 style="font-size:56px">Segunda perla: casi todo pasa en 1 de cada 5.</h2>
+    <p class="sec paso">Una métrica de Google Analytics, el valor de página, parte en dos a las visitas.</p>
+    <p class="paso">Con valor, compra el <em class="c">56&nbsp;%</em>. Sin valor, el <em class="c">3,9&nbsp;%</em>.</p>
+  </div>
+  <svg data-d="flujo" data-o='{"etapas":{"total":12330,"con":2730,"sin":9600,"con_compra":1538,"con_no":1192,"sin_compra":370,"sin_no":9230,"t_total":"12.330|sesiones","t_con":"2.730 con valor de página","t_sin":"9.600 sin valor de página","t_compra":"1.908|compraron","t_no":"10.422|no"}}' style="position:absolute;right:30px;top:90px;width:1020px"></svg>
+  <aside class="notas">Sankey con los datos reales: el ancho de cada cinta es proporcional a las sesiones. De 1.908 compras, 1.538 (81 %) salieron del 22 % de las sesiones. La luz recorre el camino que importa.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"espejo","campo":"p","area":[720,100,800,720]}'>
+  <div class="izq">
+    <h2>Un modelo le da una probabilidad a cada visita.</h2>
+    <p>Usa tres variables: tiempo en producto, rebote y valor de página.</p>
+    <p class="sec">Quienes compraron se van a la derecha. No todos: muchos compradores tienen probabilidad baja.</p>
+  </div>
+  <p class="pie">Regresión logística estimada con 9.864 sesiones. Tú la construyes en el trabajo independiente.</p>
+  <aside class="notas">Distribución en espejo: arriba compraron, abajo no. Cada lado tiene su propia escala para comparar la forma, porque hay muchos menos compradores; el eje está en escala de chances (logit), por eso 1 %, 10 % y 50 % quedan espaciados. La matemática se ve en el trabajo independiente.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"alcance","area":[680,70,860,770]}'>
+  <div class="izq" style="width:560px">
+    <h2>Con el modelo, mirar a pocos alcanza a muchos.</h2>
+    <p class="sec">Se ordenan las visitas de más a menos probables y se recorre la curva. La diagonal es elegir al azar.</p>
+    <p class="paso">Atendiendo al <strong>20&nbsp;%</strong> se llega al <em class="c">76&nbsp;%</em> de los compradores. Al azar, al 20&nbsp;%.</p>
+    <span class="paso sin-texto" data-p='{"f":"alcance","area":[680,70,860,770],"q":0.2}'></span>
+  </div>
+  <p class="pie">Medido en 2.466 sesiones que el modelo no vio.</p>
+  <aside class="notas">Curva de alcance real. Los puntos caminan por ella, ordenados por probabilidad. Es la gráfica que le importa a quien tiene un presupuesto limitado.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"matriz","area":[680,70,860,770]}'>
+  <div class="izq" style="width:560px">
+    <div class="cifra">88&nbsp;%</div>
+    <h2 style="font-size:50px">de acierto. ¿Impresionante?</h2>
+    <p class="paso">Diciendo siempre “no compra” se acierta <em class="c">85&nbsp;%</em>.</p>
+    <p class="paso">Y a ese umbral se le escapan <em class="c">235 de 373</em> compradores. Una historia honesta también lo dice.</p>
+    <span class="paso sin-texto" data-p='{"f":"matriz","area":[680,70,860,770],"errores":true}'></span>
+  </div>
+  <p class="pie">Cada punto representa unas 8 de las 2.466 sesiones de prueba.</p>
+  <aside class="notas">La trampa de la exactitud cuando una clase domina. VP 138, VN 2.043, FP 50, FN 235. Knaflic (cap. 1) advierte contra mostrar solo lo que apoya tu punto: una audiencia exigente le hará agujeros.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho" style="max-width:none">
+    <h2>Antes de abrir PowerPoint, tres preguntas</h2>
+    <svg data-d="enlace" style="margin-bottom:-14px"></svg>
+    <div class="tres">
+      <div class="col"><h3>¿Quién?</h3><p class="sec">Una persona concreta y qué le importa. Nunca “todos los interesados”.</p></div>
+      <div class="col"><h3>¿Qué?</h3><p class="sec">Qué quieres que sepa o haga después de oírte.</p></div>
+      <div class="col"><h3>¿Cómo?</h3><p class="sec">Solo entonces, qué datos y qué gráfica lo sostienen.</p></div>
     </div>
+    <p class="paso" style="font-size:38px;font-weight:700;margin-top:18px">Laura, gerente de mercadeo. Que apruebe una prueba de campaña enfocada. Con una gráfica: la del flujo.</p>
+    <p class="sec" style="font-size:24px">Knaflic (2015), cap. 1.</p>
+  </div>
+  <aside class="notas">Pregunte cómo cambiaría la respuesta si la audiencia fuera el analista de datos o el director financiero. En la sesión 12 se profundiza.</aside>
+</section>
 
-    <div class="ai-footer">
-        * Material de Inteligencia de Negocios - Potenciado y construido con IA bajo supervisión de Dudbil Pabon - Sujeto a cambios.
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2>La Gran Idea cabe en una oración</h2>
+    <div style="position:relative;margin-top:20px">
+      <svg data-d="corrientes" data-o='{"etq":["Tu punto de vista","Lo que está en juego","Oración completa"]}'></svg>
+      <p class="sec" style="position:absolute;left:730px;top:32px;font-size:34px;width:680px;text-decoration:line-through;text-decoration-color:var(--compra)">Análisis de sesiones del sitio web.</p>
     </div>
+    <p class="paso frase" style="font-size:50px;margin-top:-12px">Si concentramos la campaña en el 22&nbsp;% de las visitas con valor de página, <span class="acento">llegamos al 81&nbsp;% de quienes compran</span>: probémoslo un mes contra un grupo de control.</p>
+    <p class="sec" style="font-size:24px">Duarte (2010), citada en Knaflic (2015), cap. 1.</p>
+  </div>
+  <aside class="notas">Revise los tres componentes en el ejemplo. Antes de la Gran Idea, Knaflic propone la historia de 3 minutos: si solo tuvieras tres minutos, ¿qué dirías?</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        // Inicializar Reveal.js
-        Reveal.initialize({
-            controls: true,
-            progress: true,
-            center: true,
-            hash: true,
-            transition: 'slide'
-        });
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho" style="flex-direction:row;gap:72px;max-width:none;align-items:center">
+    <div class="col limpieza" style="flex:1.25">
+      <svg id="desorden" viewBox="0 0 760 520" role="img" aria-label="Gráfica de la tasa de compra por mes"></svg>
+    </div>
+    <div class="col" style="flex:1;gap:18px">
+      <h2 style="font-size:58px">Cada elemento le cuesta atención a tu audiencia.</h2>
+      <p class="paso" data-quita="[data-r=marco]">Quita el marco.</p>
+      <p class="paso" data-quita="[data-r=rejilla]">Quita la cuadrícula.</p>
+      <p class="paso" data-quita="[data-r=leyenda]">Quita la leyenda: el eje ya lo dice.</p>
+      <p class="paso" id="gris" data-quita="[data-r=eje]">Etiqueta los datos, y gris para todo menos lo que importa.</p>
+      <p class="paso" id="titNuevo" data-quita="[data-r=titulo]"><strong>El título dice la conclusión.</strong></p>
+      <p class="sec" style="font-size:24px">Knaflic (2015), cap. 3 y 4.</p>
+    </div>
+  </div>
+  <aside class="notas">Limpieza en vivo sobre una gráfica real: tasa de compra por mes. Pida al grupo que proponga qué quitar antes de cada clic. Es el ejercicio 3 del taller, en Excel o Power BI.</aside>
+</section>
 
-        // Lógica de Modales
-        function openModal(title, text, iconClass) {
-            document.getElementById('modal-title').innerHTML = `<i class="fa-solid ${iconClass}"></i> ${title}`;
-            document.getElementById('modal-body').innerHTML = text;
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-        }
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <h2>¿Cuántos números 3 hay?</h2>
+    <div class="numeros" id="numeros"></div>
+    <p class="paso" data-clase="#numeros|marcado"><span class="acento" style="font-weight:800" id="cuantos"></span> Un solo cambio de color y ya no tienes que buscar: tu cerebro lo ve antes de pensar.</p>
+    <p class="sec" style="font-size:24px">Atributos de atención previa: color, tamaño, posición. Knaflic (2015), cap. 4.</p>
+  </div>
+  <aside class="notas">Dé 8 segundos y pida la respuesta en voz alta. Luego avance. Es la demostración de Knaflic con otros dígitos. Por eso en todo el deck solo los compradores son naranjas.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal-overlay').style.display = 'none';
-            document.getElementById('concept-modal').style.display = 'none';
-        }
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2>Una historia tiene comienzo, conflicto y final.</h2>
+    <svg data-d="arco" style="margin-top:8px"></svg>
+    <div class="tres" style="margin-top:-6px">
+      <p class="paso"><span class="sec">Tratamos todas las visitas por igual.</span></p>
+      <p class="paso"><span class="sec">8 de cada 10 visitas casi no compran: 3,9&nbsp;%. Ahí se va la mayor parte del presupuesto.</span></p>
+      <p class="paso"><strong>Probemos enfocar la campaña donde están las compras.</strong></p>
+    </div>
+    <p class="sec" style="font-size:22px">Estructura de tres actos atribuida a Aristóteles, según Knaflic (2015), cap. 7.</p>
+  </div>
+  <aside class="notas">El reparto actual del presupuesto es parte de la situación supuesta del caso, no de los datos. En la sesión 13 esta estructura se convierte en Situación, Complicación, Resolución.</aside>
+</section>
 
-        // Animación Typed.js en la diapositiva correspondiente
-        Reveal.on('slidechanged', event => {
-            if (event.currentSlide.querySelector('#typed-quote') && !window.typedInitialized) {
-                new Typed('#typed-quote', {
-                    strings: [
-                        "No asumas que dos personas miran los mismos datos y llegan a la misma conclusión.",
-                        "Si no tienes el tiempo para conocer a tu audiencia, ¿por qué deberían tener el tiempo para ver tus datos?",
-                        "Hay una historia en tus datos. Pero las herramientas no saben cuál es. <span class='highlight'>Tú eres el contador de historias.</span>"
-                    ],
-                    typeSpeed: 40,
-                    backSpeed: 15,
-                    backDelay: 3000,
-                    loop: true,
-                    showCursor: true,
-                    cursorChar: '|'
-                });
-                window.typedInitialized = true;
-            }
-        });
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <h2>Lo que una buena historia no esconde</h2>
+    <ol class="lista">
+      <li>Son datos observados: el valor de página se asocia con la compra, pero no sabemos si la causa.</li>
+      <li>Esa métrica se calcula con transacciones: puede estar contaminada por la propia compra. ¿Se conoce antes de comprar?</li>
+      <li>Quien ya iba a comprar no necesita campaña. Por eso se propone un grupo de control: mide lo que se suma de verdad.</li>
+      <li>Una sola tienda, anónima, de otro momento. El método se transfiere; la cifra, no.</li>
+    </ol>
+  </div>
+  <aside class="notas">El punto 2 es la pregunta más importante de la clase: si una variable no existe en el momento de decidir, el modelo no sirve aunque acierte. Abra la discusión.</aside>
+</section>
 
-        // Gráfico Demostrativo (Clutter vs Clean)
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('clutterChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-                    datasets: [{
-                        label: 'Ventas 2026',
-                        data: [120, 150, 180, 250],
-                        backgroundColor: ['#b3c6d6', '#b3c6d6', '#b3c6d6', '#E85C0B'],
-                        borderRadius: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        title: { display: true, text: 'Destacando el dato clave (Data-Ink)', color: '#003865', font: {size: 14} }
-                    },
-                    scales: {
-                        y: { display: false }, // Eliminando el eje Y (clutter)
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-        });
-    </script>
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2>Taller: conviertan 12.330 filas en una historia</h2>
+    <svg data-d="ruta" data-o='{"h":310,"y":90,"dur":6,"items":[{"t":"De la tabla|a la perla"},{"t":"Audiencia"},{"t":"Limpiar|la gráfica","foco":true},{"t":"Título|y foco"},{"t":"Gran Idea"},{"t":"Historia de|3 minutos"}]}' style="margin-top:40px"></svg>
+    <p style="display:flex;gap:30px;align-items:center;margin-top:6px"><a class="boton" href="Guia_Laboratorio_Semana11.html" target="_blank" rel="noopener">Abrir la guía del taller</a><span class="sec" style="font-size:26px">Excel o Power BI. En parejas. Datos: Sesiones_Tienda_Real.xlsx</span></p>
+  </div>
+  <aside class="notas">Parejas. 60 minutos. Pase por los puestos en el ejercicio 3: es donde más se traban.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <h2>English immersion: 10 minutes</h2>
+    <ol class="lista">
+      <li>Watch the short clip, then say in one sentence: what did the speaker want the audience to <em>do</em>?</li>
+      <li>Say your Big Idea in English, to your partner, in 30 seconds.</li>
+      <li>Take the EMI activity.</li>
+    </ol>
+    <p><a class="boton" href="quiz_semana_11.html" target="_blank" rel="noopener">Open the EMI activity</a></p>
+    <p class="sec" style="font-size:26px">Key words: big idea, audience, clutter, call to action, takeaway.</p>
+  </div>
+  <aside class="notas">El video se abre desde la pestaña Material Audiovisual del aplicativo. De aquí en adelante, solo inglés durante 10 minutos.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <h2>Trabajo independiente: el dataset que les debía</h2>
+    <p>Implementen la regresión logística con <strong>tres variables</strong> y estos datos reales, en Excel con Solver. La guía los lleva paso a paso y trae puntos de control.</p>
+    <p style="display:flex;gap:18px;flex-wrap:wrap">
+      <a class="boton" href="Taller_Regresion_3V.html" target="_blank" rel="noopener">Abrir la guía</a>
+      <a class="boton" style="background:transparent;color:var(--tinta);box-shadow:inset 0 0 0 2px var(--regla)" href="Datos/Sesiones_Tienda_Real.xlsx" download>Descargar el Excel</a>
+    </p>
+    <p class="sec regla-arriba">Próxima sesión: Evaluación 2 y lanzamiento del Proyecto 2. Traigan la Gran Idea del taller.</p>
+  </div>
+  <aside class="notas">Cumple lo prometido en la clase anterior. La guía incluye una corrección al Excel de la clase pasada: Y_PRED debe usar la probabilidad, no la verosimilitud. Defina usted el plazo y si lleva nota.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <h2>Vocabulario de hoy</h2>
+    <table>
+      <tr><td style="width:370px"><strong>Análisis exploratorio</strong></td><td class="sec">Mirar los datos para descubrir qué vale la pena destacar.</td></tr>
+      <tr><td><strong>Análisis explicativo</strong></td><td class="sec">Comunicar a otros algo específico que encontraste.</td></tr>
+      <tr><td><strong>Gran Idea</strong></td><td class="sec">Punto de vista y lo que está en juego, en una oración completa.</td></tr>
+      <tr><td><strong>Carga cognitiva</strong></td><td class="sec">Esfuerzo mental que exige cada elemento que agregas.</td></tr>
+      <tr><td><strong>Atención previa</strong></td><td class="sec">Rasgos como color o tamaño que el ojo capta sin esfuerzo consciente.</td></tr>
+    </table>
+  </div>
+  <aside class="notas">Repaso rápido. Pida a un estudiante que explique uno con sus palabras.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"texto","t":"perlas","tam":250,"area":[0,420,1600,440],"pinta":true}'>
+  <div class="ancho alto" style="max-width:1400px">
+    <h2>Tres cosas para llevarse</h2>
+    <div class="tres">
+      <p class="regla-arriba">No muestres las 100 ostras.</p>
+      <p class="regla-arriba">Di quién, qué y cómo antes de diseñar.</p>
+      <p class="regla-arriba">Si no cabe en una oración, aún no lo sabes.</p>
+    </div>
+  </div>
+  <aside class="notas">Cierre. Los puntos escriben la palabra de la clase.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho alto">
+    <h2>Referencias</h2>
+    <ul class="lista" style="gap:16px">
+      <li style="font-size:27px">Sakar, C. y Kastro, Y. (2018). <em>Online Shoppers Purchasing Intention Dataset</em>. UCI Machine Learning Repository. https://doi.org/10.24432/C5F88Q</li>
+      <li style="font-size:27px">Sakar, C. O., Polat, S. O., Katircioglu, M. y Kastro, Y. (2019). Real-time prediction of online shoppers’ purchasing intention. <em>Neural Computing and Applications</em>.</li>
+      <li style="font-size:27px">Knaflic, C. N. (2015). <em>Storytelling with Data</em>. Wiley. Capítulos 1, 3, 4 y 7.</li>
+      <li style="font-size:27px">Duarte, N. (2010). <em>Resonate</em>. Wiley. Citada por Knaflic para la Gran Idea.</li>
+      <li style="font-size:27px">UNAB (2026). Syllabus de Inteligencia de Negocios, resultado 3.1.</li>
+    </ul>
+    <p class="sec" style="font-size:22px;margin-top:auto;padding-bottom:30px">Material construido con asistencia de IA bajo la supervisión de Dudbil Pabón. Datos reales con licencia CC BY 4.0, traducidos y sin alterar registros.</p>
+  </div>
+</section>
+
+<div id="cortina"></div>
+<div id="ayuda">Flechas para avanzar · F pantalla completa · L tema claro</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+
+<script src="../assets/puntos/datos.js"></script>
+<script>
+/* Bloque de dígitos para la demostración de atención previa */
+(function () {
+  var s = 73, cifras = '', t = 0;
+  for (var i = 0; i < 136; i++) { s = (s * 16807) % 2147483647; cifras += String(s % 10); }
+  var html = '', col = 0;
+  for (var j = 0; j < cifras.length; j++) {
+    var c = cifras.charAt(j);
+    if (c === '3') { html += '<span class="t">3</span>'; t++; } else html += c;
+    if (++col === 34) { html += '<br>'; col = 0; }
+  }
+  document.getElementById('numeros').innerHTML = html;
+  document.getElementById('cuantos').textContent = 'Hay ' + t + '.';
+})();
+/* Gráfica real con desorden: tasa de compra por mes, que se limpia en vivo */
+(function () {
+  var M = window.PUNTOS_CIFRAS.meses, K = Object.keys(M), arc = ['#3d7fd9', '#2fb170', '#d9c13d', '#a45ad6', '#3dc4d9', '#d94d6d', '#7fbf3d', '#e08a3c', '#5ec4a6', '#c4a35e'];
+  var y = function (v) { return 470 - v / .3 * 360; }, bw = 54, gap = (660 - bw * K.length) / (K.length - 1), s = '';
+  s += '<rect data-r="marco" x="1" y="1" width="758" height="518" fill="var(--fondo-2)" stroke="var(--tinta)" stroke-width="3"/>';
+  s += '<g data-r="rejilla" stroke="var(--tinta-2)" stroke-width="1.5">' + [.05, .1, .15, .2, .25, .3].map(function (v) { return '<line x1="70" x2="730" y1="' + y(v) + '" y2="' + y(v) + '"/>'; }).join('') + '</g>';
+  s += '<g data-r="eje" fill="var(--tinta)" font-size="20">' + [.05, .1, .15, .2, .25, .3].map(function (v) { return '<text x="60" y="' + (y(v) + 6) + '" text-anchor="end">' + Math.round(v * 100) + '%</text>'; }).join('') + '</g>';
+  s += '<g data-r="leyenda" font-size="17" fill="var(--tinta)">' + K.map(function (k, i) { var x = 70 + i * 66; return '<rect x="' + x + '" y="60" width="14" height="14" fill="' + arc[i] + '"/><text x="' + (x + 18) + '" y="73">' + k + '</text>'; }).join('') + '</g>';
+  s += '<text data-r="titulo" x="70" y="42" font-size="26" font-weight="700" fill="var(--tinta)">Tasa de compra por mes</text>';
+  s += '<text data-r="nuevo" class="quitado" x="70" y="52" font-size="30" font-weight="800" fill="var(--acento-texto)">En noviembre compra 1 de cada 4</text>';
+  var eti = '';
+  K.forEach(function (k, i) {
+    var x = 70 + i * (bw + gap), v = M[k].tasa, foco = k === 'Nov';
+    s += '<rect class="bar" data-color="' + arc[i] + '" data-foco="' + (foco ? 1 : 0) + '" x="' + x + '" width="' + bw + '" y="' + y(v) + '" height="' + (470 - y(v)) + '" fill="' + arc[i] + '"/>';
+    s += '<text x="' + (x + bw / 2) + '" y="500" font-size="20" fill="var(--tinta-2)" text-anchor="middle">' + k + '</text>';
+    eti += '<text x="' + (x + bw / 2) + '" y="' + (y(v) - 10) + '" font-size="' + (foco ? 25 : 20) + '"' + (foco ? ' font-weight="800" fill="var(--acento-texto)"' : ' fill="var(--tinta-2)"') + ' text-anchor="middle">' + (v * 100).toFixed(1).replace('.', ',') + '</text>';
+  });
+  s += '<g data-r="etq" class="quitado">' + eti + '</g>';
+  var svg = document.getElementById('desorden'); svg.innerHTML = s;
+  function sync() {
+    var g = document.getElementById('gris').classList.contains('visto'), t = document.getElementById('titNuevo').classList.contains('visto');
+    svg.querySelectorAll('.bar').forEach(function (b) { b.setAttribute('fill', g ? (b.getAttribute('data-foco') === '1' ? 'var(--compra)' : 'var(--punto)') : b.getAttribute('data-color')); });
+    svg.querySelector('[data-r=etq]').classList.toggle('quitado', !g);
+    svg.querySelector('[data-r=nuevo]').classList.toggle('quitado', !t);
+  }
+  ['gris', 'titNuevo'].forEach(function (id) { new MutationObserver(sync).observe(document.getElementById(id), { attributes: true, attributeFilter: ['class'] }); });
+})();
+</script>
+<script src="../assets/puntos/diagramas.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

@@ -1,108 +1,141 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio - Semana 13</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clínica sesión 13: la mesa del editor | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
-    
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        
-        <!-- Header -->
-        <div class="bg-primary text-white p-8">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-white/20 rounded-full flex justify-center items-center">
-                    <i class="fas fa-laptop-code text-2xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-bold">Laboratorio: Desarrollo y Clínica del Proyecto 2</h1>
-                    <p class="text-blue-200 text-sm">Semana 13 - Inteligencia de Negocios</p>
-                </div>
-            </div>
-            <p class="opacity-90 text-sm">Construcción del Dashboard, aplicación de Storytelling y redacción del Informe Ejecutivo (Estructura SCR).</p>
-        </div>
+<body>
+<header class="portada">
+  <canvas class="puntitos" aria-hidden="true"></canvas>
+  <h1>La mesa del editor</h1>
+  <p>Hoy trabajan con su Proyecto 2. Empiezan corrigiendo un informe ajeno, y después hacen lo mismo con el propio. El docente revisa por turnos, como consultor.</p>
+  <div class="datos-clase"><span><b>Sesión</b>13</span><span><b>Modalidad</b>Clínica individual</span><span><b>Entrega</b>Informe de 2 páginas</span><span><b>Resultado</b>RAE 3.2</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#e1">1. Editar un mal informe</a></li>
+  <li><a href="#e2">2. Pirámide</a></li>
+  <li><a href="#e3">3. SCR en tres frases</a></li>
+  <li><a href="#e4">4. Títulos de conclusión</a></li>
+  <li><a href="#e5">5. Borrador del informe</a></li>
+  <li><a href="#e6">6. Revisión entre pares</a></li>
+  <li><a href="#lista">Lista del dashboard</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Content -->
-        <div class="p-8 space-y-10">
-            
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-hammer"></i></div>
-                    <h2 class="text-xl font-bold text-primary">Fase de Desarrollo (Hands-On)</h2>
-                </div>
-                
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-sm text-gray-700 mb-4 shadow-inner relative">
-                    <p class="mb-4">En esta sesión clínica trabajaremos directamente sobre tu modelo de datos y diseño de Power BI. El docente actuará como consultor senior revisando tu progreso.</p>
-                    <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg"><i class="fas fa-exclamation-triangle mr-1"></i> Advertencia</div>
-                    <p class="mt-4 italic">"Recuerda que no serás calificado por la complejidad técnica de tus medidas DAX, sino por la efectividad con la que respondes la Pregunta de Decisión que estableciste en la Semana 12."</p>
-                </div>
-            </section>
+<section id="e1">
+  <h2><span class="num">1.</span> Editar un mal informe</h2>
+  <p class="meta">10 minutos. Con esfero, o con control de cambios.</p>
+  <div class="aviso">
+    <h3>Informe sobre el programa de fidelización</h3>
+    <p>Para: Director comercial</p>
+    <p>Este documento presenta el análisis realizado. Se extrajeron los datos del sistema de ventas, se limpiaron 14 columnas y se construyó un modelo en estrella con cuatro dimensiones, tal como se muestra en el anexo.</p>
+    <p>Se observó que los clientes del programa compran en promedio 2,1 veces al año, mientras que quienes no pertenecen compran 1,8 veces. El costo del programa fue de $420 millones y se inscribieron 12.000 clientes. También se analizó la distribución por ciudad y por edad.</p>
+    <p>Se concluye que podría ser conveniente evaluar el programa de fidelización a futuro.</p>
+    <p class="meta">Caso inventado para el ejercicio.</p>
+  </div>
+  <ol class="pasos">
+    <li>Tache lo que no le importa al director comercial.</li>
+    <li>Encierre el dato que cambia la conversación.</li>
+    <li>Calcule algo que el informe no calculó: ¿cuánto costó cada cliente inscrito? ¿Cuántas compras de más trae por cliente?</li>
+    <li>¿Qué falta para poder decidir? Escríbalo al margen.</li>
+    <li>Reescriba el título como una recomendación.</li>
+  </ol>
+  <details><summary>Para comparar</summary><div>
+    <p>$420 millones entre 12.000 clientes son $35.000 por cliente, para 0,3 compras más al año. Falta el margen por compra: sin él no se sabe si el programa se paga. Además, quienes se inscriben quizá ya compraban más: la diferencia no prueba que el programa la cause.</p>
+    <p>Título posible: “Antes de renovar la fidelización, midamos si 0,3 compras más justifican $35.000 por cliente”.</p>
+  </div></details>
+</section>
 
-            <!-- Instrucciones -->
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-clipboard-check"></i></div>
-                    <h2 class="text-xl font-bold text-primary">Checklist de Calidad del Dashboard</h2>
-                </div>
-                
-                <ul class="space-y-4 mt-6">
-                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
-                        <i class="fas fa-eye text-indigo-500 mt-1"></i>
-                        <div>
-                            <strong class="text-gray-800">1. Data-Ink Ratio</strong>
-                            <p class="text-sm text-gray-600">¿Eliminaste bordes, fondos redundantes y líneas de cuadrícula pesadas de tus gráficos? ¿Son los colores intencionales (ej. Gris para contexto, Naranja para el KPI crítico)?</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
-                        <i class="fas fa-heading text-orange-500 mt-1"></i>
-                        <div>
-                            <strong class="text-gray-800">2. Títulos Narrativos</strong>
-                            <p class="text-sm text-gray-600">Reemplaza el título automático de Power BI "Ventas por Año y Región" por un título de conclusión: "Europa impulsó el crecimiento de ventas en 2026, mientras Asia decayó un 15%".</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
-                        <i class="fas fa-layer-group text-green-500 mt-1"></i>
-                        <div>
-                            <strong class="text-gray-800">3. Drill-through y Tooltips</strong>
-                            <p class="text-sm text-gray-600">¿Implementaste al menos un Drill-through o un Tooltip personalizado para mantener la página principal libre de 'Clutter' operativo?</p>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-            
-            <section class="mt-8 border-t border-gray-200 pt-8">
-                <h3 class="text-lg font-bold text-primary mb-3"><i class="fas fa-file-pdf mr-2"></i> Redacción del Informe Ejecutivo (SCR)</h3>
-                <p class="text-sm text-gray-600 mb-4">
-                    Acompañando tu archivo PBIX (o enlace web), debes redactar un documento PDF de máximo 2 páginas estructurado así:
-                </p>
-                <div class="bg-gray-100 p-5 rounded-lg text-sm text-gray-700 font-mono">
-                    <strong>[S] SITUACIÓN:</strong> Contexto del negocio y estado actual (Datos base).<br><br>
-                    <strong>[C] COMPLICACIÓN:</strong> El hallazgo crítico, el problema o la oportunidad oculta que encontraste en los datos.<br><br>
-                    <strong>[R] RESOLUCIÓN:</strong> Tu "Big Idea" / Recomendación de negocio accionable que resuelve la complicación.
-                </div>
-            </section>
-        </div>
-        
-        <!-- Footer -->
-        <div class="bg-gray-100 p-4 text-center text-xs text-gray-500 border-t border-gray-200">
-            Curso de Inteligencia de Negocios - Universidad Autónoma de Bucaramanga<br>
-            Taller Práctico - Semana 13.
-        </div>
-    </div>
+<section id="e2">
+  <h2><span class="num">2.</span> La pirámide de su proyecto</h2>
+  <p class="meta">10 minutos, con su proyecto.</p>
+  <ol class="pasos">
+    <li>En una nota, en la parte superior, escriba su recomendación en una oración.</li>
+    <li>Debajo, tres razones. Cada una debe responder “¿por qué?” a la de arriba.</li>
+    <li>Debajo de cada razón, los datos o gráficas que la sostienen.</li>
+    <li>Revise: ¿alguna gráfica de su dashboard no sostiene nada? Quítela o muévala a un anexo.</li>
+    <li>¿Falta un dato que sostenga una razón? Esa es su tarea de hoy.</li>
+  </ol>
+</section>
 
+<section id="e3">
+  <h2><span class="num">3.</span> SCR en tres frases</h2>
+  <p class="meta">5 minutos.</p>
+  <table>
+    <tr><th>Parte</th><th>Pregunta guía</th><th>Ejemplo del caso de la tienda</th></tr>
+    <tr><td><strong>Situación</strong></td><td>¿Qué nadie discute?</td><td>La campaña se activa en todas las visitas; compra el 15,5 %.</td></tr>
+    <tr><td><strong>Complicación</strong></td><td>¿Qué cambió o está mal?</td><td>El 78 % de las visitas compra apenas 3,9 %, y ahí se va casi todo.</td></tr>
+    <tr><td><strong>Resolución</strong></td><td>¿Qué propone?</td><td>Probemos un mes, con grupo de control, enfocarla en las visitas con valor de página.</td></tr>
+  </table>
+  <p>Léaselas en voz alta a un compañero. Si pregunta “¿y entonces?” al final, la resolución no está clara.</p>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Títulos de conclusión</h2>
+  <p class="meta">10 minutos, en Power BI.</p>
+  <ol class="pasos">
+    <li>Por cada visual de su dashboard, escriba qué debería concluir quien lo ve.</li>
+    <li>Cambie el título automático: seleccione el visual, <span class="ruta">Formato &gt; General &gt; Título</span>, y escriba esa conclusión.</li>
+    <li>Si una cifra del título va a cambiar con los filtros, use un título dinámico: cree una medida de texto y conéctela con el botón <em>fx</em> junto al título.</li>
+  </ol>
+  <pre><code>Titulo Ventas =
+"Las ventas de " & SELECTEDVALUE ( Dim_Region[Region], "todas las regiones" )
+    & " suman " & FORMAT ( [Ventas Totales], "$#,0" )</code></pre>
+  <p class="meta">Ejemplo: cambie los nombres de tabla y medida por los suyos.</p>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Borrador del informe ejecutivo</h2>
+  <p class="meta">Lo que quede de la sesión. Máximo 2 páginas, en PDF.</p>
+  <ol class="pasos">
+    <li><strong>Título:</strong> la recomendación.</li>
+    <li><strong>Situación, complicación y resolución:</strong> uno o dos párrafos cortos.</li>
+    <li><strong>La gráfica clave:</strong> con título de conclusión y una anotación.</li>
+    <li><strong>Supuestos y límites:</strong> qué no pueden afirmar y por qué.</li>
+    <li><strong>Siguiente paso:</strong> quién hace qué, y cómo se sabrá si funcionó.</li>
+    <li><strong>Fuente y uso de IA:</strong> al pie.</li>
+  </ol>
+</section>
+
+<section id="e6">
+  <h2><span class="num">6.</span> Revisión entre pares</h2>
+  <p class="meta">10 minutos. Cambien informes.</p>
+  <ol class="pasos">
+    <li>Lea solo el título durante 10 segundos. Escriba qué cree que le piden hacer.</li>
+    <li>Compare con lo que su autor quería. ¿Coincide?</li>
+    <li>Con su esfero: una cosa que quitaría, una que falta, una pregunta que le haría el jurado.</li>
+  </ol>
+</section>
+
+<section id="lista">
+  <h2>Lista de revisión del dashboard</h2>
+  <ul>
+    <li>¿Quitó bordes, fondos y cuadrículas que no aportan?</li>
+    <li>¿Los colores tienen intención: gris para contexto, uno para lo crítico?</li>
+    <li>¿Los títulos dicen conclusiones?</li>
+    <li>¿Tiene al menos un drill-through o tooltip que mantenga limpia la página principal?</li>
+    <li>¿Responde a la pregunta de decisión de la sesión 12?</li>
+  </ul>
+  <div class="aviso">No se califica la complejidad del DAX, sino qué tan bien responde su dashboard a la pregunta.</div>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/j4Y3TdVVBCA" title="El principio de la pirámide de Minto explicado con ejemplos" allowfullscreen></iframe></div>
+  <p class="meta">El principio de la pirámide de Minto explicado con ejemplos. EPM, 7:55.</p>
+  <ul>
+    <li><a href="https://academy.datawrapper.de/article/107-how-to-create-text-annotations" target="_blank" rel="noopener">Cómo crear anotaciones de texto.</a> Datawrapper Academy.</li>
+    <li><a href="https://hbr.org/2016/06/visualizations-that-really-work" target="_blank" rel="noopener">Visualizations That Really Work.</a> Harvard Business Review.</li>
+    <li>Minto, B. (2009). <em>The Pyramid Principle</em> (3.ª ed.). Pearson.</li>
+  </ul>
+</section>
+</main>
+</div>
+<script src="../assets/puntos/datos.js"></script>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

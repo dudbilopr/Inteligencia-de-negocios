@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trabajo independiente: regresión logística con datos reales | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
+</head>
+<body>
+<header class="portada">
+  <canvas class="puntitos" aria-hidden="true"></canvas>
+  <h1>Regresión logística con tres variables y datos reales</h1>
+  <p>El dataset que quedó pendiente. La clase pasada vimos tiempo en la tienda y compra con 16 clientes. Ahora son 12.330 sesiones reales y tres variables.</p>
+  <div class="datos-clase"><span><b>Tipo</b>Trabajo independiente</span><span><b>Herramienta</b>Excel con Solver; Power BI opcional</span><span><b>Datos</b>UCI, CC BY 4.0</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#corr">Revise su Excel anterior</a></li>
+  <li><a href="#e1">1. Preparar el modelo</a></li>
+  <li><a href="#e2">2. Columnas</a></li>
+  <li><a href="#e3">3. Solver</a></li>
+  <li><a href="#e4">4. Odds ratio</a></li>
+  <li><a href="#e5">5. Evaluar</a></li>
+  <li><a href="#e6">6. Mover el umbral</a></li>
+  <li><a href="#e7">7. Predecir a mano</a></li>
+  <li><a href="#e8">8. Curva de alcance</a></li>
+  <li><a href="#e9">9. Simulador en Power BI</a></li>
+  <li><a href="#entrega">Qué entregan</a></li>
+</ol></nav>
+<main>
+
+<section>
+  <div class="descargas">
+    <a class="boton" href="Datos/Sesiones_Tienda_Real.xlsx" download>Descargar el Excel</a>
+    <a class="boton sec" href="Datos/Sesiones_Tienda_Real.csv" download>Versión CSV</a>
+  </div>
+  <p>Trabaje en la hoja <strong>Modelo</strong>: las celdas amarillas son suyas. Las fórmulas aparecen como en Excel en español, con punto y coma; el equivalente en inglés va al lado cuando cambia.</p>
+  <table>
+    <tr><th>Variable</th><th>Qué es</th></tr>
+    <tr><td><code>Tiempo_Producto_Min</code> (X1)</td><td>Minutos en páginas de producto durante la sesión</td></tr>
+    <tr><td><code>Tasa_Rebote_Pct</code> (X2)</td><td>Tasa de rebote promedio de las páginas visitadas, en %: quienes entran por esa página y salen sin hacer nada más</td></tr>
+    <tr><td><code>Valor_Pagina</code> (X3)</td><td>Valor promedio de las páginas visitadas antes de una transacción. Métrica de Google Analytics</td></tr>
+    <tr><td><code>Compra</code> (Y)</td><td>1 si la sesión terminó en transacción, 0 si no</td></tr>
+    <tr><td><code>Conjunto</code></td><td>9.864 de entrenamiento para estimar; 2.466 de prueba para evaluar. Asignado al azar</td></tr>
+  </table>
+  <p class="meta">Fuente: Sakar, C. y Kastro, Y. (2018). <a href="https://doi.org/10.24432/C5F88Q" target="_blank" rel="noopener">Online Shoppers Purchasing Intention Dataset</a>. UCI Machine Learning Repository. Licencia CC BY 4.0. Se tradujeron y convirtieron columnas; no se alteró ningún registro.</p>
+</section>
+
+<section id="corr">
+  <h2>Primero, revise su Excel anterior</h2>
+  <div class="aviso fuerte">
+    <h3>Corrección de la clase pasada</h3>
+    <p>Si en su archivo <code>Y_PRED</code> salía de la columna de verosimilitud (la que usa <code>SI(Y=1; p; 1-p)</code>), tiene un error: esa columna dice qué tan probable era lo que <em>sí</em> pasó, no qué tan probable es que compre.</p>
+    <p><code>Y_PRED</code> debe usar la probabilidad <code>p</code>. Con los 16 clientes, la exactitud correcta es <strong>62,5 %</strong> (VP 5, VN 5, FP 3, FN 3), no 50 %.</p>
+    <p>Un matiz más: con solo 16 filas, la edad no resulta significativa entre “compra ahora” y “compra después” (F = 1,89; p = 0,19). El p = 0,045 de la guía viene de comparar <em>tres</em> grupos, con los 24 registros originales. Por eso ahora trabajamos con 12.330.</p>
+  </div>
+</section>
+
+<section id="e1">
+  <h2><span class="num">1.</span> Preparar el modelo</h2>
+  <p>Pasar de dos a tres variables solo agrega un término:</p>
+  <pre><code>Z = B0 + B1·Tiempo + B2·Rebote + B3·Valor
+P(compra) = 1 / (1 + e^(-Z))</code></pre>
+  <ol class="pasos">
+    <li>Abra la hoja <strong>Modelo</strong> y ubique los coeficientes en <code>O3:O6</code>. Empiezan en 0.</li>
+    <li>Active Solver si no aparece: <span class="ruta">Archivo &gt; Opciones &gt; Complementos &gt; Administrar: Complementos de Excel &gt; Ir</span>, marque <em>Solver</em>. Debe quedar en la pestaña <em>Datos</em>.</li>
+    <li>Antes de calcular, responda por escrito: ¿qué signo espera en B1, B2 y B3? ¿Por qué?</li>
+  </ol>
+</section>
+
+<section id="e2">
+  <h2><span class="num">2.</span> Construir las columnas</h2>
+  <p>Escriba en la fila 2 y copie hasta la 12331 con doble clic en el cuadro de relleno.</p>
+  <div class="tablon"><table>
+    <tr><th>Columna</th><th>Celda</th><th>Fórmula</th></tr>
+    <tr><td>Z</td><td><code>G2</code></td><td><code>=$O$3+$O$4*C2+$O$5*D2+$O$6*E2</code></td></tr>
+    <tr><td>P(Y=1)</td><td><code>H2</code></td><td><code>=1/(1+EXP(-G2))</code></td></tr>
+    <tr><td>Verosimilitud L</td><td><code>I2</code></td><td><code>=SI(F2=1;H2;1-H2)</code> <span class="meta">IF</span></td></tr>
+    <tr><td>ln(L)</td><td><code>J2</code></td><td><code>=LN(I2)</code></td></tr>
+    <tr><td>Y_PRED</td><td><code>K2</code></td><td><code>=SI(H2&gt;=$O$9;1;0)</code></td></tr>
+  </table></div>
+  <p>En <code>O7</code> sume solo el entrenamiento, que son las primeras 9.864 filas: <code>=SUMA(J2:J9865)</code> <span class="meta">(SUM)</span>.</p>
+  <details><summary>Punto de control con todos los coeficientes en 0</summary><div>
+    <p>Cada fila da Z = 0, P = 0,5, L = 0,5 y ln(L) = -0,6931. La celda <code>O7</code> debe dar <strong>-6837,2038</strong>, que es 9.864 × ln(0,5). Si no, revise antes de seguir.</p>
+  </div></details>
+  <p>Pregunta: ¿por qué <code>O7</code> no incluye las 2.466 filas de prueba?</p>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Estimar con Solver</h2>
+  <ol class="pasos">
+    <li><span class="ruta">Datos &gt; Solver</span>.</li>
+    <li><em>Establecer objetivo</em>: <code>$O$7</code>. Marque <strong>Máx</strong>.</li>
+    <li><em>Cambiando las celdas de variables</em>: <code>$O$3:$O$6</code>.</li>
+    <li><strong>Desmarque</strong> <em>Convertir variables sin restricciones en no negativas</em>. Si la deja marcada, B0 y B2 no podrán ser negativos y el resultado será falso. Es el error más común.</li>
+    <li>Método: <em>GRG Nonlinear</em>. En <em>Opciones</em> deje activado <em>Usar escala automática</em>. Clic en <em>Resolver</em>. Con tantas filas puede tardar unos segundos.</li>
+  </ol>
+  <details><summary>Punto de control, ábralo solo después de resolver</summary><div>
+    <table>
+      <tr><th>Coeficiente</th><th class="d">Valor</th></tr>
+      <tr><td>B0</td><td class="d">-2,3900</td></tr><tr><td>B1, Tiempo</td><td class="d">0,0093</td></tr><tr><td>B2, Rebote</td><td class="d">-0,2153</td></tr><tr><td>B3, Valor de página</td><td class="d">0,0839</td></tr>
+      <tr><td><strong>ln(L) total</strong></td><td class="d"><strong>-3020,3858</strong></td></tr>
+    </table>
+    <p>Solver puede diferir en los últimos decimales. Si el ln(L) está lejos de ese valor, vuelva a resolver partiendo de lo que obtuvo.</p>
+  </div></details>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> De coeficientes a lenguaje de negocio</h2>
+  <p>El odds ratio es <code>=EXP(B)</code>. Multiplica las chances de compra, no la probabilidad, por cada unidad adicional. Para varias unidades: <code>=EXP(n*B)</code>.</p>
+  <ol class="pasos">
+    <li>Calcule el odds ratio por un minuto, un punto de rebote y una unidad de valor de página.</li>
+    <li>Calcule también: 30 minutos más, 5 puntos más de rebote, 10 unidades más de valor.</li>
+    <li>Escriba cada uno en una frase que entienda Laura, sin usar la palabra “odds ratio”.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <table>
+      <tr><th>Cambio</th><th class="d">Multiplica las chances por</th></tr>
+      <tr><td>1 minuto más</td><td class="d">1,009</td></tr><tr><td>1 punto más de rebote</td><td class="d">0,806</td></tr><tr><td>1 unidad más de valor de página</td><td class="d">1,088</td></tr>
+      <tr><td>30 minutos más</td><td class="d">1,322</td></tr><tr><td>5 puntos más de rebote</td><td class="d">0,341</td></tr><tr><td>10 unidades más de valor</td><td class="d">2,315</td></tr>
+    </table>
+    <p>Por ejemplo: “manteniendo lo demás igual, 10 unidades más de valor de página multiplican por 2,3 las chances de compra”. Son datos observados: describen asociaciones, no efectos. Nada aquí dice que subir el valor de página cause compras.</p>
+  </div></details>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Evaluar con datos que el modelo no vio</h2>
+  <ol class="pasos">
+    <li>En <code>O12</code> cuente VP en entrenamiento. Luego adapte para VN, FP y FN, y haga lo mismo en la columna P con “Prueba”.</li>
+  </ol>
+  <pre><code>=CONTAR.SI.CONJUNTO($B$2:$B$12331;"Entrenamiento";$F$2:$F$12331;1;$K$2:$K$12331;1)
+=COUNTIFS($B$2:$B$12331,"Entrenamiento",$F$2:$F$12331,1,$K$2:$K$12331,1)</code></pre>
+  <ol class="pasos" start="2" style="counter-reset:p 1">
+    <li>Calcule exactitud, sensibilidad, especificidad, precisión y F1 con las fórmulas de la clase pasada.</li>
+    <li>Calcule la línea base: el acierto de predecir siempre la clase mayoritaria.</li>
+    <li>Responda: ¿cuánto le gana el modelo a la línea base? ¿Por qué 88 % no es tan impresionante aquí? ¿Cuál cifra le mostraría a Laura?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th></th><th class="d">VP</th><th class="d">VN</th><th class="d">FP</th><th class="d">FN</th><th class="d">Exactitud</th><th class="d">Línea base</th><th class="d">Sensibilidad</th><th class="d">Precisión</th></tr>
+      <tr><td>Entrenamiento</td><td class="d">562</td><td class="d">8.139</td><td class="d">190</td><td class="d">973</td><td class="d">88,2 %</td><td class="d">84,4 %</td><td class="d">36,6 %</td><td class="d">74,7 %</td></tr>
+      <tr><td>Prueba</td><td class="d">138</td><td class="d">2.043</td><td class="d">50</td><td class="d">235</td><td class="d">88,4 %</td><td class="d">84,9 %</td><td class="d">37,0 %</td><td class="d">73,4 %</td></tr>
+    </table></div>
+    <p>Como 85 de cada 100 sesiones no compran, decir siempre “no” ya acierta 85 %. La sensibilidad revela lo que la exactitud esconde: el modelo solo ve 37 % de los compradores con este umbral.</p>
+  </div></details>
+</section>
+
+<section id="e6">
+  <h2><span class="num">6.</span> Mover el umbral</h2>
+  <ol class="pasos">
+    <li>Cambie <code>O9</code> a 0,15; luego a 0,3 y a 0,7. Anote las métricas de prueba. Vuelva a 0,5.</li>
+    <li>Si activar la campaña cuesta poco y perder un comprador cuesta mucho, ¿qué umbral usaría? ¿Y si cada activación es muy costosa?</li>
+  </ol>
+  <details><summary>Punto de control, en prueba</summary><div>
+    <table>
+      <tr><th>Umbral</th><th class="d">VP</th><th class="d">VN</th><th class="d">FP</th><th class="d">FN</th><th class="d">Exactitud</th><th class="d">Sensibilidad</th><th class="d">Precisión</th></tr>
+      <tr><td>0,15</td><td class="d">282</td><td class="d">1.894</td><td class="d">199</td><td class="d">91</td><td class="d">88,2 %</td><td class="d">75,6 %</td><td class="d">58,6 %</td></tr>
+      <tr><td>0,3</td><td class="d">200</td><td class="d">2.000</td><td class="d">93</td><td class="d">173</td><td class="d">89,2 %</td><td class="d">53,6 %</td><td class="d">68,3 %</td></tr>
+      <tr><td>0,5</td><td class="d">138</td><td class="d">2.043</td><td class="d">50</td><td class="d">235</td><td class="d">88,4 %</td><td class="d">37,0 %</td><td class="d">73,4 %</td></tr>
+      <tr><td>0,7</td><td class="d">101</td><td class="d">2.059</td><td class="d">34</td><td class="d">272</td><td class="d">87,6 %</td><td class="d">27,1 %</td><td class="d">74,8 %</td></tr>
+    </table>
+    <p>La exactitud casi no cambia, pero la decisión de negocio sí. Por eso el umbral no se escoge por la exactitud.</p>
+  </div></details>
+</section>
+
+<section id="e7">
+  <h2><span class="num">7.</span> Predecir a mano</h2>
+  <p>Con calculadora o en una hoja nueva, calcule Z y P para estas tres visitas. Antes, adivine cuál compra.</p>
+  <table>
+    <tr><th>Visita</th><th class="d">Minutos</th><th class="d">Rebote %</th><th class="d">Valor de página</th></tr>
+    <tr><td>A</td><td class="d">45</td><td class="d">0</td><td class="d">30</td></tr>
+    <tr><td>B</td><td class="d">3</td><td class="d">10</td><td class="d">0</td></tr>
+    <tr><td>C</td><td class="d">25</td><td class="d">1</td><td class="d">5</td></tr>
+  </table>
+  <details><summary>Punto de control</summary><div>
+    <table>
+      <tr><th>Visita</th><th class="d">Z</th><th class="d">P(compra)</th></tr>
+      <tr><td>A</td><td class="d">0,547</td><td class="d">63,4 %</td></tr><tr><td>B</td><td class="d">-4,515</td><td class="d">1,1 %</td></tr><tr><td>C</td><td class="d">-1,953</td><td class="d">12,4 %</td></tr>
+    </table>
+    <p>Usando los coeficientes del punto de control con más decimales. Con cuatro decimales puede variar en el último dígito.</p>
+  </div></details>
+</section>
+
+<section id="e8">
+  <h2><span class="num">8.</span> La curva de alcance</h2>
+  <p>Si solo puede atender a una parte de las visitas, importa a cuántos compradores llega.</p>
+  <ol class="pasos">
+    <li>Copie a una hoja nueva, como valores, las 2.466 filas de prueba con <code>P(Y=1)</code> y <code>Compra</code>. Las filas de prueba son de la 9866 a la 12331.</li>
+    <li>Ordene de mayor a menor probabilidad: <span class="ruta">Datos &gt; Ordenar</span>.</li>
+    <li>En una columna nueva acumule las compras y divida por el total de compras de prueba, que son 373.</li>
+    <li>En otra columna calcule el porcentaje de visitas recorridas: fila actual entre 2.466.</li>
+    <li>Grafique ambas con un gráfico de dispersión con líneas. Agregue la diagonal: es elegir al azar.</li>
+    <li>Compare: ¿qué pasa si en vez del modelo usa la regla “tiene valor de página”?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <table>
+      <tr><th>Visitas atendidas, de mayor a menor probabilidad</th><th class="d">5 %</th><th class="d">10 %</th><th class="d">20 %</th><th class="d">30 %</th><th class="d">50 %</th></tr>
+      <tr><td>Compradores alcanzados</td><td class="d">24,9 %</td><td class="d">47,7 %</td><td class="d">76,1 %</td><td class="d">85,0 %</td><td class="d">90,9 %</td></tr>
+    </table>
+    <p>La regla simple en prueba: 21,3 % de las visitas, 79,9 % de los compradores. Pregúntese por qué una regla iguala al modelo, y si el valor de página se conoce realmente antes de la compra: se calcula con transacciones, así que podría estar contaminado por la compra misma.</p>
+  </div></details>
+</section>
+
+<section id="e9">
+  <h2><span class="num">9.</span> Opcional: simulador en Power BI</h2>
+  <ol class="pasos">
+    <li><span class="ruta">Inicio &gt; Libro de Excel</span> y cargue la tabla <code>Sesiones</code> de la hoja Datos.</li>
+    <li>Cree tres parámetros en <span class="ruta">Modelado &gt; Nuevo parámetro &gt; Rango numérico</span>: <code>P_Tiempo</code> de 0 a 120, <code>P_Rebote</code> de 0 a 20, <code>P_Valor</code> de 0 a 100. Deje marcado <em>Agregar segmentación</em>.</li>
+    <li>Cree esta medida. Use sus coeficientes de Solver si difieren.</li>
+  </ol>
+  <pre><code>Prob Simulada =
+VAR z = -2.39 + 0.0093 * [P_Tiempo Valor] - 0.2153 * [P_Rebote Valor] + 0.0839 * [P_Valor Valor]
+RETURN DIVIDE ( 1, 1 + EXP ( -z ) )</code></pre>
+  <ol class="pasos" start="4" style="counter-reset:p 3">
+    <li>Muéstrela en una tarjeta con formato de porcentaje.</li>
+    <li>Reproduzca las visitas A, B y C del ejercicio 7. ¿Coincide con su Excel?</li>
+  </ol>
+  <p class="meta">Power BI crea el nombre de la medida de cada parámetro; búsquelo en el panel de datos, porque puede variar según el idioma (por ejemplo, <code>Valor de P_Tiempo</code>), y ajústelo en la fórmula. Según su configuración regional, DAX puede pedir coma decimal y punto y coma como separador. Esta medida no se ha probado en todas las versiones de Power BI.</p>
+</section>
+
+<section id="entrega">
+  <h2>Qué entregan</h2>
+  <ul>
+    <li>El Excel con el modelo resuelto y los puntos 4 a 8.</li>
+    <li>Un párrafo para Laura: qué encontró y qué recomienda. Use lo aprendido en el taller de storytelling.</li>
+    <li>Si usó IA: qué herramienta, para qué y qué hizo usted.</li>
+  </ul>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/0bPMcMI1GGw" title="Regresión logística con el solucionador de Excel" allowfullscreen></iframe></div>
+  <p class="meta">Regresión logística con el solucionador de Excel. Linda Williams, 8:00. Trabaja otro ejemplo, con el mismo procedimiento.</p>
+  <p class="meta">Referencias: Hosmer, D. W., Lemeshow, S. y Sturdivant, R. X. (2013). <em>Applied Logistic Regression</em> (3.ª ed.). Wiley. Sakar, C. O., Polat, S. O., Katircioglu, M. y Kastro, Y. (2019). <em>Neural Computing and Applications</em>.</p>
+</section>
+</main>
+</div>
+<script src="../assets/puntos/datos.js"></script>
+<script src="../assets/puntos/guia.js"></script>
+</body>
+</html>

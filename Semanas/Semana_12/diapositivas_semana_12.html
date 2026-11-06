@@ -1,212 +1,258 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 12</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides { width: 90% !important; height: 90% !important; max-width: 1200px !important; margin: auto; }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-screen { display: flex; justify-content: space-between; align-items: center; height: 100%; gap: 30px; }
-        .split-left, .split-right { width: 48%; }
-        
-        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
-        .grid-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px; border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15);
-            border-top: 5px solid var(--unab-blue);
-            text-align: left; transition: transform 0.3s ease;
-        }
-        .grid-card:hover { transform: translateY(-5px); }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
-        .highlight { color: var(--unab-orange); }
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.7em !important; line-height: 1.2; }
-        
-        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3 { color: white !important; }
-        
-        /* Modales */
-        .clickable-concept { cursor: pointer; position: relative; transition: transform 0.3s; }
-        .clickable-concept:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(232, 92, 11, 0.3) !important; z-index: 10; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -10px; right: -10px; background: var(--unab-orange); color: white;
-            width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 14px; opacity: 0; transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 85%; max-width: 600px; background: rgba(255, 255, 255, 0.98);
-            padding: 35px; border-radius: 20px; box-shadow: 0 30px 60px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-        }
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.7); backdrop-filter: blur(5px); z-index: 1999;
-        }
-        .modal-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5em; color: #888; }
-        .modal-title { color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; font-weight: bold; }
-        .modal-body { font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px; }
-
-        .ai-footer { position: fixed; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 0.45em; color: #888; z-index: 1000; font-family: monospace; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 12 · Tres salas, un mismo dato | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<style>
+  /* Portada tríptico: un mismo título atraviesa tres mundos */
+  .triptico { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .triptico > div { position: relative; transform-origin: top; animation: baja .9s cubic-bezier(.65, 0, .2, 1) backwards; }
+  .triptico > div:nth-child(2) { animation-delay: .12s; }
+  .triptico > div:nth-child(3) { animation-delay: .24s; }
+  @keyframes baja { from { transform: scaleY(0); } }
+  .sala-tit { position: absolute; bottom: 118px; left: 44px; font-size: 42px; font-weight: 800; letter-spacing: -.01em; }
+  .portada-tit { position: absolute; left: 88px; top: 100px; z-index: 3; font-size: 112px; line-height: .96; font-weight: 800; letter-spacing: -.03em; color: #fff; width: 1040px; }
+  .puerta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 30px; }
+  .puerta > div { border-left: 3px solid var(--regla); padding: 6px 26px 12px; }
+  .traduce { display: grid; grid-template-columns: 240px 1fr; gap: 18px 34px; align-items: baseline; }
+  .traduce .quien { font-weight: 800; font-size: 32px; }
+  .caso { display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; }
+  .marca-sala { position: absolute; top: 40px; right: 88px; }
+</style>
 </head>
 <body>
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
 
-    <div class="reveal">
-        <div class="slides">
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="triptico" aria-hidden="true">
+    <div style="background:#e85c0b"><span class="sala-tit" style="color:#00213d">Junta</span></div>
+    <div style="background:#00213d"><span class="sala-tit" style="color:#fff">Gerencia</span></div>
+    <div style="background:#f7f5ef"><span class="sala-tit" style="color:#00294a">Operación</span></div>
+  </div>
+  <h1 class="portada-tit">Tres salas.<br>Un mismo dato.</h1>
+  <p style="position:absolute;left:88px;bottom:44px;z-index:3;font-size:24px;color:#00213d;font-weight:600">Sesión 12</p>
+  <p style="position:absolute;left:576px;bottom:44px;z-index:3;font-size:24px;color:#fff">Adaptar lenguaje y formato a públicos</p>
+  <p style="position:absolute;left:1110px;bottom:44px;z-index:3;font-size:22px;color:#00294a;width:430px">Dudbil Pabón · Inteligencia de Negocios · UNAB</p>
+  <aside class="notas">La portada entra con tres telones. Pregunta de apertura: ¿le contarían igual el resultado de la campaña a Laura, al director financiero y a quien programa las campañas?</aside>
+</section>
 
-            <!-- PORTADA -->
-            <section class="dark-slide" data-transition="zoom">
-                <i class="fa-solid fa-users-viewfinder" style="font-size: 4.5em; color: var(--unab-orange); margin-bottom: 20px;"></i>
-                <h1 style="margin-bottom: 10px;">Adaptación al Público Objetivo</h1>
-                <h3 style="font-weight: 300; opacity: 0.9;">Casos Empresariales y Proyecto 2</h3>
-                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
-                    <p style="margin: 0; font-size: 0.8em; letter-spacing: 1px;">Inteligencia de Negocios - Semana 12</p>
-                    <p style="margin: 5px 0 0 0; font-size: 0.6em; opacity: 0.7; color: var(--unab-orange);">Universidad Autónoma de Bucaramanga</p>
-                </div>
-            </section>
+<section class="esc" data-p='{"f":"nube","r":6,"area":[900,60,660,760],"pinta":true}'>
+  <div class="izq" style="width:760px">
+    <h2>En la sesión pasada encontramos dos perlas.</h2>
+    <p class="sec">La tienda tiene estaciones, y casi todas las compras salen de 1 de cada 5 visitas.</p>
+    <p class="frase paso" style="font-size:58px">Hoy, una pregunta distinta: <span class="acento">¿quién va a escucharlo?</span></p>
+  </div>
+  <aside class="notas">Conexión con la sesión 11. Las mismas sesiones reales siguen siendo el caso. Pida a dos estudiantes que lean su Gran Idea de la clase pasada.</aside>
+</section>
 
-            <!-- RAE -->
-            <section data-transition="slide-in fade-out">
-                <h2><i class="fa-solid fa-bullseye" style="color: var(--unab-orange);"></i> Resultado de Aprendizaje</h2>
-                <div class="split-screen">
-                    <div class="split-left text-left">
-                        <div class="grid-card" style="border-left: 5px solid var(--unab-orange); border-top: none;">
-                            <h3 style="color: var(--unab-blue); font-size: 1.2em;">RAE 4.1</h3>
-                            <p style="font-size: 0.9em;">"Adecúa el lenguaje y formato de los reportes según las necesidades de los públicos objetivos (C-Level, Operativo, Estratégico)."</p>
-                            <p class="small-text" style="color: #666; margin-top: 15px;">Analizaremos casos reales de Harvard Business Review sobre fracasos en BI debido a mala comunicación.</p>
-                        </div>
-                    </div>
-                    <div class="split-right">
-                        <i class="fa-solid fa-people-arrows" style="font-size: 6em; color: #ccc;"></i>
-                    </div>
-                </div>
-            </section>
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2>El plan de hoy</h2>
+    <svg data-d="ruta" data-o='{"h":350,"amp":44,"dur":6,"items":[{"h":"10:00","t":"Evaluación 2"},{"h":"11:00","t":"Pausa"},{"h":"11:15","t":"Tres salas"},{"h":"11:45","t":"Traducir y|casos reales"},{"h":"12:15","t":"Proyecto 2:|elegir el problema","foco":true},{"h":"12:45","t":"English|immersion"}]}' style="margin-top:70px"></svg>
+  </div>
+  <aside class="notas">Ajuste los tiempos según la duración que usted defina para la Evaluación 2.</aside>
+</section>
 
-            <!-- LOS 3 NIVELES DE AUDIENCIA -->
-            <section data-transition="slide">
-                <h2><i class="fa-solid fa-layer-group highlight"></i> Arquitectura de Audiencias</h2>
-                <div class="grid-layout" style="grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
-                    
-                    <div class="grid-card clickable-concept text-center" onclick="openModal('C-Level (Ejecutivos)', 'Necesitan <strong>MACRO-VISIÓN</strong>. KPIs consolidados (YTD, Margen Neto). No tienen tiempo para filtrar ni entender esquemas en estrella. Su pregunta es: <em>¿Ganamos o perdemos dinero hoy?</em>', 'fa-briefcase')">
-                        <i class="fa-solid fa-briefcase highlight" style="font-size: 2em; margin-bottom: 15px;"></i>
-                        <h3 style="font-size: 1em; color: var(--unab-blue);">Nivel Estratégico</h3>
-                        <p class="small-text">CEO, CFO, Directores.</p>
-                    </div>
-
-                    <div class="grid-card clickable-concept text-center" onclick="openModal('Nivel Táctico', 'Necesitan <strong>ANÁLISIS DE TENDENCIAS</strong>. Requieren Drill-through, filtros por región, cruce de variables. Su pregunta es: <em>¿Por qué las ventas cayeron en Europa el mes pasado?</em>', 'fa-chart-line')">
-                        <i class="fa-solid fa-chart-line highlight" style="font-size: 2em; margin-bottom: 15px;"></i>
-                        <h3 style="font-size: 1em; color: var(--unab-blue);">Nivel Táctico</h3>
-                        <p class="small-text">Gerentes de Área, Jefes de Marketing.</p>
-                    </div>
-
-                    <div class="grid-card clickable-concept text-center" onclick="openModal('Nivel Operativo', 'Necesitan <strong>TABLAS DETALLADAS</strong>. Seguimiento al día a día. Rara vez usan gráficos de líneas a 5 años; necesitan saber cuántas unidades quedan en el inventario AHORA.', 'fa-cogs')">
-                        <i class="fa-solid fa-cogs highlight" style="font-size: 2em; margin-bottom: 15px;"></i>
-                        <h3 style="font-size: 1em; color: var(--unab-blue);">Nivel Operativo</h3>
-                        <p class="small-text">Supervisores, Analistas Junior.</p>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- TYPED.JS INTERACTIVE -->
-            <section data-transition="zoom" class="dark-slide">
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
-                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 2em; color: var(--unab-orange); opacity: 0.7; margin-bottom: 20px;"></i>
-                    <h2 style="font-size: 1.5em; text-align: center; line-height: 1.4;">
-                        <span id="typed-quote"></span>
-                    </h2>
-                </div>
-            </section>
-
-            <!-- PROYECTO 2 -->
-            <section data-transition="slide">
-                <h2><i class="fa-solid fa-rocket highlight"></i> Lanzamiento: Proyecto 2</h2>
-                <div class="grid-card text-left">
-                    <p class="small-text">El proyecto final del curso se enfoca enteramente en la <strong>comunicación de hallazgos</strong> (Storytelling con Datos).</p>
-                    <ul class="small-text" style="margin-top: 15px; color: #444; line-height: 1.5;">
-                        <li><strong>1. Selección:</strong> Identifica un dataset empresarial real (Kaggle, Datos Abiertos, Empresa local).</li>
-                        <li><strong>2. Limpieza y Modelado:</strong> Aplica todo lo visto (Semana 1-9) en silencio. El modelado debe ser perfecto, pero no se expone en la presentación final.</li>
-                        <li><strong>3. Definición de Audiencia:</strong> Elige si le hablarás a la Junta Directiva (Estratégico) o a los Gerentes (Táctico).</li>
-                        <li><strong>4. Desarrollo Narrativo:</strong> Construye el informe ejecutivo.</li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <p class="sec">Resultado de aprendizaje 3.1</p>
+    <p class="frase" style="font-size:58px">Interpreta hallazgos a partir de visualizaciones para diferentes audiencias.</p>
+    <svg data-d="enlace" style="margin-bottom:-14px"></svg>
+    <div class="tres">
+      <p>Identificas qué pregunta se hace cada público.</p>
+      <p>Traduces un mismo hallazgo a tres lenguajes.</p>
+      <p>Defines el problema, la pregunta y la audiencia del Proyecto 2.</p>
     </div>
+  </div>
+  <aside class="notas">El resultado 3.1 es textual del syllabus; los tres logros son de esta sesión.</aside>
+</section>
 
-    <!-- Modales -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <i class="fa-solid fa-times modal-close" onclick="closeModal()"></i>
-        <div class="modal-title" id="modal-title"></div>
-        <div class="modal-body" id="modal-body"></div>
+<section class="esc selector" data-p='{"f":"reja","area":[840,110,680,620],"pinta":false}'>
+  <div class="izq" style="width:700px">
+    <div class="col" style="gap:20px">
+      <div class="paso-inicial" id="salaIntro">
+        <h2>Las mismas 12.330 visitas. ¿Quién está en la sala?</h2>
+        <div class="teclas" style="margin-top:26px"><kbd>1</kbd> Junta <kbd>2</kbd> Gerencia <kbd>3</kbd> Operación</div>
+      </div>
+      <div class="paso" data-mundo="junta" data-p='{"f":"texto","t":"81 %","tam":340,"area":[730,120,860,600]}'>
+        <h2 style="font-size:78px">Junta directiva</h2>
+        <p style="font-size:44px;font-weight:700;margin-top:18px">“¿Ganamos o perdemos dinero?”</p>
+        <p style="margin-top:22px">Una cifra, una decisión, sin metodología.</p>
+        <p style="margin-top:12px;font-weight:700">8 de cada 10 compras salen de 1 de cada 5 visitas. Aprueben una prueba enfocada.</p>
+        <div class="teclas" style="margin-top:30px;color:inherit"><kbd class="ya">1</kbd><kbd>2</kbd><kbd>3</kbd></div>
+      </div>
+      <div class="paso" data-mundo="gerencia" data-p='{"f":"columnas","por":"bandaT","area":[770,130,760,620],"cfil":9,"reales":["5,5 %","18,0 %","21,4 %","31,0 %"],"eje":"Tasa de compra según minutos en páginas de producto"}'>
+        <h2 style="font-size:78px">Gerencia</h2>
+        <p style="font-size:44px;font-weight:700;margin-top:18px">“¿Por qué, y dónde actúo?”</p>
+        <p class="sec" style="margin-top:22px">Tendencias, comparaciones y filtros para explorar.</p>
+        <p style="margin-top:12px;font-weight:700">A más tiempo con el producto, más compra: el contenido de producto es la palanca a estudiar.</p>
+        <div class="teclas" style="margin-top:30px"><kbd>1</kbd><kbd class="ya">2</kbd><kbd>3</kbd></div>
+      </div>
+      <div class="paso" data-mundo="operacion" data-p='{"f":"banda"}'>
+        <h2 style="font-size:78px">Operación</h2>
+        <p style="font-size:44px;font-weight:700;margin-top:18px">“¿Qué hago hoy?”</p>
+        <p class="sec" style="margin-top:22px">Un dato exacto y una regla clara, sin gráfica de tendencias.</p>
+        <div class="teclas" style="margin-top:30px"><kbd>1</kbd><kbd>2</kbd><kbd class="ya">3</kbd></div>
+      </div>
     </div>
+  </div>
+  <div class="tabla-op" style="position:absolute;right:88px;top:210px;width:690px;display:none">
+    <table>
+      <tr><th>Si la visita…</th><th>Haga esto</th><th class="d">Compran</th></tr>
+      <tr><td>Tiene valor de página</td><td style="font-size:40px;font-weight:800">Campaña</td><td class="d">56&nbsp;%</td></tr>
+      <tr><td>No tiene valor de página</td><td style="font-size:40px;font-weight:800">Nada</td><td class="d">3,9&nbsp;%</td></tr>
+    </table>
+  </div>
+  <aside class="notas">Es la escena estrella. Oprima 1, 2 o 3, en cualquier orden y varias veces; también avanza con la flecha. Pregunte qué cambió y qué no: los datos son los mismos. Todas las cifras salen de las 12.330 sesiones reales: 2.730 con valor de página (22 %) concentran 1.538 de 1.908 compras (81 %).</aside>
+</section>
 
-    <div class="ai-footer">
-        * Material de Inteligencia de Negocios - Potenciado y construido con IA bajo supervisión de Dudbil Pabon - Sujeto a cambios.
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho" style="max-width:none">
+    <h2 style="font-size:58px">Una regla simple iguala al modelo</h2>
+    <table style="max-width:1320px;margin-top:8px">
+      <tr><th>Cómo elegir a quién atender</th><th class="d">Visitas atendidas</th><th class="d">Compradores alcanzados</th></tr>
+      <tr><td>Al azar</td><td class="d">20&nbsp;%</td><td class="d">20&nbsp;%</td></tr>
+      <tr><td>Regresión logística con tres variables</td><td class="d">20&nbsp;%</td><td class="d">76&nbsp;%</td></tr>
+      <tr class="foco"><td>Regla simple: tiene valor de página</td><td class="d">21&nbsp;%</td><td class="d">80&nbsp;%</td></tr>
+    </table>
+    <p class="paso frase" style="font-size:44px;margin-top:16px">A veces lo más complejo no es lo mejor. <span class="acento">Elegir la explicación más simple también es comunicar.</span></p>
+    <p class="pie" style="position:static;margin-top:4px">Medido en 2.466 sesiones reales que el modelo no vio. Alcanzar compradores no prueba que la campaña cause la compra.</p>
+  </div>
+  <aside class="notas">Hallazgo real de estos datos. Pregunte por qué: el valor de página pesa casi todo en el modelo. Conecta con la sospecha de la sesión 11: esa métrica puede estar contaminada por la propia compra. El analista querría ver esta tabla; a la junta le basta el 81 %.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho" style="max-width:none">
+    <h2 style="font-size:58px">Un mismo hallazgo, tres traducciones</h2>
+    <div class="traduce" style="margin-top:6px">
+      <div class="quien sec">Modelo</div><p style="font-size:30px"><code style="font-family:Consolas,monospace">B3 = 0,0839; OR por 10 unidades = 2,32; AUC = 0,885; exactitud 88&nbsp;% contra 85&nbsp;%</code></p>
+      <div class="quien paso">Operación</div><p class="paso">Si la visita tiene valor de página, active la campaña. Si no, no.</p>
+      <div class="quien paso">Gerencia</div><p class="paso">Las compras se concentran: el 22&nbsp;% de las visitas trae el 81&nbsp;%. Noviembre es el mes para probarlo.</p>
+      <div class="quien paso acento">Junta</div><p class="paso" style="font-weight:700">Con 1 de cada 5 visitas llegamos a 8 de cada 10 compradores. Pedimos aprobar una prueba de un mes.</p>
     </div>
+  </div>
+  <aside class="notas">Pregunte qué se perdió en cada traducción y por qué está bien. La junta no necesita el odds ratio, pero alguien debe poder defenderlo si pregunta.</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        Reveal.initialize({ controls: true, progress: true, center: true, hash: true, transition: 'slide' });
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho" style="max-width:none">
+    <svg data-d="salas" style="height:560px;width:auto;align-self:center"></svg>
+    <p class="frase" style="font-size:46px;text-align:center">Conoce a tu audiencia: cuanto más específica, mejor le hablas.</p>
+    <p class="sec" style="font-size:24px;text-align:center">Knaflic (2015), cap. 1: reduce el público objetivo e identifica a quien decide.</p>
+  </div>
+  <aside class="notas">Knaflic: si intentas comunicarte con todos a la vez, no le hablas bien a nadie. A veces hay que crear comunicaciones distintas para públicos distintos; identificar a quien decide reduce la audiencia.</aside>
+</section>
 
-        function openModal(title, text, iconClass) {
-            document.getElementById('modal-title').innerHTML = `<i class="fa-solid ${iconClass}"></i> ${title}`;
-            document.getElementById('modal-body').innerHTML = text;
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-        }
+<section class="esc" id="casos" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2>Casos reales: ¿quién estaba en la sala?</h2>
+    <div id="casosCuerpo"></div>
+  </div>
+  <aside class="notas">Para cada caso pregunte: si tuvieras que presentarle este resultado a la junta de esa empresa, ¿cuál sería tu Gran Idea? Verifique que el enlace abre antes de clase.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal-overlay').style.display = 'none';
-            document.getElementById('concept-modal').style.display = 'none';
-        }
+<section class="esc" data-p='{"f":"pagina","area":[1020,110,480,660],"lineas":16}'>
+  <div class="izq" style="width:840px">
+    <h2>Proyecto 2: su propia historia</h2>
+    <ol class="lista">
+      <li>Un conjunto de datos real, de al menos 10.000 filas.</li>
+      <li>Una pregunta que obligue a decidir.</li>
+      <li>Una audiencia concreta: un cargo, no “la empresa”.</li>
+      <li>Dashboard, informe de 2 páginas y sustentación de 7 minutos.</li>
+    </ol>
+    <p class="sec">25&nbsp;% de la nota. Sustentación en la sesión 14. Hoy dejan validada la idea.</p>
+  </div>
+  <aside class="notas">Los puntos se convierten en la hoja del informe: anticipa la sesión 13. Fuentes sugeridas en la guía: datos.gov.co, Kaggle, Banco Mundial. Evite conjuntos de juguete como Northwind.</aside>
+</section>
 
-        Reveal.on('slidechanged', event => {
-            if (event.currentSlide.querySelector('#typed-quote') && !window.typedInitialized) {
-                new Typed('#typed-quote', {
-                    strings: [
-                        "El mayor error de un analista de datos junior...",
-                        "...es intentar demostrarle a la junta directiva lo duro que trabajó construyendo el modelo SQL.",
-                        "A la audiencia estratégica no le importa la complejidad técnica. <span class='highlight'>Les importa la decisión que deben tomar basada en los datos.</span>"
-                    ],
-                    typeSpeed: 40,
-                    backSpeed: 15,
-                    backDelay: 3000,
-                    loop: true,
-                    showCursor: true,
-                    cursorChar: '|'
-                });
-                window.typedInitialized = true;
-            }
-        });
-    </script>
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <h2>Una pregunta que obliga a decidir</h2>
+    <div class="dos">
+      <div class="col regla-arriba"><h3 class="sec">No sirve</h3><p class="sec">Mostrar las ventas por país.</p><p class="sec">Analizar los clientes de la empresa.</p></div>
+      <div class="col regla-arriba"><h3 class="acento">Sirve</h3><p>¿En qué región invertimos el presupuesto de la próxima campaña?</p><p>¿A qué clientes conviene llamar antes de que se vayan?</p></div>
+    </div>
+    <p class="paso frase" style="font-size:44px">Prueba: si la respuesta no cambia lo que alguien haría mañana, es una curiosidad.</p>
+  </div>
+  <aside class="notas">Da paso al taller. Cada estudiante sale con una pregunta validada por el docente.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2>Taller: de la idea al acta del proyecto</h2>
+    <svg data-d="ruta" data-o='{"h":310,"y":90,"amp":30,"dur":6,"items":[{"t":"Traducir|tres veces"},{"t":"Una gráfica,|tres públicos"},{"t":"Analizar|un caso"},{"t":"Elegir|los datos"},{"t":"Pregunta de|decisión","foco":true},{"t":"Acta de|una página"}]}' style="margin-top:40px"></svg>
+    <p style="display:flex;gap:30px;align-items:center;margin-top:6px"><a class="boton" href="Guia_Laboratorio_Semana12.html" target="_blank" rel="noopener">Abrir la guía del taller</a><span class="sec" style="font-size:26px">Salen con su acta validada.</span></p>
+  </div>
+  <aside class="notas">Los ejercicios 1 a 3 son con el caso; del 4 al 6 son con el proyecto propio.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}' data-mundo="junta">
+  <div class="ancho">
+    <h2>English immersion: 10 minutes</h2>
+    <ol class="lista">
+      <li>You have the elevator with the CEO for 30 seconds. Pitch your project question in English.</li>
+      <li>Your partner plays the CEO and asks one hard question: “So what?”</li>
+      <li>Take the EMI activity on audience adaptation.</li>
+    </ol>
+    <p><a class="boton" style="background:#00213d" href="quiz_semana_12.html" target="_blank" rel="noopener">Open the EMI activity</a></p>
+    <p style="font-size:26px">Key words: stakeholder, decision maker, takeaway, so what, ask.</p>
+  </div>
+  <aside class="notas">Solo inglés durante 10 minutos.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"texto","t":"¿Quién?","tam":270,"area":[0,380,1600,480]}'>
+  <div class="ancho alto" style="max-width:1400px">
+    <h2>Para llevarse</h2>
+    <div class="tres">
+      <p class="regla-arriba">Los datos no cambian; cambia la pregunta de quien escucha.</p>
+      <p class="regla-arriba">Decir menos a la junta no es esconder: es priorizar.</p>
+      <p class="regla-arriba">Traigan a la próxima clase su dashboard en borrador.</p>
+    </div>
+  </div>
+  <aside class="notas">Sesión 13: informe ejecutivo y clínica del proyecto.</aside>
+</section>
+
+<section class="esc" data-p='{"f":"banda"}'>
+  <div class="ancho alto">
+    <h2>Referencias</h2>
+    <ul class="lista" style="gap:18px" id="refs12">
+      <li style="font-size:28px">Sakar, C. y Kastro, Y. (2018). <em>Online Shoppers Purchasing Intention Dataset</em>. UCI. https://doi.org/10.24432/C5F88Q</li>
+      <li style="font-size:28px">Knaflic, C. N. (2015). <em>Storytelling with Data</em>. Wiley. Capítulo 1.</li>
+      <li style="font-size:28px">Sharda, R., Delen, D. y Turban, E. (2020). <em>Business Intelligence, Analytics, and Data Science</em>. Pearson.</li>
+      <li style="font-size:28px">UNAB (2026). Syllabus de Inteligencia de Negocios, resultado 3.1.</li>
+    </ul>
+    <p class="sec" style="font-size:22px;margin-top:auto;padding-bottom:30px">Material construido con asistencia de IA bajo la supervisión de Dudbil Pabón. Datos: Sakar y Kastro (2018), UCI, CC BY 4.0.</p>
+  </div>
+</section>
+
+<div id="cortina"></div>
+<div id="ayuda" style="color:#00213d">Flechas para avanzar · F pantalla completa</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/datos.js"></script>
+<script src="casos.js"></script>
+<script>
+window.alPaso = function (esc, n) {
+  var intro = esc.querySelector('#salaIntro');
+  if (intro) {
+    intro.style.display = n ? 'none' : '';
+    esc.querySelector('.tabla-op').style.display = n === 3 ? 'block' : 'none';
+  }
+};
+(function () {
+  var c = document.getElementById('casosCuerpo'), L = window.CASOS || [];
+  c.innerHTML = '<div class="tres" style="margin-top:14px;gap:48px">' + L.map(function (x) {
+    return '<div class="col regla-arriba"><h3>' + x.empresa + '</h3><p class="sec" style="font-size:27px">' + x.problema + '</p><p style="font-size:29px;font-weight:700">' + x.resultado + '</p><p style="font-size:22px"><a href="' + x.url + '" target="_blank" rel="noopener">' + x.fuente + '</a></p></div>';
+  }).join('') + '</div>';
+})();
+</script>
+<script src="../assets/puntos/diagramas.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

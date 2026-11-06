@@ -1,115 +1,139 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio - Semana 12</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller sesión 12: un dato, tres salas | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
-    
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        
-        <!-- Header -->
-        <div class="bg-primary text-white p-8">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-white/20 rounded-full flex justify-center items-center">
-                    <i class="fas fa-rocket text-2xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-bold">Laboratorio: Kick-off Proyecto 2</h1>
-                    <p class="text-blue-200 text-sm">Semana 12 - Inteligencia de Negocios</p>
-                </div>
-            </div>
-            <p class="opacity-90 text-sm">Definición de problema de negocio, recolección de fuentes y planeación de la audiencia objetivo.</p>
-        </div>
+<body>
+<header class="portada">
+  <canvas class="puntitos" aria-hidden="true"></canvas>
+  <h1>Un dato, tres salas</h1>
+  <p>Primero adaptan un hallazgo a públicos distintos. Después usan eso para elegir el problema, la pregunta y la audiencia de su Proyecto 2.</p>
+  <div class="datos-clase"><span><b>Sesión</b>12</span><span><b>Tiempo</b>45 minutos en clase</span><span><b>Herramienta</b>Excel o Power BI</span><span><b>Resultado</b>RAE 3.1</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#e1">1. Traducir tres veces</a></li>
+  <li><a href="#e2">2. Una gráfica, tres públicos</a></li>
+  <li><a href="#e3">3. Analizar un caso</a></li>
+  <li><a href="#e4">4. Elegir los datos</a></li>
+  <li><a href="#e5">5. Pregunta de decisión</a></li>
+  <li><a href="#e6">6. Acta del proyecto</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Content -->
-        <div class="p-8 space-y-10">
-            
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-search"></i></div>
-                    <h2 class="text-xl font-bold text-primary">El Reto Analítico (Práctica Autónoma)</h2>
-                </div>
-                
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-sm text-gray-700 mb-4 shadow-inner relative">
-                    <p class="mb-4">Tu trabajo para el cierre del curso ya no es técnico; hemos superado la fase de programación DAX y arquitectura ETL. Ahora asumes el rol de <strong>Consultor Analítico</strong>.</p>
-                    <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg"><i class="fas fa-info-circle mr-1"></i> Contexto</div>
-                    <p class="mt-4 italic">"Debes buscar un dataset crudo (preferiblemente de Kaggle o Datos Abiertos), procesarlo en Power BI, y construir una narrativa que resuelva una pregunta de negocio específica para una audiencia específica."</p>
-                </div>
-            </section>
+<section id="e1">
+  <h2><span class="num">1.</span> Traducir tres veces</h2>
+  <p class="meta">8 minutos, en parejas. Sin abrir el computador.</p>
+  <p>Hallazgo técnico: <code>B3 = 0,0839; OR por 10 unidades de valor de página = 2,32; AUC = 0,885; exactitud de 88 % contra 85 % de línea base; sensibilidad de 37 %</code>.</p>
+  <ol class="pasos">
+    <li>Escriba lo que le diría a <strong>Operación</strong>: una instrucción de una línea.</li>
+    <li>Escriba lo que le diría a la <strong>Gerencia</strong>: el porqué y dónde actuar, en dos líneas.</li>
+    <li>Escriba lo que le diría a la <strong>Junta</strong>: una cifra de dinero y una decisión.</li>
+    <li>Marque qué dato eliminó en cada versión y justifique por qué.</li>
+  </ol>
+  <details><summary>Para comparar</summary><div>
+    <p><strong>Operación:</strong> si la visita tiene valor de página, active la campaña; si no, no.</p>
+    <p><strong>Gerencia:</strong> el 22 % de las visitas concentra el 81 % de las compras; noviembre es el mes para probar el enfoque.</p>
+    <p><strong>Junta:</strong> con 1 de cada 5 visitas llegamos a 8 de cada 10 compradores. Pedimos aprobar una prueba de un mes.</p>
+    <p>Una buena junta preguntará si la campaña causa esas compras o si esos clientes ya iban a comprar. Tenga la respuesta lista: por eso es una prueba con grupo de control.</p>
+  </div></details>
+</section>
 
-            <!-- Instrucciones -->
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-tasks"></i></div>
-                    <h2 class="text-xl font-bold text-primary">Matriz de Planeación del Proyecto</h2>
-                </div>
-                
-                <ol class="space-y-6 mt-6">
-                    <!-- Paso 1 -->
-                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
-                        <strong class="text-primary text-lg block mb-2">Paso 1: Selección del Contexto y los Datos</strong>
-                        <p class="text-sm text-gray-600 mb-4">No uses datos de prueba (como Northwind o Contoso). Encuentra un dataset del mundo real (al menos 10.000 filas).</p>
-                        <div class="bg-indigo-50 p-4 rounded border border-indigo-200 mb-4 text-sm text-gray-800">
-                            <strong>Acción:</strong> Descarga el archivo CSV/Excel. Documenta en un archivo de texto la <em>Fuente</em> y el <em>Diccionario de Datos</em> básico (qué significa cada columna).
-                        </div>
-                    </li>
-                    
-                    <!-- Paso 2 -->
-                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-2 h-full bg-orange-500"></div>
-                        <strong class="text-primary text-lg block mb-2">Paso 2: La Pregunta de Decisión</strong>
-                        <p class="text-sm text-gray-600 mb-4">Un dashboard sin pregunta es solo un repositorio de tablas. ¿Qué problema vas a resolver?</p>
-                        <div class="bg-orange-50 p-4 rounded border border-orange-200 mb-4 text-sm text-gray-800">
-                            <strong>Ejemplo Incorrecto:</strong> "Mostrar ventas por país".<br>
-                            <strong>Ejemplo Correcto (Pregunta de Decisión):</strong> "¿En qué región de América Latina deberíamos invertir 2 millones de dólares para la próxima campaña de marketing, basándonos en la retención de usuarios actuales?"
-                        </div>
-                    </li>
-                    
-                    <!-- Paso 3 -->
-                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-2 h-full bg-green-500"></div>
-                        <strong class="text-primary text-lg block mb-2">Paso 3: Definición del Perfil de la Audiencia</strong>
-                        <p class="text-sm text-gray-600 mb-4">¿Quién te evaluará (en la simulación)? Define su cargo y nivel técnico.</p>
-                        <div class="bg-green-50 p-4 rounded-lg border border-green-200 text-sm">
-                            <ul class="list-disc pl-5 space-y-2 text-gray-800">
-                                <li><strong>Opción A (C-Level):</strong> VP de Marketing o CEO. Requieren lenguaje financiero, KPIs agregados y resúmenes directos.</li>
-                                <li><strong>Opción B (Nivel Táctico):</strong> Gerente de Operaciones. Requiere exploración profunda, drill-through y ver tendencias granulares por equipos.</li>
-                            </ul>
-                        </div>
-                    </li>
-                </ol>
-            </section>
-            
-            <section class="mt-8 border-t border-gray-200 pt-8">
-                <h3 class="text-lg font-bold text-primary mb-3"><i class="fas fa-file-alt mr-2"></i> Entregable para la Próxima Sesión</h3>
-                <p class="text-sm text-gray-600">
-                    Traer validado con el docente el "Project Charter" (Documento de 1 página) especificando: Dataset elegido, Pregunta de Negocio Central, y Tipo de Audiencia Seleccionada.
-                </p>
-            </section>
-        </div>
-        
-        <!-- Footer -->
-        <div class="bg-gray-100 p-4 text-center text-xs text-gray-500 border-t border-gray-200">
-            Curso de Inteligencia de Negocios - Universidad Autónoma de Bucaramanga<br>
-            Construido bajo parámetros de Aprendizaje Basado en Proyectos (ABPr).
-        </div>
-    </div>
+<section id="e2">
+  <h2><span class="num">2.</span> Una gráfica, tres públicos</h2>
+  <p class="meta">15 minutos. Con <a href="../Semana_11/Datos/Sesiones_Tienda_Real.xlsx" download>Sesiones_Tienda_Real.xlsx</a>.</p>
+  <ol class="pasos">
+    <li><strong>Vista de Junta.</strong> Un solo número: el porcentaje de compras que sale de las visitas con valor de página. En Power BI, el objeto <em>Tarjeta</em>. Debajo, una línea que diga qué significa.</li>
+    <li><strong>Vista de Gerencia.</strong> Tasa de compra por mes. Agregue una segmentación por <code>Tipo_Visitante</code>: <span class="ruta">Insertar &gt; Segmentación de datos</span>.</li>
+    <li>Cambie la segmentación entre Nuevo y Recurrente. ¿En qué meses se separan más?</li>
+    <li><strong>Vista de Operación.</strong> Tabla simple: con valor o sin valor de página, sesiones, tasa de compra y qué hacer.</li>
+    <li>Ordene las tres en la misma hoja. Pregunte a otra pareja: ¿quién usaría cada una?</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <table>
+      <tr><th>Valor de página</th><th class="d">Sesiones</th><th class="d">Compras</th><th class="d">Tasa</th></tr>
+      <tr><td>Con valor (mayor que 0)</td><td class="d">2.730</td><td class="d">1.538</td><td class="d">56,3 %</td></tr>
+      <tr><td>Sin valor</td><td class="d">9.600</td><td class="d">370</td><td class="d">3,9 %</td></tr>
+    </table>
+    <p>Para la Junta: 1.538 de 1.908 compras son 81 %.</p>
+  </div></details>
+</section>
 
+<section id="e3">
+  <h2><span class="num">3.</span> Analizar un caso real</h2>
+  <p class="meta">7 minutos. Cada pareja toma uno y lo lee en su fuente.</p>
+  <ul>
+    <li><a href="https://www.microsoft.com/en/customers/story/1557385809666881648-walmart-retailer-power-bi" target="_blank" rel="noopener">Walmart Finance y Power BI</a></li>
+    <li><a href="https://cloud.google.com/blog/products/data-analytics/improving-retail-using-bigquery-and-looker" target="_blank" rel="noopener">Mercado Libre, BigQuery y Looker</a></li>
+    <li><a href="https://cloud.google.com/customers/grao-de-gente" target="_blank" rel="noopener">Grão de Gente y Google Cloud</a></li>
+  </ul>
+  <ol class="pasos">
+    <li>¿Quién consume la información en ese caso? Nombre al menos dos públicos.</li>
+    <li>¿Qué pregunta responde a cada uno?</li>
+    <li>¿Quién publicó el relato? ¿Qué le conviene contar y qué podría no estar diciendo?</li>
+    <li>Escriba una Gran Idea para la dirección de esa empresa.</li>
+  </ol>
+  <div class="aviso">Son historias publicadas por las empresas o sus proveedores. Sirven como ejemplo, no como evidencia independiente del resultado.</div>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Elegir los datos del proyecto</h2>
+  <p class="meta">10 minutos. Ya con su proyecto.</p>
+  <ol class="pasos">
+    <li>Busque un conjunto de datos real, de al menos 10.000 filas. Fuentes para empezar: <a href="https://www.datos.gov.co/" target="_blank" rel="noopener">datos.gov.co</a>, <a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener">Kaggle</a>, <a href="https://archive.ics.uci.edu/dataset/222/bank+marketing" target="_blank" rel="noopener">Bank Marketing de UCI</a>, o una empresa con permiso.</li>
+    <li>Revise antes de enamorarse: ¿tiene fechas?, ¿qué columnas puede cruzar?, ¿cuándo se actualizó?, ¿qué licencia tiene?</li>
+    <li>Anote la fuente, el enlace y el significado de cada columna que usará.</li>
+    <li>Descarte conjuntos de práctica como Northwind o Contoso: no permiten descubrir nada nuevo.</li>
+  </ol>
+  <div class="aviso fuerte">Si usa datos de una empresa, pida autorización por escrito y quite datos personales.</div>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Pregunta de decisión</h2>
+  <p class="meta">5 minutos.</p>
+  <ol class="pasos">
+    <li>Escriba: ¿quién?, ¿qué tiene que decidir?, ¿con qué plazo o presupuesto?</li>
+    <li>Conviértalo en una sola pregunta.</li>
+    <li>Prueba: si la respuesta sale de una forma, ¿hace A?; si sale de otra, ¿hace B? Si la decisión no cambia, reescriba.</li>
+  </ol>
+  <table>
+    <tr><th>No sirve</th><th>Sirve</th></tr>
+    <tr><td>Mostrar ventas por país</td><td>¿En qué región invertimos el presupuesto de la próxima campaña, según la retención actual?</td></tr>
+  </table>
+</section>
+
+<section id="e6">
+  <h2><span class="num">6.</span> Acta del proyecto</h2>
+  <p class="meta">Una página. Se valida con el docente antes de salir.</p>
+  <div class="tablon"><table>
+    <tr><th>Campo</th><th>Contenido</th></tr>
+    <tr><td>Datos</td><td>Fuente, enlace, filas, fecha de corte</td></tr>
+    <tr><td>Pregunta de decisión</td><td>Una oración</td></tr>
+    <tr><td>Audiencia</td><td>Cargo, qué le importa, qué tan técnica es</td></tr>
+    <tr><td>Hipótesis</td><td>Lo que espera encontrar y por qué</td></tr>
+    <tr><td>Riesgos</td><td>Qué le falta a los datos, qué no podrá afirmar</td></tr>
+    <tr><td>Uso de IA</td><td>Herramienta, para qué y qué aporta usted</td></tr>
+  </table></div>
+  <p>Para la próxima sesión traiga el dashboard en borrador.</p>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/ihltOyKn9I0" title="Ejemplo de Storytelling con Datos - Netflix" allowfullscreen></iframe></div>
+  <p class="meta">Ejemplo de Storytelling con Datos, Netflix. Grow Up, 12:11.</p>
+  <ul>
+    <li><a href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-sales-and-marketing" target="_blank" rel="noopener">Sales and Marketing sample for Power BI.</a> Microsoft Learn.</li>
+    <li><a href="https://www.data-to-viz.com/" target="_blank" rel="noopener">From Data to Viz.</a> Elegir la gráfica según los datos.</li>
+    <li>Knaflic, C. N. (2015). <em>Storytelling with Data</em>. Wiley. Capítulo 1.</li>
+  </ul>
+</section>
+</main>
+</div>
+<script src="../assets/puntos/datos.js"></script>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

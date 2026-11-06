@@ -1,173 +1,199 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Inteligencia de Negocios - Semana 13</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        :root {
-            --r-main-color: #333;
-            --r-heading-color: #003865;
-            --r-link-color: #E85C0B;
-            --unab-blue: #003865;
-            --unab-orange: #E85C0B;
-        }
-        
-        .reveal .slides { width: 90% !important; height: 90% !important; max-width: 1200px !important; margin: auto; }
-        .reveal .slide-background { background-color: #f4f6f9; }
-        
-        .split-screen { display: flex; justify-content: space-between; align-items: center; height: 100%; gap: 30px; }
-        .split-left, .split-right { width: 48%; }
-        
-        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
-        .grid-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px; border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 56, 101, 0.15);
-            border-top: 5px solid var(--unab-blue);
-            text-align: left; transition: transform 0.3s ease;
-        }
-        .grid-card:hover { transform: translateY(-5px); }
-        
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: bold; }
-        .highlight { color: var(--unab-orange); }
-        .text-left { text-align: left; }
-        .small-text { font-size: 0.7em !important; line-height: 1.2; }
-        
-        .dark-slide { background-color: var(--unab-blue) !important; color: white !important; }
-        .dark-slide h1, .dark-slide h2, .dark-slide h3 { color: white !important; }
-        
-        /* Modales */
-        .clickable-concept { cursor: pointer; position: relative; transition: transform 0.3s; }
-        .clickable-concept:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(232, 92, 11, 0.3) !important; z-index: 10; }
-        .clickable-concept::after {
-            content: '\f0a6'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: -10px; right: -10px; background: var(--unab-orange); color: white;
-            width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 14px; opacity: 0; transition: opacity 0.3s;
-        }
-        .clickable-concept:hover::after { opacity: 1; }
-
-        #concept-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 85%; max-width: 600px; background: rgba(255, 255, 255, 0.98);
-            padding: 35px; border-radius: 20px; box-shadow: 0 30px 60px rgba(0, 56, 101, 0.6);
-            border-left: 10px solid var(--unab-orange); z-index: 2000; text-align: left;
-        }
-        #concept-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 56, 101, 0.7); backdrop-filter: blur(5px); z-index: 1999;
-        }
-        .modal-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5em; color: #888; }
-        .modal-title { color: var(--unab-blue); margin-bottom: 15px; font-size: 1.8em; font-weight: bold; }
-        .modal-body { font-size: 1.1em; color: #444; line-height: 1.6; margin-bottom: 25px; }
-
-        .ai-footer { position: fixed; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 0.45em; color: #888; z-index: 1000; font-family: monospace; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesión 13 · La mesa del editor | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/puntos.css">
+<style>
+  .hoja { position: absolute; background: #fbfaf6; color: #00294a; box-shadow: 0 2px 3px rgba(0, 20, 40, .25), 0 24px 60px rgba(0, 20, 40, .35); padding: 44px 52px; font-size: 25px; line-height: 1.36; }
+  .hoja h3 { font-size: 34px; margin-bottom: 8px; color: #00294a; }
+  .hoja p { font-size: 25px; line-height: 1.36; margin-bottom: 14px; color: #47606f; }
+  .hoja .para { font-size: 21px; color: #47606f; border-bottom: 2px solid #d3d5cf; padding-bottom: 10px; margin-bottom: 18px; }
+  .hoja .fuerte { color: #00294a; font-weight: 700; }
+  .capa { position: absolute; inset: 0; width: 1600px; height: 900px; pointer-events: none; z-index: 3; overflow: visible; }
+  .capa text { font-family: 'Caveat', 'Segoe Script', cursive; font-weight: 700; fill: #e85c0b; font-size: 42px; }
+  .capa .paso { transition: opacity .25s ease; transform: none; }
+  .scr { display: grid; grid-template-columns: 186px 1fr; gap: 10px 22px; align-items: baseline; }
+  .scr .l { font-family: 'Caveat', cursive; font-size: 40px; font-weight: 700; color: #e85c0b; }
+  .titulos { display: grid; grid-template-columns: 1fr 44px 1.5fr; gap: 16px 22px; align-items: center; }
+  .titulos .a { font-size: 30px; color: var(--tinta-2); text-decoration: line-through; text-decoration-color: var(--compra); }
+  .titulos .b { font-size: 33px; font-weight: 700; }
+  .titulos svg { width: 44px; height: 30px; overflow: visible; }
+  .check { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 56px; }
+  .check li { padding-left: 46px; position: relative; font-size: 31px; }
+  .check svg { position: absolute; left: 0; top: 3px; width: 32px; height: 32px; overflow: visible; }
+</style>
 </head>
-<body>
+<body data-mundo="gerencia">
+<div id="escenario">
+<div id="reflector"></div>
+<canvas id="lienzo" aria-hidden="true"></canvas>
 
-    <div class="reveal">
-        <div class="slides">
+<section class="esc" data-mundo="gerencia" data-p='{"f":"pagina","area":[820,120,520,640],"lineas":17}'>
+  <div class="izq" style="width:680px">
+    <h1 style="font-size:92px">12.330 filas. <span class="acento">Una página.</span></h1>
+    <p class="sec">El informe ejecutivo</p>
+    <p class="sec" style="font-size:26px">Inteligencia de Negocios · Sesión 13<br>Dudbil Olvasada Pabón Riaño · UNAB</p>
+  </div>
+  <aside class="notas">Los mismos puntos de las sesiones anteriores se vuelven renglones. Hoy el dato ya no se muestra: se escribe.</aside>
+</section>
 
-            <!-- PORTADA -->
-            <section class="dark-slide" data-transition="zoom">
-                <i class="fa-solid fa-file-invoice" style="font-size: 4.5em; color: var(--unab-orange); margin-bottom: 20px;"></i>
-                <h1 style="margin-bottom: 10px;">El Informe Ejecutivo</h1>
-                <h3 style="font-weight: 300; opacity: 0.9;">Estructurando la Narrativa de Impacto</h3>
-                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
-                    <p style="margin: 0; font-size: 0.8em; letter-spacing: 1px;">Inteligencia de Negocios - Semana 13</p>
-                    <p style="margin: 5px 0 0 0; font-size: 0.6em; opacity: 0.7; color: var(--unab-orange);">Universidad Autónoma de Bucaramanga</p>
-                </div>
-            </section>
+<section class="esc" data-mundo="gerencia" data-p='{"f":"banda"}'>
+  <div class="hoja" style="left:330px;top:44px;width:760px;height:800px">
+    <h3>Informe de análisis de sesiones web</h3>
+    <div class="para">Para: Laura, gerente de mercadeo</div>
+    <p>El presente informe describe el proceso de análisis realizado. En primer lugar se limpiaron los datos y se verificó la calidad de las 12.330 filas. Posteriormente se ajustó un modelo de regresión logística con tres variables mediante Solver.</p>
+    <p>Los coeficientes estimados fueron 0,009 para el tiempo, −0,215 para el rebote y 0,084 para el valor de página. La exactitud en prueba fue de 88,4&nbsp;%, la sensibilidad de 37&nbsp;% y la precisión de 73,4&nbsp;%. Se calcularon además otras métricas.</p>
+    <p>Asimismo se analizaron distintos cortes por mes y por tipo de visitante, cuyos resultados pueden consultarse en los anexos.</p>
+    <p class="fuerte" id="conclu">En conclusión, podría considerarse revisar la política actual de la campaña.</p>
+  </div>
+  <svg class="capa" viewBox="0 0 1600 900" aria-hidden="true">
+    <g class="paso"><path class="pluma" pathLength="1" d="M372 112c30-16 40 14 70 0s40 14 72 0 40 14 70 0 40 14 72 0 40 14 70 0 44 12 74-2"/><text x="1120" y="104">Esto no dice nada.</text><text x="1120" y="150">¿Qué le pido a Laura?</text></g>
+    <g class="paso"><path class="pluma" pathLength="1" d="M372 232C640 222 880 240 1050 228M372 266C620 276 880 254 1050 266M372 300C640 292 860 308 1050 296M372 334C520 338 620 328 760 334"/><text x="1120" y="270">Su proceso no</text><text x="1120" y="316">le importa aquí.</text></g>
+    <g class="paso"><path class="pluma" pathLength="1" d="M1060 690c-90-22-260-22-390-20s-320 16-320 50 170 50 350 50 370-10 370-52c0-24-44-36-96-42"/><text x="1120" y="700">Lo único útil,</text><text x="1120" y="746">y va al final.</text></g>
+    <g class="paso"><path class="pluma" pathLength="1" d="M348 712C210 640 200 240 340 118M340 118l-44 6M340 118l-2 44"/><text x="40" y="420">Ponlo</text><text x="40" y="466">de primero.</text><text x="1120" y="820">No es una novela de misterio.</text></g>
+  </svg>
+  <aside class="notas">Avance paso a paso: el bolígrafo edita el informe. Antes de cada trazo, pregunte al grupo qué corregirían. Remate: en un informe ejecutivo la conclusión va primero.</aside>
+</section>
 
-            <!-- RAE -->
-            <section data-transition="slide-in fade-out">
-                <h2><i class="fa-solid fa-bullseye" style="color: var(--unab-orange);"></i> Resultado de Aprendizaje</h2>
-                <div class="split-screen">
-                    <div class="split-left text-left">
-                        <div class="grid-card" style="border-left: 5px solid var(--unab-orange); border-top: none;">
-                            <h3 style="color: var(--unab-blue); font-size: 1.2em;">RAE 4.2</h3>
-                            <p style="font-size: 0.9em;">"Elabora informes ejecutivos estructurados que sinteticen hallazgos, justifiquen decisiones y recomienden planes de acción."</p>
-                            <p class="small-text" style="color: #666; margin-top: 15px;">Un buen dashboard es inútil si no está acompañado de una narrativa escrita o verbal persuasiva.</p>
-                        </div>
-                    </div>
-                    <div class="split-right">
-                        <i class="fa-solid fa-pen-nib" style="font-size: 6em; color: #ccc;"></i>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ESTRUCTURA DEL INFORME EJECUTIVO -->
-            <section data-transition="slide">
-                <h2><i class="fa-solid fa-sitemap highlight"></i> Estructura Mckinsey (SCR)</h2>
-                <p class="small-text text-left">Para captar la atención de ejecutivos ocupados, utiliza la estructura <strong>Situation - Complication - Resolution</strong> (Situación, Complicación, Resolución).</p>
-                <div class="grid-layout" style="grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
-                    
-                    <div class="grid-card clickable-concept" onclick="openModal('Situación (El Contexto)', 'Establece el terreno común que todos conocen y aceptan. Ejemplo: <em>Durante los últimos 3 años, nuestro margen neto ha sido estable en un 15%</em>.', 'fa-home')">
-                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-1 icon"></i> Situación</h3>
-                        <p class="small-text">El Status Quo pacífico.</p>
-                    </div>
-
-                    <div class="grid-card clickable-concept" onclick="openModal('Complicación (El Problema)', 'Introduce el gatillo o la crisis que descubriste en tus datos. Ejemplo: <em>Sin embargo, en el Q3, los costos logísticos aumentaron repentinamente reduciendo el margen al 9%</em>.', 'fa-bolt')">
-                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-2 icon"></i> Complicación</h3>
-                        <p class="small-text">El gatillo o conflicto.</p>
-                    </div>
-
-                    <div class="grid-card clickable-concept" onclick="openModal('Resolución (El Big Idea)', 'La recomendación accionable basada en tu modelo. Ejemplo: <em>Debemos cambiar nuestro proveedor de ruta sur, lo cual restaurará el margen al 14%</em>.', 'fa-check')">
-                        <h3 style="font-size: 1.1em; color: var(--unab-blue);"><i class="fa-solid fa-3 icon"></i> Resolución</h3>
-                        <p class="small-text">La recomendación (Call to Action).</p>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- CONCLUSIONES -->
-            <section data-transition="slide" class="dark-slide">
-                <h2><i class="fa-solid fa-flag-checkered highlight"></i> Conclusiones de la Sesión</h2>
-                <ul class="small-text" style="color: #eee; line-height: 1.8; text-align: left; max-width: 800px; margin: auto;">
-                    <li><strong class="highlight">La pirámide invertida:</strong> En reportes ejecutivos, da la conclusión (Big Idea) primero, y luego la justificación. Los ejecutivos no leen informes de misterio.</li>
-                    <li><strong class="highlight">Alineación Visual-Verbal:</strong> El título de tu gráfico debe ser la conclusión principal, no una descripción ("Ventas mensuales").</li>
-                </ul>
-            </section>
-
-        </div>
+<section class="esc" data-mundo="papel" data-p='{"f":"banda"}'>
+  <div class="izq alto" style="width:560px;justify-content:center">
+    <h2>El mismo informe, escrito para Laura</h2>
+    <p class="sec">Cuatro párrafos pasaron a tres frases con destino.</p>
+    <p class="sec" style="font-size:25px">Datos reales de 12.330 sesiones. Laura y el uso actual de la campaña son supuestos del caso.</p>
+  </div>
+  <div class="hoja" style="left:700px;top:60px;width:800px;height:760px">
+    <h3 style="font-size:38px;line-height:1.1">Propuesta: enfocar la campaña en 1 de cada 5 visitas alcanza a 8 de cada 10 compradores</h3>
+    <div class="para">Para: Laura, gerente de mercadeo</div>
+    <div class="scr" style="margin-top:6px">
+      <div class="l paso">Situación</div><p class="paso" style="color:#00294a">Hoy la campaña de cierre se activa en todas las visitas. Compra solo el 15,5&nbsp;%.</p>
+      <div class="l paso">Complicación</div><p class="paso" style="color:#00294a">El 78&nbsp;% de las visitas no tiene valor de página, y ahí compra apenas el 3,9&nbsp;%. Gastamos casi todo donde casi nadie compra.</p>
+      <div class="l paso">Resolución</div><p class="paso" style="color:#00294a;font-weight:700">Probemos un mes, con grupo de control: activar la campaña solo en visitas con valor de página, donde está el 81&nbsp;% de las compras.</p>
     </div>
+  </div>
+  <aside class="notas">Las cifras salen de los datos reales. Que la campaña se active hoy en todas las visitas es un supuesto del caso. Señale que el título ya es la conclusión.</aside>
+</section>
 
-    <!-- Modales -->
-    <div id="concept-modal-overlay" onclick="closeModal()"></div>
-    <div id="concept-modal">
-        <i class="fa-solid fa-times modal-close" onclick="closeModal()"></i>
-        <div class="modal-title" id="modal-title"></div>
-        <div class="modal-body" id="modal-body"></div>
+<section class="esc" data-mundo="papel" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2>Situación, complicación, resolución</h2>
+    <svg data-d="scr" style="margin-top:14px"></svg>
+    <div class="tres" style="margin-top:12px">
+      <p class="sec">Lo que nadie discute. El contexto corto que ya comparten.</p>
+      <p class="sec">Lo que cambió o lo que está mal. La razón para seguir leyendo.</p>
+      <p><strong>Lo que propones.</strong> Lo que quieres que hagan.</p>
     </div>
+    <p class="sec" style="font-size:24px">Variante del marco de Minto (2009), que agrega la pregunta que la complicación provoca.</p>
+  </div>
+  <aside class="notas">Enlace con la sesión 11: es el arco comienzo, conflicto, final. La luz recorre la historia; el pico es la complicación.</aside>
+</section>
 
-    <div class="ai-footer">
-        * Material de Inteligencia de Negocios - Potenciado y construido con IA bajo supervisión de Dudbil Pabon - Sujeto a cambios.
+<section class="esc" data-mundo="papel" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2 style="margin-bottom:6px">La respuesta arriba; las razones debajo</h2>
+    <svg data-d="piramide" data-o='{"r":"Enfoquemos la campaña en las visitas con valor","a":["Llega a casi todos|81 % de las compras","Es simple|una sola regla","Se puede medir|grupo de control"],"d":["2.730 visitas|56 % compra","9.600 visitas|3,9 % compra","Iguala al modelo|80 % contra 76 %","Sin modelo en|la operación","Mide lo que|se suma","No regala a quien|ya compraba"]}' style="height:650px;width:auto;align-self:center"></svg>
+  </div>
+  <aside class="notas">Principio de la pirámide, Minto (2009): se empieza por la respuesta, y cada nivel sustenta al de arriba. Ejercicio rápido: tapen los dos niveles inferiores: la junta ya tiene lo que necesita. Si pregunta por qué, baja un nivel.</aside>
+</section>
+
+<section class="esc" data-mundo="papel" data-p='{"f":"banda"}'>
+  <div class="ancho" style="max-width:none">
+    <h2>El título de la gráfica es la conclusión</h2>
+    <div class="titulos" id="titulos">
+      <div class="a paso">Ventas por año y región</div><svg class="paso" viewBox="0 0 44 30"><path class="pluma" pathLength="1" d="M2 15C14 8 28 8 42 15M30 5l12 10-13 9"/></svg><div class="b paso">Europa impulsó el crecimiento; Asia cayó 15&nbsp;%</div>
+      <div class="a paso">Tasa de compra por mes</div><svg class="paso" viewBox="0 0 44 30"><path class="pluma" pathLength="1" d="M2 15C14 8 28 8 42 15M30 5l12 10-13 9"/></svg><div class="b paso">En noviembre compra 1 de cada 4; en febrero, casi nadie</div>
+      <div class="a paso">Compras por valor de página</div><svg class="paso" viewBox="0 0 44 30"><path class="pluma" pathLength="1" d="M2 15C14 8 28 8 42 15M30 5l12 10-13 9"/></svg><div class="b paso">El 81&nbsp;% de las compras sale del 22&nbsp;% de las visitas</div>
     </div>
+    <p class="sec" style="font-size:25px">El primer ejemplo es ilustrativo. Los otros dos salen del caso.</p>
+  </div>
+  <aside class="notas">Los dos últimos títulos salen de los datos reales: noviembre 25,4 %, febrero 1,6 %; 1.538 de 1.908 compras en 2.730 de 12.330 visitas.</aside>
+</section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script>
-        Reveal.initialize({ controls: true, progress: true, center: true, hash: true, transition: 'slide' });
+<section class="esc" data-mundo="papel" data-p='{"f":"pagina","area":[1080,120,420,620],"lineas":14}'>
+  <div class="izq" style="width:880px">
+    <h2>Su informe: dos páginas como máximo</h2>
+    <ol class="lista">
+      <li>Título que ya sea la recomendación.</li>
+      <li>Situación, complicación y resolución.</li>
+      <li>La gráfica clave y su lectura.</li>
+      <li>Supuestos y límites, sin esconderlos.</li>
+      <li>El siguiente paso: quién, qué y cuándo.</li>
+    </ol>
+  </div>
+  <aside class="notas">El informe es el 20 % de la nota del Proyecto 2 según la rúbrica. Entrega para la sesión 14.</aside>
+</section>
 
-        function openModal(title, text, iconClass) {
-            document.getElementById('modal-title').innerHTML = `<i class="fa-solid ${iconClass}"></i> ${title}`;
-            document.getElementById('modal-body').innerHTML = text;
-            document.getElementById('concept-modal-overlay').style.display = 'block';
-            document.getElementById('concept-modal').style.display = 'block';
-        }
+<section class="esc" data-mundo="papel" data-p='{"f":"banda"}'>
+  <div class="ancho" style="max-width:none">
+    <h2>Pasen su dashboard por el bolígrafo</h2>
+    <ul class="check">
+      <li class="paso"><svg viewBox="0 0 32 32"><path class="pluma" pathLength="1" d="M4 17l8 9L28 5"/></svg>¿Títulos con conclusión?</li>
+      <li class="paso"><svg viewBox="0 0 32 32"><path class="pluma" pathLength="1" d="M4 17l8 9L28 5"/></svg>¿Sin bordes ni cuadrícula de más?</li>
+      <li class="paso"><svg viewBox="0 0 32 32"><path class="pluma" pathLength="1" d="M4 17l8 9L28 5"/></svg>¿Gris para el contexto y un solo color para lo crítico?</li>
+      <li class="paso"><svg viewBox="0 0 32 32"><path class="pluma" pathLength="1" d="M4 17l8 9L28 5"/></svg>¿Responde a la pregunta de decisión?</li>
+      <li class="paso"><svg viewBox="0 0 32 32"><path class="pluma" pathLength="1" d="M4 17l8 9L28 5"/></svg>¿Al menos un drill-through o tooltip útil?</li>
+      <li class="paso"><svg viewBox="0 0 32 32"><path class="pluma" pathLength="1" d="M4 17l8 9L28 5"/></svg>¿Se entiende sin que usted lo explique?</li>
+    </ul>
+  </div>
+  <aside class="notas">Lista del laboratorio. No se califica la complejidad del DAX, sino qué tan bien responde a la pregunta.</aside>
+</section>
 
-        function closeModal() {
-            document.getElementById('concept-modal-overlay').style.display = 'none';
-            document.getElementById('concept-modal').style.display = 'none';
-        }
-    </script>
+<section class="esc" data-mundo="papel" data-p='{"f":"banda"}'>
+  <div class="ancho alto" style="max-width:none">
+    <h2>Clínica: hoy trabajan con su proyecto</h2>
+    <svg data-d="ruta" data-o='{"h":310,"y":90,"amp":30,"dur":6,"items":[{"t":"Editar|el mal informe"},{"t":"Pirámide|de su proyecto"},{"t":"SCR en|tres frases","foco":true},{"t":"Títulos|de conclusión"},{"t":"Borrador|del informe"},{"t":"Revisión|entre pares"}]}' style="margin-top:40px"></svg>
+    <p style="display:flex;gap:30px;align-items:center;margin-top:6px"><a class="boton" href="Guia_Laboratorio_Semana13.html" target="_blank" rel="noopener">Abrir la guía de la clínica</a><span class="sec" style="font-size:26px">El docente revisa por turnos, como consultor.</span></p>
+  </div>
+  <aside class="notas">Use la clínica para revisar cada proyecto. Pida que muestren primero la pregunta de decisión.</aside>
+</section>
+
+<section class="esc" data-mundo="gerencia" data-p='{"f":"banda"}'>
+  <div class="ancho">
+    <h2>English immersion: 10 minutes</h2>
+    <ol class="lista">
+      <li>Write your Situation, Complication and Resolution in English: one sentence each.</li>
+      <li>Read them to your partner. Partner answers: what do you want me to do?</li>
+      <li>Take the EMI activity on the SCR framework.</li>
+    </ol>
+    <p><a class="boton" href="quiz_semana_13.html" target="_blank" rel="noopener">Open the EMI activity</a></p>
+    <p class="sec" style="font-size:26px">Key words: executive summary, bottom line, recommendation, next step.</p>
+  </div>
+  <aside class="notas">Solo inglés durante 10 minutos.</aside>
+</section>
+
+<section class="esc" data-mundo="papel" data-p='{"f":"texto","t":"primero.","tam":260,"area":[0,380,1600,480]}'>
+  <div class="ancho alto" style="max-width:1400px">
+    <h2>La conclusión va...</h2>
+    <div class="tres">
+      <p class="regla-arriba">Escribe el título al final; ponlo al principio.</p>
+      <p class="regla-arriba">Corta lo que le importa a usted, no a quien lee.</p>
+      <p class="regla-arriba">En la sesión 14 traen todo y sustentan en 7 minutos.</p>
+    </div>
+  </div>
+  <aside class="notas">Cierre con la palabra escrita por los puntos.</aside>
+</section>
+
+<section class="esc" data-mundo="papel" data-p='{"f":"banda"}'>
+  <div class="ancho alto">
+    <h2>Referencias</h2>
+    <ul class="lista" style="gap:18px">
+      <li style="font-size:28px">Minto, B. (2009). <em>The Pyramid Principle</em> (3.ª ed.). Pearson.</li>
+      <li style="font-size:28px">Knaflic, C. N. (2015). <em>Storytelling with Data</em>. Wiley. Capítulos 3, 4 y 7.</li>
+      <li style="font-size:28px">UNAB (2026). Syllabus de Inteligencia de Negocios, resultado 3.2.</li>
+    </ul>
+    <p class="sec" style="font-size:22px;margin-top:auto;padding-bottom:30px">Material construido con asistencia de IA bajo la supervisión de Dudbil Pabón. Datos: Sakar y Kastro (2018), UCI, CC BY 4.0.</p>
+  </div>
+</section>
+
+<div id="cortina"></div>
+<div id="ayuda">Flechas para avanzar · F pantalla completa</div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"></div>
+</div>
+<script src="../assets/puntos/datos.js"></script>
+<script src="../assets/puntos/diagramas.js"></script>
+<script src="../assets/puntos/puntos.js"></script>
 </body>
 </html>

@@ -1,101 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio - Semana 14</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preparación sesión 14: el escenario | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
-    
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        
-        <!-- Header -->
-        <div class="bg-primary text-white p-8">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-white/20 rounded-full flex justify-center items-center">
-                    <i class="fas fa-flag-checkered text-2xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-bold">Rúbrica: Sustentación Proyecto 2</h1>
-                    <p class="text-blue-200 text-sm">Semana 14 - Inteligencia de Negocios</p>
-                </div>
-            </div>
-            <p class="opacity-90 text-sm">Criterios de evaluación para la presentación ejecutiva final.</p>
-        </div>
+<body>
+<header class="portada">
+  <canvas class="puntitos" aria-hidden="true"></canvas>
+  <h1>Antes de subir al escenario</h1>
+  <p>Seis ejercicios para preparar su sustentación del Proyecto 2 y la rúbrica con la que se evalúa. Hágalos antes de la sesión 14: ese día se presenta.</p>
+  <div class="datos-clase"><span><b>Sesión</b>14</span><span><b>Tiempo</b>7 minutos de sustentación</span><span><b>Valor</b>Proyecto 2, 25 %</span><span><b>Resultado</b>RAE 3.3</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#rubrica">Rúbrica</a></li>
+  <li><a href="#e1">1. Historia de 3 minutos</a></li>
+  <li><a href="#e2">2. Guion por minutos</a></li>
+  <li><a href="#e3">3. Recorrido del dashboard</a></li>
+  <li><a href="#e4">4. Preguntas incómodas</a></li>
+  <li><a href="#e5">5. Ensayo con cronómetro</a></li>
+  <li><a href="#e6">6. Plan B técnico</a></li>
+  <li><a href="#cierre">Reflexión final</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Content -->
-        <div class="p-8 space-y-10">
-            
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-balance-scale"></i></div>
-                    <h2 class="text-xl font-bold text-primary">Esquema de Evaluación</h2>
-                </div>
-                
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-sm text-gray-700 mb-4 shadow-inner relative">
-                    <p class="mb-4">El proyecto 2 es la evaluación sumativa de toda la unidad. El objetivo no es auditar tu código DAX, sino tu capacidad de convertir los datos generados por dicho código en valor empresarial.</p>
-                </div>
-            </section>
+<section id="rubrica">
+  <h2>Con qué se evalúa: 100 puntos</h2>
+  <div class="tablon"><table>
+    <tr><th class="d">Puntos</th><th>Criterio</th><th>Qué se mira</th></tr>
+    <tr><td class="d"><strong>20</strong></td><td>Modelo dimensional y DAX</td><td>Esquema en estrella bien implementado. Medidas eficientes, con iteradores e inteligencia de tiempo cuando corresponde. Sin columnas redundantes. Se revisa fuera de la presentación.</td></tr>
+    <tr><td class="d"><strong>30</strong></td><td>Calidad visual</td><td>Dashboard sin desorden. Color estratégico para dirigir la mirada. Jerarquía visual y tooltips o drill-through.</td></tr>
+    <tr><td class="d"><strong>30</strong></td><td>Narrativa y argumentación</td><td>Estructura de situación, complicación y resolución. Claridad al hablar. Respuestas con análisis a las preguntas del jurado, en rol de alta dirección.</td></tr>
+    <tr><td class="d"><strong>20</strong></td><td>Documento ejecutivo</td><td>Calidad, síntesis y ortografía del informe, de máximo 2 páginas.</td></tr>
+  </table></div>
+</section>
 
-            <!-- Rubrica -->
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-list-ol"></i></div>
-                    <h2 class="text-xl font-bold text-primary">Criterios (100 puntos totales)</h2>
-                </div>
-                
-                <ul class="space-y-4 mt-6">
-                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="bg-indigo-100 text-indigo-700 font-bold px-3 py-1 rounded text-sm whitespace-nowrap">20 Pts</div>
-                        <div>
-                            <strong class="text-gray-800">Modelo Dimensional y DAX (Validación técnica offline)</strong>
-                            <p class="text-sm text-gray-600">Esquema en estrella correctamente implementado. Medidas DAX eficientes (uso de iteradores y time intelligence adecuado). Sin columnas redundantes.</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="bg-orange-100 text-orange-700 font-bold px-3 py-1 rounded text-sm whitespace-nowrap">30 Pts</div>
-                        <div>
-                            <strong class="text-gray-800">Calidad Visual (Data-Ink Ratio y UX)</strong>
-                            <p class="text-sm text-gray-600">Dashboard libre de "Clutter". Uso estratégico del color (atributos preatentivos) para dirigir la mirada a las complicaciones. Presencia de jerarquía visual y tooltips/drill-through.</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded text-sm whitespace-nowrap">30 Pts</div>
-                        <div>
-                            <strong class="text-gray-800">Narrativa y Argumentación (El "Pitch")</strong>
-                            <p class="text-sm text-gray-600">Implementación de la estructura SCR (Situación, Complicación, Resolución). Claridad verbal. Capacidad para responder analíticamente a los cuestionamientos del jurado simulando rol C-Level.</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-3 bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded text-sm whitespace-nowrap">20 Pts</div>
-                        <div>
-                            <strong class="text-gray-800">Documento Ejecutivo</strong>
-                            <p class="text-sm text-gray-600">Calidad, síntesis y ortografía del informe ejecutivo escrito (Max 2 páginas).</p>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-        </div>
-        
-        <!-- Footer -->
-        <div class="bg-gray-100 p-4 text-center text-xs text-gray-500 border-t border-gray-200">
-            Curso de Inteligencia de Negocios - Universidad Autónoma de Bucaramanga<br>
-            Evaluación Final (Semana 14).
-        </div>
-    </div>
+<section id="e1">
+  <h2><span class="num">1.</span> Historia de 3 minutos</h2>
+  <ol class="pasos">
+    <li>Sin pantalla, cuente su proyecto en 3 minutos a alguien ajeno al curso.</li>
+    <li>Pídale que repita qué le pidió usted que hiciera.</li>
+    <li>Si no lo puede repetir, ajuste la Gran Idea antes de tocar el dashboard.</li>
+  </ol>
+</section>
 
+<section id="e2">
+  <h2><span class="num">2.</span> Guion por minutos</h2>
+  <p>Reparto sugerido. Adáptelo a su historia, sin pasarse de 7 minutos.</p>
+  <table>
+    <tr><th>Minuto</th><th>Qué pasa</th><th>Su texto</th></tr>
+    <tr><td>0:00</td><td>Gran Idea</td><td></td></tr>
+    <tr><td>0:30</td><td>Situación</td><td></td></tr>
+    <tr><td>1:30</td><td>Complicación, con el dato</td><td></td></tr>
+    <tr><td>4:00</td><td>Dashboard en vivo</td><td></td></tr>
+    <tr><td>5:30</td><td>Resolución y retorno esperado</td><td></td></tr>
+    <tr><td>6:30</td><td>Lo que pide que hagan</td><td></td></tr>
+  </table>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Recorrido del dashboard</h2>
+  <ol class="pasos">
+    <li>Elija máximo tres clics que cuenten su historia: por ejemplo, un filtro, un drill-through y un tooltip.</li>
+    <li>Antes de cada clic, diga qué van a ver. Después, diga qué significa.</li>
+    <li>Deje la página inicial en el estado exacto en que quiere empezar: filtros limpios y sin selección.</li>
+    <li>Nunca lea los números de la pantalla: diga lo que la cifra implica.</li>
+  </ol>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Preguntas incómodas</h2>
+  <p>Escriba una respuesta de dos frases para cada una, con sus datos.</p>
+  <ol class="pasos">
+    <li>¿De dónde salen los datos y qué les falta?</li>
+    <li>¿Qué pasa si su supuesto principal está mal?</li>
+    <li>¿Cuánto cuesta y cuándo veríamos resultados?</li>
+    <li>¿Por qué no hacer nada?</li>
+    <li>¿Esto prueba causa, o solo que dos cosas ocurren juntas?</li>
+    <li>¿Por qué ese gráfico, y no otro?</li>
+  </ol>
+  <div class="aviso">“No lo sé, pero lo averiguaría así” es una respuesta válida. Inventar una cifra, no.</div>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Ensayo con cronómetro</h2>
+  <ol class="pasos">
+    <li>Ensaye en voz alta, de pie y con el cronómetro, tres veces.</li>
+    <li>Grábese una vez con el celular. Anote cuántas muletillas usa y dónde se pierde.</li>
+    <li>Si se pasa, no hable más rápido: quite una gráfica.</li>
+    <li>Memorice la primera y la última frase. El resto no, o sonará recitado.</li>
+  </ol>
+</section>
+
+<section id="e6">
+  <h2><span class="num">6.</span> Plan B técnico</h2>
+  <ul>
+    <li>Tenga el archivo <code>.pbix</code> en una memoria y el enlace publicado, si lo publicó.</li>
+    <li>Exporte el dashboard a PDF: <span class="ruta">Archivo &gt; Exportar &gt; Exportar a PDF</span>. Si falla Power BI, sigue con eso.</li>
+    <li>Revise que los datos carguen sin conexión a su fuente original.</li>
+    <li>Llegue antes y pruebe el proyector: ¿se distinguen sus colores?</li>
+  </ul>
+</section>
+
+<section id="cierre">
+  <h2>Reflexión final</h2>
+  <p>Al terminar la sesión responderá por escrito:</p>
+  <ul>
+    <li>¿Dónde usaría esto en su primer trabajo o en su empresa?</li>
+    <li>¿Qué haría distinto en su próximo análisis?</li>
+    <li>¿Qué creía antes de este curso sobre los datos que ya no cree?</li>
+  </ul>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/jizZKNnx9wA" title="7 Effective Tips for Presenting Data at Work" allowfullscreen></iframe></div>
+  <p class="meta">7 Effective Tips for Presenting Data at Work! Jeff Su, 7:32, en inglés.</p>
+  <ul>
+    <li><a href="https://hbr.org/2013/06/how-to-give-a-killer-presentation" target="_blank" rel="noopener">How to Give a Killer Presentation.</a> Harvard Business Review.</li>
+    <li><a href="https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-power-bi-powerpoint-add-in-about" target="_blank" rel="noopener">Llevar Power BI en vivo a PowerPoint.</a> Microsoft Learn.</li>
+    <li>Knaflic, C. N. (2015). <em>Storytelling with Data</em>. Wiley. Capítulo 7.</li>
+  </ul>
+</section>
+</main>
+</div>
+<script src="../assets/puntos/datos.js"></script>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

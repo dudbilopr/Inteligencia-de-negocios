@@ -1,116 +1,196 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio - Semana 11</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#003865', secondary: '#E85C0B' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller sesión 11: de 300 filas a una historia | Inteligencia de Negocios</title>
+<link rel="stylesheet" href="../assets/puntos/guia.css">
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased p-6 md:p-12 font-sans">
-    
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        
-        <!-- Header -->
-        <div class="bg-primary text-white p-8">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-white/20 rounded-full flex justify-center items-center">
-                    <i class="fas fa-book-open text-2xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-bold">Laboratorio: Narrativa Visual y Audiencia</h1>
-                    <p class="text-blue-200 text-sm">Semana 11 - Inteligencia de Negocios</p>
-                </div>
-            </div>
-            <p class="opacity-90 text-sm">Convierte un descubrimiento analítico en una historia persuasiva (Storytelling with Data).</p>
-        </div>
+<body>
+<header class="portada">
+  <canvas class="puntitos" aria-hidden="true"></canvas>
+  <h1>De 300 filas a una historia</h1>
+  <p>Seis ejercicios en parejas para convertir un análisis en algo que una gerente pueda decidir. Todo se hace con datos reales: 12.330 visitas a una tienda en línea.</p>
+  <div class="datos-clase"><span><b>Sesión</b>11</span><span><b>Tiempo</b>60 minutos en clase</span><span><b>Herramienta</b>Excel o Power BI</span><span><b>Resultado</b>RAE 3.1</span></div>
+</header>
+<div class="marco">
+<nav class="indice" aria-label="Contenido"><ol>
+  <li><a href="#inicio">Antes de empezar</a></li>
+  <li><a href="#e1">1. De la tabla a la perla</a></li>
+  <li><a href="#e2">2. Audiencia</a></li>
+  <li><a href="#e3">3. Limpiar la gráfica</a></li>
+  <li><a href="#e4">4. Título y foco</a></li>
+  <li><a href="#e5">5. Gran Idea</a></li>
+  <li><a href="#e6">6. Historia de 3 minutos</a></li>
+  <li><a href="#entrega">Qué entregan</a></li>
+  <li><a href="#reto">Reto autónomo</a></li>
+  <li><a href="#fuentes">Para profundizar</a></li>
+</ol></nav>
+<main>
 
-        <!-- Content -->
-        <div class="p-8 space-y-10">
-            
-            <!-- Caso de Estudio -->
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-bullhorn"></i></div>
-                    <h2 class="text-xl font-bold text-primary">Reto de Práctica Autónoma: La Caída del Producto X</h2>
-                </div>
-                
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-sm text-gray-700 mb-4 shadow-inner relative">
-                    <p class="mb-4"><strong>Situación:</strong> Trabajas en el equipo de analítica de una empresa de tecnología. Has estado explorando el dataset de ventas del último trimestre y descubriste algo alarmante: las ventas del "Producto X" (el antiguo producto estrella) han caído un 45% en los últimos dos meses, mientras que las quejas de servicio al cliente sobre este producto se han triplicado en el mismo periodo.</p>
-                    <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg"><i class="fas fa-exclamation-triangle mr-1"></i> El Problema</div>
-                    <p class="mt-4 italic">"Tienes una reunión de 10 minutos con la Junta Directiva (C-Level) mañana por la mañana. Tienes que convencerlos de asignar presupuesto urgente para revisar la calidad del producto, antes de que afecte la reputación general de la marca."</p>
-                </div>
-            </section>
+<section id="inicio">
+  <h2>Antes de empezar</h2>
+  <div class="descargas">
+    <a class="boton" href="Datos/Sesiones_Tienda_Real.xlsx" download>Descargar el Excel</a>
+    <a class="boton sec" href="Datos/Sesiones_Tienda_Real.csv" download>Versión CSV</a>
+  </div>
+  <p>Hoja <strong>Datos</strong>: 12.330 sesiones. Columnas: <code>Tiempo_Producto_Min</code>, <code>Tasa_Rebote_Pct</code>, <code>Valor_Pagina</code>, <code>Mes</code>, <code>Tipo_Visitante</code>, <code>Fin_de_Semana</code>, <code>Compra</code> (1 si compró) y <code>Conjunto</code>.</p>
+  <div class="aviso"><strong>Son datos reales.</strong> Online Shoppers Purchasing Intention Dataset, de Sakar y Kastro, en el <a href="https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset" target="_blank" rel="noopener">repositorio UCI</a>, con licencia CC BY 4.0. Se tradujeron columnas; ningún registro se alteró. La tienda es anónima y cada sesión es de un usuario distinto.</div>
+  <p>Su papel: analista de la tienda. Su audiencia: Laura, gerente de mercadeo, un personaje de este ejercicio. Tiene presupuesto para activar una campaña de cierre solo en una parte de las visitas, y 10 minutos para usted.</p>
+</section>
 
-            <!-- Instrucciones -->
-            <section>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold"><i class="fas fa-pencil-ruler"></i></div>
-                    <h2 class="text-xl font-bold text-primary">Metodología de Preparación</h2>
-                </div>
-                
-                <ol class="space-y-6 mt-6">
-                    <!-- Paso 1 -->
-                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
-                        <strong class="text-primary text-lg block mb-2">1. Análisis de Audiencia (¿A quién?)</strong>
-                        <p class="text-sm text-gray-600 mb-4">La junta directiva no tiene tiempo para ver todo tu proceso de limpieza de datos ni el código DAX.</p>
-                        <div class="bg-indigo-50 p-4 rounded border border-indigo-200 mb-4 text-sm text-gray-800">
-                            <strong>Acción:</strong> Escribe en tu libreta las características de esta audiencia. ¿Qué les importa? (Rentabilidad, reputación, riesgo). ¿Tienen perfil técnico o financiero?
-                        </div>
-                    </li>
-                    
-                    <!-- Paso 2 -->
-                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-2 h-full bg-orange-500"></div>
-                        <strong class="text-primary text-lg block mb-2">2. El "Big Idea" (¿Qué?)</strong>
-                        <p class="text-sm text-gray-600 mb-4">Resume tu punto central en <strong>una sola oración</strong> completa que articule el problema y la acción requerida.</p>
-                        <div class="bg-orange-50 p-4 rounded border border-orange-200 mb-4 text-sm text-gray-800">
-                            <strong>Acción:</strong> Redacta tu "Big Idea". (Ejemplo <em>incorrecto</em>: "Ventas del Producto X". Ejemplo <em>correcto</em>: "Debemos destinar $50k al departamento de calidad para detener la caída del 45% en ventas del Producto X, generada por defectos de fabricación").
-                        </div>
-                    </li>
-                    
-                    <!-- Paso 3 -->
-                    <li class="bg-white p-5 border border-gray-100 shadow-sm rounded-lg relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-2 h-full bg-green-500"></div>
-                        <strong class="text-primary text-lg block mb-2">3. Selección Visual (¿Cómo?)</strong>
-                        <p class="text-sm text-gray-600 mb-4">No uses un gráfico circular para mostrar una tendencia en el tiempo. Selecciona la visualización óptima y aplica el principio de Gestalt.</p>
-                        <div class="bg-green-50 p-4 rounded-lg border border-green-200 text-sm">
-                            <ul class="list-disc pl-5 space-y-2 text-gray-800">
-                                <li><strong>Acción:</strong> Dibuja en papel (storyboarding) un gráfico de líneas superpuestas: una línea para "Ventas" bajando y otra para "Quejas" subiendo.</li>
-                                <li><strong>Aplicando Atributos Preatentivos:</strong> Haz todo el gráfico en color gris tenue, <strong>excepto</strong> los últimos dos meses de las líneas, los cuales debes pintar de rojo intenso (Ventas) y naranja (Quejas) para forzar la mirada de la junta hacia la crisis.</li>
-                            </ul>
-                        </div>
-                    </li>
-                </ol>
-            </section>
-            
-            <!-- Entregable -->
-            <section class="mt-8 border-t border-gray-200 pt-8">
-                <h3 class="text-lg font-bold text-primary mb-3"><i class="fas fa-file-alt mr-2"></i> Entregable para Revisión (Proyecto 2)</h3>
-                <p class="text-sm text-gray-600">
-                    Abre tu proyecto de Power BI actual (Proyecto 2). Selecciona UNA (1) visualización que hayas construido. Aplica el proceso inverso: elimina los bordes, quita las líneas de cuadrícula, usa gris para los datos de contexto y un color institucional (ej. Naranja) solo para resaltar el KPI principal. Trae el 'Antes' y el 'Después' a la próxima tutoría.
-                </p>
-            </section>
-        </div>
-        
-        <!-- Footer -->
-        <div class="bg-gray-100 p-4 text-center text-xs text-gray-500 border-t border-gray-200">
-            Curso de Inteligencia de Negocios - Universidad Autónoma de Bucaramanga<br>
-            Construido bajo parámetros de Storytelling with Data (Nussbaumer, 2015).
-        </div>
-    </div>
+<section id="e1">
+  <h2><span class="num">1.</span> De la tabla a la perla</h2>
+  <p class="meta">15 minutos. Aquí están explorando: pueden abrir muchas ostras.</p>
+  <ol class="pasos">
+    <li>En Excel, seleccione cualquier celda de la tabla y use <span class="ruta">Insertar &gt; Tabla dinámica &gt; Hoja de cálculo nueva</span>. En Power BI use <span class="ruta">Inicio &gt; Libro de Excel</span>, marque la tabla <code>Sesiones</code> y cárguela.</li>
+    <li>Ponga <code>Mes</code> en <em>Filas</em> y <code>Compra</code> en <em>Valores</em>.</li>
+    <li>Cambie el valor a promedio: clic en el campo, <span class="ruta">Configuración de campo de valor &gt; Promedio</span>. Dele formato de porcentaje. El promedio de una columna de unos y ceros es la tasa de compra.</li>
+    <li>Agregue el conteo de sesiones por mes. ¿Hay meses con muy pocas? ¿Confiaría igual en todos?</li>
+    <li>Repita con <code>Tipo_Visitante</code>. Antes de ver el resultado, apueste: ¿compran más los nuevos o los recurrentes?</li>
+    <li>En la hoja Datos cree una columna nueva <code>Grupo_Valor</code> con <code>=SI([@[Valor_Pagina]]&gt;0;"Con valor";"Sin valor")</code>, actualice la tabla dinámica y compare tasa y número de compras.</li>
+    <li>Escriba las dos perlas: dos frases, cada una con un número.</li>
+  </ol>
+  <details><summary>Punto de control</summary><div>
+    <div class="tablon"><table>
+      <tr><th>Mes</th><th class="d">Feb</th><th class="d">Mar</th><th class="d">May</th><th class="d">Jun</th><th class="d">Jul</th><th class="d">Ago</th><th class="d">Sep</th><th class="d">Oct</th><th class="d">Nov</th><th class="d">Dic</th></tr>
+      <tr><td>Sesiones</td><td class="d">184</td><td class="d">1.907</td><td class="d">3.364</td><td class="d">288</td><td class="d">432</td><td class="d">433</td><td class="d">448</td><td class="d">549</td><td class="d">2.998</td><td class="d">1.727</td></tr>
+      <tr><td>Tasa</td><td class="d">1,6 %</td><td class="d">10,1 %</td><td class="d">10,9 %</td><td class="d">10,1 %</td><td class="d">15,3 %</td><td class="d">17,5 %</td><td class="d">19,2 %</td><td class="d">20,9 %</td><td class="d">25,4 %</td><td class="d">12,5 %</td></tr>
+    </table></div>
+    <table>
+      <tr><th>Grupo</th><th class="d">Sesiones</th><th class="d">Tasa de compra</th></tr>
+      <tr><td>Visitante nuevo</td><td class="d">1.694</td><td class="d">24,9 %</td></tr>
+      <tr><td>Visitante recurrente</td><td class="d">10.551</td><td class="d">13,9 %</td></tr>
+      <tr><td>Con valor de página</td><td class="d">2.730</td><td class="d">56,3 %</td></tr>
+      <tr><td>Sin valor de página</td><td class="d">9.600</td><td class="d">3,9 %</td></tr>
+    </table>
+    <p>Febrero tiene solo 184 sesiones, y el conjunto no trae enero ni abril. Una historia honesta lo menciona.</p>
+  </div></details>
+</section>
 
+<section id="e2">
+  <h2><span class="num">2.</span> Audiencia</h2>
+  <p class="meta">7 minutos. Mismo hallazgo, tres personas distintas.</p>
+  <ol class="pasos">
+    <li>Copie la tabla y complétela con su pareja. Sea concreto: “le importa el dinero” no basta.</li>
+    <li>Marque la audiencia real de hoy: Laura.</li>
+    <li>Escriba qué quiere que Laura <strong>haga</strong> al salir de la reunión. Empiece con un verbo.</li>
+  </ol>
+  <div class="tablon"><table>
+    <tr><th>Persona</th><th>Qué le preocupa</th><th>Qué sabe de modelos</th><th>Qué debería hacer</th><th>Formato</th></tr>
+    <tr><td>Laura, gerente de mercadeo</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Director financiero</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Analista que hereda su trabajo</td><td></td><td></td><td></td><td></td></tr>
+  </table></div>
+  <details><summary>Ejemplo de una fila</summary><div>
+    <p><strong>Director financiero.</strong> Le preocupa el margen que se regala. Sabe poco de modelos pero desconfía de las proyecciones. Debería autorizar una prueba con presupuesto limitado. Formato: una página, con supuestos y riesgo a la vista.</p>
+  </div></details>
+</section>
+
+<section id="e3">
+  <h2><span class="num">3.</span> Limpiar la gráfica</h2>
+  <p class="meta">10 minutos. Cada cosa que queda en la gráfica le cuesta atención a Laura.</p>
+  <ol class="pasos">
+    <li>Con la tabla de tasa por mes, cree un gráfico de columnas: <span class="ruta">Insertar &gt; Gráfico dinámico &gt; Columnas</span>. En Power BI, <em>Gráfico de columnas agrupadas</em>. Guarde una copia: es su “antes”.</li>
+    <li>Quite la cuadrícula, los botones de campo y el borde. En Excel: clic en el gráfico, botón <span class="ruta">+</span>, desmarque <em>Líneas de la cuadrícula</em>. Botones: <span class="ruta">Analizar gráfico dinámico &gt; Botones de campo &gt; Ocultar todos</span>.</li>
+    <li>Quite la leyenda: con una sola serie no aporta nada.</li>
+    <li>Agregue etiquetas de datos y luego elimine el eje vertical, porque ya sobra.</li>
+    <li>Pinte todas las columnas de gris medio. Haga clic dos veces, pausado, en la columna de noviembre para seleccionarla sola y píntela de naranja <code>#E85C0B</code>.</li>
+    <li>Ponga el texto de los ejes en gris oscuro y deje el título para el ejercicio 4.</li>
+  </ol>
+  <div class="aviso"><h3>Compruébelo con la prueba de los 3 segundos</h3>Muéstrele el “después” a otra pareja durante 3 segundos y ocúltelo. ¿Pueden decir qué columna importa? Si no, todavía sobra algo.</div>
+</section>
+
+<section id="e4">
+  <h2><span class="num">4.</span> Título y foco</h2>
+  <p class="meta">5 minutos. El título dice lo que deberían concluir, no lo que están viendo.</p>
+  <ol class="pasos">
+    <li>Reescriba estos títulos como conclusiones. Use los números de su ejercicio 1.</li>
+    <li>Ponga el mejor en su gráfica, alineado a la izquierda.</li>
+    <li>Pinte en el mismo naranja la palabra clave del título. Así la palabra y la columna quedan unidas sin leyenda.</li>
+  </ol>
+  <table>
+    <tr><th>Título descriptivo</th><th>Su título con conclusión</th></tr>
+    <tr><td>Tasa de compra por mes</td><td></td></tr>
+    <tr><td>Compras según tipo de visitante</td><td></td></tr>
+    <tr><td>Análisis de valor de página</td><td></td></tr>
+    <tr><td>Resultados del modelo</td><td></td></tr>
+  </table>
+  <details><summary>Ejemplo</summary><div><p>“Tasa de compra por mes” pasa a: <strong>“En noviembre compra 1 de cada 4 visitantes; en febrero, casi nadie”</strong>.</p></div></details>
+</section>
+
+<section id="e5">
+  <h2><span class="num">5.</span> Gran Idea</h2>
+  <p class="meta">8 minutos. Una oración completa. Si no cabe, aún no lo saben.</p>
+  <p>Un modelo con estos datos entrega este resultado, medido en 2.466 sesiones que no vio. Pueden usarlo tal cual; en el trabajo independiente lo construyen ustedes.</p>
+  <table>
+    <tr><th>Cómo elegir a quién atender</th><th class="d">Visitas atendidas</th><th class="d">Compradores alcanzados</th></tr>
+    <tr><td>Al azar</td><td class="d">20 %</td><td class="d">20 %</td></tr>
+    <tr><td>Regresión logística</td><td class="d">20 %</td><td class="d">76 %</td></tr>
+    <tr><td>Regla simple: tiene valor de página</td><td class="d">21 %</td><td class="d">80 %</td></tr>
+  </table>
+  <ol class="pasos">
+    <li>Escriba su punto de vista: ¿qué cree que debe hacer Laura?</li>
+    <li>Escriba qué está en juego: qué se gana si actúa, qué se pierde si no. Use una cifra.</li>
+    <li>Junte ambas en una oración completa, con verbo y con decisión.</li>
+    <li>Cámbiela con otra pareja y califíquense: ¿tiene punto de vista?, ¿dice qué está en juego?, ¿es una sola oración completa?</li>
+  </ol>
+  <details><summary>Ejemplos para comparar</summary><div>
+    <p><strong>No sirve:</strong> “Análisis de descuentos del trimestre”. Es un tema, no tiene punto de vista.</p>
+    <p><strong>Sirve:</strong> “Si concentramos la campaña en el 22 % de las visitas con valor de página, llegamos al 81 % de quienes compran: probémoslo un mes contra un grupo de control”.</p>
+    <p>La suya no tiene que coincidir. ¿Y si recomienda concentrar el presupuesto en noviembre? También es una Gran Idea válida si la defiende.</p>
+  </div></details>
+</section>
+
+<section id="e6">
+  <h2><span class="num">6.</span> Historia de 3 minutos</h2>
+  <p class="meta">10 minutos, incluida la práctica en parejas.</p>
+  <ol class="pasos">
+    <li>En tres notas adhesivas o tres renglones escriban: <strong>comienzo</strong> (qué pasa hoy), <strong>conflicto</strong> (qué está mal y cuánto cuesta), <strong>final</strong> (qué proponen).</li>
+    <li>Agreguen una cautela honesta. Por ejemplo: con umbral de 0,5 el modelo no ve 235 de 373 compradores, y alcanzar compradores no prueba que la campaña cause la compra.</li>
+    <li>Cuéntenle la historia a otra pareja, con cronómetro, sin mirar la pantalla.</li>
+    <li>Quien escucha responde: ¿qué me pidieron hacer?, ¿por qué?, ¿qué me hizo dudar?</li>
+  </ol>
+  <p>Tres parejas, al azar, la contarán al grupo al cierre.</p>
+</section>
+
+<section id="entrega">
+  <h2>Qué entregan</h2>
+  <ul>
+    <li>La gráfica “antes” y “después” con título de conclusión.</li>
+    <li>La Gran Idea en una oración.</li>
+    <li>Los tres renglones de la historia, con su cautela.</li>
+  </ul>
+  <p>Si usaron IA, declárenlo: qué herramienta, para qué y qué aportaron ustedes, como pide el curso.</p>
+</section>
+
+<section id="reto" class="reto">
+  <h2>Reto autónomo: la caída del Producto X</h2>
+  <p>Trabaja en analítica de una empresa de tecnología. Las ventas del antiguo producto estrella cayeron 45 % en dos meses y las quejas de servicio al cliente sobre él se triplicaron en el mismo periodo. Mañana tiene 10 minutos con la junta directiva para pedir presupuesto urgente de revisión de calidad.</p>
+  <ol class="pasos">
+    <li>Describa a su audiencia: qué le importa y qué perfil tiene.</li>
+    <li>Escriba la Gran Idea en una oración.</li>
+    <li>Dibuje en papel la única gráfica que mostraría, con su título de conclusión.</li>
+    <li>¿Qué pregunta incómoda le haría la junta? Prepare la respuesta. Ojo: que dos cosas ocurran juntas no prueba que una cause la otra.</li>
+  </ol>
+</section>
+
+<section id="fuentes">
+  <h2>Para profundizar</h2>
+  <div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/r5_34YnCmMY" title="Telling Stories with Data in 3 Steps, Harvard Business Review" allowfullscreen></iframe></div>
+  <p class="meta">Telling Stories with Data in 3 Steps. Harvard Business Review, 4:47, en inglés.</p>
+  <ul>
+    <li><a href="https://www.storytellingwithdata.com/blog/2017/3/29/declutter-this-graph" target="_blank" rel="noopener">Declutter this graph!</a> Storytelling with Data. Ejercicio de limpieza paso a paso.</li>
+    <li><a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener">Guía de gráficos.</a> Storytelling with Data. Cuándo usar cada tipo.</li>
+    <li><a href="https://academy.datawrapper.de/article/190-how-to-turn-your-title-into-a-color-key" target="_blank" rel="noopener">Convertir el título en leyenda de color.</a> Datawrapper Academy.</li>
+    <li><a href="https://hbr.org/2013/04/how-to-tell-a-story-with-data" target="_blank" rel="noopener">How to Tell a Story with Data.</a> Harvard Business Review.</li>
+    <li>Knaflic, C. N. (2015). <em>Storytelling with Data</em>. Wiley. Capítulos 1, 3 y 4.</li>
+  </ul>
+  <p><a href="Taller_Regresion_3V.html">Trabajo independiente: el modelo con tres variables</a></p>
+</section>
+</main>
+</div>
+<script src="../assets/puntos/datos.js"></script>
+<script src="../assets/puntos/guia.js"></script>
 </body>
 </html>

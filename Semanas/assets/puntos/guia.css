@@ -1,0 +1,76 @@
+/* Guías de taller de la Unidad 4: pensadas para leerse al lado de Excel o Power BI. */
+@font-face { font-family: 'Schibsted Grotesk'; src: url('fuentes/SchibstedGrotesk-normal.woff2') format('woff2'); font-weight: 400 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Schibsted Grotesk'; src: url('fuentes/SchibstedGrotesk-italic.woff2') format('woff2'); font-weight: 400 900; font-style: italic; font-display: swap; }
+:root { --azul: #00294a; --azul-2: #47606f; --papel: #f7f5ef; --papel-2: #ece9df; --regla: #d3d5cf; --naranja: #e85c0b; --naranja-t: #b04103; --punto: #8ea3b2; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { margin: 0; background: var(--papel); color: var(--azul); font: 400 18px/1.55 'Schibsted Grotesk', 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--naranja); color: #fff; }
+a { color: var(--naranja-t); text-underline-offset: .16em; }
+a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px solid var(--naranja); outline-offset: 3px; border-radius: 2px; }
+
+.portada { background: #00213d; color: #fff; padding: 64px clamp(24px, 7vw, 104px) 48px; position: relative; overflow: hidden; }
+.portada h1 { font-size: clamp(38px, 5.4vw, 72px); line-height: 1.02; letter-spacing: -.025em; font-weight: 800; margin: 0 0 16px; max-width: 16em; text-wrap: balance; }
+.portada p { margin: 0; color: #b7cbdc; font-size: 20px; max-width: 42em; }
+.portada a { color: #ff9a63; }
+.puntitos { display: block; position: absolute; right: 0; top: 0; bottom: 0; width: 24%; opacity: .75; pointer-events: none; }
+.datos-clase { display: flex; flex-wrap: wrap; gap: 8px 36px; margin-top: 26px; font-size: 17px; color: #fff; }
+.datos-clase b { color: #b7cbdc; font-weight: 500; margin-right: 6px; }
+
+.marco { display: grid; grid-template-columns: 250px minmax(0, 760px); gap: 64px; padding: 44px clamp(24px, 7vw, 104px) 96px; }
+nav.indice { position: sticky; top: 24px; align-self: start; font-size: 16px; }
+nav.indice ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+nav.indice a { color: var(--azul-2); text-decoration: none; display: block; line-height: 1.25; }
+nav.indice a:hover { color: var(--naranja-t); }
+main > section { margin-bottom: 64px; }
+h2 { font-size: 36px; line-height: 1.08; font-weight: 800; letter-spacing: -.018em; margin: 0 0 14px; text-wrap: balance; }
+h3 { font-size: 22px; line-height: 1.2; font-weight: 700; margin: 26px 0 8px; }
+p { margin: 0 0 12px; }
+.num { color: var(--naranja-t); }
+.meta { color: var(--azul-2); margin-bottom: 18px; }
+ol.pasos { list-style: none; counter-reset: p; padding: 0; margin: 12px 0 18px; }
+ol.pasos > li { counter-increment: p; position: relative; padding: 0 0 12px 40px; }
+ol.pasos > li::before { content: counter(p); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%; background: var(--azul); color: #fff; font-size: 14px; font-weight: 700; display: grid; place-items: center; }
+ul { padding-left: 20px; margin: 8px 0 14px; }
+li { margin-bottom: 5px; }
+kbd, code { font-family: Consolas, 'Cascadia Mono', monospace; font-size: .9em; background: var(--papel-2); padding: 1px 6px; border-radius: 3px; }
+.ruta { font-weight: 600; }
+pre { background: #00213d; color: #eaf1f7; padding: 16px 18px; border-radius: 4px; overflow-x: auto; margin: 10px 0 14px; font: 400 15px/1.5 Consolas, 'Cascadia Mono', monospace; position: relative; }
+pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+.copiar { position: absolute; top: 8px; right: 8px; background: transparent; color: #b7cbdc; border: 1px solid #47606f; border-radius: 3px; padding: 3px 9px; font: 500 13px 'Schibsted Grotesk', sans-serif; cursor: pointer; transition: background-color .15s ease; min-height: 28px; }
+.copiar:hover { background: #002c50; color: #fff; }
+.copiar:active { transform: scale(.97); }
+table { border-collapse: collapse; width: 100%; margin: 10px 0 18px; font-size: 16.5px; }
+th { text-align: left; border-bottom: 2px solid var(--azul); padding: 7px 14px 7px 0; font-weight: 700; vertical-align: bottom; }
+td { border-bottom: 1px solid var(--regla); padding: 7px 14px 7px 0; vertical-align: top; }
+td.d, th.d { text-align: right; font-variant-numeric: tabular-nums; }
+.tablon { overflow-x: auto; }
+.aviso { background: var(--papel-2); padding: 16px 20px; margin: 14px 0 18px; border-radius: 3px; }
+.aviso h3 { margin-top: 0; }
+.aviso.fuerte { background: #fbe6d9; }
+details { border-top: 1px solid var(--regla); border-bottom: 1px solid var(--regla); margin: 14px 0; }
+summary { cursor: pointer; font-weight: 700; padding: 11px 0; list-style-position: inside; }
+summary:hover { color: var(--naranja-t); }
+details > div { padding: 2px 0 12px; }
+.reto { border-top: 3px solid var(--naranja); padding-top: 18px; }
+.video { position: relative; aspect-ratio: 16/9; background: #00213d; margin: 14px 0; }
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.descargas { display: flex; flex-wrap: wrap; gap: 12px; margin: 18px 0; }
+.boton { display: inline-block; background: var(--naranja); color: #fff; font-weight: 700; padding: 11px 20px; border-radius: 3px; text-decoration: none; min-height: 44px; transition: background-color .15s ease; }
+.boton:hover { background: #c94b07; color: #fff; }
+.boton:active { transform: scale(.98); }
+.boton.sec { background: transparent; color: var(--azul); box-shadow: inset 0 0 0 2px var(--azul); }
+.boton.sec:hover { background: var(--azul); color: #fff; }
+@media (max-width: 900px) {
+  .marco { grid-template-columns: 1fr; gap: 28px; padding-top: 28px; }
+  nav.indice { position: static; }
+  nav.indice ol { flex-direction: row; flex-wrap: wrap; gap: 6px 16px; }
+  .puntitos { display: none; }
+}
+@media print {
+  nav.indice, .copiar, .puntitos { display: none; }
+  .marco { display: block; padding: 20px 0; }
+  details { display: block; }
+  details > div { display: block !important; }
+  body { font-size: 12pt; }
+}
