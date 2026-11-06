@@ -137,9 +137,9 @@ P(compra) = 1 / (1 + e^(-Z))</code></pre>
   </ol>
   <details><summary>Punto de control</summary><div>
     <div class="tablon"><table>
-      <tr><th></th><th class="d">VP</th><th class="d">VN</th><th class="d">FP</th><th class="d">FN</th><th class="d">Exactitud</th><th class="d">Línea base</th><th class="d">Sensibilidad</th><th class="d">Precisión</th></tr>
-      <tr><td>Entrenamiento</td><td class="d">562</td><td class="d">8.139</td><td class="d">190</td><td class="d">973</td><td class="d">88,2 %</td><td class="d">84,4 %</td><td class="d">36,6 %</td><td class="d">74,7 %</td></tr>
-      <tr><td>Prueba</td><td class="d">138</td><td class="d">2.043</td><td class="d">50</td><td class="d">235</td><td class="d">88,4 %</td><td class="d">84,9 %</td><td class="d">37,0 %</td><td class="d">73,4 %</td></tr>
+      <tr><th></th><th class="d">VP</th><th class="d">VN</th><th class="d">FP</th><th class="d">FN</th><th class="d">Exactitud</th><th class="d">Línea base</th><th class="d">Sensibilidad</th><th class="d">Especificidad</th><th class="d">Precisión</th><th class="d">F1</th></tr>
+      <tr><td>Entrenamiento</td><td class="d">562</td><td class="d">8.139</td><td class="d">190</td><td class="d">973</td><td class="d">88,2 %</td><td class="d">84,4 %</td><td class="d">36,6 %</td><td class="d">97,7 %</td><td class="d">74,7 %</td><td class="d">49,1 %</td></tr>
+      <tr><td>Prueba</td><td class="d">138</td><td class="d">2.043</td><td class="d">50</td><td class="d">235</td><td class="d">88,4 %</td><td class="d">84,9 %</td><td class="d">37,0 %</td><td class="d">97,6 %</td><td class="d">73,4 %</td><td class="d">49,2 %</td></tr>
     </table></div>
     <p>Como 85 de cada 100 sesiones no compran, decir siempre “no” ya acierta 85 %. La sensibilidad revela lo que la exactitud esconde: el modelo solo ve 37 % de los compradores con este umbral.</p>
   </div></details>
@@ -187,9 +187,9 @@ P(compra) = 1 / (1 + e^(-Z))</code></pre>
   <ol class="pasos">
     <li>Copie a una hoja nueva, como valores, las 2.466 filas de prueba con <code>P(Y=1)</code> y <code>Compra</code>. Las filas de prueba son de la 9866 a la 12331.</li>
     <li>Ordene de mayor a menor probabilidad: <span class="ruta">Datos &gt; Ordenar</span>.</li>
-    <li>En una columna nueva acumule las compras y divida por el total de compras de prueba, que son 373.</li>
-    <li>En otra columna calcule el porcentaje de visitas recorridas: fila actual entre 2.466.</li>
-    <li>Grafique ambas con un gráfico de dispersión con líneas. Agregue la diagonal: es elegir al azar.</li>
+    <li>Suponga encabezados en la fila 1, <code>Compra</code> en la columna A y <code>P(Y=1)</code> en la B. En la columna C calcule el porcentaje de visitas recorridas, que será el eje X: <code>=(FILA()-1)/2466</code>.</li>
+    <li>En la columna D acumule las compras y divida por las 373 de prueba, que será el eje Y: <code>=SUMA($A$2:A2)/373</code>.</li>
+    <li>Seleccione C y D e inserte un gráfico de dispersión con líneas. Agregue la diagonal: es elegir al azar.</li>
     <li>Compare: ¿qué pasa si en vez del modelo usa la regla “tiene valor de página”?</li>
   </ol>
   <details><summary>Punto de control</summary><div>
@@ -213,7 +213,7 @@ VAR z = -2.39 + 0.0093 * [P_Tiempo Valor] - 0.2153 * [P_Rebote Valor] + 0.0839 *
 RETURN DIVIDE ( 1, 1 + EXP ( -z ) )</code></pre>
   <ol class="pasos" start="4" style="counter-reset:p 3">
     <li>Muéstrela en una tarjeta con formato de porcentaje.</li>
-    <li>Reproduzca las visitas A, B y C del ejercicio 7. ¿Coincide con su Excel?</li>
+    <li>Reproduzca las visitas A, B y C del ejercicio 7. ¿Coincide con su Excel? Con estos coeficientes redondeados la visita A da 63,3 %, no 63,4 %.</li>
   </ol>
   <p class="meta">Power BI crea el nombre de la medida de cada parámetro; búsquelo en el panel de datos, porque puede variar según el idioma (por ejemplo, <code>Valor de P_Tiempo</code>), y ajústelo en la fórmula. Según su configuración regional, DAX puede pedir coma decimal y punto y coma como separador. Esta medida no se ha probado en todas las versiones de Power BI.</p>
 </section>

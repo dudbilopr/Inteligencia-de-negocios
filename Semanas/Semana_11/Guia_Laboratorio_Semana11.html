@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Taller sesión 11: de 300 filas a una historia | Inteligencia de Negocios</title>
+<title>Taller sesión 11: de 12.330 filas a una historia | Inteligencia de Negocios</title>
 <link rel="stylesheet" href="../assets/puntos/guia.css">
 </head>
 <body>
 <header class="portada">
   <canvas class="puntitos" aria-hidden="true"></canvas>
-  <h1>De 300 filas a una historia</h1>
+  <h1>De 12.330 filas a una historia</h1>
   <p>Seis ejercicios en parejas para convertir un análisis en algo que una gerente pueda decidir. Todo se hace con datos reales: 12.330 visitas a una tienda en línea.</p>
   <div class="datos-clase"><span><b>Sesión</b>11</span><span><b>Tiempo</b>60 minutos en clase</span><span><b>Herramienta</b>Excel o Power BI</span><span><b>Resultado</b>RAE 3.1</span></div>
 </header>
@@ -34,7 +34,19 @@
     <a class="boton" href="Datos/Sesiones_Tienda_Real.xlsx" download>Descargar el Excel</a>
     <a class="boton sec" href="Datos/Sesiones_Tienda_Real.csv" download>Versión CSV</a>
   </div>
-  <p>Hoja <strong>Datos</strong>: 12.330 sesiones. Columnas: <code>Tiempo_Producto_Min</code>, <code>Tasa_Rebote_Pct</code>, <code>Valor_Pagina</code>, <code>Mes</code>, <code>Tipo_Visitante</code>, <code>Fin_de_Semana</code>, <code>Compra</code> (1 si compró) y <code>Conjunto</code>.</p>
+  <p>Hoja <strong>Datos</strong>: 12.330 filas. Cada fila es una <strong>sesión</strong>: una visita de un usuario a la tienda en línea.</p>
+  <div class="tablon"><table>
+    <tr><th>Columna</th><th>Qué significa</th><th>Unidad o valores</th></tr>
+    <tr><td><code>ID_Sesion</code></td><td>Identificador de la visita.</td><td>Texto: S00001, S00002…</td></tr>
+    <tr><td><code>Tiempo_Producto_Min</code></td><td>Tiempo que la visita pasó en páginas de producto.</td><td>Minutos, de 0 a 1.066. La mitad de las visitas dura menos de 10.</td></tr>
+    <tr><td><code>Tasa_Rebote_Pct</code></td><td>Promedio de las páginas visitadas: de quienes entran al sitio por esa página, qué porcentaje se va sin hacer nada más. Más alto es peor.</td><td>Porcentaje, de 0 a 20.</td></tr>
+    <tr><td><code>Valor_Pagina</code></td><td>Métrica de Google Analytics: valor promedio de las páginas que el usuario visitó antes de completar una transacción. Más alto significa páginas más ligadas a compras. 0 significa páginas sin ese valor.</td><td>Puntos de valor, de 0 a 362. La fuente no indica la moneda: no lo lea como pesos ni dólares.</td></tr>
+    <tr><td><code>Mes</code></td><td>Mes de la visita.</td><td>Feb a Dic. La fuente no trae enero ni abril.</td></tr>
+    <tr><td><code>Tipo_Visitante</code></td><td>Si el usuario ya había visitado la tienda.</td><td>Nuevo, Recurrente u Otro.</td></tr>
+    <tr><td><code>Fin_de_Semana</code></td><td>Si la visita ocurrió en fin de semana.</td><td>Si o No.</td></tr>
+    <tr><td><code>Compra</code></td><td>Si la visita terminó en una compra.</td><td>1 = compró; 0 = no compró. Su promedio es la tasa de compra.</td></tr>
+    <tr><td><code>Conjunto</code></td><td>Parte de los datos que se usa para estimar o para evaluar un modelo. Se asignó al azar.</td><td>Entrenamiento (9.864) o Prueba (2.466).</td></tr>
+  </table></div>
   <div class="aviso"><strong>Son datos reales.</strong> Online Shoppers Purchasing Intention Dataset, de Sakar y Kastro, en el <a href="https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset" target="_blank" rel="noopener">repositorio UCI</a>, con licencia CC BY 4.0. Se tradujeron columnas; ningún registro se alteró. La tienda es anónima y cada sesión es de un usuario distinto.</div>
   <p>Su papel: analista de la tienda. Su audiencia: Laura, gerente de mercadeo, un personaje de este ejercicio. Tiene presupuesto para activar una campaña de cierre solo en una parte de las visitas, y 10 minutos para usted.</p>
 </section>
@@ -46,9 +58,9 @@
     <li>En Excel, seleccione cualquier celda de la tabla y use <span class="ruta">Insertar &gt; Tabla dinámica &gt; Hoja de cálculo nueva</span>. En Power BI use <span class="ruta">Inicio &gt; Libro de Excel</span>, marque la tabla <code>Sesiones</code> y cárguela.</li>
     <li>Ponga <code>Mes</code> en <em>Filas</em> y <code>Compra</code> en <em>Valores</em>.</li>
     <li>Cambie el valor a promedio: clic en el campo, <span class="ruta">Configuración de campo de valor &gt; Promedio</span>. Dele formato de porcentaje. El promedio de una columna de unos y ceros es la tasa de compra.</li>
-    <li>Agregue el conteo de sesiones por mes. ¿Hay meses con muy pocas? ¿Confiaría igual en todos?</li>
+    <li>Agregue el conteo de sesiones: arrastre <code>ID_Sesion</code> a <em>Valores</em> y déjelo en <em>Recuento</em>. ¿Hay meses con muy pocas? ¿Confiaría igual en todos?</li>
     <li>Repita con <code>Tipo_Visitante</code>. Antes de ver el resultado, apueste: ¿compran más los nuevos o los recurrentes?</li>
-    <li>En la hoja Datos cree una columna nueva <code>Grupo_Valor</code> con <code>=SI([@[Valor_Pagina]]&gt;0;"Con valor";"Sin valor")</code>, actualice la tabla dinámica y compare tasa y número de compras.</li>
+    <li>En la hoja Datos cree una columna nueva <code>Grupo_Valor</code> con <code>=SI([@[Valor_Pagina]]&gt;0;"Con valor";"Sin valor")</code>, actualice la tabla dinámica y compare tasa y número de compras. En Power BI: <span class="ruta">Modelado &gt; Nueva columna</span>, con <code>Grupo_Valor = IF(Sesiones[Valor_Pagina] &gt; 0, "Con valor", "Sin valor")</code>.</li>
     <li>Escriba las dos perlas: dos frases, cada una con un número.</li>
   </ol>
   <details><summary>Punto de control</summary><div>
@@ -61,6 +73,7 @@
       <tr><th>Grupo</th><th class="d">Sesiones</th><th class="d">Tasa de compra</th></tr>
       <tr><td>Visitante nuevo</td><td class="d">1.694</td><td class="d">24,9 %</td></tr>
       <tr><td>Visitante recurrente</td><td class="d">10.551</td><td class="d">13,9 %</td></tr>
+      <tr><td>Otro tipo de visitante</td><td class="d">85</td><td class="d">18,8 %</td></tr>
       <tr><td>Con valor de página</td><td class="d">2.730</td><td class="d">56,3 %</td></tr>
       <tr><td>Sin valor de página</td><td class="d">9.600</td><td class="d">3,9 %</td></tr>
     </table>
@@ -91,7 +104,7 @@
   <h2><span class="num">3.</span> Limpiar la gráfica</h2>
   <p class="meta">10 minutos. Cada cosa que queda en la gráfica le cuesta atención a Laura.</p>
   <ol class="pasos">
-    <li>Con la tabla de tasa por mes, cree un gráfico de columnas: <span class="ruta">Insertar &gt; Gráfico dinámico &gt; Columnas</span>. En Power BI, <em>Gráfico de columnas agrupadas</em>. Guarde una copia: es su “antes”.</li>
+    <li>En la tabla dinámica de meses, deje en <em>Valores</em> solo el promedio de compra: con el conteo, las barras de tasa quedarían aplastadas. Cree un gráfico de columnas: <span class="ruta">Insertar &gt; Gráfico dinámico &gt; Columnas</span>. En Power BI, <em>Gráfico de columnas agrupadas</em>. Guarde una copia: es su “antes”.</li>
     <li>Quite la cuadrícula, los botones de campo y el borde. En Excel: clic en el gráfico, botón <span class="ruta">+</span>, desmarque <em>Líneas de la cuadrícula</em>. Botones: <span class="ruta">Analizar gráfico dinámico &gt; Botones de campo &gt; Ocultar todos</span>.</li>
     <li>Quite la leyenda: con una sola serie no aporta nada.</li>
     <li>Agregue etiquetas de datos y luego elimine el eje vertical, porque ya sobra.</li>
@@ -107,7 +120,7 @@
   <ol class="pasos">
     <li>Reescriba estos títulos como conclusiones. Use los números de su ejercicio 1.</li>
     <li>Ponga el mejor en su gráfica, alineado a la izquierda.</li>
-    <li>Pinte en el mismo naranja la palabra clave del título. Así la palabra y la columna quedan unidas sin leyenda.</li>
+    <li>Pinte en el mismo naranja la palabra clave del título. Así la palabra y la columna quedan unidas sin leyenda. En Power BI, oculte el título del objeto visual y use un cuadro de texto, porque el título no colorea palabras sueltas.</li>
   </ol>
   <table>
     <tr><th>Título descriptivo</th><th>Su título con conclusión</th></tr>
